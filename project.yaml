@@ -1,0 +1,46 @@
+name: your_project_name
+
+owner: YourName
+
+start_date: YYYY-MM-DD
+
+stage: idea
+# idea / baseline / improving / writing / finished
+
+topic:
+  - topic_1
+  - topic_2
+
+goal: >
+  One sentence describing the goal of this project.
+
+baseline:
+  name: BaselineMethodName
+  reproduced: false
+
+novelty: >
+  One sentence describing the core novelty.
+
+dataset:
+  - Dataset1
+  - Dataset2
+
+metric:
+  - Metric1
+  - Metric2
+
+best_result:
+  method: ours_v1
+  Metric1: ~
+
+risk:
+  - risk_1
+  - risk_2
+
+next_milestone: >
+  Describe the next concrete milestone.
+
+paper_target:
+  - CVPR 2027
+
+last_update: YYYY-MM-DD
