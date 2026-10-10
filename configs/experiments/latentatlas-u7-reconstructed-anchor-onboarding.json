@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-u7-reconstructed-anchor-onboarding",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Fresh preference rows：20,818。\n- `SOURCE_DEV=5,202`，`LOCKBOX=15,616`。\n- Unique images：62,421。\n- 数据与 RPJ4 共享同一个 pinned Hugging Face snapshot 和 image spool；U7 使用 verified hardlinks，没有创建第二份约 22 GB RGB 数据。\n- Fresh visual、authoritative text、visual-score、text-score caches 均先 label-blind materialize 和 seal，再进入 authority。\n- Reconstructed training anchors：128 张；证据类固定为 `RECONSTRUCTED_ANCHOR`，不冒充 original HPDv3 RGB anchors。\n\nAuthority ledger：\n\n- target Reward label access during registration：`0`\n- fresh SOURCE_DEV orientation：`1`\n- fresh LOCKBOX orientation：`0`\n- old official TEST：`0`",
+  "parameters_excerpt": "- Registration：3 correct + 15 permutation arms，共 18 fits。\n- 每 fit：12,000 updates。\n- Seeds：`20260827/20260828/20260829`。\n- Fresh controls：`PAIR_RO`、`GLOBAL_SD`、wrong prompt、direction balance、functional noncollapse。\n- Statistics：20,000 common connected-group bootstrap，seed=`20260829046`。\n- Frozen order：`SOURCE_DEV PASS → pre-lockbox freeze → exactly-once LOCKBOX`。",
+  "code_identity_excerpt": "- Branch：`codex/u7-true-unseen-canonical-u-onboarding`\n- Final recovery commit：`79f2fb12501dc04ed9d5bec7d7d5485763ec94c7`\n- Worktree：`source-workspace/.worktrees/u7-true-unseen-canonical-u-onboarding`\n- Run：`LatentAtlas-runs/U7_TRUE_UNSEEN_RECONSTRUCTED_ANCHOR_ONBOARDING_R1-20260829-2346eec`\n- Evidence class：`TRUE_UNSEEN_ONBOARDING_ON_RECONSTRUCTED_ANCHORS`\n- Claim ceiling：`RECONSTRUCTED_ANCHOR_ONBOARDING_ONLY`",
+  "source_snapshot": "docs/source-snapshots/latentatlas-u7-reconstructed-anchor-onboarding.txt",
+  "primary_report": null
+}

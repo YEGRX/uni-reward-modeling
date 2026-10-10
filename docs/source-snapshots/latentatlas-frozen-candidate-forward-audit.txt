@@ -1,0 +1,92 @@
+# LatentAtlas 冻结候选前向独立验证 Frozen Candidate Forward Audit
+
+## 1. Date
+2026-10-09—2026-10-10。
+
+## 2. Purpose
+新协议实际评价旧MICRO保存的四个固定候选，检查超出FIT的效用、A32/C32对照、坐标保护及事后风险分解。这不是恢复旧R1.1；原 `LOCAL_METHOD_NUMERICALLY_UNQUALIFIED`、FD比1.0865105197485838>0.20与全部原门槛保留。
+
+## 3. Code Version / Commit
+正式spec SHA `50c65b50145a6c0aee0c6f41a005f6bdc343077bd4c04d5811492721d992a076`。七份正式模块、原适配器及模型逐文件绑定。源码审查仅表示工程接受，不等同科学结论。
+
+追加式工程spec SHA `bd77d3b358aac248d3499790623a2a494791a694ff1af6a37751cd614564e0d2`，仅修正MAIN8 typed/raw指纹比较；原科学合同与原spec保持不变。
+
+## 4. Dataset / Input
+原VAL8固定面板，每臂128条件，总768；坐标64图。原MAIN8固定8完整组、288物理pair、4噪声stream；三个新臂必须6912个pair-specific条件，不按图去重。合法N/G/BASE复用。VAL未用于32维theta拟合，但曾被S256训练诊断及本轮行动门控使用，不是项目级独立测试。
+
+## 5. Parameters
+S2562000、T1/W0、四个theta、原FP32仿射后BF16、原T04及噪声全部不变；新拟合、训练、backward、FD、VAE、Projector均0。持既有共享GPU锁及run锁至真实OS wait，每次forward前durable debit。
+
+## 6. Command
+既有持久任务 `LatentAtlas-FrozenCandidate-VAL-20261009-r1` 单次派发。真实退出0，子进程消失。远端隔离目录 `/opt/latentatlas/frozen-candidate-forward-audit-20261009-r1`；独立CPU直接读逐条件raw和坐标，不调用主统计模块。
+
+## 7. Results
+VAL已完成、独立CPU2772项比较接受，8次旧FIT技术前向通过。
+
+| 方法 | 中心任务风险 | 相对BASE下降 | 严格G一致率 | 实际坐标MSE |
+|---|---:|---:|---:|---:|
+| G | 0.00000000 | 100.000% | 100.000% | 0.00000000 |
+| BASE | 1.67743874 | 0.000% | 83.684% | 0.21882710 |
+| C32 | 1.69634438 | -1.127% | 84.737% | 0.21832803 |
+| A32 | 1.57330513 | 6.208% | 80.526% | 0.24251165 |
+| Q32 | 1.52005196 | 9.383% | 82.105% | 0.24047442 |
+| P32 | 1.96673775 | -17.246% | 82.105% | 0.24094175 |
+
+Q32风险点值下降9.3826%，普通95%相对下降区间[-1.2221%,22.4936%]跨0。固定单侧行动q95(Q−BASE)=-0.006467056274414101<0；实际坐标Q/BASE=1.0989243005685527≤1.10。完整效用、坐标、参考及运行可比性门槛全部通过。MAIN8已按下述固定8组完整实测，未使用历史56组汇总代替。
+
+
+### MAIN8实际完整结果
+固定8组、288 pair、每侧4stream，C32/A32/Q32新增6912个pair-specific前向，未按图去重；原N/G/BASE只读合法复用。实际退出0、进程消失和模型状态未变均接受。逐条件独立远端CPU核验与最终本地portable核验均通过。
+
+| 方法 | Accuracy | G一致率 | G-margin RMSE | 实际坐标MSE |
+|---|---:|---:|---:|---:|
+| N_NATIVE | 73.9583% | 97.1229% | 0.19509150 | 未测 |
+| G_T1 | 73.9583% | 100.0000% | 0.00000000 | 0.00000000 |
+| BASE_S256_2000 | 70.4861% | 90.7149% | 0.82129336 | 0.20307781 |
+| C32 | 70.5729% | 90.5841% | 0.82604233 | 0.20279435 |
+| A32 | 68.7500% | 88.2738% | 0.97258168 | 0.23045714 |
+| Q32 | 69.6181% | 88.0122% | 0.98815556 | 0.23467284 |
+
+四主效应：r_G为Q对BASE的G-margin误差相对下降，dAgree_G为Q对BASE的G一致率差，dAcc为人类Accuracy差，r_QA为Q对同信息A32的G-margin误差相对下降。按固定0.00625/0.99375调整区间判定：
+- r_G: 点值 -0.44761813282415863；四效应调整CI [-0.7969516620885667, -0.20623776146151918]；DETERIORATION_SUPPORTED。
+- r_QA: 点值 -0.032282262965332764；四效应调整CI [-0.2770760902812321, 0.14985141514356967]；CHANGE_INCONCLUSIVE。
+- dAgree_G: 点值 -0.027027027027027084；四效应调整CI [-0.07310704960835501, 0.003926701570680535]；CHANGE_INCONCLUSIVE。
+- dAcc: 点值 -0.00868055555555558；四效应调整CI [-0.03472222222222221, 0.007817925347224227]；CHANGE_INCONCLUSIVE。
+
+## 8. Analysis
+MAIN8上Q32的G-margin MSE为0.97645140，高于BASE的0.67452278、A32的0.94591512和C32的0.68234593。相对BASE风险增加44.7618%；四主效应调整区间对应的风险下降为[-79.6952%, -20.6238%]，支持退化。VAL风险下降没有延续到MAIN8，不能写成通用实际效用改善。
+
+同信息A32的误差点值优于Q32，但QA调整区间跨0，优势未决；简单C32的误差点值也优于Q32，Q-C风险次级普通95%区间支持Q较差（未多重校正）。Q32人类Accuracy为69.6181%，低于BASE的70.4861%和C32的70.5729%，相对BASE差值区间仍未决，不能声称人类效用显著降低或提高。八组区间未决不表示等效。
+
+VAL上Q32−A32风险差-0.053253173828125，普通95%CI[-0.357818603515625,0.2657623291015625]，优势未决；Q32−C32=-0.17629241943359375，普通95%CI[-0.3603973388671875,-0.0053863525390625]，为未多重校正次级比较。C32严格G一致率84.7368%高于Q32的82.1053%，Q32未在所有指标领先。P32风险恶化17.2465%保留。VAL点值改善不替代MAIN8结果。
+
+VAL实际风险变化：E=0.0503082275390625，−2Gamma=-0.20769500732421875，净变化=-0.15738677978515625。理论得到有限实际响应证据与事后精确误差解释；未验证H/g迁移预测。原导数模型仍未获资格，也没有全域安全保证。
+
+## 9. Problems
+原CPU verifier默认16线程，而producer2线程导致FP32均值差1.49011612e-8；相同张量SHA证实只是约简profile。保留原失败，独立CPU追加线程2绑定后原atol=rtol=1e-10全通过，GPU代码/spec/分数/参数未改。绘图依赖仅置本轮隔离CPU目录，原科学环境未改。
+
+MAIN8 r1在科学调用0时因旧dtype＋shape＋bytes指纹与新raw字节指纹比较误报而停止；实际文本按旧格式独立CPU精确核验通过。r2仅修正格式比较并追加冻结生产合同、复用已验文本。失败、原账本和VAL报告保留，不退款、不重算、不改科学门槛。
+
+SSH中断的部分ZIP保留；完整封存ZIP经既有Taildrop到达，原发送器实际退出0，最终授权本地复核验证7949文件与7856项数值比较。首次portable因BASE bootstrap初始化顺序错误退出1，原源码和失败存证保留，修正依赖顺序后所有原断言通过，未改分数/阈值。旧待交付raw及勘误是历史状态，不能当作当前未完成。
+
+## 10. Next Steps
+本轮实际执行与交付完成，最终状态 `MAIN8_TRADEOFF_OR_DETERIORATION`。不启动下一研究线、不扩到56组。原局部导数仍不合格；论文级独立确认、完整56组、跨分布推广、U必要性、P32的MAIN8效果和优于所有旧方法未验证。八组区间未决不表示等效。
+
+相关：[[latentatlas-dcae-q32-lowcost-main8]]、[[latentatlas]]。
+
+## 11. Sources
+- Source: `raw/experiments/latentatlas/frozen-candidate-forward-audit-2026-10-09/val-complete-r1/source-package/LatentAtlas_Frozen_Candidate_Forward_Audit_Codex_R1.md`
+- Source: `raw/experiments/latentatlas/frozen-candidate-forward-audit-2026-10-09/val-complete-r1/source-package/execution_config.json`
+- Source: `raw/experiments/latentatlas/frozen-candidate-forward-audit-2026-10-09/val-complete-r1/VAL_AUDIT_REPORT.md`
+- Source: `raw/experiments/latentatlas/frozen-candidate-forward-audit-2026-10-09/val-complete-r1/audit/VAL_RESULTS.json`、`VAL_BASELINE_TABLE.csv`、`VAL_INDEPENDENT_CPU_ACCEPTANCE.json`
+- Source: `raw/experiments/latentatlas/frozen-candidate-forward-audit-2026-10-09/val-complete-r1/evidence/corrected-val-independent-cpu-r1.json`
+- Source: `raw/experiments/latentatlas/frozen-candidate-forward-audit-2026-10-09/val-complete-r1/figures/`：六PNG及各图真实JSON源。
+
+- Source: `raw/experiments/latentatlas/frozen-candidate-forward-audit-2026-10-09/main8-remote-accepted-local-replay-pending-r1/FINAL_REPORT.md`、`audit/MAIN8_RESULTS.json`、`evidence/final-parent-readback-r1.json`。
+- Source: `raw/experiments/latentatlas/frozen-candidate-forward-audit-2026-10-09/main8-remote-accepted-local-replay-pending-r1/LOCAL_DELIVERY_PENDING.md`、`evidence/final-raw-transfer-r1.json`：历史本地取证缺口与传输失败，完整交付已补齐；原记录不作portable通过证据。
+
+- Source: `raw/experiments/latentatlas/frozen-candidate-forward-audit-2026-10-09/main8-remote-accepted-local-replay-pending-r1/DELIVERY_README_CORRECTION.md`：历史预置说明勘误，记载当时本地portable未执行；现已由完整交付回执补齐。
+
+- Source: `raw/experiments/latentatlas/frozen-candidate-forward-audit-2026-10-09/val-main8-complete-r1/FINAL_REPORT.md`、`audit/MAIN8_RESULTS.json`、`audit/MAIN8_INDEPENDENT_CPU_ACCEPTANCE.json`、`audit/LOCAL_PORTABLE_CPU_REPLAY.json`。
+- Source: `raw/experiments/latentatlas/frozen-candidate-forward-audit-2026-10-09/val-main8-complete-r1/FROZEN_CANDIDATE_FORWARD_AUDIT_RAW_R1.zip`：逐条件raw、原MICRO停止包、两个MAIN8尝试和追加冻结合同。
+- Source: `raw/experiments/latentatlas/frozen-candidate-forward-audit-2026-10-09/val-main8-complete-r1/REMOTE_SEAL.json`、`DELIVERY_MANIFEST.json`、`figures/`。

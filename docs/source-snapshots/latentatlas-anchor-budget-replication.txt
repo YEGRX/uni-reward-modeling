@@ -1,0 +1,109 @@
+# LatentAtlas Anchor Budget Replication
+
+## 1. Date
+
+2026-08-09
+
+## 2. Purpose
+
+在 [[latentatlas-anchor-feasibility-pilot]] 已显示三种 VAE 之间存在 anchor-relative correspondence 后，检验结论是否依赖单一 anchor bank，并测量 anchor 数量 K、relation operator 和 soft temperature 对结果的影响。
+
+本实验只回答 anchor-budget / anchor-seed robustness，不把结果解释为高层语义统一、unified latent space 或 Reward transfer。
+
+## 3. Code Version / Commit
+
+- Branch: `codex/anchor-feasibility-pilot`
+- Exact experiment commit: `0c0737074a93f39f9a36c03d622f0f21dadd2bd6`
+- Config: `configs/anchor-replication-a.json`
+
+## 4. Dataset / Input
+
+- 复用第一轮 COCO val2017 固定 256-image latent cache。
+- 三组互斥 64-anchor banks，对应 seeds `2026080901 / 2026080902 / 2026080903`。
+- 剩余 64 images 作为所有条件共享的固定 queries。
+- VAE families: SD-VAE、FLUX VAE、DC-AE。
+- 三组 bank 在索引上严格互斥，因此不是概率意义上完全独立的随机样本。
+
+## 5. Parameters
+
+- K: `8 / 16 / 32 / 64`，每个 seed 使用嵌套 prefixes。
+- Operators: global cosine、normalized rank、soft relation。
+- Soft tau: `0.03 / 0.07 / 0.15 / 0.30`。
+- Pairs: SD↔FLUX、SD↔DC-AE、FLUX↔DC-AE，双向报告。
+- Null: 每个有向 condition 做 200 次 target-anchor column permutation。
+- Metrics: Recall@1、Recall@5、MRR、empirical p-value、observed-minus-null effect。
+
+## 6. Command
+
+```bash
+conda run -n latentatlas python scripts/run_anchor_budget.py \
+  --config configs/anchor-replication-a.json \
+  --source-run /root/autodl-tmp/latentatlas-runs/20260808T101624Z-434bc2e-47528917
+```
+
+## 7. Results
+
+### Anchor budget 主结果
+
+三个 seeds 的 macro pair-average（误差为 sample standard deviation）：
+
+| K | 最佳 condition | R@1 | R@5 | MRR | worst-pair R@1 |
+| --- | --- | --- | --- | --- | --- |
+| 8 | global | 0.464±0.038 | 0.806±0.045 | 0.614±0.040 | 0.451 |
+| 16 | global | 0.664±0.036 | 0.909±0.005 | 0.771±0.024 | 0.630 |
+| 32 | global | 0.758±0.018 | 0.952±0.004 | 0.841±0.011 | 0.745 |
+| 64 | rank | 0.829±0.038 | 0.969±0.005 | 0.890±0.023 | 0.732 |
+
+Global R@1 的增量为 `+0.200 / +0.094 / +0.037`，说明在 K≈32 后明显趋于饱和。Rank 到 K=64 仍继续受益。
+
+### Operator 与 pair-specific 结果
+
+- K=8/16/32 的 macro 最佳是 global，K=64 的最佳是 rank。
+- K=64 global 的 R@1 为 `0.795±0.005`，虽然低于 rank，但 seed 波动更小，且 worst-pair R@1 为 `0.771`，高于 rank 的 `0.732`。
+- K=64 的 pair-specific 最佳分别为：SD↔FLUX soft@0.15 `0.904±0.039`；SD↔DC-AE rank `0.875±0.062`；FLUX↔DC-AE global `0.779±0.025`。
+- Soft tau 的较好点从 K=8/16 的 `0.30` 转向 K=32/64 的 `0.15`；`tau=0.03` 明显过尖。
+- 双向 correspondence 不对称。K=64 rank 中，FLUX→DC-AE 为 `0.661±0.009`，DC-AE→FLUX 为 `0.802±0.050`。
+
+### Null 与 seed 稳定性
+
+- R@1 和 R@5 均为 `432/432` 个有向结果达到 empirical `p<0.05`。
+- R@1 最大 p=`0.01493`，最小 observed-minus-null effect=`0.09055`。
+- 72 个 pair/condition seed summaries 的 R@1 std：mean=`0.0470`、median=`0.0492`、max=`0.1160`。
+- Best-seed 次数为 `22 / 26 / 24`，没有某个 anchor bank 独占最佳结果。
+
+## 8. Analysis
+
+### 阶段判断
+
+**Anchor-budget / anchor-seed robustness 得到支持。** 三个互斥 anchor banks 下信号普遍显著，K 曲线清晰，证明上一轮结果不是只依赖某一组幸运 anchors。
+
+**完整 GO-A 暂不最终判定。** 三组 seed 共用同一批 64 queries，并来自同一 256-image pool，因此尚未验证 data/query seed robustness。下一步需运行真正独立 anchor pool + query pool 的 Experiment C。
+
+**GO-B 未判断，GO-C 不启动。** Pixel/color/frequency/semantic baselines 尚未完成，在此之前不训练 shared projector 或 Reward Head。
+
+### 当前工程默认值
+
+- 如果优先稳定性与 worst-pair：以 global 作为默认 baseline。
+- 如果只追求 K=64 macro correspondence：同时报告 rank。
+- Soft relation 不宜作为默认值，必须进行 pair-与 K-specific 调参。
+
+## 9. Problems
+
+- Anchor banks 互斥但 queries 固定，不能把本实验误写成完整 data replication。
+- 部分 pair/soft 条件对 anchor seed 仍敏感，R@1 std 最高为 `0.116`。
+- Operator 优劣依赖 K 和 VAE pair，单一平均值会掩盖 directional asymmetry。
+
+## 10. Next Steps
+
+1. Experiment C：至少 3 个独立 anchor+query replicates，条件允许时每个 replicate 使用 512 images。
+2. 增加 Pixel、Color、Frequency baselines，再按成本选择 DINOv2 或 CLIP 之一作为 semantic baseline。
+3. 加入 wrong-anchor-bank / mismatched-anchor-identity negative control。
+4. 在上述门控前保持零训练，不引入 projector 或 Reward Head。
+
+## 11. Sources
+
+- Source: `raw/experiments/latentatlas-anchor-budget-replication-2026-08-09.md`
+- Source: `source-workspace/.worktrees/anchor-feasibility-pilot/reports/20260809T074705Z-0c07370-d60b9ed7-anchor-budget/summary.md`
+- Source: `source-workspace/.worktrees/anchor-feasibility-pilot/reports/20260809T074705Z-0c07370-d60b9ed7-anchor-budget/metrics-summary.csv`
+- Source: remote full run `/root/autodl-tmp/latentatlas-runs/20260809T074705Z-0c07370-d60b9ed7-anchor-budget`
+

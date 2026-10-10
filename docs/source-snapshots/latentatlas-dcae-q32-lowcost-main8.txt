@@ -1,0 +1,71 @@
+# LatentAtlas DCAE Q32 低成本 MAIN8 实验
+
+## 1. Date
+
+2026-10-09。实际执行与交付已结束；科学结论 **LOCAL_METHOD_NUMERICALLY_UNQUALIFIED**。E1固定差分资格失败，按原协议停止，E2/MAIN8未执行。
+
+## 2. Purpose
+
+在固定S2562000、T1/W0、DiNa/PAPER_T04下，比较C32/A32/Q32，仅拟合各32维小参数。先M0/E0/E1/E2；只有固定行动、参考与可比性门槛全部通过才继续MAIN8。完整E3、EP和4K续训不在授权内。
+
+## 3. Code Version / Commit
+
+原S256工作树HEAD `963c6d5`，只读复用；新实验独立运行目录。正式生产合同SHA `524e3be395edf98be8fa46928869b1a5bf84cb69316c1a4a6d0f0dd1c02d0d16`。正式源码、298个继承源码逐文件pins、独立审查、CPU边界测试与第二CPU读回封存。数值r2修复C32不可辨认秩的误准入，保留r1与失败；科学阈值未改。
+
+## 4. Dataset / Input
+
+原56组504图/2016对/4流历史缓存。固定hash MAIN8=8完整组、72图/288对；其6912条原请求的完整source/prompt/noise/receipt绑定已远端核。原FIT256、VAL64互斥；392份S256预测绑定，最小官方caption ID、T1/W0充分量和24面板已封存。实际任务FIT=64图、16面板×2流，共128条件。
+
+## 5. Parameters
+
+四个候选C32/A32/Q32/P32各32维、每个只求解一次。V=0.020987387803285677，gamma=5.803008138546198e-08。仿射FP32后回原BF16入口；原noise/reader precision保持。没有新增Anchor、Projector/VAE forward、大模型更新、换checkpoint、调半径或重选组。
+
+## 6. Command
+
+生产任务 `LatentAtlas-Q32-Micro-20261009-r1` 单次派发，原GPU/run锁持至OSwait。正式生产代码在原始ZIP `code-production-r1/`，逐调用账本 `micro-r1/ledger.jsonl`，原始scores/J `FIT_RESPONSES.npz`。独立CPU核验代码、授权私有portable代码及所有调用回执见新raw归档，不覆盖旧CPU阶段原件。
+
+## 7. Results
+
+| 检查 | 结果 | 判断 |
+|---|---:|---|
+| 技术theta=0对原入口 | 8次前向全部exact | 通过 |
+| 四小解代价/KKT | 每解仅一次，所有证书通过 | 通过 |
+| FD ratio | 1.086510519748584，固定上限0.20 | **失败，必须停止** |
+| Q32 FIT LinErr | 0.12015720026795061，上限0.25 | 通过，不能覆盖FD失败 |
+| BASE/Q32真实FIT中心化风险 | 1.5396022796630857 / 1.180440902709961 | 仅训练内诊断 |
+| E2 VAL六路径与置信区间 | 未执行 | 效果未知 |
+| MAIN8新增C32/A32/Q32 | 未执行 | 效果未知 |
+
+M0原33项参考与22项独立有限检查通过；E0误差分解Eu²=0.943527202147899、Ev²=0.06364659244291178、2Euv=0.017293848037961797，总1.0244676426287727。固定MAIN8旧N/G Accuracy均73.9583%，BASE70.4861%；旧N/G数值参考门槛通过。这些历史结果不能代替新方法效果。
+
+实测416科学＋8技术DiNa前向、128次输入反向、四次小参数解；三个冻结文本编码器各19次，15个新公共probe文本另4个技术文本。终端模型参数/所有named buffer完整性PASS；真实OSwait rc1、原进程消失、锁释放。独立远端CPU11类停止验收PASS；私有portable核485原始文件、23数值比较PASS。原CPU阶段独立/portable各42比较已完成，不重复执行。
+
+[MICRO_REPORT](../../raw/experiments/latentatlas/dcae-q32-lowcost-main8-2026-10-09/real-e1-numerical-stop-r1/MICRO_REPORT.md)、[最终报告](../../raw/experiments/latentatlas/dcae-q32-lowcost-main8-2026-10-09/real-e1-numerical-stop-r1/FINAL_REPORT.md)、[FIT诊断表](../../raw/experiments/latentatlas/dcae-q32-lowcost-main8-2026-10-09/real-e1-numerical-stop-r1/audit/E1_FIT_BASELINE_AND_LINEAR_PREDICTION.csv)、[FD逐项表](../../raw/experiments/latentatlas/dcae-q32-lowcost-main8-2026-10-09/real-e1-numerical-stop-r1/audit/E1_FD_RAW_TABLE.csv)、[原始ZIP](../../raw/experiments/latentatlas/dcae-q32-lowcost-main8-2026-10-09/real-e1-numerical-stop-r1/MICRO_RAW_NUMERICAL_STOP_R1.zip)。
+
+![真实差分核验](../../raw/experiments/latentatlas/dcae-q32-lowcost-main8-2026-10-09/real-e1-numerical-stop-r1/figures/05_real_fd_vs_autodiff.png)
+
+## 8. Analysis
+
+研究缺口（research gap）是任务商空间校正能否改善未见图像的任务风险，并优于共享reward信息的A32/C32基线。当前14/16固定差分为0而AD非零，与BF16小步长分数平台相容，具体内核/驱动原因未唯一定位。不能从FIT风险下降宣称泛化或优势；不能用线性预测替代C32/A32/P32真实评价。有限数学例与真实视觉分开；U_necessity未测，novelty未建立。
+
+## 9. Problems
+
+直接停止原因是执行包§9.3预先固定FD科学资格失败，不是主机仍离线或小求解器崩溃。早期网络失败、数值实现RED、独立CPU旧PID误判与base64原始包读取超时均保留。后一传输只读已有ZIP成功，不重跑GPU。boot变化后PID可被shell复用，需boot/命令/OSwait共同判断。
+
+## 10. Next Steps
+
+本轮原始数值、独立CPU、可视化、MICRO/最终报告、raw/wiki/index/log及seal已交付。E2/MAIN8不再自动启动，不调步长/阈值/半径。任何后续数值响应研究需另行明确定义的新协议。下一阶段无本实验GPU计算；无需保持GPU为本实验运行，不停止其他任务。
+
+相关：[[latentatlas]]。旧CPU阶段不可变报告是当时快照，不是当前缺口状态。
+
+## 11. Sources
+
+- `raw/experiments/latentatlas/dcae-q32-lowcost-main8-2026-10-09/real-e1-numerical-stop-r1/source-package/LatentAtlas_Q32_LowCost_Experiments_Codex_R1_1.md`：§9.3科学停止、§10行动门控。
+- `raw/experiments/latentatlas/dcae-q32-lowcost-main8-2026-10-09/real-e1-numerical-stop-r1/source-package/LatentAtlas_Task_Quotient_Theory_and_Validation_R1.md`
+- `raw/experiments/latentatlas/dcae-q32-lowcost-main8-2026-10-09/real-e1-numerical-stop-r1/source-package/run_config.json`
+- `raw/experiments/latentatlas/dcae-q32-lowcost-main8-2026-10-09/real-e1-numerical-stop-r1/MICRO_REPORT.md`、`FINAL_REPORT.md`
+- `raw/experiments/latentatlas/dcae-q32-lowcost-main8-2026-10-09/real-e1-numerical-stop-r1/MICRO_RAW_NUMERICAL_STOP_R1.zip`：完整封存原始scores/J/theta/谱、账本、输入/代码合同、终点、独立CPU验收；ZIP SHA `698d0b7b65c7528e1a2397146be1f4d3435d5927a65ae50f548f9c9487e4fc5f`。
+- `raw/experiments/latentatlas/dcae-q32-lowcost-main8-2026-10-09/real-e1-numerical-stop-r1/audit/PORTABLE_MICRO_VERIFICATION_R1.json`
+- `raw/experiments/latentatlas/dcae-q32-lowcost-main8-2026-10-09/real-e1-numerical-stop-r1/evidence/live-reference-bind-r2.json`
+- `raw/experiments/latentatlas/dcae-q32-lowcost-main8-2026-10-09/real-e1-numerical-stop-r1/DELIVERY_SEAL_R1.json`
+- `raw/experiments/latentatlas/dcae-q32-lowcost-main8-2026-10-09/cpu-stage-r1/`：原M0/E0阶段历史原件。

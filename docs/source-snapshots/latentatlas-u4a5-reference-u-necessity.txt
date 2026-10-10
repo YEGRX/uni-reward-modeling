@@ -1,0 +1,118 @@
+# LatentAtlas U4-A5 Reference-U Necessity
+
+## 1. Date
+
+2026-08-24 至 2026-08-25。
+
+## 2. Purpose
+
+在不访问 Reward、H1105、validation/test 或 fresh authority 的前提下，比较三种固定候选参考空间：`H_SD`、`H_FLUX` 与算术 barycenter `H_BAR`。核心问题是：correct correspondence specificity 是否只在某一个 reference target 上成立，以及是否存在跨 mapping family 一致偏好的单一候选。
+
+该实验延续 [[latentatlas-u4a4-reward-free-p4096-crossfit-correspondence-specificity]]，但不把任何候选预先称为 canonical U。
+
+## 3. Code Version / Commit
+
+- Common frozen base：`2ed98d379c2b7134385f44faee6cbe87e12764f7`。
+- Original production/result：`5b025a29cffa1dc15a5d20203138b2bdb52c92ca` / `b3dff0225762000ae4ab1b761a0b4d947103e334`。
+- R1 production/result：`4c57e9d43dc7111ec7abe046bc5b98366bc08ed8` / `71ba031ad94e5715f1f42372c806d11d62d14fb5`。
+- Original 与 R1 均保留在独立 branch/worktree；未覆盖、未合并到 `main`。
+
+## 4. Dataset / Input
+
+- 只使用冻结 P4096 paired identities；五折 cross-fit，每折 fit/evaluation identity-disjoint。
+- 三个 target：SD reference、FLUX reference、raw arithmetic barycenter reference。
+- Pairing：correct 加五个固定 whole-row permutation null。
+- Mapping family：解析 F 与非线性 N。
+- 总计 360 个 aggregate evaluation cells；不持久化 per-identity prediction、rank 或 embedding。
+
+本实验中的 paired identities 属于 dense transductive onboarding，不等于少量 Anchor onboarding。
+
+## 5. Parameters
+
+- Primary specificity lower-bound thresholds：relative cNRMSE `0.01`、R@1 `0.005`、MRR `0.005`。
+- 每个 target 的 N adequacy 必须在 target-local 90-cell registry 上独立通过。
+- Reference preference 必须遵循冻结的跨 family 规则，不能按单个点估计事后选择。
+- 所有 target、fold、pairing、seed/init/schedule bindings 在 P4096 materialization 前冻结。
+
+## 6. Command
+
+R1 formal CPU replay：
+
+~~~bash
+env PYTHONNOUSERSITE=1 PYTHONPATH="$PWD/src:$PWD" CUDA_VISIBLE_DEVICES='' \
+OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 \
+source-workspace/.venv/bin/python -B \
+scripts/run_u4a5r1_operational_repair_replay.py \
+--config configs/u4a5r1-dev-reward-free-reference-u-necessity-operational-repair-replay.json
+~~~
+
+Disk-only verifier：
+
+~~~bash
+env PYTHONDONTWRITEBYTECODE=1 PYTHONNOUSERSITE=1 CUDA_VISIBLE_DEVICES='' \
+OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 \
+source-workspace/.venv/bin/python -B \
+scripts/verify_u4a5r1_operational_repair_replay.py \
+runs/U4A5R1_DEV_REWARD_FREE_CROSSFIT_REFERENCE_U_NECESSITY_OPERATIONAL_REPAIR_REPLAY
+~~~
+
+## 7. Results
+
+### Original attempt: operationally invalid
+
+原 attempt 已完成全部 360 cells，但 terminal N adequacy 将完整 270-cell multi-target registry 直接交给要求 target-local 90 cells 的 assessor。Disk verifier 因 `ValueError: N adequacy arithmetic drift` 正确失败。
+
+原树中保存的 `BLOCKED_PREMEASUREMENT` 没有通过 completed verifier，不能提升为科学分类。原 attempt 保持不变；R1 是独立标记的 `adaptive_replay / non_confirmatory / operational_repair`。
+
+### R1 verified classification
+
+正式分类：**`REFERENCE_RESULTS_MIXED_ON_HISTORIC_DEV`**。
+
+| Target / family | Relative cNRMSE LB | R@1 LB | MRR LB |
+|---|---:|---:|---:|
+| SD / F | 0.406224 | 0.635010 | 0.719393 |
+| SD / N | 0.248391 | 0.231934 | 0.311678 |
+| FLUX / F | 0.218381 | 0.110596 | 0.195962 |
+| FLUX / N | 0.472304 | 0.646729 | 0.724975 |
+| BAR / F | 0.297083 | 0.365234 | 0.473485 |
+| BAR / N | 0.383890 | 0.481689 | 0.567016 |
+
+六个 target-by-family specificity gates 全部通过，但 reference preference 不统一：
+
+- F prefers SD；SD 相对更好 alternative 的 lower bounds 为 `(0.106625, 0.257568, 0.236287)`。
+- N prefers FLUX；FLUX 相对更好 alternative 的 lower bounds 为 `(0.085295, 0.153076, 0.147789)`。
+- BAR 在两个 family 中都不是 materially stronger，也没有同时对两个 alternative noninferior。
+- 没有 single cross-family preferred target。
+
+Decision SHA-256：`7930fb63f8601742f7255a50a107b36828b5b11e3a08b1deef13a2e5801387a8`。Inventory SHA-256：`e35cc7fd9cd154f6aa7bd324ce78532ff3a8bb1721e72af8276a7b768523bff3`。
+
+## 8. Analysis
+
+本实验最重要的结论不是 “BAR 失败”，而是：三个候选 target 都保留 correct-pairing specificity，然而哪个 reference 更好依赖 mapping family。当前无法用这一组 development evidence 选出唯一 canonical reference。
+
+它削弱了“raw arithmetic barycenter 是唯一必要 target”的假设，也没有支持“SD 或 FLUX 单独就是 universal U”。Reference selection 仍是 unresolved model-selection problem。
+
+## 9. Problems
+
+- 原 attempt 的 terminal adequacy arithmetic 出错；R1 只修正 target-local registry 投影，科学实现与原结果字节均保持。
+- R1 是 adaptive replay，不是 fresh confirmation。
+- 所有比较仍来自既有 P4096 development population，不能外推 unseen VAE、Reward transfer 或新分布。
+- `REFERENCE_RESULTS_MIXED` 不是“没有 correspondence signal”；六个 specificity gates 实际都通过。
+
+## 10. Next Steps
+
+本实验 hard stop，不自动追加 target、architecture 或 authority。若以后继续，应把 reference selection 与 Reward functional confirmation 分开冻结；不能使用当前 development result 事后挑 target，再称其为 confirmatory。
+
+当前和报告阶段均为 CPU-only；不需要 GPU 服务器。
+
+## 11. Sources
+
+- Source: `source-workspace/.worktrees/u4-a5-reference-u-necessity/runs/U4A5_DEV_REWARD_FREE_CROSSFIT_REFERENCE_U_NECESSITY/`
+- Source: `source-workspace/.worktrees/u4-a5-reference-u-necessity/runs/U4A5_DEV_REWARD_FREE_CROSSFIT_REFERENCE_U_NECESSITY/audit.json`
+- Source: `source-workspace/.worktrees/u4-a5r1-operational-repair-replay/runs/U4A5R1_DEV_REWARD_FREE_CROSSFIT_REFERENCE_U_NECESSITY_OPERATIONAL_REPAIR_REPLAY/report.md`
+- Source: `source-workspace/.worktrees/u4-a5r1-operational-repair-replay/runs/U4A5R1_DEV_REWARD_FREE_CROSSFIT_REFERENCE_U_NECESSITY_OPERATIONAL_REPAIR_REPLAY/evaluation_summary.csv`
+- Source: `source-workspace/.worktrees/u4-a5r1-operational-repair-replay/runs/U4A5R1_DEV_REWARD_FREE_CROSSFIT_REFERENCE_U_NECESSITY_OPERATIONAL_REPAIR_REPLAY/robustness_summary.json`
+- Source: `source-workspace/.worktrees/u4-a5r1-operational-repair-replay/runs/U4A5R1_DEV_REWARD_FREE_CROSSFIT_REFERENCE_U_NECESSITY_OPERATIONAL_REPAIR_REPLAY/decision.json`
+- Source: `source-workspace/.worktrees/u4-a5r1-operational-repair-replay/runs/U4A5R1_DEV_REWARD_FREE_CROSSFIT_REFERENCE_U_NECESSITY_OPERATIONAL_REPAIR_REPLAY/audit.json`
+- Source: `source-workspace/.worktrees/u4-a5r1-operational-repair-replay/runs/U4A5R1_DEV_REWARD_FREE_CROSSFIT_REFERENCE_U_NECESSITY_OPERATIONAL_REPAIR_REPLAY/semantic_diff_certificate.json`
+- Source: `wiki/synthesis/latentatlas-u-development-reference-consensus-report.md`

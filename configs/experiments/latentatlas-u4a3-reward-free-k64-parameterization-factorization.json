@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-u4a3-reward-free-k64-parameterization-factorization",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Population：沿用并重新验证 U4-A2 冻结的 observed-train K64 population；不创建 fresh 或 formal authority。\n- Input：标准化 DCAE token representation，shape `[64,32,16]`。\n- Correct target：raw SD/FLUX barycenter `H`，shape `[64,64]`，whole-row assignment 为 `T(g_i)=H(g_i)`。\n- Null targets：五个冻结 cyclic offsets `1/7/13/29/37`，对应 `perm_01` 至 `perm_05`；candidate bank 保持 canonical H original order。\n- Seeds：`20260823`、`20260824`、`20260825`。\n- Authority chain：每个 O seed 的初始状态被 disk verifier 独立绑定到 U4-A2 predecessor checkpoint 的 `final_state_sha256`；predecessor 85-path Git tree 也被独立重放验证。",
+  "parameters_excerpt": "- `O`：当前 1,088 参数 Bridge，从 U4-A2 O checkpoint 出发执行 L-BFGS rescue；只注册 correct pairing。\n- `P0`：1,088 参数 pooled affine analytical minimum-norm 解；correct + 5 null，共 6 个解析 cell。\n- `P1`：1,088 参数 pooled affine trainable；correct + 5 null × 3 seeds，共 18 个训练 cell。\n- `F`：32,832 参数 contiguous row-major flat affine analytical 解；correct + 5 null，共 6 个解析 cell。\n- `N`：32,788 参数 expanded invariant nonlinear model；correct + 5 null × 3 seeds，共 18 个训练 cell。\n- Trainable cells：CPU `float32` backprop/optimizer；metric snapshot 用同一 output/target 的 `float64` 重算。AdamW `10,000` steps、`lr=1e-3`、`weight_decay=1e-4`，milestones=`0/1000/2500/5000/10000`；随后预注册一次 L-BFGS。\n- Closure gate：NRMSE ≤ `0.1`、R@1 ≥ `0.95`、MRR ≥ `0.98`；trainable pairing 至少 `2/3` seeds 闭合才算 robust closure。\n- 执行顺序固定为 O/P0/P1/F；只有在所有 P1 cells 完成后才决定 N。正式结果中 P1 不 clean，因此 N 全部 18 cells 均执行。",
+  "code_identity_excerpt": "- Branch：`codex/u4-a3-k64-parameterization-factorization`。\n- Formal execution parent / production commit：`08226a77837bba49b41e196184cec23a5e81f1a9`。\n- U4-A2 predecessor result commit：`d119dbfef9e16461852a229601002aa25e2042d2`。\n- U4-A2 predecessor production commit：`a260494d0df26e61497ce0d57a63eb95d17b3b62`；冻结校验要求 `d119dbf^ == a260494`。\n- U4-A3 result commit：`dff8967756cb2b9672f663ad5447f93b307274d4`；其直接父提交为 formal production commit `08226a77837bba49b41e196184cec23a5e81f1a9`。\n- Canonical config SHA-256：`b3cc36613e388b9bd58286f7051ed624b3e6c66662176f49595237e009cd8866`。\n- Binding scientific spec SHA-256：`011f4cd4b9723a94147ec9cd4cfb05712b28e38622b980a79d0086ac493afb03`。\n- Implementation plan SHA-256：`8c7032a6e2e3decc2b1ad050d9e828f949761ab280a44274e075b67097189c41`。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-u4a3-reward-free-k64-parameterization-factorization.txt",
+  "primary_report": null
+}

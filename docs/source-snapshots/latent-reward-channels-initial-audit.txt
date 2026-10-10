@@ -1,0 +1,53 @@
+# Latent Reward Channels 规格审计与冻结 MVP 实验
+
+## 1. Date
+
+2026-10-05；预算内实验与科学判定完成。保留原页面文件名以维护已有链接；本页现为最终状态。
+
+## 2. Purpose
+
+验证公式、梯度、噪声坐标、通道和泄漏，再判断冻结特征上的候选方法是否值得升级。执行成功、产物一致、统计效应与科学Go分开。
+
+## 3. Code Version / Commit
+
+工作区无HEAD；采用隔离项目、逐文件SHA和bundle。核心r11锁32文件SHA未变化。GPU实际执行r9/r10，离线头r11；独立后处理另存脚本与hash，不回写原指标。
+
+## 4. Dataset / Input
+
+CPU可解Gaussian/离散prior。真实D2：固定32/8/8 prompts×4 seeds、192张512图；test为完整留出背景/风景家族。A/B1使用sampler endpoint；B2用同PNG的两个VAE posterior.mode，scale .13025/.18215。A/C冻结D64特征，train K16、val/test K64。PickScore训练集标准化，ImageReward独立评价。
+
+## 5. Parameters
+
+GPU4小时、下载30GB、缓存10GB。实际native steps49/169/354对应t=.049730705629/.249279815403/1.000731599625；step0约.000850745不是零。B1 MC32，B2 M1/M4；C2五训练seeds、共享anchor网格、最多50epochs/patience5。B2两noisy方法各2000真实更新，val选中100/500不能取代真实成本。
+
+## 6. Command
+
+完整命令和resolved configs见项目README、ops及outputs。离线入口：`python -m lrc.visual_analysis <verified-input> <new-output> --source-lock manifests/real-head-source-lock-r11.json --seeds 0 1 2 3 4`，固定线程和已核验解释器；复现应写新目录。原run已完成，不重复运行。
+
+## 7. Results
+
+- A0 clean optimum8.25、posterior optimizer clean6.0；机制错位成立，精确校正方差366。
+- B0 2160记录含360 PSD不可行；独立补充证明均值/方差一致仍可有critic期望误差。
+- C0 matched：35/35控制通过，44/50主拟合未收敛；无稳定categorical优势。A1共1960轨迹，group存在负结果。
+- A2/A3：test group bias²点估计均未优于pointwise，无稳定独立效用改进；A4 No-Go。
+- B1：已知affine校准缩小几何误差；不等于实际生成轨迹收益。B2：低噪声额外通道收益、高噪声canonical误差回退，任务效用不稳；B3 No-Go。
+- C2：categorical较训练Gaussian/pairwise NLL更低，但相对p=.5无可靠优势，一致性没有稳定额外收益；扩大No-Go。
+- 核心测试241通过；具体CI、逐prompt指标与补充诊断见最终报告，未把重叠测试数相加。
+
+## 8. Analysis
+
+Research gap仍在真实可学习性：精确oracle反例成立不保证有限数据学习方法有效。Metrics的estimand逐列区分；有限witness MMD²、posterior NLL与clean候选选择效用不互相替代。八prompt、单一heldout家族、C0未收敛、B2单seed/MC4限制推断；C2的真实feature posterior偏差无法由现有输入直接识别。
+
+## 9. Problems
+
+B2 GPU绘图失败原状态保留，CPU从保存表恢复并审计最终权重。失效Markov缓存与损坏传输副本保留。389新增审阅文件+859继承文件本地哈希通过；61中间恢复文件仍仅远端。GPU扣账3749.984秒=实测3150.104+预留599.880；不代表整机账单。单价和金额未知。
+
+## 10. Next Steps
+
+本轮停止。未启动A4/B3/扩大；下一阶段无GPU需求。新研究方向需另立协议，不用剩余预算自动扩展。参见[[latent-reward-channels]]。
+
+## 11. Sources
+
+Source: `raw/projects/latent-reward-channels/spec-v1-20261005/Latent_Reward_Research_Spec.md`。
+Source: `raw/experiments/latent-reward-channels/2026-10-05-mvp-r1/`。
+Source: `scripts/latent-reward-channels/reports/research-report.md`、`reports/final-go-no-go.md`、`manifests/final-budget-and-delivery.json`。

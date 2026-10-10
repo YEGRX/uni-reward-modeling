@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latent-reward-channels-r31-task-boundaries",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "theory_or_specified_model",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "A：两点计数与27序列二维支持；B：二元source、连续合法U与两任务；C：16联合状态。真实只读为旧train32固定outer0 fit24/eval8，A M3/t1与M4、C categorical与固定一致性.1。旧val/test不选模，开发数据不fresh。",
+  "parameters_excerpt": "A K4/m8，控制(4,1)/(4,4)/(3,4)；方差K3/m2,8。B α.4/β.2/v.25/source1，ell1,2,3,4,16,64；高信息/scalar负对照完整。C γ.6及六个预定nuisance控制；toy温度1，真实标签温度1.1371683169585047不变。参数在首次执行前冻结，无开放搜索。",
+  "code_identity_excerpt": "现有模块下新增 `scripts/latent-reward-channels/r2/verify_r31_task_boundaries.py`。没有可用Git HEAD，不编造commit。执行版/维护版SHA见source-and-cost.json；维护版仅修严格概率保护与C-N2引用，原始执行版保留。",
+  "source_snapshot": "docs/source-snapshots/latent-reward-channels-r31-task-boundaries.txt",
+  "primary_report": null
+}

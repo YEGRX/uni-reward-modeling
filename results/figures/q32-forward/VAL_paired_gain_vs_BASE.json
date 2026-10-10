@@ -1,0 +1,626 @@
+{
+  "G": {
+    "centered_risk": 0.0,
+    "risk_CI95": [
+      0.0,
+      0.0
+    ],
+    "risk_per_panel": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "raw_score_MSE": 0.0,
+    "common_offset_MSE": 0.0,
+    "pair_margin_MSE": 0.0,
+    "strict_G_agreement": 1.0,
+    "strict_G_agreement_CI95": [
+      1.0,
+      1.0
+    ],
+    "strict_same_count": 190,
+    "reference_nontie_count": 190,
+    "student_tie_rate": 0.010416666666666666,
+    "counts_per_panel": [
+      {
+        "reference_nontie": 23,
+        "reference_tie": 1,
+        "strict_same": 23,
+        "reverse": 0,
+        "student_tie": 1,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 23,
+        "reference_tie": 1,
+        "strict_same": 23,
+        "reverse": 0,
+        "student_tie": 1,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 24,
+        "reverse": 0,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 24,
+        "reverse": 0,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 24,
+        "reverse": 0,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 24,
+        "reverse": 0,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 24,
+        "reverse": 0,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 24,
+        "reverse": 0,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      }
+    ],
+    "coordinate_MSE": 0.0,
+    "relative_risk_reduction_vs_BASE": 1.0,
+    "relative_reduction_CI95": [
+      1.0,
+      1.0
+    ],
+    "paired_risk_reduction_vs_BASE_CI95": [
+      1.0957088470458984,
+      2.3041966915130607
+    ]
+  },
+  "BASE": {
+    "centered_risk": 1.677438735961914,
+    "risk_CI95": [
+      1.0957088470458984,
+      2.3041966915130607
+    ],
+    "risk_per_panel": [
+      2.87225341796875,
+      0.43182373046875,
+      1.3282470703125,
+      2.2640380859375,
+      3.055206298828125,
+      1.3304901123046875,
+      0.9696044921875,
+      1.1678466796875
+    ],
+    "raw_score_MSE": 17.11168670654297,
+    "common_offset_MSE": 15.434247970581055,
+    "pair_margin_MSE": 4.473169962565104,
+    "strict_G_agreement": 0.8368421052631579,
+    "strict_G_agreement_CI95": [
+      0.7936507936507936,
+      0.8900523560209425
+    ],
+    "strict_same_count": 159,
+    "reference_nontie_count": 190,
+    "student_tie_rate": 0.015625,
+    "counts_per_panel": [
+      {
+        "reference_nontie": 23,
+        "reference_tie": 1,
+        "strict_same": 17,
+        "reverse": 6,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 23,
+        "reference_tie": 1,
+        "strict_same": 19,
+        "reverse": 4,
+        "student_tie": 1,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 20,
+        "reverse": 2,
+        "student_tie": 2,
+        "student_tie_on_reference_nontie": 2
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 20,
+        "reverse": 4,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 20,
+        "reverse": 4,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 20,
+        "reverse": 4,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 24,
+        "reverse": 0,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 19,
+        "reverse": 5,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      }
+    ],
+    "coordinate_MSE": 0.21882710105273873,
+    "relative_risk_reduction_vs_BASE": 0.0,
+    "relative_reduction_CI95": [
+      0.0,
+      0.0
+    ],
+    "paired_risk_reduction_vs_BASE_CI95": [
+      0.0,
+      0.0
+    ]
+  },
+  "C32": {
+    "centered_risk": 1.6963443756103516,
+    "risk_CI95": [
+      1.1070308685302734,
+      2.3275146484375
+    ],
+    "risk_per_panel": [
+      2.75653076171875,
+      0.38543701171875,
+      1.3223876953125,
+      2.32806396484375,
+      3.157318115234375,
+      1.3963470458984375,
+      1.0250244140625,
+      1.19964599609375
+    ],
+    "raw_score_MSE": 17.836448669433594,
+    "common_offset_MSE": 16.140104293823242,
+    "pair_margin_MSE": 4.5235850016276045,
+    "strict_G_agreement": 0.8473684210526315,
+    "strict_G_agreement_CI95": [
+      0.798941798941799,
+      0.9010416666666666
+    ],
+    "strict_same_count": 161,
+    "reference_nontie_count": 190,
+    "student_tie_rate": 0.010416666666666666,
+    "counts_per_panel": [
+      {
+        "reference_nontie": 23,
+        "reference_tie": 1,
+        "strict_same": 17,
+        "reverse": 6,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 23,
+        "reference_tie": 1,
+        "strict_same": 19,
+        "reverse": 4,
+        "student_tie": 1,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 22,
+        "reverse": 1,
+        "student_tie": 1,
+        "student_tie_on_reference_nontie": 1
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 20,
+        "reverse": 4,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 20,
+        "reverse": 4,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 20,
+        "reverse": 4,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 24,
+        "reverse": 0,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 19,
+        "reverse": 5,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      }
+    ],
+    "coordinate_MSE": 0.2183280298486352,
+    "relative_risk_reduction_vs_BASE": -0.011270539569122384,
+    "relative_reduction_CI95": [
+      -0.03519007704772514,
+      0.01799085506397713
+    ],
+    "paired_risk_reduction_vs_BASE_CI95": [
+      -0.06151599884033203,
+      0.030084228515624867
+    ]
+  },
+  "A32": {
+    "centered_risk": 1.5733051300048828,
+    "risk_CI95": [
+      0.9856886386871339,
+      2.2020721435546875
+    ],
+    "risk_per_panel": [
+      3.18634033203125,
+      0.27435302734375,
+      1.5904541015625,
+      1.98468017578125,
+      2.441802978515625,
+      1.2730560302734375,
+      0.64105224609375,
+      1.1947021484375
+    ],
+    "raw_score_MSE": 8.708793640136719,
+    "common_offset_MSE": 7.135488510131836,
+    "pair_margin_MSE": 4.1954803466796875,
+    "strict_G_agreement": 0.8052631578947368,
+    "strict_G_agreement_CI95": [
+      0.7301587301587301,
+      0.8795811518324608
+    ],
+    "strict_same_count": 153,
+    "reference_nontie_count": 190,
+    "student_tie_rate": 0.015625,
+    "counts_per_panel": [
+      {
+        "reference_nontie": 23,
+        "reference_tie": 1,
+        "strict_same": 16,
+        "reverse": 7,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 23,
+        "reference_tie": 1,
+        "strict_same": 20,
+        "reverse": 1,
+        "student_tie": 2,
+        "student_tie_on_reference_nontie": 2
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 15,
+        "reverse": 9,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 20,
+        "reverse": 4,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 20,
+        "reverse": 4,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 20,
+        "reverse": 4,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 24,
+        "reverse": 0,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 18,
+        "reverse": 5,
+        "student_tie": 1,
+        "student_tie_on_reference_nontie": 1
+      }
+    ],
+    "coordinate_MSE": 0.24251164577435702,
+    "relative_risk_reduction_vs_BASE": 0.06207893243702678,
+    "relative_reduction_CI95": [
+      -0.05657198082702264,
+      0.17846587962144822
+    ],
+    "paired_risk_reduction_vs_BASE_CI95": [
+      -0.09439849853515625,
+      0.30625572204589807
+    ]
+  },
+  "Q32": {
+    "centered_risk": 1.5200519561767578,
+    "risk_CI95": [
+      0.9245510101318359,
+      2.1941890716552734
+    ],
+    "risk_per_panel": [
+      2.43963623046875,
+      0.44891357421875,
+      1.23797607421875,
+      2.0914306640625,
+      3.239898681640625,
+      0.7736053466796875,
+      0.57879638671875,
+      1.35015869140625
+    ],
+    "raw_score_MSE": 17.275230407714844,
+    "common_offset_MSE": 15.755178451538086,
+    "pair_margin_MSE": 4.0534718831380205,
+    "strict_G_agreement": 0.8210526315789474,
+    "strict_G_agreement_CI95": [
+      0.7754010695187166,
+      0.8842256820060609
+    ],
+    "strict_same_count": 156,
+    "reference_nontie_count": 190,
+    "student_tie_rate": 0.026041666666666664,
+    "counts_per_panel": [
+      {
+        "reference_nontie": 23,
+        "reference_tie": 1,
+        "strict_same": 17,
+        "reverse": 6,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 23,
+        "reference_tie": 1,
+        "strict_same": 17,
+        "reverse": 4,
+        "student_tie": 2,
+        "student_tie_on_reference_nontie": 2
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 20,
+        "reverse": 2,
+        "student_tie": 2,
+        "student_tie_on_reference_nontie": 2
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 20,
+        "reverse": 4,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 20,
+        "reverse": 4,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 20,
+        "reverse": 4,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 24,
+        "reverse": 0,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 18,
+        "reverse": 5,
+        "student_tie": 1,
+        "student_tie_on_reference_nontie": 1
+      }
+    ],
+    "coordinate_MSE": 0.2404744189698249,
+    "relative_risk_reduction_vs_BASE": 0.09382565002882448,
+    "relative_reduction_CI95": [
+      -0.012221273078677264,
+      0.22493643541731798
+    ],
+    "paired_risk_reduction_vs_BASE_CI95": [
+      -0.0203704833984375,
+      0.33892059326171875
+    ]
+  },
+  "P32": {
+    "centered_risk": 1.9667377471923828,
+    "risk_CI95": [
+      1.2367344856262208,
+      2.803651809692383
+    ],
+    "risk_per_panel": [
+      2.19573974609375,
+      0.58099365234375,
+      1.41815185546875,
+      3.546630859375,
+      3.911285400390625,
+      1.3390960693359375,
+      1.7840576171875,
+      0.95794677734375
+    ],
+    "raw_score_MSE": 21.09514617919922,
+    "common_offset_MSE": 19.128408432006836,
+    "pair_margin_MSE": 5.2446339925130205,
+    "strict_G_agreement": 0.8210526315789474,
+    "strict_G_agreement_CI95": [
+      0.776595744680851,
+      0.8795811518324608
+    ],
+    "strict_same_count": 156,
+    "reference_nontie_count": 190,
+    "student_tie_rate": 0.020833333333333332,
+    "counts_per_panel": [
+      {
+        "reference_nontie": 23,
+        "reference_tie": 1,
+        "strict_same": 17,
+        "reverse": 6,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 23,
+        "reference_tie": 1,
+        "strict_same": 17,
+        "reverse": 6,
+        "student_tie": 1,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 19,
+        "reverse": 2,
+        "student_tie": 3,
+        "student_tie_on_reference_nontie": 3
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 20,
+        "reverse": 4,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 20,
+        "reverse": 4,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 20,
+        "reverse": 4,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 24,
+        "reverse": 0,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      },
+      {
+        "reference_nontie": 24,
+        "reference_tie": 0,
+        "strict_same": 19,
+        "reverse": 5,
+        "student_tie": 0,
+        "student_tie_on_reference_nontie": 0
+      }
+    ],
+    "coordinate_MSE": 0.24094174825586379,
+    "relative_risk_reduction_vs_BASE": -0.17246472555349235,
+    "relative_reduction_CI95": [
+      -0.4270645896760277,
+      0.07101448092560403
+    ],
+    "paired_risk_reduction_vs_BASE_CI95": [
+      -0.71807861328125,
+      0.1243993759155265
+    ]
+  }
+}

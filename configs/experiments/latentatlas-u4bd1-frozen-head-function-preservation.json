@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-u4bd1-frozen-head-function-preservation",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Cohort：历史已暴露的 V708 validation cohort，共 `708` 个 identity。\n- Cohort 状态：`fresh=false`，`historically_exposed=true`。\n- Ordered identity commitment：`525b4521049856de12249b80d5d7e62428f1592adbe157721a1d0401a4a05bf6`。\n- 没有重开 H1105 或 P4096，也没有访问 test data 或 fresh authority。\n- 冻结 Reward Head architecture：`Linear(64,64) -> GELU -> Dropout(0.1) -> Linear(64,1)`，共 `4,225` parameters。\n- Reward Head file SHA-256：`f8096c49afcec03d7f80228d82c925710931f805d53d5c057882ffb6c1e032cb`。\n- Reward Head state SHA-256：`b45076296c57cd720c784c548cab99f4d1fad70f1e44150fdc05377da417c3ea`。\n- Head 以 CPU `float32`、`eval`、frozen、dropout disabled 方式执行；指标聚合使用 `float64`。",
+  "parameters_excerpt": "- Mapping registry：\n  - F：correct + 5 null，共 6 个 seedless flat-affine terminal mappings。\n  - N：correct + 5 null，每个 3 seeds，共 18 个 nonlinear terminal mappings。\n  - 合计 24 个 terminal mappings，另含 1 个 F zero no-fit control 与 3 个 N initial-state no-fit controls。\n  - Model registry 共 `32` 项；U4-BD1 内 mapping training steps=`0`。\n- N seeds：`20260823`、`20260824`、`20260825`。\n- Value error：`sqrt(mean((s_a-s_ref)^2)) / sigma_ref`。\n- Order error：相对固定 full-cohort midrank 的 normalized rank RMSE。\n- Bootstrap：`20,000` replicates，seed=`2026082501`，common stream；固定 `sigma_ref` 与 ranks。\n- Registered lower bound：5% quantile，zero-based index=`999`；所有门均要求 point gap 与 lower bound 严格大于 `0`。\n- Source reference diagnostics：sample count=`708`、distinct count=`708`、mean=`-0.16689435635182986`、population std=`0.26224103657160375`、`source_self_exact_zero=true`、`adequate=true`。",
+  "code_identity_excerpt": "- Production commit：`ab45951a43325943ec7fdf4f2b2326d539c41dd8`\n- Disk verifier replay/classification fix：`b6d13f8d7936a7f935a1ba68d60e58d402b0fbc4`\n- Postformal checkout-sensitive test fix：`0341c82b3748fa4fc798fa744561c62b943b4a5b`\n- Result commit：`703fdd04ed873815c49d250a0cf39a86611d4274`\n- Config SHA-256：`426bc73c31f7546a47ca6b216f54ee266daa96fef71ff8842d21afaf9a91264c`\n- Frozen design SHA-256：`41d49500a1e1686e95b30ac787680e445fed4afc2b95d1121dab293a924addaf`\n- Frozen implementation plan SHA-256：`452675658b16e9a8c49511c646e604b12a7bb719f79adb3f2e7fc8c49618c63b`",
+  "source_snapshot": "docs/source-snapshots/latentatlas-u4bd1-frozen-head-function-preservation.txt",
+  "primary_report": null
+}

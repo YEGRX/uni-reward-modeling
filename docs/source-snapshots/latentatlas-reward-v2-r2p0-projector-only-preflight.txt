@@ -1,0 +1,160 @@
+# LatentAtlas Reward V2 R2P-0：Projector-Only Frozen Reward Interface 设计与预检
+
+## 1. Date
+
+- 完成日期：2026-08-26
+- 阶段：`R2P-0 = DESIGN / PROTOCOL FREEZE / PREFLIGHT ONLY`
+- 最终状态：
+
+```text
+R2P0 = DESIGN_AND_PREFLIGHT_READY
+R2P1 = BLOCKED_NO_QUALIFIED_R0R1_ORACLE
+```
+
+## 2. Purpose
+
+本阶段只冻结并验证一个条件式强基线：如果未来 R0/R1 产生合格且 sealed 的 RGB-text Reward oracle，能否在不训练 Reward components 的前提下，用每个 VAE 独立的 Projector 将 native latent 映射到冻结 Reward interface。
+
+R2P-0 不是 Projector 实验结果。它不训练 Projector、不生成 R2P latent cache、不读取 Projector DEV、不 decode RGB、不读取 LOCKBOX，也不使用 MPS/GPU/AutoDL/network。
+
+## 3. Code Version / Commit
+
+- Branch：`codex/reward-v2-r2p0-design-preflight`
+- Worktree：`source-workspace/.worktrees/reward-v2-r2p0-design-preflight`
+- Clean engineering predecessor：`374ea0617bd74149922ba6aa22dbdce11380440b`
+- Final implementation commit：`4d1392ac33c65c5a57133d352a9ec59abce7cd0c`
+- Pinned artifact commit：`dd63e1d85a5218dd159e046aba3c5280b0573837`
+- R0/R1 worktree：只读检查，未修改；其当前 HEAD=`af3e87a5b0f83d7e8630d7d3ff5cc5c36eadf5d5`
+
+## 4. Dataset / Input
+
+R2P-0 只读取两份显式 legacy metadata 文件，不读取它们指向的 image order、tensor 或模型文件：
+
+- Legacy seal：382 bytes，SHA-256=`c0c64931d62eb3ac0eaa056a931a2f5647892d18532abfec084ef1c0be952499`
+- Legacy provenance：2,432 bytes，SHA-256=`3be5c5f8120159efc86aa849d4cf1af1b143fe054a0718b683bf84a0ff65c2b1`
+- Seal image count=`14,918`，DCAE materialization count=`0`
+- 分类：`LEGACY_FULL_AUTHORITY_CACHE`
+- `training_eligible=false`，`benchmark_eligible=false`
+- 证据边界：只有 sealed count、scope 与 provenance linkage，没有 row-level identity replay
+
+未来 R2P-1 必须重新建立 split-scoped cache：TRAIN=`4,059 pairs / 8,118 images`，DEV=`900 pairs / 1,800 images`，LOCKBOX identities/RGB/latents=`0/0/0`。当前没有 materialize 该 cache。
+
+## 5. Parameters
+
+### Strong Projector
+
+```text
+native latent
+-> patchify 64 tokens
+-> Linear(raw_dim, 128)
+-> learned 2D position [64, 128]
+-> LayerNorm(eps=1e-5)
+-> 3 pre-LN Transformer blocks
+-> learned query + 4-head cross-attention
+-> MLP 128 -> 256 -> d_R
+-> frozen oracle normalization
+```
+
+- SD：`[4,64,64] -> 64 × 256`
+- FLUX：`[16,64,64] -> 64 × 1024`
+- DCAE：`[32,16,16] -> 64 × 128`
+
+### Shallow baseline
+
+```text
+patch projection -> mean pool 64 tokens -> Linear(128,d_R) -> oracle normalization
+```
+
+严格不含 position embedding、LayerNorm、Transformer、cross-attention 或 hidden MLP。
+
+### Frozen training and decision contracts
+
+- Budget：`max_updates=2000`，`warmup_updates=100`
+- Batch：P-SUP=`256 pairs`；Anchor/PERM/Shallow=`128 unique images`
+- 只看 final checkpoint；禁止 DEV checkpoint selection 和 early stopping
+- Optimization：必须完成精确 2,000 updates、finite、parameter changed、reload PASS、loss improvement `>5%`，且不得连续 5 次 gradient norm `<=1e-12`
+- Noncollapse：variance `>1e-6`、active fraction `>=0.50`、effective rank `>=min(8,0.125*d_R)`、Reward score std `>1e-4`
+- Statistics：common `20,000` 次 prompt/base-ID connected-group bootstrap；one-sided 95% 用于 decision，central 90% 只作 descriptive
+- Ratio：P-SUP point/lower `>=0.80/0.70`；Anchor|SUP `>=0.70/0.50`；denominator `<=0` undefined，`(0,1e-4)` unstable，禁止 epsilon/clip/abs/delete replicate
+- Decode taxonomy：`INVALID_DECODE_PIPELINE`、`DECODED_RECONSTRUCTION_REWARD_INADEQUATE`、`DECODE_BASELINE_VALID`
+- MPS：未来在 sealed DEV batch 上 replay 两次；FP32 abs/rel=`1e-6/1e-5`，BF16=`2e-3/2e-3`，max-logit drift `>2e-3` 失败；本阶段未运行 MPS
+
+## 6. Command
+
+CPU-only preflight 发布后，artifact tree 以 commit `dd63e1d…3837` 外部 pin 重放：
+
+```bash
+LATENTATLAS_R2P0_EXPECTED_ARTIFACT_COMMIT=dd63e1d85a5218dd159e046aba3c5280b0573837 \
+python scripts/verify_rewardv2_r2p0_preflight.py \
+  --repo-root source-workspace/.worktrees/reward-v2-r2p0-design-preflight \
+  --root source-workspace/.worktrees/reward-v2-r2p0-design-preflight/r2p0_preflight
+```
+
+## 7. Results
+
+- `r2p0_preflight/` 精确包含 17 个普通文件：14 个 static protocol JSON、audit、verifier receipt 与 deterministic report；没有 `runs/`、latent、checkpoint、score、RGB 或模型 payload。
+- Pinned independent verifier：`PASS / git_anchor / git_anchor_commit=dd63e1d…3837`
+- R2P-0 focused regression：`94 passed`
+- R0/R1 predecessor regression：`87 passed`
+- 所有访问计数：Projector training、cache materialization、decode、Projector DEV、LOCKBOX、MPS、GPU、AutoDL、network 均为 `0`
+
+当前 R0/R1 的真实 sealed 分类仍是：
+
+```text
+VALID / FALLBACK_RGB_ORACLE / INCONCLUSIVE_WEAK_ORACLE / ACQUIRE_FROZEN_VLM_ORACLE
+```
+
+它不满足 R2P-1 所要求的 `VLM_ORACLE + OIP_RGBTEXT_AUTHORITY_OBSERVABLE + PROPOSE_R2_RAW_LATENT_CEILING`，因此 execution gate 必须保持 blocked。
+
+## 8. Analysis
+
+### 能说明什么
+
+- 条件式 R2P 协议、architecture、budget、controls、statistics、ratio、decode、MPS 与 artifact inventory 已冻结。
+- CPU-only publisher/verifier 能 fail closed 地约束 exact repo root、clean predecessor、legacy metadata、17-file membership、canonical JSON、receipt、blocked command 与 pinned Git tree。
+- Legacy 14,918-image full-authority cache 不能被误当成 TRAIN/DEV scoped training cache或 benchmark cache。
+
+### 不能说明什么
+
+- 没有合格 R0/R1 oracle，不能执行或解释 R2P-1。
+- 没有训练任何 Strong/Shallow/P-SUP/P-ANCHOR/PERM Projector，因此没有 optimization、noncollapse、Reward retention 或 architecture comparison 结果。
+- 没有证明 native latent 的 Reward ceiling、shared U 是否必要、Reward transfer、fresh confirmation、cross-distribution generalization 或 unseen-VAE onboarding。
+
+## 9. Problems
+
+- 第一次真实 preflight 在任何 artifact 写入前发现 legacy metadata 的实际键为 `schema_version`，而首版 synthetic fixture 使用了 `schema`。流程 fail closed，只留下空的 invocation-owned directory，未写 PASS receipt。
+- 该空目录经审计后用 `rmdir` 删除；随后以 actual-shape failing test 修正 reader，完整回归通过后重新发布。该问题不是科学失败，也没有读取额外 payload。
+- 自包含 receipt 只能检测非协调篡改；对“同时改 artifact 并提交新 Git commit”的协调替换，必须使用树外公布的 commit ID 作为 trust pin。未 pin 的 `HEAD` match 不能称为签名。
+
+## 10. Next Steps
+
+当前 hard stop。只有 R0/R1 产生合格且 sealed 的 oracle classification、result seal 与 independent verifier receipt，并另行获得用户明确授权后，才允许进入 R2P-1。
+
+若 R0/R1 最终没有 qualified oracle：
+
+```text
+BLOCKED_NO_QUALIFIED_R0R1_ORACLE
+```
+
+随后终止 R2P，不得临时替换 backbone/oracle 并沿用同一正式实验身份。
+
+当前下一阶段不需要 GPU 或服务器。
+
+## 11. Sources
+
+- Source: `owner-home/.codex/attachments/b612f0cf-fddc-4ea1-af08-b18914edc03e/pasted-text.txt`
+- Source: `source-workspace/.worktrees/reward-v2-r2p0-design-preflight/docs/superpowers/specs/2026-08-26-reward-v2-r2p-projector-only-design.md`
+- Source: `source-workspace/.worktrees/reward-v2-r2p0-design-preflight/docs/superpowers/plans/2026-08-26-reward-v2-r2p0-design-preflight.md`
+- Source: `source-workspace/.worktrees/reward-v2-r2p0-design-preflight/r2p0_preflight/report.md`
+- Source: `source-workspace/.worktrees/reward-v2-r2p0-design-preflight/r2p0_preflight/preflight_audit.json`
+- Source: `source-workspace/.worktrees/reward-v2-r2p0-design-preflight/r2p0_preflight/preflight_verifier_output.json`
+- Source: `owner-home/Documents/LatentAtlas-fresh-authority/20260826-u4b1d1-oip-v1/source-cache/seal.json`
+- Source: `owner-home/Documents/LatentAtlas-fresh-authority/20260826-u4b1d1-oip-v1/source-cache/provenance.json`
+
+## 12. Related Pages
+
+- [[latentatlas]]
+- [[latentatlas-reward-v2-r0r1-oip-authority-oracle]]
+- [[projector]]
+- [[latent-space]]
+- [[variational-autoencoder]]

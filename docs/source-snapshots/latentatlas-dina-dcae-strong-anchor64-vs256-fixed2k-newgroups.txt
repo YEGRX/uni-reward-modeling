@@ -1,0 +1,231 @@
+# DC-AE 同源 Anchor 64→256、固定2000更新与新评价组
+
+## 1. Date
+
+2026-10-02启动，2026-10-03 15:36（北京时间）完成固定实验、独立数值回放和最终封存回读。科学结论及工程失败分别记录。
+
+## 2. Purpose
+实验身份：DINA_DCAE_STRONG_ANCHOR64_VS256_FIXED2K_NEWGROUPS_PILOT_R1。
+固定当前 Strong Bridge、T1、初始化、W0和2000更新日程，只把同源FIT64嵌套扩为FIT256，检验新组上的坐标误差、偏好Accuracy和T1排序保真是否共同改善。Research gap是数据支持的作用尚未区分；本轮不是U必要性检验。
+
+## 3. Code Version / Commit
+
+独立分支codex/dcae-strong-anchor64-vs256-fixed2k-r1；科学提交963c6d5bd23b90a87d9606b167568063d5a28e33，code-formal-r3。科学spec SHA327becacc6d5239414d1765391d3c580f3eb56925d5878e8486360891907e26e冻结不改。
+
+独立CPU恢复code-completion-r2仅修正辅助cosine的累加精度，保留原公式、容差、模型输出及统计实现；CPU release SHA57e537f5cb2393e414bf3b34cc5d268240378616c56b8bfab351ccd7131d6734。该变化没有重训或重评。
+
+## 4. Dataset / Input
+原Anchor父pool确认是COCO val2017，5000张图；原256抽样与FIT/VAL银行随机过程已远端CPU精确复现。新增192图按用户固定hash排序，排除旧256开发图、VAL及HPDv3原图/RGB身份。FIT256=原FIT64+192，原VAL64不变。
+新评价从372个合格组按预定hash选56个完整组，504图、2016对。四臂共64512个逻辑评分条件。所有候选来自已有source qualification消费过的来源pool；只与已知adapter开发组互斥，不能称项目全局fresh。未知预训练重叠保留。
+输入seal：f5924cb348b0955aad5a65763b7edbe5354e7e016567fcea43f39d993fe9843d。
+
+## 5. Parameters
+仅新S256从旧Strong step0训练2000更新、batch32、64000抽样、seed20260827。原torch CPU randperm规则扩到256，物化抽样下每图250次；旧64每图1000次。匹配更新与LR不等于匹配每图曝光、FLOPs或时长。
+模型889424参数；W0来自原FIT64，T1/scaling/posterior合同固定。checkpoint为0/250/…/2000。评价仅N_NATIVE、G_T1、S64、S256，同新组与四流噪声。
+共同组bootstrap20000次、PCG64 seed2026100203；三个主端点用1/120与119/120分位区间，同时报普通95%。零基线/零参考分母保持UNDEFINED。
+
+## 6. Command
+本地仅执行LatentAtlas-runs/DINA_DCAE_STRONG_ANCHOR64_VS256_FIXED2K_NEWGROUPS-20261002-R1/controls下控制器；所有测试、模型哈希、缓存、训练和统计在远端。最终portable数值回放是明确授权的本地CPU例外。Windows持久任务阻塞运行WSL，所有CUDA构造前取得全局GPU锁并保持到进程退出。
+
+## 7. Results
+
+整体分类为`ANCHOR_EXPANSION_JOINT_GAIN_SUPPORTED`：在本次单个嵌套Anchor draw、固定2000更新条件下，坐标、偏好准确率及G teacher排序保真三个端点均`IMPROVEMENT_SUPPORTED`。N/G同集参考资格均通过。
+
+| 主要指标 | S64 | S256 | 增益 | 普通95%区间 | 三端点调整区间 |
+|---|---:|---:|---:|---|---|
+| NEW_EVAL normalized MSE | 0.296255050 | 0.210020939 | 相对下降29.1081% | [27.0068, 31.2981]% | [26.5616, 31.7796]% |
+| 偏好Accuracy | 68.5392% | 69.9529% | +1.4137个百分点 | [0.6200, 2.2321]个百分点 | [0.4588, 2.4058]个百分点 |
+| Agreement with G | 85.8771% | 88.6930% | +2.8158个百分点 | [1.6083, 4.0172]个百分点 | [1.3389, 4.2801]个百分点 |
+
+新集合N_NATIVE准确率74.0451%，G_T1为74.5412%。`EXPLORATORY_NEAR_NATIVE=false`，`U_necessity=NOT_TESTED`。各主效应未定义复制0；不把64512条件当独立统计样本。
+
+| 共同面板 | S64损失 | S256损失 | 相对下降 |
+|---|---:|---:|---:|
+| COMMON_FIT64 | 0.180591547 | 0.210713387 | -16.6795% |
+| EXTRA192 | 0.285589950 | 0.209594042 | +26.6101% |
+| ALL_FIT256 | 0.259340349 | 0.209873879 | +19.0740% |
+| VAL64 | 0.272625991 | 0.218827105 | +19.7336% |
+| NEW_EVAL | 0.296255050 | 0.210020939 | +29.1081% |
+
+EXTRA192是S256训练集，不是双方共同验证集；其收益不单独证明泛化。全部逐图坐标、训练曲线、逐组指标及散点数值已保存。
+
+实际执行：S2562000、64000抽样、9完整checkpoint，训练与唯一evaluation-r1均exit0/guard clean；2016对、64512唯一科学请求、824图坐标完整，科学失败/未提交请求0。CPU-r2全工件审计和独立统计通过；授权本地portable也通过，38项比较最大差1.1102230246251565e-16（atol=rtol=1e-10）。原CPU-r1失败保留。
+
+最终独立回读`PASS_FINAL_RESULT_SEAL_READBACK`，核验66915个inventory条目、无循环信任根。result seal SHA `16aff6318286d77ffa0bd257f7f55675051d271ff8c6623f73dd75eaafd34d30`；readback SHA `9ac4e83f46e994be7d3a4e72e6ede8b412b977ec56b6dc5f470a1dfde8241d7c`。另有文档修订r3补齐冻结抽样键及封存控制超时说明，原报告保留；新报告文档根已实际独立回读PASS_FINAL_REPORT_DOCUMENT_READBACK，科学数据与判据不变。文档seal SHA `58ea54f92883ee2db6c81bb9ff390299a796a7ccec69a5923f772a16831b3ac1`。本实验计算工作已结束，不再需要GPU或远端CPU；其他任务是否可停止未核实。
+
+资源：缓存r1失败40.970678秒，缓存r2成功1549.245065秒，训练11523.850806秒，评价70819.727091秒，共83933.793641秒GPU锁占用（含加载/I/O/清理及失败，不是纯kernel或账单时间）；CPU-r1 15.317994秒、CPU-r2 146.298178秒。DiNa技术22/64；没有新真实数据技术训练。没有已知租用单价，不能给出货币费用。
+
+完整报告：[FINAL_REPORT.md](LatentAtlas-runs/DINA_DCAE_STRONG_ANCHOR64_VS256_FIXED2K_NEWGROUPS-20261002-R1/FINAL_REPORT.md)。
+
+## 8. Analysis
+
+结果支持本次同源Anchor扩充在固定更新预算下的三项共同收益，说明训练数据支持影响当前接口效果。COMMON_FIT64损失升高与每图曝光从旧64支持分散到256支持并存，共同VAL64与新评价组改善。
+
+不能推出Anchor是唯一瓶颈、理论样本复杂度、更多数据必然成功、MSE无效、FUNC/U必需、参数无关或任意encoder普适。只涉及单初态/训练seed、一个新增Anchor draw、同源且被source qualification消费过的评价pool；未知上游预训练重叠，无新随机配对控制、full-data baseline或完整预算曲线。每图曝光和不同尺寸计算开销没有与数据支持完全分离。
+
+所有比较来自同一NEW_EVAL，旧1008对结果仅在最终报告的历史背景表列出。portable重现冻结数值统计，GPU执行和teacher语义另由远端绑定证据支撑。
+
+## 9. Problems
+
+cache-r1固定旧FIT技术T1比较失败，guard clean=false/exit1，40.970678秒及3次技术VAE调用保留。原失败张量未保存，精确数值根因未追认；修复输入链后cache-r2完成696图缓存并独立核验，原容差不变。
+
+早期模板解析、W0字段契约遗漏两个发布前工程失败保留，没有正式训练/评分失败。旧实验的guard不确定边界未被本轮改写。历史PID480被无关程序复用，父控改为检查run绑定命令行和真实干净退出；远端6种场景通过，没有停止其他进程。
+
+CPU-r1真实exit1：第48个预测的辅助cosine受CPU float32范数累加影响，与GPU记录差9.834766e-6。double独立重算差2.335550e-8，在原atol1e-6/rtol1e-5内；normalized/raw MSE正常。新不可变CPU-r2只修这一辅助核验，69项远端CPU检查通过，完整审计、独立统计与本地portable随后均实际通过。原GPU科学代码、输出、统计函数、容差和失败记录均未改。CPU准备阶段测试文件缺失、父控解析失败发生在任务创建前，同样存证。
+
+最终封存的本地控制连接300秒超时，远端原封存进程继续；未重复封存。原控制超时回执保留，通过只读回收已写入的原seal，再实际完成全inventory独立回读。FINAL_SEAL_R2_RECOVERED.json是回收回执，FINAL_SEAL_R2.json保留原控制超时，不改成成功。
+
+来源审计有历史metadata、标签和旧资格分数访问，不能称项目级零标签访问；本轮adapter训练/调参/选点标签使用0，最终固定评价及私有portable标签获授权。
+
+## 10. Next Steps
+
+本轮固定任务已完成并停止，唯一下一步建议（未执行）：预注册独立的新增Anchor抽样复现，保持结构、T1、loss及2000更新不变，以检查本次收益对抽样的稳健性。不追加任何当前实验的臂、seed、步数或模型。
+
+最终报告、独立本地回放及seal/readback已通过，128条已有来源路径和相关页面链接已回读核对；监控latentatlas-anchor256随后由应用工具实际删除（deleteStatus=deleted）。本轮无剩余执行项。
+
+相关：[[latentatlas]]、[[latentatlas-dina-dcae-fixed-strong-bridge-2k]]、[[latentatlas-dina-dcae-strong-bridge-eval-domain-t1-localization]]。
+
+## 11. Sources
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/user-authority.md
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/inputs-independent-verification.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/cache-r2-deployment.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/cache-recovery-contract.json
+- Source: LatentAtlas-runs/DINA_DCAE_STRONG_ANCHOR64_VS256_FIXED2K_NEWGROUPS-20261002-R1/CONTINUATION_CURRENT.md
+- Source: LatentAtlas-runs/DINA_DCAE_STRONG_ANCHOR64_VS256_FIXED2K_NEWGROUPS-20261002-R1/evidence/CACHE_R1_FAILURE_SOURCE_DIAGNOSIS.json
+
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/cache-r2-independent-complete.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/production-review-final.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/production-cpu-tests.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/formal-release-deployment-r3.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/formal-training-queue-20261002t062204z.json
+
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/parent-final-controls-ast-r4.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/parent-cpu-monitor-ast-r5.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/formal-training-queue-20261002t064121z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/report-source-map-pre-results.md
+
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/formal-training-running-20261002t071203z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/training-checkpoint250-independent-cpu.json
+
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/formal-training-running-20261002t081611z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/automation-monitor-r1.json
+
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/formal-training-running-20261002t092024z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/heartbeat-health-20261002t092024z.json
+
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/formal-training-complete-20261002t101953z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/training-independent-final-r1.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/pre-evaluation-freeze-r1.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/training-gate-readback-r1.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-release-deployment-r1.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-release-readback-r1.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-task-start-r1.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-runtime-20261002t102507z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/training-to-evaluation-transition-r1.json
+
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-preparation-20261002t103141z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/automation-monitor-scope-r2.json
+
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-scoring-20261002t111923z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-parity-process-r1-independent-cpu.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/heartbeat-health-20261002t112238z.json
+
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-scoring-20261002t122016z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-stall-snapshot-20261002t122116z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/heartbeat-health-20261002t122116z.json
+
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-scoring-20261002t132000z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-stall-snapshot-20261002t132047z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/heartbeat-health-20261002t132047z.json
+
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-direct-timeout-20261002t142025z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-scoring-relay-20261002t142104z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-stall-relay-20261002t142221z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/heartbeat-health-20261002t142221z.json
+
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-scoring-20261002t152107z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-stall-snapshot-20261002t152135z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/heartbeat-health-20261002t152135z.json
+
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-eta-progress-20261002t153335z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-eta-estimate-20261002t153459z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-scoring-20261002t162211z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-stall-snapshot-20261002t162800z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/heartbeat-health-20261002t162800z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-scoring-20261002t172331z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-stall-snapshot-20261002t172411z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/heartbeat-health-20261002t172411z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-scoring-20261002t182427z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-stall-snapshot-20261002t182501z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/heartbeat-health-20261002t182501z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-scoring-20261002t192356z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-stall-snapshot-20261002t192420z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/heartbeat-health-20261002t192420z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-scoring-20261002t202459z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-stall-snapshot-20261002t202525z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/heartbeat-health-20261002t202525z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-scoring-20261002t212628z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-stall-snapshot-20261002t212652z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/heartbeat-health-20261002t212652z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-scoring-20261002t222736z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-stall-snapshot-20261002t222805z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/heartbeat-health-20261002t222805z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-scoring-20261002t232848z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-stall-snapshot-20261002t232920z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/heartbeat-health-20261002t232920z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-scoring-20261003t002828z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-stall-snapshot-20261003t002856z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/heartbeat-health-20261003t002856z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-scoring-20261003t012903z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-stall-snapshot-20261003t012924z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/heartbeat-health-20261003t012924z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-scoring-20261003t023004z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-stall-snapshot-20261003t023033z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/heartbeat-health-20261003t023033z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-scoring-20261003t033157z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-stall-snapshot-20261003t033209z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/heartbeat-health-20261003t033209z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-scoring-20261003t042323z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-stall-snapshot-20261003t042439z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/heartbeat-health-20261003t042439z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/eta-observation-20261003t042440z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/evaluation-terminal-20261003t060708z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/heartbeat-health-20261003t060708z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/completion-pid-gate-red-remote-cpu-r1.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/completion-pid-gate-green-remote-cpu-r1.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/completion-deploy-parent-original-r1.py
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/final-seal-parent-original-r1.py
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/remote-completion-deployment-r1.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/final-report-r3.md
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/final-report-original-r2.md
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/final-report-document-seal-r3.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/final-report-document-readback-r3.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/final-parent-controls-ast-r7.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/final-seal-r2.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/final-seal-controller-r2-timeout.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/final-seal-timeout-readonly-state-r1.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/final-readback-r2.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/local-portable-replay-r2.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/local-portable-process-r2.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/local-portable-replay-r2.log
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/portable-fetch-r2.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/final-resource-and-provenance-r2.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/cpu-r2-complete-20261003t063921z.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/automatic-decision-final.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/bootstrap-statistics-final.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/execution-verification-final.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/independent-remote-statistics-final.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/independent-remote-process-final.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/coordinate-panels-final.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/coordinate-image-rows-final.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/group-scatter-values-final.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/training-registry-and-curve-final.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/access-and-compute-ledger-final.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/remote-completion-final.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/cpu-completion-release-r2-final.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/cpu-completion-release-r2-independent-readback-final.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/cpu-r1-failure-preserved-final.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/cpu-r1-metric-diagnostic-r1-final.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/test-receipt-final.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/final-documentation-readback-r2.json
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/automation-deletion-final.json

@@ -1,0 +1,122 @@
+[
+  {
+    "experiment_id": "latentatlas-dina-src0-source-domain-parity",
+    "scope": "14,400对 / 400组 / 10流",
+    "status": "QUALIFIED",
+    "reported_result": "DiNa源域Accuracy 74.4451%；中央90% [73.5972%,75.2715%]。",
+    "limitation": "来源域操作性资格，不是精确论文复现或外部分布泛化。",
+    "source_report": "docs/reports/latentatlas-dina-src0-source-domain-parity-final.txt"
+  },
+  {
+    "experiment_id": "latentatlas-dina-shift0-dataset-runtime-localization",
+    "scope": "2,619外部对 / PAPER_T04",
+    "status": "SOURCE_TO_EXTERNAL_PREFERENCE_TRANSFER_FAILURE_SUPPORTED",
+    "reported_result": "外部Accuracy 51.3860%；中央90% [49.8814%,52.8888%]。",
+    "limitation": "保留外部迁移失败；不据此判定标签错误或所有DiNa无效。",
+    "source_report": "docs/reports/latentatlas-dina-shift0-dataset-runtime-localization-final.txt"
+  },
+  {
+    "experiment_id": "latentatlas-frozen-projector-mechanism-and-readout",
+    "scope": "开发集1,008对 / 28组；DiNa四流；PickScore独立口径",
+    "status": "REUSE_INCONCLUSIVE",
+    "reported_result": "统一DiNa REC/FUNC 72.793%/72.470%；PickScore REC/FUNC 64.58%/63.69%，复用均INCONCLUSIVE。",
+    "limitation": "PickScore是decoder→RGB路径。原B收尾exit1/cleanup NOT_PROVEN保留；后续CPU证据接受不改写原退出。",
+    "source_report": "docs/reports/latentatlas-frozen-projector-mechanism-and-readout-final.txt"
+  },
+  {
+    "experiment_id": "latentatlas-dina-vae2-dcae-recipe-portability",
+    "scope": "开发集1,008对 / 28组 / 4流；64 FIT+64 VAL",
+    "status": "REGISTRATION_GAIN_NOT_NEAR_NATIVE",
+    "reported_result": "正确REC 64.162%，未训练43.06%，置换48.69%，Native72.817%。",
+    "limitation": "配准收益成立，不支持near-native。目标专属Projector有1000步训练，不是zero-shot。",
+    "source_report": "docs/reports/latentatlas-dina-vae2-dcae-recipe-portability-final.txt"
+  },
+  {
+    "experiment_id": "latentatlas-dina-unseen-encoder-fixed-recipe-portability",
+    "scope": "开发集1,008对 / 28组 / 4流；64 FIT+64 VAL",
+    "status": "REGISTERED_NEAR_NATIVE_WITHIN_PROTOCOL",
+    "reported_result": "正确REC72.619%，NoReg44.618%，Perm49.082%；Native72.817%；Native一致率93.411%。",
+    "limitation": "通过该轮操作性near-native门槛；连续AE、操作性未见，开发评价已消费，上游重叠未知。",
+    "source_report": "docs/reports/latentatlas-dina-unseen-encoder-fixed-recipe-portability-final.txt"
+  },
+  {
+    "experiment_id": "latentatlas-dina-dcae-roundtrip-gap-localization",
+    "scope": "开发集1,008对 / 28组 / 4流；252图",
+    "status": "BETTER_FEASIBLE_PATH_DEMONSTRATED",
+    "reported_result": "DC-AE round-trip72.54%，旧Projector64.16%；Native一致率97.47%。",
+    "limitation": "decoder→RGB→source encoder新增预训练模块与计算，不是信息论上限或纯容量因果证明。",
+    "source_report": "docs/reports/latentatlas-dina-dcae-roundtrip-gap-localization-final.txt"
+  },
+  {
+    "experiment_id": "latentatlas-dina-dcae-target-spatial-factorial",
+    "scope": "开发集1,008对 / 28组 / 4流",
+    "status": "JOINT_GAIN_NOT_ESTABLISHED",
+    "reported_result": "A/B/C/D Accuracy64.16/64.43/62.82/63.59%；B/C/D未确立Accuracy与排序的联合改善。",
+    "limitation": "固定四格控制，单seed；坐标与行为端点分开，不挑较好checkpoint。",
+    "source_report": "docs/reports/latentatlas-dina-dcae-target-spatial-factorial-final.txt"
+  },
+  {
+    "experiment_id": "latentatlas-dina-dcae-ab-budget-response-4k",
+    "scope": "开发集1,008对 / 28组 / 4流；固定2K门控",
+    "status": "STOP_AT_2K",
+    "reported_result": "A2000 Accuracy65.179%，B2000 64.856%；原3%/1% VAL门控未通过。",
+    "limitation": "未训练2001–4000步；4K结果不存在。旧guard不确定性保留。",
+    "source_report": "docs/reports/latentatlas-dina-dcae-ab-budget-response-4k-final.txt"
+  },
+  {
+    "experiment_id": "latentatlas-dina-dcae-fixed-strong-bridge-2k",
+    "scope": "开发集1,008对 / 28组 / 4流；64 FIT+64 VAL",
+    "status": "JOINT_BEHAVIOR_GAIN_SUPPORTED_NOT_NEAR_NATIVE",
+    "reported_result": "B→S Accuracy64.8562%→68.4276%，Native一致率77.7694%→83.9335%。",
+    "limitation": "参数40,080→889,424，结构与计算量共同变化；不是预算匹配基线或完整Latent Bridge复现。",
+    "source_report": "docs/reports/latentatlas-dina-dcae-fixed-strong-bridge-2k-final.txt"
+  },
+  {
+    "experiment_id": "latentatlas-dina-dcae-strong-bridge-eval-domain-t1-localization",
+    "scope": "既有开发评价252图；零新Reward评分",
+    "status": "EVAL_T1_CHANGE_INCONCLUSIVE",
+    "reported_result": "B/S EVAL T1 NMSE0.309154/0.310404；相对下降−0.405%，95%约[−2.732%,1.994%]。",
+    "limitation": "FIT下降35.92%不外推EVAL坐标；没有新Accuracy或U必要性结果。",
+    "source_report": "docs/reports/latentatlas-dina-dcae-strong-bridge-eval-domain-t1-localization-final.txt"
+  },
+  {
+    "experiment_id": "latentatlas-dina-dcae-strong-anchor64-vs256-fixed2k-newgroups",
+    "scope": "NEW_EVAL56：2,016对 / 56组 / 504图 / 4流",
+    "status": "ANCHOR_EXPANSION_JOINT_GAIN_SUPPORTED",
+    "reported_result": "S64→S256：NMSE下降29.1081%；Accuracy68.5392%→69.9529%；G一致率85.8771%→88.6930%。",
+    "limitation": "单嵌套Anchor draw和初始化，固定2K更新；三端点调整区间通过，near-native未成立，来源pool已被source资格消费。",
+    "source_report": "docs/reports/latentatlas-dina-dcae-strong-anchor64-vs256-fixed2k-newgroups-final.txt"
+  },
+  {
+    "experiment_id": "latentatlas-hpsv3-frozen-interface-reuse",
+    "scope": "已消费1,008对 / 28组 / 252图；统一新机六臂1,512分数",
+    "status": "RETENTION_INCONCLUSIVE",
+    "reported_result": "O/N/FLUX REC/Cosmos REC Accuracy76.091/75.298/73.413/74.702%；两REC保持判据未决。",
+    "limitation": "HPS正确加载已恢复，旧失效结果撤回；decoder-mediated；F_NOREG协议不兼容缺席，不称七臂完整。",
+    "source_report": "docs/reports/latentatlas-hpsv3-frozen-interface-reuse-final.txt"
+  },
+  {
+    "experiment_id": "latentatlas-dcae-q32-lowcost-main8",
+    "scope": "固定S2562000、T1/W0、32维；MICRO原协议",
+    "status": "LOCAL_METHOD_NUMERICALLY_UNQUALIFIED",
+    "reported_result": "FD ratio1.0865105197485838>0.20失败；FIT LinErr0.12015720026795061<0.25不覆盖FD失败。",
+    "limitation": "原E2/MAIN8未运行；416科学、8技术、128次输入反向为该旧轮实际成本。保存四候选不是效用通过。",
+    "source_report": "docs/reports/latentatlas-dcae-q32-lowcost-main8-final.txt"
+  },
+  {
+    "experiment_id": "latentatlas-frozen-candidate-forward-audit",
+    "scope": "VAL8面板768条件；MAIN8固定8组288对72图，新增6,912 pair-specific条件",
+    "status": "MAIN8_TRADEOFF_OR_DETERIORATION",
+    "reported_result": "VAL中心风险点值下降9.3826%，普通95%跨0；MAIN8 Q32对G分差MSE较BASE增加44.7618%。",
+    "limitation": "独立新协议；原FD失败不改写。A/C误差点值更低；QA调整区间未决，QC次级未校正区间支持C；人类Accuracy差异未决。",
+    "source_report": "docs/reports/latentatlas-frozen-candidate-forward-audit-final.txt"
+  },
+  {
+    "experiment_id": "latentatlas-submission-evidence-20261009",
+    "scope": "原NEW_EVAL56与DEV28缓存；CPU同Anchor ridge/SVD基线",
+    "status": "CPU_BASELINES_FITTED_REWARD_NOT_RUN",
+    "reported_result": "Cosmos ridge/SVD VAL NMSE0.228049708/0.444343958；DC-AE0.326515707/1.062346963。",
+    "limitation": "仅CPU拟合/坐标评价；新基线Reward评分与新增确认未运行。本报告旧Q32进度已由独立前向审计覆盖，历史原文保留。",
+    "source_report": "docs/reports/latentatlas-submission-evidence-20261009-final.txt"
+  }
+]

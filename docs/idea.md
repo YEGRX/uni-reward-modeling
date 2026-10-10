@@ -1,31 +1,21 @@
-# Idea
+# Research Idea：LatentAtlas
 
 ## Problem
 
-Describe the core problem you are trying to solve.
-
----
+少量成对样本是否足以将目标编码器表示接入冻结的奖励读出，并恢复偏好排序？输入潜变量“可解码”与“可供原奖励模型有效读取”需要分别验证。
 
 ## Limitation of Prior Work
 
-Method A:
-- limitation 1
-- limitation 2
-
-Method B:
-- limitation 1
-- limitation 2
-
----
+潜空间奖励读出通常绑定原编码器及噪声、时间步和文本条件。直接形状对齐或坐标拟合可能改变重要任务方向。此处是本项目的问题设定，不声称所有现有方法均忽略该问题；完整最近工作和新颖性审计仍待补齐。
 
 ## Proposed Idea
 
-Describe your proposed approach in 1–3 sentences.
+固定源/目标编码器、奖励模型和数据身份，学习有限配对Anchor下的接口。以Native、坐标教师G、注册接口BASE、未注册和置换控制分别检查坐标、奖励误差与人类偏好。冻结候选Q32的局部修复曾进行独立前向审计，但MAIN8退化后停止。
 
----
+当前机制分析可作为可检验假设：不同表示中的任务信息覆盖与小样本接口误差可能限制恢复。但误差恒等式、有限模型和事后分解不能单独证明机制因果性。
 
 ## Expected Contribution
 
-- contribution 1
-- contribution 2
-- contribution 3
+拟建立有限配对信息下的功能恢复边界和低成本可检验方法。已有证据支持部分固定协议的接口恢复与Anchor扩展增益，也保留外部分布失败、读出复用未决和Q32退化。尚未确立通用近原生恢复、全面baseline优势或论文级独立确认。
+
+Sources: [主要实验](experiments/index.md)、[结果表](../results/tables/experiment_summary.csv)、[复现边界](evidence-and-reproduction.md)。

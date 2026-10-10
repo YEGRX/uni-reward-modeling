@@ -1,0 +1,63 @@
+# System v3 任务效率与反馈闭合固定验证 Task Efficiency and Feedback Closure
+
+## 1. Date
+
+2026-10-09。承接[[latent-reward-channels-core-v2-validation]]，保留历史结果与No-Go。ChatGPT维护理论，Codex固定独立验证。
+
+## 2. Purpose
+
+Research gap：任务曲率与观测信息如何区别；共同矩效率优势是否能在原样本估系数后兑现；静态任务等价能否抵抗固定奖励反馈；mixture-only新观测有多少统计代价。不同信息合同不共用下界。
+
+## 3. Code Version / Commit
+
+冻结执行源SHA `56173cede2ae41862155c15eca2a22a605ac5a9b23992bb91104c42c2646faa4`，配置SHA `d8ec17bfa21b7b5828f36d9fcf1747f2dc87db6b55292f7b0631422499f69f5e`。本地最小数学模块；无作者脚本复跑、旧MLE refit或新网络。无可用Git HEAD，不编造commit。
+
+## 4. Dataset / Input
+
+已知Core v2有限joint；原n16/n128、tau0/1/64四份NPZ各64块，SHA核验复用，无新采样。共同source的32状态joint。审计两probe独立Binomial全129²计数权重；g.8/.2两个冻结映射。真实缓存只读文件/字段资格检查，不分箱或倒推posterior。
+
+## 5. Parameters
+
+G中心θτξ0，eta.1/.03，方向(.3,-.2,.1)、步1e-4。E θ=ξ1/128、tau0；同样本eta.1，奇偶二折、M.8、方差地板M²/sqrt(n_fit)、规定slope和正积分区间。O beta.6/eta.3、delta−.12/0/.12、source可靠度.8/.75、原scorer及下游单输出。AUD n128各probe、b.8、d.15；KKT/brentq xtol1e-12、均值NLL gap1e-10。全部冻结，无搜索。
+
+## 6. Command
+
+单线程本地NumPy/SciPy/Matplotlib执行固定独立joint/商导数/残差二次式/计数MLE计算，随后从保存产物独立重构标量crossfit、joint风险、MLEgap与局部score二阶矩。所有数值执行计时；报告/wiki编辑不计数值wall。
+
+## 7. Results
+
+| Formula / comparison | Observed / numerical error | Status |
+|---|---|---|
+| G3-1/2/4/5有限部分 | I=diag160/64/64，任务G几乎不敏感于xi；eta.1风险2.8914275106e-13、Taylor余项−1.025e-20；局部score二阶矩差误差3.39e-21 | SUPPORTED_IN_SPECIFIED_MODEL；不是一般极限证明 |
+| E3-3/5/6/9/10/11 | eta.1 pool 2.9293690998e-8，矩效率2.2327200275e-8，渐近系数差6.9664907232e-9 | SUPPORTED_IN_SPECIFIED_MODEL，仅regular共同矩类 |
+| 原tau0 n16 | crossfit6.5167430e-9 vs pool1.9995973e-9，配对差+4.5171457e-9，SE1.0016319e-9 | 小样本系数估计不利 |
+| 原tau0 n128 | crossfit1.6434901e-10 vs pool2.0367225e-10；reference6.2808634e-11、额外结构MLE3.2746286e-11更低 | 小开发信号，无fresh确认 |
+| 原tau1/64 n128 | crossfit1.5782899498e-7，fullMLE2.1981297481e-8；均值共同结构差.03s | ASSUMPTION_FAILED仅矩修复；MLE更好保留 |
+| O3-7/9/10/12/14/5 | 静态任务误差0、full-content差.06；delta+.12 pair .6246612889 vs prior .6136304614，风险1.2174502117e-4 | SUPPORTED_IN_SPECIFIED_MODEL |
+| O3-19 | g.8/.2条件数2.267857/7.629833，核恢复误差≤2.22e-16 | 有限四状态，非连续完整性 |
+| O3-16/17/18、MLE | 强probe投影7.4319631e-5、MLE7.4388129e-5；弱probe约2.11e-4差于prior1.21745e-4；正确baseline0风险被估计提高；gap≤2.27e-14 | SUPPORTED_IN_SPECIFIED_MODEL；不利结果保留 |
+
+[完整报告及三图](../../scripts/latent-reward-channels/outputs/system-v3-validation-20261009/report.md)；[配对表](../../scripts/latent-reward-channels/outputs/system-v3-validation-20261009/same-sample-paired.csv)；[全部计数/MLEgap](../../scripts/latent-reward-channels/outputs/system-v3-validation-20261009/audit-count-estimators.csv)。
+
+## 8. Analysis
+
+精确效率改善与有限系数估计代价应分开；n16地板51.17%活跃、n128为0，但没有追加干预，不能把因果归给地板。静态纯reward观测缺交互信息，反馈改变posterior时仅更新prior不足。混合probe可辨认该方向但估计有代价；raw inverse原source接口合法域|delta|≤.3，参数盒.15分开，非法输出不进合法排名。已知参数、共同矩、未知结构适应、mixture-only四类互不替代。
+
+## 9. Problems
+
+没有给定假设下的数值反例需ChatGPT修订；一般regular风险矩条件、continuous probe完备性未由有限检查证明。旧adaptive=pool，仍没有适应机制证据。真实A可观测但未获条件结构证书，B缺冻结真实混合probe计数，C缺单候选posterior/效用条件likelihood/部署移动观测。D64非原始Gaussian坐标；唯一reward或pair概率不能补这些缺口。
+
+## 10. Next Steps
+
+固定验证已完成；未自动获取新观测或增加实验。ChatGPT维护一般证明/理论修订。可能的真实资格观察仍需独立授权；不重训旧head、不新增64前向。有限模型不称视觉或ICML新颖性确认；历史No-Go与真实A/B无方法优势、C旧gate机制未完成保持。
+
+新增wall **1.670567334秒**、CPU **1.552188秒**；继承累计wall **261.606839750秒**。G/E .012133秒、O/audit .106909秒、shared1.551526秒；15秒及6/4/5阶段内，旧累计不重置。0GPU/远端/付费/真实前向/数据/训练/新数学采样。无需服务器；未核查旧服务器状态。
+
+相关：[[latent-reward-channels]]；[[latent-reward-channels-core-v2-validation]]；[[latent-reward-channels-r36-structural-statistical-repair]]。
+
+## 11. Sources
+
+Source: `raw/projects/latent-reward-channels/system-v3-validation-20261009/Theory_System_v3.md`。
+Source: `raw/projects/latent-reward-channels/system-v3-validation-20261009/Codex_System_v3_Validation.md`。
+Source: `scripts/latent-reward-channels/outputs/system-v3-validation-20261009/`（joint/导数、同原块crossfit及配对风险、全计数MLE表、图、成本与资格）。
+Source: `scripts/latent-reward-channels/outputs/core-v2-validation-20261009/`（原样本/保存MLE/历史结果与账本只读）。

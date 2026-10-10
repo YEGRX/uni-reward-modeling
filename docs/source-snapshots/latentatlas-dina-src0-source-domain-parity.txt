@@ -1,0 +1,108 @@
+# DINA-SRC0 HPDv3 源域能力验证
+
+## 1. Date
+
+2026-09-18 02:20（北京时间）：完整SRC0评分正常退出，远端CPU统计与第二独立进程复算完成，8个结果文件逐字节一致。数据、模型与逐行缓存保留远端，仅回传报告和封存清单。
+
+## 2. Purpose
+
+Research gap：此前缺少 DiNa 官方 checkpoint 在 HPDv3 源任务上的 sanity/parity check。SRC0 使用当前已冻结、尽可能 paper-matched 的 inference protocol，检验是否恢复论文级别 Reward 能力；属于 source-domain parity / qualification，不是整篇论文 exact reproduction，也不重新训练或优化 DiNa。
+
+LatentAtlas 核心：已 qualified 的 frozen Reward function，能否通过低成本 representation/interface registration 被异构/新 VAE 在 **0 target Reward labels** 下复用。跨所有 preference datasets 的 OOD 泛化不属于当前主线；不会因 External 差转向改进 DiNa、重训 Reward head 或 universal preference modeling。
+
+用户明确无法联系作者，并授权自主解决。后续不以等待作者回复作为前置条件。
+
+## 3. Code Version / Commit
+
+独立工作区 `source-workspace/.worktrees/dina-source-shift-registration`，从旧科学 commit `00219a6` 建立。固定 DiNa code `5a5a025`、checkpoint `31d99dc`、SD3.5 `b940f67`（完整版本在冻结 spec）。新执行代码 commit `855d9e57f8aabecd80e5c625ada811ea5eba056e`。数据、评分、统计及集成终审的 Spec/Quality 均通过；本地与远端各180项 CPU 测试通过，远端1,555个代码文件和8份源输入逐文件 SHA 一致。测试成功不代表模型通过资格检验。
+
+## 4. Dataset / Input
+
+完整 `MizzenAI/HPDv3@5ac4b5b5f2ef42c4613dec612473170b131552db/test.json`。
+
+- 原始文件 10,006,262 bytes，SHA256 `3e762a4025b1fc46d0a3c108f4c74da4d8257c2b8987bfce98aa9247c8956b69`，Git blob OID 同时验证。
+- 冻结合同并完成数据入口复审后，实际核对 **14,400 对偏好、4,133 个不同图像路径**，保留完整源行，不抽取有利子集。
+- 原始图像来自同一固定版本的 13 段归档，总计 139,119,843,682 bytes。逐段断点下载、长度与 SHA 校验，再提取所需原图。
+- 不同路径不等于不同图像字节；最终统计以图像字节身份或相同 prompt 的连通组进行 bootstrap。
+
+## 5. Parameters
+
+主指标为 t=.4 的 10 个独立噪声流 Accuracy 均值；严格平局计 0。Legacy u=.1 的 4 次原始分数平均后再计算 Accuracy，平局计 0.5，仅作诊断。
+
+预处理明确选定 RGB、长边不超过 1024、两边向下对齐 16、LANCZOS、不裁剪、不 EXIF 转置，native VAE BF16。两种 runtime 使用同一图像的 canonical latent。种子公式、20k 共同关联组 bootstrap 与资格阈值均已在读取真实偏好行前冻结。
+
+冻结 spec SHA256：`8558cbfb69e0dca4794b53d7257257513381aeec30cca5a6077dba5273219a73`。
+
+## 6. Command
+
+已完成冻结、源文件双哈希核验及全量行清单构建。本机下载已主动停止，保留34,523,109,383字节旧文件。远端通过镜像直连同一固定revision下载，所有分段仍按原始LFS SHA校验；已启用独占锁和可恢复重试。持久任务 `LatentAtlas-SRC0-Remote-Download-r1` 已启动，并在SSH重连后核实持续下载。按用户最新要求，2026-09-16上午10点单次检查已完成，自动监视已暂停；远端持久评分任务继续运行。正式 GPU 命令仅能在图像完整性、固定模型与环境准入、真实 CUDA parity 全部通过后执行。远端自有 Windows/WSL 工作站连接已核验。
+
+## 7. Results
+
+**SRC0 = QUALIFIED / PASS**。完整14,400对，按图像字节或精确prompt连通后为400组；20,000次关联组bootstrap。
+
+- Paper t=.4：10流准确率均值 **74.4451%**，中央90%区间 **[73.5972%, 75.2715%]**。
+- 冻结论文参考75.04%，绝对差 **0.5949个百分点**；最低准确率、参考差距、方向、非塌缩、交换一致性全部通过。
+- Legacy t=.1四分数平均：**74.3924%**。Paper−legacy为0.0528个百分点，中央90%区间[-0.3000, 0.4125]个百分点，不支持明显改善结论。
+- 全量科学Reward前向403,200次；运行时parity与source能力资格是不同证据层。
+- 独立远端进程从冻结缓存复算，8个结果文件（含inventory seal）完全一致；封存SHA `fa8ac7cc35168e13f0f13daeff66964126ec44dd04fc55cbe12ed7c4ea795f82`。
+
+旧DINA0继续保留external/OOD diagnostic。SRC0建立的是当前checkpoint/runtime在冻结source任务上的资格，不证明external分布表现，也不是精确复现整篇论文。SHIFT0、representation/interface registration、target Reward reuse尚未完成，不从SRC0 PASS越级推断。
+
+## 8. Analysis
+
+本次是已声明工程协议下的源域能力验证（best-evidence source-domain validation），不能声称精确复现论文。75.04% 保留为文献参考及预先注册的操作性门槛，无法证明与作者采用完全相同的评测成员与预处理；也不是 fresh confirmation。
+
+
+### 四层结论与边界
+
+| 结论层 | 回答什么 | 解释边界 |
+|---|---|---|
+| DiNa source-domain qualification | 当前官方 checkpoint/runtime 在冻结 HPDv3 源任务上是否 qualified | PASS 才建立本轮源域资格；FAIL/INDETERMINATE 为 parity 尚未建立并停止推进，不能据此否定全部DiNa用途或整个LatentAtlas |
+| Dataset/task shift | 同一冻结 Reward/runtime 在 source 与 external 上的差异 | 差异用于诊断与局限；不能由External低分直接否定source能力，也不能只据差异确定唯一因果 |
+| Representation/interface registration | 异构VAE能否以低成本、0 target Reward labels 完成注册 | 对齐/重建成功不自动证明target Reward功能恢复 |
+| Target Reward reuse | 注册后的target路径能否复用已qualified的冻结Reward功能 | 需对应target评估指标和对照，不能由source PASS或registration单一指标替代 |
+
+旧 DINA0 约50%的external结果不能直接与论文HPDv3数字比较；保留它的诊断价值，补上source sanity check。现有冻结规格、14,400 pairs、timestep、seed、方向、preprocessing、aggregation、阈值与判定一律不因本补充改变，也不根据中间结果调参。
+
+公开材料无法确认的具体论文评测成员与预处理绑定继续标为 **unresolved**。本轮“尽可能paper-matched”不消除这些不确定性。
+
+## 9. Problems
+
+### Possible Conflict / 待确认冲突
+
+历史资料及 spec 中 `historical_expected_row_count=5004` 与此次完整文件实际 14,400 行不同。spec 同时明确完整固定文件权威、`actual_row_count=null`、不得筛选，因此以完整文件为准，保留错误的历史参考字段及差异回执，不在看过偏好后修改冻结规格。Sources：旧 preflight-report-zh.md 与本轮 source-admission-receipt.json。
+
+### 原始阻塞的处理
+
+此前缺少论文 split/config 绑定而在读取偏好前停止。该记录仍保存在原始归档；用户最新授权后，已明确改为完整原始 test 的独立 development benchmark，不再等待作者。缺少精确论文绑定的证据局限仍保留。
+
+## 10. Next Steps
+
+SRC0已通过，按原协议进入SHIFT0，使用同一冻结Reward/runtime区分dataset/task shift；随后按既定算力、数据与注册准入推进REG1。原协议§28规定SHIFT0外部结果本身不阻塞REG1。异构接口注册和target Reward reuse仍无本轮结论；不修改DiNa权重或转为通用偏好训练。
+
+当前SRC0 GPU阶段已结束，统计与核验已完成；后续SHIFT0实现准备只需CPU/代码审查，真正进入新GPU评分前再验证准入。每两小时自动检查保持，旧DINA1不启动。
+
+相关：[[latentatlas]]、[[latentatlas-dina-dataset-runtime-diagnostic]]、[[latentatlas-dina0-r1-native-qualification]]。
+
+## 11. Sources
+
+- `raw/experiments/latentatlas/dina-src0-best-evidence-2026-09-15/verified-src0-results-20260918/DINA_SRC0_REPORT.md`、`DINA_SRC0_AUTOMATIC_DECISION.json`、`DINA_SRC0_INVENTORY_SEAL.json`、`independent-replay-verification.json`：全量封存结果及独立复算。
+
+- `raw/experiments/latentatlas/dina-src0-best-evidence-2026-09-15/morning-check-20260916-1000.json`：上午10点进度与基于最近一小时吞吐的时间估计。
+
+- `raw/experiments/latentatlas/dina-src0-best-evidence-2026-09-15/remote-science-start-20260916.json`：当前进程parity验证与科学评分启动回执；运行时parity PASS不等于源域能力qualified。
+
+- `raw/experiments/latentatlas/dina-src0-best-evidence-2026-09-15/remote-scoring-task-start-20260916.json`：完整图像核验与持久GPU进程启动记录，非科学资格结论。
+
+- `raw/experiments/latentatlas/dina-src0-best-evidence-2026-09-15/remote-materialize-task-start-20260916.json`：完整下载退出与远端CPU提取启动证据。
+
+- `raw/experiments/latentatlas/dina-src0-best-evidence-2026-09-15/remote-execution-placement.md`、`remote-download-task-start.json`、`remote-download-live-check.json`：用户最新执行位置要求与远端接管证据。
+
+- `raw/experiments/latentatlas/dina-src0-best-evidence-2026-09-15/research-intent-clarification.md`：本轮解释口径补充，非 frozen spec 修订。
+
+- `raw/experiments/latentatlas/dina-src0-best-evidence-2026-09-15/AUTHORITY_RUNTIME_AMENDMENT.md`
+- 同目录 `DINA_SRC0_EXPERIMENT_SPEC.json`、`contract-seal.json`、`test-download-receipt.json`、`source-admission-receipt.json`、`data-review.md`。
+- `raw/experiments/latentatlas/dina-src0-preparation-2026-09-15/preflight-report-zh.md`、`USER_PROTOCOL.md` 与来源元数据。
+- 同目录 `final-code-readiness.json`、`remote-code-cpu-verification.json`、三份 `*-review-final.md`。
+- 活动证据目录：`LatentAtlas-runs/DINA_SOURCE_SHIFT_REGISTRATION-20260915-R1/continuations/authorized-best-evidence-r1`。

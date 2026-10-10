@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-rrv1-cache-preflight",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- HPDv3 目标 JPEG：53,271 张。\n- Image splits：Train 47,111、Development 4,688、Official test hidden representation 1,472。\n- Unique prompts：10,922。\n- Image representations：SD、FLUX、DCAE、frozen S64-W。\n- Text representations：CLIP-L 768D、CLIP-G 1280D、authoritative Google T5-XXL 4096D。",
+  "parameters_excerpt": "- T5 authority：`google/t5-v1_1-xxl@3db67ab1af984cf10548a73467f0e5bca2aaaeb2`\n- T5 execution：MPS、BF16、batch size 1、无量化、strict offline。\n- Combined text dimension：6,144。\n- Official TEST preference orientation access：0。\n- Reward reader fits：0。",
+  "code_identity_excerpt": "- Branch：`codex/rrv1-frozen-latent-reward-readout`\n- Authoritative text amendment commit：`f75b32779d36730450bc47e7dcd9822a1442e167`\n- Worktree：`source-workspace/.worktrees/rrv1-frozen-latent-reward-readout`",
+  "source_snapshot": "docs/source-snapshots/latentatlas-rrv1-cache-preflight.txt",
+  "primary_report": null
+}

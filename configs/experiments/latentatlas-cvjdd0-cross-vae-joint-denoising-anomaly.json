@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-cvjdd0-cross-vae-joint-denoising-anomaly",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Authority: 复用 P4096 development authority，fold 0。\n- Fit/evaluation identities: `3276/820`，identity-disjoint。\n- SD posterior-mode latent: `[4,64,64]`。\n- FLUX posterior-mode latent: `[16,64,64]`。\n- DCAE posterior-mode latent: `[32,16,16]`。\n- Fit-only per-view/per-channel normalization；无 clipping。\n- Evaluation timestep: `100/300/500/700`；每个 timestep 4 个冻结 noise draws。\n- Five deterministic evaluation permutation nulls。\n- 2,000 次 identity-grouped percentile bootstrap。\n- Reward、H1105、fresh/test authority、network 等禁止访问计数均为 0。",
+  "parameters_excerpt": "```text\nM: target noisy latent only\nC: target noisy latent + correctly matched clean conditions from other VAEs\nN: same architecture/budget as C, trained with frozen wrong-identity pairings\n\ntyped shared Transformer/DiT\nd_model=128\nblocks=6\nheads=4\nMLP ratio=4\ntokens_per_view=64\nparameters=1,610,368\n\nobjective=VP/DDPM cosine schedule, epsilon prediction\nT=1000\noptimizer=AdamW\nlr=2e-4\nweight_decay=1e-4\nwarmup=500\nbatch_size=32\nupdates_per_model=20,000\nEMA=0.999\nprecision=bf16\n```",
+  "code_identity_excerpt": "- Branch: `codex/cvjdd0-cross-vae-joint-denoising-anomaly`\n- Base commit: `af85f1afe7216050dc2f6fec7a3422a74347c6d8`\n- Protocol freeze commit: `47c4726`\n- Production commit: `19a834fcbdd42f7ef2b214a5ffe5739baf3531f3`\n- Postformal verifier repair commit: `e20086f`\n- Result commit: `bed2120941d2c56e84aadd954ab6eec9bc3d8a7d`\n- Config SHA-256: `97f4c183df4fa933927fd4ffc35cc02d1d8a65ec6beb8184cc95858ecdd0050c`\n- Formal inventory SHA-256: `7131d8c4c4247c2c32d3a3eb4af451ad0ac2130a0ca0a65e91e2eed2b6068b3a`\n- GPU: NVIDIA GeForce RTX 4090；PyTorch `2.5.1+cu121`；CUDA `12.1`；BF16。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-cvjdd0-cross-vae-joint-denoising-anomaly.txt",
+  "primary_report": null
+}

@@ -1,0 +1,20 @@
+{
+  "experiment_id": "latentatlas-dina-dcae-roundtrip-gap-localization",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "BETTER_FEASIBLE_PATH_DEMONSTRATED",
+  "scope": "开发集1,008对 / 28组 / 4流；252图",
+  "scientific_conclusion": "DC-AE round-trip72.54%，旧Projector64.16%；Native一致率97.47%。",
+  "limitations": "decoder→RGB→source encoder新增预训练模块与计算，不是信息论上限或纯容量因果证明。",
+  "input_excerpt": "旧 HPDv3 已消费开发集，固定 1,008 对、28 个完整关联组、4 流、252 个原图 byte 身份。旧 Native、DC-AE Projector、FLUX Projector 三臂只读封存评分；新增 DC-AE、FLUX、SD3.5 self round-trip。零目标偏好训练、零新增参数拟合。",
+  "parameters_excerpt": "三条新增路径总计 24,192 Reward samplecondition；20,000 次共同关联组 bootstrap，seed `2026092502`，中央 90% 区间。技术上限 128，实际 97；累计 GPU 上限 21,600 秒，实际 13,001.83 秒。主联合判据在结果前固定：准确率差 D1 与 Native 排序一致率差 D2 的单侧 95% 下界都大于零。接近 Native 要求 D3 下界大于 −2pp 且 D4 下界大于 90%。",
+  "code_identity_excerpt": "独立分支 `codex/dina-dcae-roundtrip-gap-localization`，HEAD `874d425`。首次科学前向前冻结 239 文件代码清单 SHA `60b38d2f11f0f55835bfd2f6e6a8883c50d5b8c8ecb4de5b1bf473d4bcf572dc`，完整规格 SHA `46e06b18aa6468fdb9ea428c5c97649521a87e2762f5265620b012f0c48118f1`。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-dina-dcae-roundtrip-gap-localization.txt",
+  "primary_report": {
+    "source_locator": "wiki-store/raw/experiments/latentatlas/dina-dcae-roundtrip-gap-localization-2026-09-25/verified-complete-20260926T095502Z/REPORT.md",
+    "original_sha256": "b7e201944a1d267f50e6c425fd97abf06bac8032abdb6c556115ee25c1f0f540",
+    "file": "docs/reports/latentatlas-dina-dcae-roundtrip-gap-localization-final.txt",
+    "sha256": "b7e201944a1d267f50e6c425fd97abf06bac8032abdb6c556115ee25c1f0f540"
+  }
+}

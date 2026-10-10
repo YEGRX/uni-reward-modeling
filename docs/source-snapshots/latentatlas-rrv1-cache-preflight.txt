@@ -1,0 +1,66 @@
+# LatentAtlas RRV1 Cache Preflight
+
+## 1. Date
+
+2026-08-27 至 2026-08-28。
+
+## 2. Purpose
+
+为 Frozen Latent Representation Human-Preference Reward Readout（RRV1）构建正式、冻结、可 disk-only 验证的 image representation cache 与 prompt text cache，并在任何 Reward reader fitting 或 official TEST preference orientation access 之前完成 fail-closed preflight。
+
+## 3. Code Version / Commit
+
+- Branch：`codex/rrv1-frozen-latent-reward-readout`
+- Authoritative text amendment commit：`f75b32779d36730450bc47e7dcd9822a1442e167`
+- Worktree：`source-workspace/.worktrees/rrv1-frozen-latent-reward-readout`
+
+## 4. Dataset / Input
+
+- HPDv3 目标 JPEG：53,271 张。
+- Image splits：Train 47,111、Development 4,688、Official test hidden representation 1,472。
+- Unique prompts：10,922。
+- Image representations：SD、FLUX、DCAE、frozen S64-W。
+- Text representations：CLIP-L 768D、CLIP-G 1280D、authoritative Google T5-XXL 4096D。
+
+## 5. Parameters
+
+- T5 authority：`google/t5-v1_1-xxl@3db67ab1af984cf10548a73467f0e5bca2aaaeb2`
+- T5 execution：MPS、BF16、batch size 1、无量化、strict offline。
+- Combined text dimension：6,144。
+- Official TEST preference orientation access：0。
+- Reward reader fits：0。
+
+## 6. Command
+
+通过冻结的 component materializer、component combiner、text disk-only verifier 与 representation disk-only verifier 执行。正式命令和完整绑定记录见 run root 报告与 manifests。
+
+## 7. Results
+
+- Representation cache：`PASS`；53,271/53,271；seal=`efa9d3cc…c8ab2`。
+- Authoritative T5 128-prompt preflight：`PASS`；max abs=`0`，min cosine=`1.0`。
+- T5 component：10,922×4096，5,644.61 秒，manifest=`4e7c6aec…49059`，`SEALED`。
+- Combined text cache：10,922×6144，seal=`7832317a…809e`，disk-only verifier=`PASS`。
+- Post-text representation replay：`PASS`，原 seal 未改变。
+- Final：`AUTHORITATIVE_TEXT_CACHE_PASS / READY_FOR_FORMAL_FITTING`。
+
+## 8. Analysis
+
+Cache 层面的正式 blocker 已解除。结果证明 fitting 所需冻结图像与文本表征已经完整、hash-bound、可从磁盘重放；authoritative T5 的资源、tokenizer/EOS、BF16 state 与数值一致性均通过门槛。
+
+它不证明 Reward reader 有效、latent representation 具有人类偏好充分性、跨 VAE Reward sharing、official TEST 性能或跨分布泛化。参见 [[latentatlas]]、[[representation-learning]]、[[variational-autoencoder]]。
+
+## 9. Problems
+
+最初冻结的 encoder-only T5 candidate 虽 tokenizer exact，但 `bf16_state_exact=false`，且 max abs=`0.03125`、min cosine=`0.9999887943`，未通过 formal equivalence gate。协议没有静默替换，而是在用户批准后改为 authoritative full encoder，并重新完成独立 preflight。
+
+## 10. Next Steps
+
+冻结正式 Reward reader fitting 协议，只读取 sealed caches 与 TRAIN/DEV preference labels；在协议允许前继续保持 official TEST preference orientation 封闭。当前不需要租用 GPU 服务器。
+
+## 11. Sources
+
+- `LatentAtlas-runs/rrv1-20260827-b86d33a/RRV1_CACHE_PREFLIGHT_STAGE_REPORT.md`
+- `LatentAtlas-runs/rrv1-20260827-b86d33a/RRV1_TEXT_PROTOCOL_AMENDMENT_REPORT.md`
+- `LatentAtlas-runs/rrv1-20260827-b86d33a/text_cache_authoritative_verifier_receipt.json`
+- `LatentAtlas-runs/rrv1-20260827-b86d33a/representation_cache_post_text_verifier_receipt.json`
+- `LatentAtlas-runs/rrv1-20260827-b86d33a/text-components/t5-authoritative-preflight/preflight_receipt.json`

@@ -1,0 +1,119 @@
+# LatentAtlas O1-SD Shuffle Control Repair
+
+## 1. Date
+
+2026-08-14
+
+## 2. Purpose
+
+修复 [[latentatlas-o1-independent-clean-latent-oracle-smoke]] 中 SD null control 的 checkpoint-selection leakage risk。O1-v0 原 protocol 只置乱 train labels，却用真实 validation labels early stop；O1-SD-C 将 train/validation labels 分别独立置乱，五次训练全部结束后才一次性打开真实 test labels。
+
+本实验不重新训练 SD real reader，不训练 FLUX/DC-AE，不改变 feature、reader、split、cache、normalization、optimizer 或 test set，也不启动 O1-v1。
+
+## 3. Code Version / Commit
+
+- Branch: `codex/o1-sd-shuffle-control-repair`
+- Code commit: `37be2fcb9d7e18347e4ce2abe2430d4e4cfc602e`
+- Frozen O1-v0 results commit: `c13961cb2a509b6dcb7710cb514b1b8d4ffb09b6`
+- Frozen O1-v0 code commit: `8c9211fe9e2db0a483d45b7a3aaeb877392f91b0`
+- Split SHA-256: `83a96bcdeb2805e1743b4555c5a1366558612dc5033598c777295b3016ab64ea`
+- SD cache manifest SHA-256: `f7e889d430c0a47356b18bb889dd3ffc3ffe6194a799bd0bf3236a5b4504ec61`
+
+## 4. Dataset / Input
+
+- Frozen SD real Test Accuracy: `0.5929203629493713`。
+- Frozen SD real BT-NLL: `0.6690412759780884`。
+- Pair counts: train/validation/test=`605/168/226`。
+- Unique image counts: train/validation/test=`481/114/118`。
+- 所有跨 split image intersections=`0`。
+- SD deterministic clean latent shape=`[4,64,64]`，`missing_latents=0`。
+- Normalization 继续只拟合 481 个 train images 的 channel mean/std/RMS feature。
+
+## 5. Parameters
+
+```text
+reader = Linear(12,128) -> GELU -> Dropout(0.1) -> Linear(128,1)
+loss = Bradley-Terry NLL
+epochs = 10
+batch_size = 32
+lr = 1e-3
+weight_decay = 1e-4
+patience = 3
+optimizer = AdamW
+null_seeds = 2026081401..2026081405（精确五个）
+```
+
+每个 master seed 决定模型初始化、batch order、dropout 及两份独立 permutation：train 使用 `master_seed*10+1`，validation 使用 `master_seed*10+2`。Early stopping 只读取 shuffled validation BT-NLL；真实 test labels 在五个模型训练完成后 one-shot 打开，`open_count=1`。
+
+## 6. Command
+
+```bash
+source-workspace/.worktrees/anchor-feasibility-pilot/.venv/bin/python \
+  scripts/run_o1_sd_control.py \
+  --config configs/o1-sd-shuffle-control-repair.json
+```
+
+本实验为 CPU-only；production run 约 2 秒，不需要 GPU server。
+
+## 7. Results
+
+| Seed | Test Acc | Test BT-NLL |
+|---:|---:|---:|
+| 2026081401 | 49.56% | 0.704358 |
+| 2026081402 | 53.10% | 0.679757 |
+| 2026081403 | 52.21% | 0.683446 |
+| 2026081404 | 46.02% | 0.682620 |
+| 2026081405 | 62.39% | 0.661424 |
+
+Null accuracy distribution：
+
+- mean=`0.526549`
+- population std=`0.054552`
+- min=`0.460177`
+- max=`0.623894`
+- range=`0.163717`
+- `count(null_acc >= real_acc)=1`
+
+五个 run 的 train/validation permutation hashes 分别唯一且两组不相交。Artifact 独立重算确认所有统计、CSV 和 permutation hashes 与输入精确一致；O1/O1-SD-C focused suite 为 `34 passed`，fresh repository suite 为 `1637 passed in 546.67s`。
+
+## 8. Analysis
+
+### 问题 1：原 SD shuffle=59.29% 是否能够被 repaired null replication 复现？
+
+只被部分复现：`1/5` repaired null 达到或超过 real `59.29%`，该 seed 为 `2026081405`（`62.39%`）。其余四个为 `46.02%–53.10%`。
+
+### 问题 2：repaired null distribution 是否总体接近 random 50%？
+
+均值 `52.65%` 接近 random `50%`，但整体分布不稳定：population std=`5.46%`，range=`16.37%`，覆盖 `46.02%–62.39%`。这符合预注册 Case C 的“大幅波动”描述。
+
+### 问题 3：SD real=59.29% 是否因此获得更可信的 Reward-signal interpretation？
+
+**暂时不能。** 四个 null 低于 real，说明原 `59.29%` 不是五次均可稳定复现；但一个 repaired null 达到 `62.39%`，且整体 range 超过 `15%`。在当前 226-pair test set 下，单次 SD shuffle control 不可靠，因此不能把 SD real 干净归因于 Reward supervision。
+
+这五个 null seeds 仅用于 smoke diagnosis，不是正式显著性检验，也不支持 shared Reward space、cross-VAE alignment 或 unseen-VAE generalization。
+
+## 9. Problems
+
+- Null variance 很大；单个 seed 可以从低于随机到高于 SD real。
+- 五个 seeds 太少，不能作为正式 permutation test，但按冻结 prompt 不继续抽 seed。
+- Test set 只有 226 pairs；当前实验不能区分有限样本波动、dataset bias、reader bias 和其他 non-reward predictive structure。
+
+## 10. Next Steps
+
+实验在 Case C 停止。不自动增加 seed、不重跑 FLUX/DC-AE、不重新训练 SD real、不运行 O1-v1，也不进入 cross-VAE canonicalization。若未来另行批准，应把 SD null variance / dataset bias 审计作为独立实验设计，而不是继续抽 seed 获得想要的答案。
+
+## 11. Sources
+
+- Source: `source-workspace/.worktrees/o1-sd-shuffle-control-repair/runs/O1_SD_SHUFFLE_CONTROL_REPAIR/audit.json`
+- Source: `source-workspace/.worktrees/o1-sd-shuffle-control-repair/runs/O1_SD_SHUFFLE_CONTROL_REPAIR/config.json`
+- Source: `source-workspace/.worktrees/o1-sd-shuffle-control-repair/runs/O1_SD_SHUFFLE_CONTROL_REPAIR/null_results.json`
+- Source: `source-workspace/.worktrees/o1-sd-shuffle-control-repair/runs/O1_SD_SHUFFLE_CONTROL_REPAIR/summary.csv`
+- Source: `source-workspace/.worktrees/o1-sd-shuffle-control-repair/runs/O1_SD_SHUFFLE_CONTROL_REPAIR/report.md`
+- Source: `source-workspace/.worktrees/o1-independent-clean-latent-oracle-smoke/runs/O1_INDEPENDENT_CLEAN_LATENT_ORACLE_SMOKE/sd_results.json`
+
+## 12. Related Pages
+
+- [[latentatlas]]
+- [[latentatlas-o1-independent-clean-latent-oracle-smoke]]
+- [[variational-autoencoder]]
+- [[representation-learning]]

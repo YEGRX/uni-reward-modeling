@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-o1-sd-shuffle-control-repair",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Frozen SD real Test Accuracy: `0.5929203629493713`。\n- Frozen SD real BT-NLL: `0.6690412759780884`。\n- Pair counts: train/validation/test=`605/168/226`。\n- Unique image counts: train/validation/test=`481/114/118`。\n- 所有跨 split image intersections=`0`。\n- SD deterministic clean latent shape=`[4,64,64]`，`missing_latents=0`。\n- Normalization 继续只拟合 481 个 train images 的 channel mean/std/RMS feature。",
+  "parameters_excerpt": "```text\nreader = Linear(12,128) -> GELU -> Dropout(0.1) -> Linear(128,1)\nloss = Bradley-Terry NLL\nepochs = 10\nbatch_size = 32\nlr = 1e-3\nweight_decay = 1e-4\npatience = 3\noptimizer = AdamW\nnull_seeds = 2026081401..2026081405（精确五个）\n```\n\n每个 master seed 决定模型初始化、batch order、dropout 及两份独立 permutation：train 使用 `master_seed*10+1`，validation 使用 `master_seed*10+2`。Early stopping 只读取 shuffled validation BT-NLL；真实 test labels 在五个模型训练完成后 one-shot 打开，`open_count=1`。",
+  "code_identity_excerpt": "- Branch: `codex/o1-sd-shuffle-control-repair`\n- Code commit: `37be2fcb9d7e18347e4ce2abe2430d4e4cfc602e`\n- Frozen O1-v0 results commit: `c13961cb2a509b6dcb7710cb514b1b8d4ffb09b6`\n- Frozen O1-v0 code commit: `8c9211fe9e2db0a483d45b7a3aaeb877392f91b0`\n- Split SHA-256: `83a96bcdeb2805e1743b4555c5a1366558612dc5033598c777295b3016ab64ea`\n- SD cache manifest SHA-256: `f7e889d430c0a47356b18bb889dd3ffc3ffe6194a799bd0bf3236a5b4504ec61`",
+  "source_snapshot": "docs/source-snapshots/latentatlas-o1-sd-shuffle-control-repair.txt",
+  "primary_report": null
+}

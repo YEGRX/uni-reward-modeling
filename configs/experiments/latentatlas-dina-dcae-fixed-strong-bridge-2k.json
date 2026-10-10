@@ -1,0 +1,20 @@
+{
+  "experiment_id": "latentatlas-dina-dcae-fixed-strong-bridge-2k",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "JOINT_BEHAVIOR_GAIN_SUPPORTED_NOT_NEAR_NATIVE",
+  "scope": "开发集1,008对 / 28组 / 4流；64 FIT+64 VAL",
+  "scientific_conclusion": "B→S Accuracy64.8562%→68.4276%，Native一致率77.7694%→83.9335%。",
+  "limitations": "参数40,080→889,424，结构与计算量共同变化；不是预算匹配基线或完整Latent Bridge复现。",
+  "input_excerpt": "64 FIT／64 VAL 互斥，并与当前 252 张开发评价图像无身份重叠；T1 固定目标、FIT-only W0，B 的前 2000 步学习率和 64,000 次抽样序列已按旧实际状态核对。评价 1008 对、28 个 connected groups、4 个 streams；旧 A/B/Native/G 逐行只读复用。旧 B 评价的 `clean=false`、外层 exit1、attempt uncertain 仍保留，其完整科学输出仅在原范围内获补充接受。缺失的 2026-09-28 Context Snapshot 不能作为已读来源；关键合同从冻结工件恢复。",
+  "parameters_excerpt": "旧 P0 为 40,080 个可训练参数；新 S 为 32→64 stem、12 个 64 通道双 3×3 残差块、64→16 tail，共 889,424 个可训练参数。seed `20260827`；正式训练 2000 更新，每 250 步完整 checkpoint（含 optimizer、sampler 和 RNG），终点不按中间 Accuracy 选择。技术 FIT smoke 16 次单独计账。源网格／resize／batch／目标、数值后端和评价语义均按冻结规格。",
+  "code_identity_excerpt": "独立工作区 `source-workspace/.worktrees/dina-dcae-fixed-strong-bridge-2k-r1`；冻结 HEAD `9d397e8`，release SHA `8addc3c222ab513c84aa84bb3e66b4bd2c8f5aa1967ef203b0ba75ba1471ce3b`，spec SHA `afbe959948b8f01fc5c6d9042d152eb8295eb29e35c3147779d3545773c4f41d`。完整发布远端独立逐字节回读通过；本轮最终 52 文件 seal SHA `93a1a133657c04eefe6620edfbaf00a4aa8d2e14543ba8de0bc4ea00cb3c06e8`，独立 readback PASS。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-dina-dcae-fixed-strong-bridge-2k.txt",
+  "primary_report": {
+    "source_locator": "LatentAtlas-runs/DINA_DCAE_FIXED_STRONG_BRIDGE_2K-20260929-R1/FINAL_REPORT.md",
+    "original_sha256": "dbd02ecfa7674255fdf0cdd0f1c0caf544c61078533dbf49fd0218e1d8d45d0f",
+    "file": "docs/reports/latentatlas-dina-dcae-fixed-strong-bridge-2k-final.txt",
+    "sha256": "dbd02ecfa7674255fdf0cdd0f1c0caf544c61078533dbf49fd0218e1d8d45d0f"
+  }
+}

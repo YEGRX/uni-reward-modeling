@@ -1,0 +1,62 @@
+# 操作性未见编码器固定 REC 接入预实验 Cosmos CI8x8
+
+## 1. Date
+
+2026-09-25 至 2026-09-26；状态 **VERIFIED_COMPLETE**。实验身份 `DINA_UNSEEN_ENCODER_FIXED_RECIPE_PILOT_R1`。
+
+## 2. Purpose
+
+在不重新选择结构、损失、Anchor、训练步数或科学阈值的条件下，检验固定 REC 配方能否把一个未参与该配方经验开发的连续图像编码器接入同一冻结 SD3.5-DiNa Reward。区分“有注册收益”和“达到近原生操作容忍范围”。这是编码器轴的单种子预实验，不是 fresh 数据确认。
+
+## 3. Code Version / Commit
+
+本地 worktree HEAD `c4c221fbc2e0d2e9ecb51fb15a342ed6aa1dc036`；F0 SHA `8f66e67e7b5c1ecd2e4394edf5b79f034d04ee297e8c45b275e8fe0a776416f9`。评分代码 inventory SHA `d8f71386d30d546c2108d0306593c46c540ae77a0d25e282d78282da372d022e`；最终 result seal SHA `18e2a1275e90c032e2b1c53a2c1149449dd8f51bbb4f70dfbcb8e168f6b289f3`。
+
+## 4. Dataset / Input
+
+候选 `nvidia/Cosmos-0.1-Tokenizer-CI8x8` 为普通连续图像 AE，不是 KL-VAE；权重 SHA `84e4c12c10568faff20da744b51c45a6b1e4385af86e80ae56bf3d1b13cda413`。64 FIT + 64 VAL 同图 Anchor；已消费开发评价 1008 对／28 完整关联组／四条流。目标偏好标签用于最终固定评价，**训练与选点使用 0 个**。指定可检查项目记录未发现候选 checkpoint 或 family/protocol 参与本配方经验开发；公开名称已知、其他私人历史和上游图像重叠无法排除。历史一次非结构化搜索触及排除源文件字节，未解析科学行，已在访问账本披露。
+
+## 5. Parameters
+
+固定 16→64→64→16 Projector；正确/固定第一张置换两组各 seed `20260827`、有效 batch32、1000 更新，共同初始化和样本顺序；各自按 VAL normalized MSE 在 500/1000 选择，结果分别选 1000/500。NoReg 指未训练 Projector。Native、FLUX-REC、DC-AE-REC 复用封存分数。四流严格 Accuracy，28组共同 20000 次 bootstrap，seed `2026092501`。冻结第一层五个 q05>0 判据，第二层 Native Accuracy 差 q05>−2pp 且排序一致率 q05>90%。
+
+## 6. Command
+
+远端持久训练与评分分别完成；独立远端 CPU 验证训练/评分后，使用冻结 portable 来源在两个独立远端 CPU 进程中回放，再按授权于本地单独 CPU 回放。具体命令与SHA留在运行目录的 `controls/`、`formal-independent-verification-r1.json`、`evaluation-independent-verification-r1.json`、`remote-double-replay-r1.json`、`local-portable-replay-verification-r1.json`。已封存，不自动重跑。
+
+## 7. Results
+
+**五项注册收益和两项近原生容忍判据全部通过**：`UNSEEN_REGISTERED_REWARD_SIGNAL_SUPPORTED` 与 `UNSEEN_NEAR_NATIVE_REUSE_SUPPORTED_UNDER_REGISTERED_TOLERANCES`。这不等于证明两个路径完全等价。
+
+| 路径 | Accuracy | 与 Native 差值中央90%区间（pp） | Native 排序一致率 | VAL normalized MSE |
+|---|---:|---:|---:|---:|
+| Native | 72.817% | [0, 0] | 100.000% | 不适用 |
+| FLUX-REC（既有） | 72.793% | [−1.563, +1.438] | 91.685% | 本轮未纳入 |
+| DC-AE-REC（既有） | 64.162% | [−11.458, −5.853] | 77.282% | 旧实验0.309381 |
+| Cosmos NoReg | 44.618% | [−31.994, −24.330] | 59.677% | 2.267836 |
+| Cosmos REC 正确 | **72.619%** | **[−1.513, +1.042]** | **93.411%** | **0.107319** |
+| Cosmos REC 置换 | 49.082% | [−27.431, −19.866] | 59.427% | 1.054612 |
+
+正确组相对 NoReg **+28.001pp**，中央90%区间 **[+23.486,+32.465]**；相对置换 **+23.537pp [ +19.420,+27.530 ]**。相对 Native 点差 **−0.198pp**，区间跨 0，但下界超过预声明 −2pp；Native 一致率下界 **91.662%**，超过 90%。因此为“按冻结容忍标准接近”，不是绝对无差距。详见本地运行报告的全部七项判据、AUROC、margin、交叉表与逐流指标。
+
+两组训练共 2000 更新，新科学评分 24192 条 Reward 条件，候选编码器评价前向 0。已知 GPU 会话累计 11630.74秒，失败 r1 时长未知、保守预留600秒后低于6小时上限；远端 run 根目录约287.2MB，低于本轮30GiB限制。双远端回放七文件逐字节相同；本地 portable 回放最大数值差 `6.661338147750939e-16`，小于 `atol=rtol=1e-10`，分类完全相同；最终 seal 独立读回通过。
+
+## 8. Analysis
+
+这说明固定 REC 配方在该单一操作性未见连续 AE 上，用少量无标签同图对应便可恢复此开发评价集上的冻结 Reward 行为，且达到事前规定的近原生容忍范围。对照表只提供限定描述；FLUX/DC-AE 与 Cosmos 的架构、压缩、训练数据、预处理并非单变量，不能据此做纯因果排序。64候选 VAL R@1=100% 是检索诊断，不是 Reward 等价证明。research gap 仍是跨多个真正未见编码器与 fresh 数据的独立验证；possible improvement 需新授权设计，不从本轮结果直接调参或启动。
+
+## 9. Problems
+
+一张 FIT 图在不同进程的 latent 并非逐位相同；完整缓存采用首个已核验物化结果，进程内官方/直接编码 parity 与技术准入通过，跨进程差异作为限制保留。一次本地回放控制脚本使用缺 NumPy 的系统 Python 导致**结果比对步骤**失败，原本地回放输出已存在；只切换到已有 bundled Python 对该输出完成比对，没有重跑模型评分/训练或修改科学规则。历史非结构化字节搜索偏离预期访问边界，已如实记录，不能称排除文件字节从未触及。
+
+## 10. Next Steps
+
+本任务结束；不自动启动下一实验。若另行授权，可用另一未见编码器、不同训练 seed/置换和 fresh 图片检验复现性。相关：[[latentatlas-dina-vae2-dcae-recipe-portability]]、[[latentatlas-dina-reg1-functional-registration]]、[[latentatlas]]。
+
+## 11. Sources
+
+- `raw/experiments/latentatlas/dina-unseen-encoder-fixed-recipe-pilot-2026-09-25/verified-complete-20260926/REPORT.md`：完整中文结论、指标、限制与路径。
+- 同目录 `RESULT_SEAL.json`、`ANALYSIS_INPUT_SEAL.json`、`OUTPUT_INVENTORY_SEAL.json`、`final-seal-independent-readback-r1.json`：最终SHA与独立读回。
+- 同目录 `FINAL_REPORT.md`、`REWARD_METRICS.json`、`BOOTSTRAP_STATISTICS.json`、`REGISTRATION_SUMMARY.json`、`AUTOMATIC_DECISION.json`：原始数值回放报告。
+- 同目录 `remote-double-replay-r1.json`、`local-portable-replay-verification-r1.json` 与 `portable-final-transfer-r1.tar.gz`：两远端与一本地重放的可核验来源。
+- 原授权：`owner-home/.codex/attachments/76033cd5-dc2e-48fb-9c8c-9602e53d9489/已粘贴的文本.txt`；运行目录见报告。大模型权重、全量 latent 缓存留远端。

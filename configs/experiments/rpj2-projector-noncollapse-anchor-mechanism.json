@@ -1,0 +1,15 @@
+{
+  "experiment_id": "rpj2-projector-noncollapse-anchor-mechanism",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- 冻结 SD / FLUX / DCAE representation cache。\n- 冻结 authoritative text cache。\n- RPJ1 predecessor、Projector checkpoints 与同图 Anchor correspondence。\n- 三个 known-VAE pseudo-unseen held-out episodes；每次用另外两个 family 构造 source Reward system。\n- 内部 mechanism lockbox 只消费一次；不是 official TEST。\n\nAuthority counters：\n\n- official TEST orientation / forward / rows loaded：`0 / 0 / 0`\n- Anchor target Reward-label access：`0`\n- mechanism lockbox orientation access：`1`\n- network / RGB access：`0 / 0`",
+  "parameters_excerpt": "- Phase A：18 个 family × seed × NC_TRAIN/NC_DEV forward-only diagnostics，fit count=`0`。\n- Phase B：9 个 source processes + 63 个 conditional target processes，共 `72/72` completed。\n- Source / target checkpoint reload：全部通过。\n- Optimization adequacy：`72/72 PASS`。\n- Interface 与 Reward statistics：冻结 `20,000` 次 bootstrap。\n- Anchor controls：correct、five permutations、representation nulls、wrong-prompt nulls、direction balance 与 supervised oracle。",
+  "code_identity_excerpt": "- Branch：`codex/rpj2-noncollapse-anchor-mechanism`\n- Scientific commit：`e4e49b65f2844e4e8b835229ce4852221ae9f057`\n- Terminal prepare commit：`6148817c4cebcd45c54d45a7f1e21192bb616470`\n- Scientific replay compatibility fix：`afab5b5101d460664fe5140b9d6b0127ab6106b5`\n- Completed-seal replay implementation：`23f909211c7c009d761c32132d66e18a6da30e35`\n\n后两项只处理跨平台 float32 replay、JSON tuple/list canonicalization 与分阶段 provenance；没有修改模型、cache、checkpoint、seed、threshold、metric 或科学 decision。",
+  "source_snapshot": "docs/source-snapshots/rpj2-projector-noncollapse-anchor-mechanism.txt",
+  "primary_report": null
+}

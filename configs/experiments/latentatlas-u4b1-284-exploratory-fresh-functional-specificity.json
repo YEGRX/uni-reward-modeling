@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-u4b1-284-exploratory-fresh-functional-specificity",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Authority：U4-B0 `FRESH_FUNCTIONAL_AUTHORITY_CANDIDATE_SEALED`\n- Fresh pairs：284\n- Unique images：568\n- Connected components：284\n- Effective component count：284.0\n- Provider：原 B1 label-blind provider，seal=`d9d1c0f3c439b4dd12d8befa36da5edef62f9d2cc78a22d71f3344644b1ca7a0`\n- Model bundle manifest：`d42641c49fc8233fe7f28c0d4182b4c635792d3ee844f14f3f44fe51fd535d`\n- MPS smoke receipt file SHA：`ae8e71bff4182bb8b7f0c59b76d43eaf71ba84627ffb73e67a70f386540b368c`",
+  "parameters_excerpt": "唯一科学数值变更是把独立 amendment 的 pair floor 冻结为 284；其余继承原 B1：\n\n```text\nselected_pair_count >= 284\nunique_selected_image_count >= 300\nconnected_component_count >= 30\neffective_component_count >= 20.0\n```\n\n- Mapping family：N only\n- Pairings：`correct` + `perm_01...perm_05`\n- Seeds：`20260823/20260824/20260825`\n- Mapping materializations：18\n- Model training：0\n- Bootstrap：20,000 replicates，seed=`2026082502`\n- Absolute gate：Accuracy point `>=0.52`、lower `>0.50`；BT-NLL point 与 upper 均 `<log(2)`\n- Runtime：本机 Apple MPS 仅做 label-blind encoding；CPU scoring/finalize；network disabled",
+  "code_identity_excerpt": "- 分支：`codex/u4-b1-284-exploratory-fresh-functional-specificity`\n- 原 B1 隔离基线：`deda48b4f7c234190fb4e1bd47c374d8484fe8d1`\n- B1-284 协议冻结提交：`0c694cef858ea573772e4842c554d0a8fc42a9d6`\n- 正式 production binding / production commit：`b8e4c4ee37c85d3e67e35fd1fb3d553835055825`\n- 结果提交：`076404641c608150949991d46adfcfea25bcfbd4`\n- Postformal completed-verifier 加固提交：`b9171e762787de4a6c8ea9cbcf42f5fa649c85a3`\n- 原 `U4B1_FRESH_FUNCTIONAL_SPECIFICITY` config 与 run root 保持不存在，未被修改或覆盖。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-u4b1-284-exploratory-fresh-functional-specificity.txt",
+  "primary_report": null
+}

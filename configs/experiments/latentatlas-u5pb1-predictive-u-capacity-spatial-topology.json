@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-u5pb1-predictive-u-capacity-spatial-topology",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- P4096 fold-0 transport：train/validation/evaluation=`2868/408/820` identities。\n- Source：SD `[4,64,64]` + FLUX `[16,64,64]`。\n- Target：DCAE `[32,16,16]`。\n- Train-only per-view/per-channel normalization。\n- 五个 deterministic pairing nulls。\n- Common-stream identity bootstrap：5,000 replicates，seed=`2026082502`。\n- Evaluation 只打开一次；evaluation 后训练为 0。\n- 这不是 K64 RGB Anchor/relative-Anchor 实验，但仍使用 dense matched cross-VAE identities，不能称为 unpaired 或广义 anchor-free learning。",
+  "parameters_excerpt": "强制矩阵：`Q16-R/Q32/Q64/Q128/Q64-W/S64-W`。当 validation 上 `A_read>0.20` 且 `S64-W deficit>0.05` 时才运行 optional `SG80-W`；本次 trigger=`true`，因此共训练 7 个模型。\n\n共同配置：seed=`20260826`、batch=`32`、每模型 `12,000` updates、24 次 validation、Apple MPS BF16、同一 initialization registry 和 batch schedule。所有 7 臂 `optimization_adequate=true`。\n\n冻结主比较：\n\n- Capacity：`Q16-R→Q32→Q64→Q128`。\n- Write：`Q64→Q64-W`，注册量 `A_write`。\n- Read：`Q64-W→S64-W`，注册量 `A_read`。\n- Hybrid：`S64-W→SG80-W`，只作 modifier。",
+  "code_identity_excerpt": "- Branch：`codex/u5-pb1-capacity-spatial-topology`\n- PB0 predecessor：`b1353b94f783d505d9d63097d0330c60e8697d22`\n- Production / verifier：`a4329e618343a5205ffa26e5a831ecd4ee66ac0f`\n- Result metadata commit：`ebe82824755ff1cfb528281deb3d30838596fd15`\n- Config SHA-256：`c1b4b2891a32134d4481598601e16bb77bf647423d84c7ca41b58f29b08c475b`\n- Run identity：`U5PB1_DEV_REUSED_P4096_PREDICTIVE_U_CAPACITY_SPATIAL_TOPOLOGY_LOCALIZATION_MPS_BF16_REPLAY02`\n- Evidence status：development-only、adaptive、reused-P4096、reward-free、known-VAE、single-fold、single-seed、MPS-BF16、non-confirmatory。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-u5pb1-predictive-u-capacity-spatial-topology.txt",
+  "primary_report": null
+}

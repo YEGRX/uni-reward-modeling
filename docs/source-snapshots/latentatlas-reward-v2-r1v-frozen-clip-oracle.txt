@@ -1,0 +1,200 @@
+# LatentAtlas Reward V2 R1V：Proper Frozen CLIP Oracle Qualification
+
+本实验用冻结的 proper vision-language model（VLM）重新审查 OIP 的 RGB-text Reward authority。最终修正版结论是：CLIP 确实检测到依赖正确 image/prompt 配对的弱信号，但它没有同时战胜已登记 shortcuts、通过双方向 gate 并证明 prompt 对 RGB-only 的有效增量，因此没有产生合格 Reward oracle，也不解锁 R2、R2P 或 U。
+
+## 1. Date
+
+- 科学运行与首个结果 bundle：2026-08-27
+- append-only semantics successor 完成：2026-08-27
+- Run ID：`REWARDV2_R1V_DEV_OIP_FROZEN_CLIP_VLM_ORACLE_QUALIFICATION`
+- Evidence：`adaptive development-only non-confirmatory`
+
+## 2. Purpose
+
+前序 [[latentatlas-reward-v2-r0r1-oip-authority-oracle]] 只能使用 DINO fallback 与 historical hashed prompt，得到 `INCONCLUSIVE_WEAK_ORACLE / ACQUIRE_FROZEN_VLM_ORACLE`。R1V 保持同一 OIP TRAIN→DEV authority、候选家族、controls 与 gates，改用 exact frozen CLIP image/text tower，回答：
+
+1. proper VLM 能否建立绝对的 RGB 或 RGB×prompt observability；
+2. correct image/prompt 是否稳定胜过五个 registered nulls；
+3. M1 是否同时胜过 generator prior、historical hashed prompt-only 与 VLM text-only shortcuts；
+4. 信号是否在 FLUX-preferred 与 SD-preferred 两个方向都成立；
+5. 是否足以创建 frozen Reward interface 并解锁 R2P-1。
+
+它只评估 Reward measurement/control oracle candidate，不评估 LatentAtlas 的 native-latent 方法。
+
+## 3. Code Version / Commit
+
+- 最终隔离分支：`codex/reward-v2-r1v-semantic-correction`
+- 科学执行 commit：`a6956aa02dc5f69b06b8a03c4594756d67541dae`
+- 首个结果 commit：`d9ef9d240112752b7d1bd000ec6cf924f9f2f1a5`
+- semantics fix commit：`d3d3b01f8c5698880dd84fa13bad49dd2baf6a9e`
+- 最终 corrected-result commit：`8370a2b472bf8f91c744647a83cfe3911de76172`
+- 最终 result seal SHA-256：`90a65f9a0df2c754373bd0cf1f2958bef3857faaa223cee2bd384b7c15357f43`
+- Final inventory SHA-256：`54d58e97926e99dfdcfd62f9e3a51f05d233a0018dbe25dd098fdc8c6dbeee07`
+- Verifier receipt SHA-256：`84fa4c7a96f4795274c38148331ccf40dac202d01da3dceb45f8d30e49edb572`
+- Corrected completed-tree canonical SHA-256：`2670e11a4420c9c62bee49f3dc0f6eb63a9ddec4100617f28b9ea6e0f332e448`
+- Completed verifier：`PASS`，read-only replay，`fit_calls=0`
+
+首个 `d9ef9d2` bundle 把非 Class A 结果错误写为 `oracle_type=VLM_ORACLE`，与冻结协议“只有 Full Class A 才能使用该值”矛盾。原 bundle 保持 byte-for-byte 不变，但已被 append-only semantic erratum 取代，不是最终可消费结果。successor 只把该字段修正为 `NO_QUALIFIED_ORACLE`，重新生成其派生 seal/verifier/report/inventory；32 个科学成员逐字节不变，且 `fit_calls/dev_evaluation_calls/model_or_data_loader_calls=0/0/0`。
+
+## 4. Dataset / Input
+
+- OIP TRAIN/DEV/LOCKBOX pairs：`4,059 / 900 / 2,500`。
+- DEV：900 pairs，561 connected groups；统计使用 common group bootstrap。
+- TRAIN/DEV RGB images：`8,118 / 1,800`；CLIP prompt rows：`4,059 / 900`。
+- LOCKBOX image/pair cache：`0 / 0`。
+- LOCKBOX orientation/RGB/embedding/prompt access：全部为 `0`。
+- Public registry rows read：`7,459`。
+- H、U、native VAE latents、Bridge、DCAE、Projector 均未访问；R2/R2P 未执行。
+
+## 5. Parameters
+
+- Backbone：`openai/clip-vit-large-patch14`。
+- Exact revision：`32bd64288804d66eefd0ccbe215aa642df71cc41`。
+- `model.safetensors` SHA-256：`a2bf730a0c7debf160f7a6b50b3aaf3703e7e88ac73de7a314903141db026dcb`。
+- Backbone：local-only、offline、`eval()`、全部参数 `requires_grad=false`。
+- Embedding：Apple MPS、float32、768 维、L2 normalized；fitting：CPU float64。
+- Candidates：C0 generator prior、C1-HASH historical prompt-only replay、C1-VLM text-only、C2-VLM RGB-only、M1-VLM RGB×prompt diagonal。
+- 训练：TRAIN-only，3 次 fit，all-zero initialization，L2=`1e-3`，`L-BFGS-B maxiter=400`；没有 DEV selection 或 sweep。
+- Controls：5 个 within-generator image nulls、5 个 wrong-prompt nulls。
+- Statistics：20,000 次 common group bootstrap；报告 90%/95% intervals、replicate-wise worst null 与两个 preference directions。
+
+## 6. Command
+
+正式流水线由以下受控入口组成：
+
+```text
+scripts/encode_rewardv2_r1v.py
+scripts/run_rewardv2_r1v.py
+scripts/verify_rewardv2_r1v.py
+scripts/finalize_rewardv2_r1v.py
+scripts/correct_rewardv2_r1v_semantics.py
+```
+
+CLIP encoding 在本机 MPS 完成；candidate fitting、bootstrap、verification、semantic correction 与 Wiki 归档均为 CPU-only。corrected successor 在没有重新拟合、重新打开 DEV 或访问任何模型/数据 loader 的条件下，从原 completed tree 创建。
+
+## 7. Results
+
+### 7.1 Registered candidates
+
+| Candidate | DEV Accuracy | 90% CI | BT-NLL | 90% CI | FLUX-pref Acc | SD-pref Acc |
+|---|---:|---:|---:|---:|---:|---:|
+| C0 Generator Prior | 0.526667 | [0.498346, 0.554705] | 0.691763 | [0.689261, 0.694289] | 0.000000 | 1.000000 |
+| C1-HASH Historical Prompt-Only | 0.553333 | [0.525275, 0.581006] | 0.681495 | [0.673422, 0.689734] | 0.406103 | 0.685654 |
+| C1-VLM Text-Only | 0.566667 | [0.538547, 0.594350] | 0.676074 | [0.665994, 0.686296] | 0.464789 | 0.658228 |
+| C2-VLM RGB-Only | 0.567778 | [0.539823, 0.595676] | 0.677535 | [0.671342, 0.683788] | 0.417840 | 0.702532 |
+| M1-VLM RGB×Prompt Diagonal | 0.567778 | [0.539823, 0.595676] | 0.677520 | [0.671325, 0.683773] | 0.417840 | 0.702532 |
+
+Zero-shot CLIP cosine 只作 diagnostic，不用于 gate 或 selection：Accuracy/BT-NLL=`0.548889/0.690304`。
+
+### 7.2 Shortcut comparisons
+
+M1 相对 C0 同时通过 Accuracy 与 BT-NLL improvement：
+
+- `ΔAccuracy=0.041111`，one-sided 95% lower=`0.007901`；
+- `ΔNLL=0.014243`，one-sided 95% lower=`0.008249`。
+
+但 M1 没有超过两个 prompt shortcuts：
+
+- vs C1-HASH：`ΔAccuracy=0.014444`，lower=`-0.020906`；`ΔNLL=0.003975`，lower=`-0.004560`；
+- vs C1-VLM：`ΔAccuracy=0.001111`，lower=`-0.032880`；`ΔNLL=-0.001446`，lower=`-0.011654`。
+
+因此 `m1_shortcuts=false`。C2 也有同样的 shortcut failure。
+
+### 7.3 Image/prompt specificity 与 incremental control
+
+- C2 image-specificity 的 five-null worst improvement：point=`0.021041`，one-sided 95% lower=`0.008166`，PASS。
+- M1 image-specificity：point=`0.021057`，lower=`0.008185`，PASS。
+- M1 prompt-specificity：point=`0.000010768`，lower=`0.000002845`，PASS。
+- M1 相对 C2 的 prompt incremental：`ΔAccuracy=0.000000`；`ΔNLL=0.000014991`，lower=`0.000009954`。由于 Accuracy 没有增量，registered joint gate 为 `prompt_incremental_observable=false`。
+
+### 7.4 Frozen gate table
+
+| Gate | C2 | M1 |
+|---|---:|---:|
+| Absolute observability | PASS | PASS |
+| Beats all registered shortcuts | FAIL | FAIL |
+| Image specificity | PASS | PASS |
+| Prompt specificity | N/A | PASS |
+| Both preference directions > 0.50 | FAIL | FAIL |
+| Prompt incremental over C2 | N/A | FAIL |
+
+M1/C2 的 FLUX-preferred Accuracy=`0.417840`，one-sided 95% lower=`0.374713`；SD-preferred Accuracy=`0.702532`，lower=`0.665323`。两方向明显不对称，因此不能把 overall positive point estimate 写成方向稳健的 Reward authority。
+
+### 7.5 Corrected frozen decision
+
+```text
+validity_status       = VALID
+oracle_type           = NO_QUALIFIED_ORACLE
+authority_class       = OIP_RGBTEXT_SIGNAL_WEAK_NOT_QUALIFIED
+recommended_next_step = STOP_NO_R2_R2P_U_UNLOCK
+```
+
+- `qualified_reward_oracle_interface.json`：未创建。
+- `r2p_unlock_receipt.json`：未创建。
+- R2P training：未执行。
+- Completed verifier：`PASS / fit_calls=0`。
+
+## 8. Analysis
+
+### 能说明什么
+
+1. Proper frozen CLIP 相比 DINO fallback 确实恢复了更清晰的 weak signal：C2/M1 通过 absolute gate，并且 correct image 与 correct prompt 分别胜过 registered nulls。
+2. 这个信号包含 pairing specificity；所以不能再写成“RGB/prompt 完全没有可检测信息”。
+3. 但 M1 没有稳定超过 C1-HASH 或 C1-VLM，prompt 加入 C2 后 Accuracy 增量为 0；当前 signal 仍不能与 prompt/generator shortcuts 充分分离。
+4. FLUX-preferred 与 SD-preferred 方向严重不对称，说明 overall Accuracy 不能代表双方向稳定性。
+5. 最终只能称 `OIP_RGBTEXT_SIGNAL_WEAK_NOT_QUALIFIED`；proper VLM 消除了“fallback 太弱”这一部分不确定性，但没有把 OIP 资格审查推进到可解锁状态。
+
+### 不能说明什么
+
+- 不能说明 OIP 没有 image-specific 或 prompt-specific signal；两个 specificity controls 实际已通过。
+- 不能说明 OIP 已成为 qualified Reward authority，也不能把 `NO_QUALIFIED_ORACLE` 误读为“没有使用 VLM”；它表示冻结的 VLM candidate 未通过资格门。
+- 不能证明 prompt-semantic interaction 已成立；prompt-null specificity 通过，但相对 C2 的 registered incremental gate 失败。
+- 不能证明 native SD/FLUX/DCAE latents、Projector、H、U、Bridge、Reward transfer、fresh confirmation 或 unseen-VAE generalization 成立或失败。
+- Frozen CLIP 来自大规模互联网预训练；无法证明其 pretraining 与 OIP 的 prompt/semantic content 完全无重叠。
+- 这是 adaptive development-only 结果，DEV 已被使用，不能作为 fresh confirmatory evidence。
+
+## 9. Problems
+
+- Transformers 5.15 的 CLIP feature API 返回类型与旧假设不同；首次 probe 只读取 8 个 TRAIN inputs 后、DEV access 前失败。实现以 failing test 修正并从同一 acquisition receipt 精确恢复，未打开 DEV。
+- 首次 completed verifier 暴露 float32 difference 与 M1 reduction order 的 exact-replay mismatch；修复只对齐 verifier 数值顺序，正式 scientific run 未重跑或改写。
+- 首个结果 bundle 把 Class C 误标为 `oracle_type=VLM_ORACLE`。这是 protocol/reporting semantics 错误，不改变 metrics、gates、authority class 或 hard stop；原树未覆盖，append-only successor 以 `NO_QUALIFIED_ORACLE` 修正，并由 completion receipt 绑定新旧 hashes。
+
+## 10. Next Steps
+
+当前唯一正式动作是：
+
+```text
+STOP_NO_R2_R2P_U_UNLOCK
+```
+
+不执行 R2、R2P-1、U/native-latent、Projector、Bridge 或 DCAE 实验，也不在同一 DEV authority 上继续 backbone/head/architecture sweep。若 Reward V2 主线未来继续，应另行冻结新的 authority 问题、数据边界与 controls，而不能把本次 weak signal 升级为现成 Reward interface。
+
+本机 MPS 编码阶段已经结束；当前归档与下一步方案设计均为 CPU-only / no server。租用 GPU 服务器不需要运行。
+
+## Related Pages
+
+- [[latentatlas]]
+- [[latentatlas-reward-v2-r0r1-oip-authority-oracle]]
+- [[latentatlas-reward-v2-r2p0-projector-only-preflight]]
+- [[multimodal-learning]]
+- [[clip]]
+- [[vision-transformer]]
+- [[embedding]]
+- [[latent-space]]
+- [[variational-autoencoder]]
+
+## 11. Sources
+
+- Source: `source-workspace/.worktrees/reward-v2-r1v-semantic-correction/runs/REWARDV2_R1V_QUALIFICATION_SEMANTICS_SUCCESSOR/REWARDV2_R1V_DEV_OIP_FROZEN_CLIP_VLM_ORACLE_QUALIFICATION/report.md`
+- Source: `source-workspace/.worktrees/reward-v2-r1v-semantic-correction/runs/REWARDV2_R1V_QUALIFICATION_SEMANTICS_SUCCESSOR/REWARDV2_R1V_DEV_OIP_FROZEN_CLIP_VLM_ORACLE_QUALIFICATION/authority_decision.json`
+- Source: `source-workspace/.worktrees/reward-v2-r1v-semantic-correction/runs/REWARDV2_R1V_QUALIFICATION_SEMANTICS_SUCCESSOR/REWARDV2_R1V_DEV_OIP_FROZEN_CLIP_VLM_ORACLE_QUALIFICATION/dev_evaluation.json`
+- Source: `source-workspace/.worktrees/reward-v2-r1v-semantic-correction/runs/REWARDV2_R1V_QUALIFICATION_SEMANTICS_SUCCESSOR/REWARDV2_R1V_DEV_OIP_FROZEN_CLIP_VLM_ORACLE_QUALIFICATION/shortcut_comparison.json`
+- Source: `source-workspace/.worktrees/reward-v2-r1v-semantic-correction/runs/REWARDV2_R1V_QUALIFICATION_SEMANTICS_SUCCESSOR/REWARDV2_R1V_DEV_OIP_FROZEN_CLIP_VLM_ORACLE_QUALIFICATION/image_specificity.json`
+- Source: `source-workspace/.worktrees/reward-v2-r1v-semantic-correction/runs/REWARDV2_R1V_QUALIFICATION_SEMANTICS_SUCCESSOR/REWARDV2_R1V_DEV_OIP_FROZEN_CLIP_VLM_ORACLE_QUALIFICATION/prompt_specificity.json`
+- Source: `source-workspace/.worktrees/reward-v2-r1v-semantic-correction/runs/REWARDV2_R1V_QUALIFICATION_SEMANTICS_SUCCESSOR/REWARDV2_R1V_DEV_OIP_FROZEN_CLIP_VLM_ORACLE_QUALIFICATION/prompt_incremental.json`
+- Source: `source-workspace/.worktrees/reward-v2-r1v-semantic-correction/runs/REWARDV2_R1V_QUALIFICATION_SEMANTICS_SUCCESSOR/REWARDV2_R1V_DEV_OIP_FROZEN_CLIP_VLM_ORACLE_QUALIFICATION/vlm_backbone_manifest.json`
+- Source: `source-workspace/.worktrees/reward-v2-r1v-semantic-correction/runs/REWARDV2_R1V_QUALIFICATION_SEMANTICS_SUCCESSOR/REWARDV2_R1V_DEV_OIP_FROZEN_CLIP_VLM_ORACLE_QUALIFICATION/access_manifest.json`
+- Source: `source-workspace/.worktrees/reward-v2-r1v-semantic-correction/runs/REWARDV2_R1V_QUALIFICATION_SEMANTICS_SUCCESSOR/REWARDV2_R1V_DEV_OIP_FROZEN_CLIP_VLM_ORACLE_QUALIFICATION/verifier_receipt.json`
+- Source: `source-workspace/.worktrees/reward-v2-r1v-semantic-correction/runs/REWARDV2_R1V_QUALIFICATION_SEMANTICS_SUCCESSOR/REWARDV2_R1V_DEV_OIP_FROZEN_CLIP_VLM_ORACLE_QUALIFICATION/result_seal.json`
+- Source: `source-workspace/.worktrees/reward-v2-r1v-semantic-correction/runs/REWARDV2_R1V_QUALIFICATION_SEMANTICS_SUCCESSOR/rewardv2_r1v_semantics_correction_erratum.json`
+- Source: `source-workspace/.worktrees/reward-v2-r1v-semantic-correction/runs/REWARDV2_R1V_QUALIFICATION_SEMANTICS_SUCCESSOR/rewardv2_r1v_semantics_correction_completion.json`

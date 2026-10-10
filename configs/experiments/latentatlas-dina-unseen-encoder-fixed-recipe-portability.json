@@ -1,0 +1,20 @@
+{
+  "experiment_id": "latentatlas-dina-unseen-encoder-fixed-recipe-portability",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "REGISTERED_NEAR_NATIVE_WITHIN_PROTOCOL",
+  "scope": "开发集1,008对 / 28组 / 4流；64 FIT+64 VAL",
+  "scientific_conclusion": "正确REC72.619%，NoReg44.618%，Perm49.082%；Native72.817%；Native一致率93.411%。",
+  "limitations": "通过该轮操作性near-native门槛；连续AE、操作性未见，开发评价已消费，上游重叠未知。",
+  "input_excerpt": "候选 `nvidia/Cosmos-0.1-Tokenizer-CI8x8` 为普通连续图像 AE，不是 KL-VAE；权重 SHA `84e4c12c10568faff20da744b51c45a6b1e4385af86e80ae56bf3d1b13cda413`。64 FIT + 64 VAL 同图 Anchor；已消费开发评价 1008 对／28 完整关联组／四条流。目标偏好标签用于最终固定评价，**训练与选点使用 0 个**。指定可检查项目记录未发现候选 checkpoint 或 family/protocol 参与本配方经验开发；公开名称已知、其他私人历史和上游图像重叠无法排除。历史一次非结构化搜索触及排除源文件字节，未解析科学行，已在访问账本披露。",
+  "parameters_excerpt": "固定 16→64→64→16 Projector；正确/固定第一张置换两组各 seed `20260827`、有效 batch32、1000 更新，共同初始化和样本顺序；各自按 VAL normalized MSE 在 500/1000 选择，结果分别选 1000/500。NoReg 指未训练 Projector。Native、FLUX-REC、DC-AE-REC 复用封存分数。四流严格 Accuracy，28组共同 20000 次 bootstrap，seed `2026092501`。冻结第一层五个 q05>0 判据，第二层 Native Accuracy 差 q05>−2pp 且排序一致率 q05>90%。",
+  "code_identity_excerpt": "本地 worktree HEAD `c4c221fbc2e0d2e9ecb51fb15a342ed6aa1dc036`；F0 SHA `8f66e67e7b5c1ecd2e4394edf5b79f034d04ee297e8c45b275e8fe0a776416f9`。评分代码 inventory SHA `d8f71386d30d546c2108d0306593c46c540ae77a0d25e282d78282da372d022e`；最终 result seal SHA `18e2a1275e90c032e2b1c53a2c1149449dd8f51bbb4f70dfbcb8e168f6b289f3`。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-dina-unseen-encoder-fixed-recipe-portability.txt",
+  "primary_report": {
+    "source_locator": "LatentAtlas-runs/DINA_UNSEEN_ENCODER_FIXED_RECIPE_PILOT-20260925-R1/REPORT.md",
+    "original_sha256": "1b2d04e4907d530431b84f724455437ad3d8f24bad5bc21f6535c73ac88ca5d1",
+    "file": "docs/reports/latentatlas-dina-unseen-encoder-fixed-recipe-portability-final.txt",
+    "sha256": "2d5d3b30f36885d7752e4cbd777d20f6f59e013090c7c2d273e543c2f6051080"
+  }
+}

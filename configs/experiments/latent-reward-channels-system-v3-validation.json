@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latent-reward-channels-system-v3-validation",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "theory_or_specified_model",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "已知Core v2有限joint；原n16/n128、tau0/1/64四份NPZ各64块，SHA核验复用，无新采样。共同source的32状态joint。审计两probe独立Binomial全129²计数权重；g.8/.2两个冻结映射。真实缓存只读文件/字段资格检查，不分箱或倒推posterior。",
+  "parameters_excerpt": "G中心θτξ0，eta.1/.03，方向(.3,-.2,.1)、步1e-4。E θ=ξ1/128、tau0；同样本eta.1，奇偶二折、M.8、方差地板M²/sqrt(n_fit)、规定slope和正积分区间。O beta.6/eta.3、delta−.12/0/.12、source可靠度.8/.75、原scorer及下游单输出。AUD n128各probe、b.8、d.15；KKT/brentq xtol1e-12、均值NLL gap1e-10。全部冻结，无搜索。",
+  "code_identity_excerpt": "冻结执行源SHA `56173cede2ae41862155c15eca2a22a605ac5a9b23992bb91104c42c2646faa4`，配置SHA `d8ec17bfa21b7b5828f36d9fcf1747f2dc87db6b55292f7b0631422499f69f5e`。本地最小数学模块；无作者脚本复跑、旧MLE refit或新网络。无可用Git HEAD，不编造commit。",
+  "source_snapshot": "docs/source-snapshots/latent-reward-channels-system-v3-validation.txt",
+  "primary_report": null
+}

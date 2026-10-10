@@ -1,0 +1,12 @@
+{
+  "status": "SEALED_ACTUAL_FROZEN_CANDIDATE_AUDIT_REMOTE",
+  "archive": {
+    "path": "/opt/latentatlas/frozen-candidate-forward-audit-20261009-r1/delivery-r1/FROZEN_CANDIDATE_FORWARD_AUDIT_RAW_R1.zip",
+    "sha256": "bc8fabf4214cd7d1145df380cd43413ce9feb760248c8241c28b26d093f91b96",
+    "bytes": 90851723
+  },
+  "manifest_sha256": "ed65c7f819ec61f896b02e25f200fac6d83622cb57f9c7c1f74587e5dc01d027",
+  "file_count": 7949,
+  "decision": "MAIN8_TRADEOFF_OR_DETERIORATION",
+  "CPU_portable_pending": true
+}

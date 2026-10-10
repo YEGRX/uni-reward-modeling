@@ -1,0 +1,20 @@
+{
+  "experiment_id": "latentatlas-frozen-candidate-forward-audit",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "MAIN8_TRADEOFF_OR_DETERIORATION",
+  "scope": "VAL8面板768条件；MAIN8固定8组288对72图，新增6,912 pair-specific条件",
+  "scientific_conclusion": "VAL中心风险点值下降9.3826%，普通95%跨0；MAIN8 Q32对G分差MSE较BASE增加44.7618%。",
+  "limitations": "独立新协议；原FD失败不改写。A/C误差点值更低；QA调整区间未决，QC次级未校正区间支持C；人类Accuracy差异未决。",
+  "input_excerpt": "原VAL8固定面板，每臂128条件，总768；坐标64图。原MAIN8固定8完整组、288物理pair、4噪声stream；三个新臂必须6912个pair-specific条件，不按图去重。合法N/G/BASE复用。VAL未用于32维theta拟合，但曾被S256训练诊断及本轮行动门控使用，不是项目级独立测试。",
+  "parameters_excerpt": "S2562000、T1/W0、四个theta、原FP32仿射后BF16、原T04及噪声全部不变；新拟合、训练、backward、FD、VAE、Projector均0。持既有共享GPU锁及run锁至真实OS wait，每次forward前durable debit。",
+  "code_identity_excerpt": "正式spec SHA `50c65b50145a6c0aee0c6f41a005f6bdc343077bd4c04d5811492721d992a076`。七份正式模块、原适配器及模型逐文件绑定。源码审查仅表示工程接受，不等同科学结论。\n\n追加式工程spec SHA `bd77d3b358aac248d3499790623a2a494791a694ff1af6a37751cd614564e0d2`，仅修正MAIN8 typed/raw指纹比较；原科学合同与原spec保持不变。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-frozen-candidate-forward-audit.txt",
+  "primary_report": {
+    "source_locator": "wiki-store/raw/experiments/latentatlas/frozen-candidate-forward-audit-2026-10-09/val-main8-complete-r1/FINAL_REPORT.md",
+    "original_sha256": "9b973ad156cd98e9530b4b99eaebdffc3c0c1608c2e47a798ff624fe65be664d",
+    "file": "docs/reports/latentatlas-frozen-candidate-forward-audit-final.txt",
+    "sha256": "9b973ad156cd98e9530b4b99eaebdffc3c0c1608c2e47a798ff624fe65be664d"
+  }
+}

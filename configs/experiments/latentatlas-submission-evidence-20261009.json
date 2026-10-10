@@ -1,0 +1,20 @@
+{
+  "experiment_id": "latentatlas-submission-evidence-20261009",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "CPU_BASELINES_FITTED_REWARD_NOT_RUN",
+  "scope": "原NEW_EVAL56与DEV28缓存；CPU同Anchor ridge/SVD基线",
+  "scientific_conclusion": "Cosmos ridge/SVD VAL NMSE0.228049708/0.444343958；DC-AE0.326515707/1.062346963。",
+  "limitations": "仅CPU拟合/坐标评价；新基线Reward评分与新增确认未运行。本报告旧Q32进度已由独立前向审计覆盖，历史原文保留。",
+  "input_excerpt": "DEV28：252图、1008对、4流4032逐流判断；已开发消费。NEW56：504图、2016对、4流8064；与旧adapter组互斥，但父pool已用于source qualification。独立内容单位分别28/56个完整connected groups，不是流或pair数。\n\nE2：同原FIT64/VAL64；Cosmos同图T0、DC-AE同图T1。新ridge/SVD拟合不查Reward、不用目标偏好标签。数据用途、源/目标、模型与缓存身份见资产合同表。",
+  "parameters_excerpt": "旧Accuracy严格tie=0；agreement排除reference tie、student tie=.5；逐流和ensemble分别列；原组权重与noise coupling保持。NEW N/G非tie分母8017/8026；DEV N3999。组bootstrap不覆盖初始化或Anchor抽样。\n\nE2 ridge λ∈{0,.001}仅VAL坐标选择，SVD一个固定候选；FIT-only标准化、每图等权；共享矩阵Cosmos272/DC-AE528参数。部署FP32 affine→BF16，再加canonical noise。Cosmos源tensor identity-grid资格已独立CPU检查；DC-AE变量网格仍需核对。",
+  "code_identity_excerpt": "独立目录：scripts/latentatlas-submission-evidence-20261009-r1/。原研究代码只读；本轮未提交原研究Git仓库。代码/配置/结果SHA由归档manifest绑定。公开参考Latentis固定commit800699f9fd5a98880adac40590e075aaffb87ab9，方法为密集空间适配，不称忠实复现。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-submission-evidence-20261009.txt",
+  "primary_report": {
+    "source_locator": "wiki-store/raw/experiments/latentatlas/submission-evidence-20261009-r1/deliverables/EXPERIMENT_REVISION_REPORT.md",
+    "original_sha256": "e7649209d804a5901de78b6be37bacfe256372f7a791e0aa78060b5d5ba80c19",
+    "file": "docs/reports/latentatlas-submission-evidence-20261009-final.txt",
+    "sha256": "e7649209d804a5901de78b6be37bacfe256372f7a791e0aa78060b5d5ba80c19"
+  }
+}

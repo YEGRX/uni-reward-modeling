@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-semantic-appearance-intervention",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- 复用 256 张已哈希审计的固定源图。\n- 每张图生成五个条件：Original、Grayscale、Color Jitter、Gaussian Blur、Frequency attenuation。\n- 总计 1,280 张确定性变换图。\n- 三种冻结 VAE：SD-VAE ft-MSE、FLUX.1-schnell VAE、DC-AE f32c32。\n- 三组互斥 64-anchor banks；固定 64 queries。\n- 相关页面：[[latent-space]]、[[variational-autoencoder]]、[[representation-alignment]]。",
+  "parameters_excerpt": "- Anchor seeds: `2026080901 / 2026080902 / 2026080903`。\n- Operators: global cosine、rank relation。\n- Neighbor overlap: `k=5/10`。\n- Formal null: 180 arrays，每个 1,000 permutations。\n- Wrong-anchor conditions: Original、Grayscale、Frequency；cycle 为 `0901→0902→0903→0901`。\n- Formal primary classification: 四个 intervention 的 macro global R@1 matched retention。\n\nFrequency 精确定义为：低频半径 `r≤0.30` gain 1；`0.30<r<0.40` 使用分段 cosine 过渡；`r≥0.40` gain 0.25；corner-normalized radial frequency，保持 phase。",
+  "code_identity_excerpt": "- Branch: `codex/semantic-appearance-intervention`\n- Exact formal commit: `0d4e5f82c4735a269cf57d3d62c50088190cad07`\n- Config: `configs/semantic-appearance-e1.json`\n- Experiment ID: `20260811T061209Z-0d4e5f8-80049347`",
+  "source_snapshot": "docs/source-snapshots/latentatlas-semantic-appearance-intervention.txt",
+  "primary_report": null
+}

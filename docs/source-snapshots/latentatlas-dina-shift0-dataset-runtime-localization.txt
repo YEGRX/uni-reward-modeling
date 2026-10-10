@@ -1,0 +1,67 @@
+# DINA-SHIFT0 数据与运行协议诊断
+
+## 1. Date
+2026-09-18 13:24（北京时间）现场确认全部2619行完成，52380次科学Reward前向，评分与持久任务exit0；独立CPU回放7个文件逐字节及SHA复核通过。
+
+## 2. Purpose
+在SRC0源域qualified之后，以同一冻结DiNa checkpoint、PAPER_T04运行时、预处理及评分实现评估历史已消费EXTERNAL2619。区分dataset/task shift与runtime差异，不训练Reward、不把跨数据集泛化变为主线。
+
+## 3. Code Version / Commit
+专用实现commit `79570593a6cee98fa897f49b327d1e4557c4d3d2`；原SRC0科学代码 `855d9e57f8aabecd80e5c625ada811ea5eba056e` 的全部Python文件逐文件比较无改动。新增独立external authority、paper-only执行与磁盘统计入口，不套用HPDv3来源清单。
+
+冻结SHIFT0 spec SHA：`aab846223293b9399501f1ab066068d7c0045cc397983c0dc780c259a3dbe444`；identity `DINA_SHIFT0_DATASET_RUNTIME_LOCALIZATION_R1`。规格在任何新SHIFT0分数前封存。
+
+## 4. Dataset / Input
+仅旧DINA0 sealed surfaces/external/rows.json：2619行、5238图像身份；远端逐文件验证全部2,242,589,552字节，长度和SHA一致。未读取retired future12455或old TEST。
+
+## 5. Parameters
+沿用SRC0 RGB与缩放、BF16 native VAE单次posterior sample、t=.4映射、10噪声流、先逐流计算Accuracy再求均值。完整新臂计划52380次Reward前向；历史legacy结果从原封存缓存读取，不重新拟合。
+
+20,000次相同关联组抽样，seed2026091501；共同图像字节、完全相同prompt及既有group关联取传递闭包。q05/q95为中央90%区间，q05也是单侧95%下界。历史preferred/other恢复为物理A/B后，与新臂做同行配对比较。
+
+## 6. Command
+远端根 `/opt/latentatlas/dina-shift0-20260918-r1`，代码 `code-7957059`，数据及结果 `run`。Windows持久任务 `LatentAtlas-SHIFT0-Scoring-r1` 使用原全局GPU锁；当前尝试由 `operations/latest-scoring-attempt` 定位。
+
+入口 `scripts/run_dina_shift0.py` 有prepare/score/replay三个阶段。持久控制脚本先核对spec SHA，完整或已封存评分只进入CPU回放；否则当前进程重做官方准入、legacy与t=.4真实parity，再科学评分。每行引用本进程不可变parity回执，续跑先验证全部历史回执与已完成行散列。评分结束自动在两个独立CPU进程、两个目录回放并逐文件比较。
+
+## 7. Results
+最终判定：`SOURCE_TO_EXTERNAL_PREFERENCE_TRANSFER_FAILURE_SUPPORTED`。
+
+| 数据集 | PAPER_T04 | LEGACY_U01_K4 |
+|---|---:|---:|
+| HPDv3 source | 74.445139% | 74.392361% |
+| 已消费external2619 | 51.386025% | 50.420008%（历史） |
+
+External PAPER_T04中央90%区间为[49.881360%, 52.888804%]，不能确认高于50%机会水平。相对历史legacy增加0.966018个百分点，配对差中央90%区间[0.019076, 1.929711]个百分点；统计改善不自动证明材料性改善，原协议未给绝对效应阈值。
+
+全量2619行，科学Reward52380次，VAE5238次；完整当前进程parity PASS。评分与持久任务exit0，phase VERIFIED_COMPLETE。两个独立CPU进程生成结果，7个文件逐字节一致；13:24之后再次现场核对两个输出目录字节与SHA，并核对seal中全部输出SHA通过。inventory SHA `d2f63687cab54aef39044eaee33b18d87d9d8da48e3cc5f9f549b3d0f2634f91`。GPU评分进程已结束，当前资源可释放；REG1尚未启动。
+
+此前运行检查记录保留在raw现场回执及wiki/log.md；中间未读取Accuracy，未重启或改变科学规则。
+
+## 8. Analysis
+按原协议§26生成dataset-by-runtime diagnostic matrix，并报告AUROC、margin SD、direction。不能称严格2×2因果实验：两个runtime同时改变t与aggregation。原协议§27的source>=.70且external的Acc−chance单侧95%下界<=0照原文判为transfer failure supported。
+
+已在新分数前登记保守映射：§27的INFERENCE_CONTRACT_MISMATCH类别与§60的PAPER_RUNTIME_MISMATCH类别仅作命名别名；“明显高于”缺少绝对效应阈值，不补造阈值、不自动输出材料性类别或combined-plausibility类别。否则保留INDETERMINATE，单独报告高于chance和相对历史结果的配对改善证据及materiality unresolved。Noncollapse与反对称误差作为诊断，不新增分类门槛。这一保守解释可能降低结论强度，但不丢失测量，也不阻塞REG1。
+
+## 9. Problems
+真实CPU准备曾发现接口大小写假设错误：旧行清单surface为`EXTERNAL`，历史评分日志surface为`external`。在spec、progress及新科学前向均不存在时拒绝，已保存证据并经先失败后通过的回归测试修复；没有修改原文件或科学规则。材料齐备，无需用户提供文件。
+
+新的统计解读不得越级否定旧DINA0封存、推断external labels错误或证明target Reward reuse。规格材料性阈值未决继续公开记录。
+
+## 10. Next Steps
+SRC0及SHIFT0已完成；继续按原协议准备REG1的数据清单、固定规格和§63算力准入。在Anchor FIT only上先做20 warmup、50 REC及50 FUNC前后向步骤的成本评估，再估算16 fits；不得跳过准入直接正式训练。SHIFT0 external表现不阻塞REG1。表示配准与target Reward reuse尚无结果。当前为CPU准备阶段，GPU可释放；下个GPU阶段仍须按协议准入。
+
+相关：[[latentatlas]]、[[latentatlas-dina-src0-source-domain-parity]]、[[latentatlas-dina0-r1-native-qualification]]。
+
+## 11. Sources
+- raw/experiments/latentatlas/dina-shift0-preparation-2026-09-18/consumed-external-preflight.json
+- raw/experiments/latentatlas/dina-shift0-preparation-2026-09-18/frozen-shift0-20260918/：冻结spec、seal、准备回执、实现计划、预评分故障证据及持久任务启动回执。
+- owner-home/.codex/attachments/ef382237-5100-4072-a78e-cca7b1f1a029/pasted-text.txt，§22–28、§58、§60。
+- raw/experiments/latentatlas/dina-src0-best-evidence-2026-09-15/verified-src0-results-20260918/DINA_SRC0_REPORT.md
+
+- raw/experiments/latentatlas/dina-shift0-preparation-2026-09-18/frozen-shift0-20260918/science-live-check-20260918-1034.json
+- raw/experiments/latentatlas/dina-shift0-preparation-2026-09-18/frozen-shift0-20260918/connection-recovery-20260918-1034.json
+
+- raw/experiments/latentatlas/dina-shift0-preparation-2026-09-18/frozen-shift0-20260918/science-live-check-20260918-1227.json
+
+- raw/experiments/latentatlas/dina-shift0-preparation-2026-09-18/verified-shift0-results-20260918/：最终报告、判定、统计、inventory及独立回放回执。

@@ -1,0 +1,70 @@
+# Latent Reward Channels R2 理论深化
+
+## 1. Date
+
+2026-10-06理论版本。研究ID：`LRC_ABC_THEORY_REFINEMENT_R2_20261006`。当前为已批准CPU续接及给定理论固定验证；不是R3。原诊断报告和旧No-Go保留。
+
+## 2. Purpose
+
+当前定义、命题与修订由ChatGPT维护，Codex仅验证固定预测、检查假设并报告反例。围绕已知噪声观测，直接恢复任务需要的效用差、通道作用或偏好概率。Research gap：任务方向可识别与稳定性、逆校正放大通道失配、posterior误差经过pair算子的实际影响。
+
+## 3. Code Version / Commit
+
+旧32文件r11源锁复核未变，SHA `b2d9cfce485aae424a5e7c2e98c2a2ee0802345ce2f30a95e1210e05795b56f6`。新探针限于 `scripts/latent-reward-channels/r2/`，没有Git HEAD，不虚构commit。首次拟合前配置、折、输入及各线源码已冻结；锁与执行收据位于 `outputs/r2-cpu-20261006/`。45项当前必要测试通过，未重跑旧241测试或全部旧实验。
+
+## 4. Dataset / Input
+
+复用192图冻结缓存，但开发仅使用原train32 prompts（4family各8、每prompt4候选）。旧val及已曝光8个OOD test不选模，也不是fresh确认。D64为1280空间均值的固定投影，原1280噪声特征缺失；B限定raw pooled64上的sin proxy；C有合法Brownian coupling及固定clean合成soft label，不是人类偏好。
+
+## 5. Parameters
+
+冻结4外折×3内折，prompt分组，另报留族开发结果。全部预处理/教师/gate/校准均限当前fit权限；C不复用全train OOF教师。原始概率温度固定1.1371683169585047。A固定共同KL≤.1、ESS≥3，外层teacher不选beta。B同容量、300步与两个独立MC32块，low on-MMD−off-MMD主比较、高噪声完整保留。C唯一cross-fit gate允许全回退，不追加新head。
+
+预算A600、C900（含C0）、B900、共享600秒，共3000秒且原R2累计7200秒不重置。实际累计wall239.046秒、process CPU235.926秒；A7.305、C217.970、B4.133、共享9.637秒。含失败、微计时、统计、启动和绘图；内部账不重复相加。加早期描述计算及非实测启动余量，累计保守约244.2秒。新增GPU、远端、付费API、扩容、私有外传均0。
+
+## 6. Command
+
+复现入口与精确参数以 `scripts/latent-reward-channels/outputs/r2-cpu-20261006/` 下各线command、source-freeze、frozen-configs及cost收据为准；不得用当前环境自动重跑。执行模块为 `r2/a_probe.py`、`r2/c_probe.py`、`r2/b_probe.py`；只读汇总为 `r2/review_outputs.py`。Python3.12.14、torch2.13、NumPy2.4.6、SciPy1.15.3，CPU单线程，CUDA不可见。C0保存解精度续接单列，未新选seed/任务。
+
+## 7. Results
+
+给定理论固定验证：A主格稳健零校正最坏误差1、名义预算解1.05；B主格k3/m32解析风险名义3.059151、B7最优.873220，独立积分误差约1e−15；C压缩教师−anchor期望NLL在n1为−.129738、n16为+.038523，1%轻微教师满足C7且获益。未发现满足全部假设的理论反例；两个次要B MC格有限采样未确定，未追加draws。真实A11/C7证书仍未识别。见[固定验证结果](../../scripts/latent-reward-channels/reports/r2-20261006/theory-validation-results.md)。
+
+本次新增实测wall1.394670秒、CPU.995995秒，含数值失败；当前累计wall240.440442秒、CPU236.921605秒。原239.046秒收据保留，早期启动余量与本次.25秒余量不是实测。0新fit/GPU/远端/特征提取。以下为先前CPU方法探针的历史结果，未重跑或改写：
+
+- A：稳定残差−同约束全空间残差，相对去偏误差+.001001、共同Q clean gap−.002105，描述区间均跨0；全空间全部32 refits选零，稳定残差启用13/32。未超过中心化或绝对group简单解释；留族相对误差有不利信号。128折谱中111个MC去偏Gram不定。
+- C：凸BT精度证书已恢复，两/三状态最佳scalar-BT excess NLL .004330/.001025，表达缺口不能归为本次BT未收敛。12个Gaussian/categorical非凸局部资格仍不合格。96/96 pilot未达优化资格，384cells回退，统计bootstrap未执行；gate科学判别未完成。gate/无一致性categorical NLL .687802，内层强参考.678530，null .693147；不支持gate超越强简单流程。
+- B：完整2×2完成，低噪声主差+.00001465、描述区间跨0，不支持额外随机MMD优势。低噪声proxy clean项.00816756、新增通道项.000004588、交叉−.000042268，不能把MSE直接相加或升级为原生LRM结论。
+- 最小数学验证：A可靠方向可与任务正交；B普通critic通道误差趋小但逆校正regret恒2；C TV=.5可以不改变非null pair概率，而近边界TV=.002可造成约9.99 nats损失。参考论文推荐核宽下存在样本二次矩阵不定反例；不否定其总体风险恒等式。
+
+全部结果与可重画图见 [CPU执行报告](../../scripts/latent-reward-channels/reports/r2-20261006/r2-cpu-execution-report.md)。1536条A prompt指标、640条B prompt指标和163840条B draw记录、C逐prompt/pair/draw、315行toy与全部失败/收敛记录已保存。
+
+## 8. Analysis
+
+A新增有限任务值域和最小恢复代价条件；固定本Q仍需要全部中心化方向，稳定截断可能删掉决定排序的效用。B需要相对逆增益的通道精度，普通小MMD/critic误差不足。C只需某些pair见证方向精确，但双侧交叉项、协方差、有限样本及NLL边界不能忽略。这些结论仍属于latent reward主线，不是一般神经网络或图像质量保证。
+
+方法身份：A adapted/formula-style，B adapted proxy，C adapted合成偏好流程；clean oracle与解析参考限评价。详见 [竞争解释表](../../scripts/latent-reward-channels/reports/r2-20261006/r2-root-cause-matrix.md)、[A推导](../../scripts/latent-reward-channels/reports/r2-20261006/r2-a-theory-methods.md)、[C推导](../../scripts/latent-reward-channels/reports/r2-20261006/r2-c-theory-methods.md)、[B推导](../../scripts/latent-reward-channels/reports/r2-20261006/r2-b-theory-methods.md)。所有区间为prompt单位开发摘要，非独立确认或校正后显著性。基础SVD、中心化、恒等式本身不作新颖性贡献。
+
+## 9. Problems
+
+设计批准已经完成，不再重复等待。当前科学缺口是C pilot优化资格和非凸C0比较、D64与未压缩特征分离、真实B三路径资产、fresh确认及原创性论证。零gate是优化资格失败导致，不能宣称统计支持拒绝一致性。报告明确保留这些未完成项，不追加训练掩盖。
+
+## 10. Next Steps
+
+给定CPU验证已完成，不追加fit、gate重训或理论扩写。若未来仅购买一个新真实观测，优先固定当前D64/head后的同内容、同native噪声独立重复观测块，以区分MC不稳定与持续任务偏差；它不能单独辨识投影信息损失或跨prompt移动。未自动获取观测或申请大型实验。全部理论修订交回ChatGPT。
+
+Possible improvement：只有排除强简单解释并取得机制信号后才考虑追加；A4/B3/扩大数据均No-Go。不需要GPU服务器，服务器开机和计费状态未核验。
+
+关联：[[latent-reward-channels]]、[[latent-reward-channels-initial-audit]]、[[diffusion-models]]。
+
+## 11. Sources
+
+Source: `raw/projects/latent-reward-channels/r2-cpu-approval-20261006/ABC_R2_Theory_Derivations.md`、同目录 `Codex_ABC_R2_Experiments_Only.md`；`scripts/latent-reward-channels/reports/r2-20261006/theory-validation-results.md` 及 `outputs/r2-cpu-20261006/theory-validation-1/`。
+
+Source: `raw/projects/latent-reward-channels/r2-task-20261006/Codex_ABC_Theory_Driven_R2_Prompt.md`。
+Source: `raw/projects/latent-reward-channels/r2-cpu-approval-20261006/`（批准令与理论方向补充原件）。
+Source: `raw/projects/latent-reward-channels/spec-v1-20261005/Latent_Reward_Research_Spec.md`。
+Source: `scripts/latent-reward-channels/reports/research-report.md`（2026-10-05）及科学复核。
+Source: `scripts/latent-reward-channels/reports/r2-20261006/r2-research-report.md`（保留的执行前诊断）。
+Source: `scripts/latent-reward-channels/reports/r2-20261006/r2-cpu-execution-report.md`、`outputs/r2-cpu-20261006/budget-final.json` 及所引逐样本资产。
+Source: [Denoising Data with Measurement Error Using a Reproducing Kernel-based Diffusion Model, arXiv:2501.00212v2](https://arxiv.org/html/2501.00212v2)。

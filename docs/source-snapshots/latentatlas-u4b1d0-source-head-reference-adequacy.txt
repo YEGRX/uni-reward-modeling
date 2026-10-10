@@ -1,0 +1,145 @@
+# LatentAtlas U4-B1D0：Source / Head / Reference Adequacy Localization
+
+## 1. Date
+
+- 2026-08-26
+
+## 2. Purpose
+
+在 [[latentatlas-u4b1-284-exploratory-fresh-functional-specificity]] 的 direct `SOURCE_H` gate 失败后，先定位 source latent、冻结 Reward Head 与 candidate reference `H` 之间的 adequacy blocker，再决定是否有资格冻结修复候选。
+
+本实验严格按下列顺序推进：
+
+```text
+定位 source/head/reference adequacy
+        ↓
+仅在 direct source ceiling 通过时冻结唯一修复候选
+        ↓
+再用未消费 fresh authority 做 source-only gate
+        ↓ SOURCE_H Pass only
+最后才评价 DCAE correct-vs-null
+```
+
+U4-B1D0 复用了已经消费的 B1-284 authority，因此是 `adaptive development`、`non-fresh`、`non-confirmatory`。
+
+## 3. Code Version / Commit
+
+- Branch：`codex/u4-b1d0-source-head-reference-adequacy`
+- Science commit：`681831d`
+- Completed-verifier hardening commit：`0c9c4a1`
+- Inventory SHA-256：`9076b6ca0dee1481c4dfe6c3dd6baf26621aaf17517a3c36f3c5e493aa8d7354`
+- Result seal SHA-256：`63904adf848a6544ad2cc1eb64f688b5493870e78b8e576cd85bb8fff603501b`
+- Run：`U4B1D0_DEV_SOURCE_HEAD_REFERENCE_ADEQUACY`
+- Classification：`SOURCE_LATENT_ADEQUACY_UNRESOLVED`
+- Reason：`NO_DIRECT_LINEAR_SOURCE_CEILING_PASSED`
+
+## 4. Dataset / Input
+
+- Cohort：已消费的 B1-284 SVG development cohort
+- Pair count：284
+- Image count：568
+- Authority status：`CONSUMED_FRESH_REUSED_AS_ADAPTIVE_DEVELOPMENT`
+- Source views：`H64`、`CONCAT_U128`、`RAW_SD64`、`RAW_FLUX256`、`RAW_CONCAT320`
+- Reward orientation、SD/FLUX token 与 provider manifest 均以冻结绝对路径和 SHA-256 绑定。
+- 本实验没有打开新的 fresh authority，也没有读取或评价 DCAE correct-vs-null。
+
+## 5. Parameters
+
+- Stage A：zero-training source/head/reference factorial matrix
+- Normalization：historic 与 `svg_unlabeled`
+- Existing bridge/head：shared 与 task-aware 冻结组合
+- H aggregation：representation mean 与 score mean
+- Stage B：5-fold pair-disjoint direct linear source-capacity probes
+- Fold rule：`LEXICAL_UNORDERED_PAIR_ID_RANK_MOD_5`
+- Linear steps：200
+- Learning rate：0.05
+- Weight decay：0.001
+- Bootstrap replicates：20,000
+- Candidate gate：只有至少一个 direct-token ceiling 通过原 `SOURCE_H` absolute gate，才允许进入 Stage C 并冻结修复候选。
+
+## 6. Command
+
+```bash
+cd source-workspace/.worktrees/u4-b1d0-source-head-reference-adequacy
+source-workspace/.venv/bin/python \
+  scripts/run_u4b1d0.py \
+  --config configs/u4b1d0-dev-source-head-reference-adequacy.json
+
+source-workspace/.venv/bin/python \
+  scripts/verify_u4b1d0.py \
+  --run-root source-workspace/.worktrees/u4-b1d0-source-head-reference-adequacy/runs/U4B1D0_DEV_SOURCE_HEAD_REFERENCE_ADEQUACY
+```
+
+## 7. Results
+
+### 7.1 Zero-training localization
+
+最佳零训练组合为：
+
+```text
+svg_unlabeled / shared bridge / taskaware head / H_SCORE_MEAN
+```
+
+- Accuracy：`0.535211 [0.485915, 0.584507]`
+- BT-NLL：`0.719140`，upper=`0.743589`
+- Absolute gate：`FAIL`
+
+因此，仅改变 normalization、H aggregation 或切换现有 shared/task-aware bridge/head，不能恢复 source adequacy。
+
+### 7.2 Five-fold direct linear source ceilings
+
+| View | Accuracy | BT-NLL | Gate |
+|---|---:|---:|---|
+| `H64` | `0.482394` | `1.007065` | FAIL |
+| `CONCAT_U128` | `0.492958` | `1.240826` | FAIL |
+| `RAW_SD64` | `0.517606` | `0.860888` | FAIL |
+| `RAW_FLUX256` | `0.457746` | `1.301217` | FAIL |
+| `RAW_CONCAT320` | `0.457746` | `1.363800` | FAIL |
+
+`RAW_SD64` 是最佳 direct linear ceiling，但仍未通过 gate。按冻结的 early-stop，Stage C 未打开，没有合格候选可冻结；DCAE evaluation count=`0`。
+
+## 8. Analysis
+
+### 8.1 当前结果能说明什么
+
+- B1-284 的 blocker 不能由简单 normalization、representation mean/score mean 切换，或现有 shared/task-aware bridge/head 选择直接修复。
+- 在当前 284-pair 跨域 SVG cohort 和固定线性 reader 容量下，所有 source views 都没有达到冻结修复候选所需的 absolute adequacy gate。
+- 按协议停止在 source localization 层，避免在已消费 authority 上反复选择复杂模型。
+
+### 8.2 当前结果不能说明什么
+
+- `SOURCE_LATENT_ADEQUACY_UNRESOLVED` 不等于 source latent 不含 Reward 信息。
+- 不能否定非线性 direct reader、更大同域 source-training authority、新 reference 或新 VAE adapter。
+- 不能评价 DCAE mapping、correct-vs-null specificity、fresh Reward transfer、canonical/universal `U` 或 unseen-VAE onboarding。
+- 五折线性 probe 的失败只约束当前 cohort、view、reader capacity 与 gate，不是一般性不可达证明。
+
+## 9. Problems
+
+- B1-284 已被消费，当前结果只能用于 adaptive localization，不能升级为 fresh confirmation。
+- Cohort 小且来自新的 SVG coherence domain，历史 Reward semantics、head checkpoint 与当前 domain 的兼容性尚未恢复。
+- 没有 direct ceiling 通过，因而无法按冻结协议选择 `R1_LINEAR_SHARED_H` 或 `R2_U0_MLP_SHARED_H`。
+- 当前最早的 unresolved layer 仍是 source/reader/reference adequacy；继续调 DCAE mapping 不具可归因性。
+
+## 10. Next Steps
+
+1. 获取更大、独立、合法封存的 source-development authority，先在 source-only 条件下恢复 reader/reference。
+2. 只用 development authority 选择并冻结唯一 H-compatible repair candidate。
+3. 使用另一份未消费 fresh authority，只评价 `SOURCE_H` absolute adequacy。
+4. 只有 `SOURCE_H` 同时通过 Accuracy 与 BT-NLL 的冻结 gates，才释放 DCAE correct-vs-five-nulls。
+5. 若 fresh `SOURCE_H` 再次失败，结论仍停在 source/head/reference 层，不评价 mapping failure。
+
+下一阶段的数据准备与 source-only reader 开发可能需要 GPU 编码；U4-B1D0 本身已经结束且为 CPU-only，当前无需租用 GPU 服务器。
+
+## 11. Sources
+
+- Source: `source-workspace/.worktrees/u4-b1d0-source-head-reference-adequacy/runs/U4B1D0_DEV_SOURCE_HEAD_REFERENCE_ADEQUACY/report.md`
+- Source: `source-workspace/.worktrees/u4-b1d0-source-head-reference-adequacy/runs/U4B1D0_DEV_SOURCE_HEAD_REFERENCE_ADEQUACY/decision.json`
+- Source: `source-workspace/.worktrees/u4-b1d0-source-head-reference-adequacy/runs/U4B1D0_DEV_SOURCE_HEAD_REFERENCE_ADEQUACY/source_ceiling_summary.csv`
+- Source: `source-workspace/.worktrees/u4-b1d0-source-head-reference-adequacy/runs/U4B1D0_DEV_SOURCE_HEAD_REFERENCE_ADEQUACY/zero_training_matrix.csv`
+- Source: `source-workspace/.worktrees/u4-b1d0-source-head-reference-adequacy/runs/U4B1D0_DEV_SOURCE_HEAD_REFERENCE_ADEQUACY/verifier_receipt.json`
+- Source: `source-workspace/.worktrees/u4-b1d0-source-head-reference-adequacy/runs/U4B1D0_DEV_SOURCE_HEAD_REFERENCE_ADEQUACY/inventory.json`
+- Source: `source-workspace/.worktrees/u4-b1d0-source-head-reference-adequacy/runs/U4B1D0_DEV_SOURCE_HEAD_REFERENCE_ADEQUACY/result_seal.json`
+- Source: `source-workspace/.worktrees/u4-b1d0-source-head-reference-adequacy/docs/superpowers/specs/2026-08-26-u4-b1d0-source-head-reference-adequacy-design.md`
+- Source: `source-workspace/.worktrees/u4-b1d0-source-head-reference-adequacy/docs/superpowers/plans/2026-08-26-u4-b1d0-source-head-reference-adequacy.md`
+
+相关页面：[[latentatlas]]、[[latentatlas-u4b-complete-experiment-report]]、[[latentatlas-u4bd1-frozen-head-function-preservation]]、[[latentatlas-u4b1-284-exploratory-fresh-functional-specificity]]、[[representation-alignment]]。

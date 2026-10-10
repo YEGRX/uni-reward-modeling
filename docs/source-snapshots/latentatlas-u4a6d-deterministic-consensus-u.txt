@@ -1,0 +1,101 @@
+# LatentAtlas U4-A6-D Deterministic Consensus-U
+
+## 1. Date
+
+2026-08-24 至 2026-08-25。
+
+## 2. Purpose
+
+检验能否仅用同一 identity 的三 VAE paired latent，学习一个不接收 VAE identity 的 deterministic consensus U，并同时满足：correct-over-null specificity、非塌缩、接近 chance-free retrieval、弱 VAE 可识别性，以及相对冻结 arithmetic reference baseline 的 noninferiority/material gain。
+
+## 3. Code Version / Commit
+
+- Common frozen base：`2ed98d379c2b7134385f44faee6cbe87e12764f7`。
+- Original production/invalid result：`9030245a664ef002b3a983ada96d2b8f05f9d2cb` / `56efb73dd79744f9fcd07ac593f9d2ae64a1fce1`。
+- D2 production/result：`164e1edd59a38400f7543ab83df420a43a938bb5` / `16442f95e40afd833c41f1d129fe7b714639c2b9`。
+- D2 是独立 `operational-repair replay`；原失败结果保留不变，未合并到 `main`。
+
+## 4. Dataset / Input
+
+- 冻结 P4096 的 fold 0：3,276 fit identities、820 evaluation identities。
+- 输入为 SD、FLUX、DCAE 三个注册 view 的 paired latent representation。
+- Correct 与固定 null 使用相同 init、batch schedule 与训练预算。
+- 不访问 H1105、Reward、validation/test、fresh authority、网络或 CUDA。
+
+## 5. Parameters
+
+- One-seed deterministic consensus pilot。
+- 三个 view 共享训练协议；没有 per-VAE core 或 identity lookup。
+- Primary comparison 同时要求 specificity、noncollapse、chance、VAE probe、integrity 与 arithmetic-reference noninferiority。
+- Arithmetic baseline noninferiority threshold：R@1 与 MRR lower bound 均需 `>= -0.02`。
+
+## 6. Command
+
+~~~bash
+env PYTHONNOUSERSITE=1 PYTHONPATH="$PWD/src:$PWD" CUDA_VISIBLE_DEVICES='' \
+OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 \
+source-workspace/.venv/bin/python -B \
+scripts/run_u4a6d2_operational_repair_replay.py
+~~~
+
+~~~bash
+env PYTHONDONTWRITEBYTECODE=1 PYTHONNOUSERSITE=1 CUDA_VISIBLE_DEVICES='' \
+source-workspace/.venv/bin/python -B \
+scripts/verify_u4a6d2_operational_repair_replay.py \
+runs/U4A6D2_DEV_REWARD_FREE_DETERMINISTIC_CONSENSUS_U_OPERATIONAL_REPAIR_REPLAY
+~~~
+
+## 7. Results
+
+### Original attempt: operationally invalid
+
+原实验完成训练后，在 terminal certificate serialization 时仍把 transient `checkpoint_bytes` 送入 recursive canonical JSON conversion，触发 `ValueError: U4-A6-D document contains a noncanonical value`。它只有 durable receipt 与 `operational_failure.json`，没有保存 metrics 或 scientific decision。
+
+D2 唯一修复是在 canonical conversion 前移除 transient bytes；architecture、data、random streams、loss、optimization、metrics、thresholds 与 decision precedence 均不变。
+
+### D2 verified result
+
+冻结分类：**`DETERMINISTIC_CONSENSUS_U_NOT_CORRESPONDENCE_SPECIFIC`**。
+
+但这个 fallback 名称对本次实际门控具有误导性：
+
+- Specificity lower bounds `(relative cNRMSE, R@1, MRR)=(0.158261, 0.150000, 0.124974)`，全部通过。
+- Noncollapse 通过：variance mass=`16.550848`，effective rank=`37.521936`，64 active dimensions。
+- Worst-view R@1=`0.895122`，lower=`0.876829`，远高于 chance `1/820`。
+- VAE probe balanced accuracy=`0.421545 <= 0.433333`，通过。
+- Architecture、matched streams 与 training integrity 全部通过。
+- 相对 arithmetic baseline，R@1/MRR point gap=`-0.065854/-0.048732`，lower=`-0.087805/-0.064485`，未达到 `-0.02` noninferiority threshold。
+- Failure reasons 只有 `noninferiority`。
+
+Decision SHA-256：`8a079465076677c760eeca590313694ec69d2e197e567cfce385a605b6863fe4`。Inventory SHA-256：`9b806e59bec63d4ab5bdaaf3303dd2ca04402862d6686da362282183b0d6e55e`。
+
+## 8. Analysis
+
+准确表述应是：
+
+> 当前 learned deterministic consensus 非塌缩并含 correct-pairing-specific structure，但相对简单 arithmetic reference baseline 的检索质量下降超过注册容忍度。
+
+因此本实验否定的是当前 deterministic construction 在冻结 feasibility rule 下的竞争力，而不是所有 deterministic consensus U，也不是 correspondence specificity 本身。
+
+## 9. Problems
+
+- 原 attempt 为 post-materialization serializer failure；D2 用独立身份修复，未覆盖原记录。
+- Frozen classification 名称把 “baseline noninferiority failure” 过度概括成 “not correspondence specific”；后续引用必须同时报告 gate state。
+- 仅 fold 0、单 seed、development-only；不能外推新 VAE、新数据分布或 Reward functionality。
+
+## 10. Next Steps
+
+本实验 hard stop。不要继续在相同 authority 上调 deterministic architecture。若以后另行批准，只能把它作为一个失败的当前构造对照，而不能当作 deterministic U 的一般不可能性证明。
+
+本实验和归档均为 CPU-only；GPU 服务器无需开启。
+
+## 11. Sources
+
+- Source: `source-workspace/.worktrees/u4-a6d-deterministic-consensus-u/runs/U4A6D_DEV_REWARD_FREE_DETERMINISTIC_CONSENSUS_U_PILOT/attempt_receipt.json`
+- Source: `source-workspace/.worktrees/u4-a6d-deterministic-consensus-u/runs/U4A6D_DEV_REWARD_FREE_DETERMINISTIC_CONSENSUS_U_PILOT/operational_failure.json`
+- Source: `source-workspace/.worktrees/u4-a6d2-operational-repair-replay/runs/U4A6D2_DEV_REWARD_FREE_DETERMINISTIC_CONSENSUS_U_OPERATIONAL_REPAIR_REPLAY/report.md`
+- Source: `source-workspace/.worktrees/u4-a6d2-operational-repair-replay/runs/U4A6D2_DEV_REWARD_FREE_DETERMINISTIC_CONSENSUS_U_OPERATIONAL_REPAIR_REPLAY/evaluation_summary.csv`
+- Source: `source-workspace/.worktrees/u4-a6d2-operational-repair-replay/runs/U4A6D2_DEV_REWARD_FREE_DETERMINISTIC_CONSENSUS_U_OPERATIONAL_REPAIR_REPLAY/robustness_summary.json`
+- Source: `source-workspace/.worktrees/u4-a6d2-operational-repair-replay/runs/U4A6D2_DEV_REWARD_FREE_DETERMINISTIC_CONSENSUS_U_OPERATIONAL_REPAIR_REPLAY/decision.json`
+- Source: `source-workspace/.worktrees/u4-a6d2-operational-repair-replay/runs/U4A6D2_DEV_REWARD_FREE_DETERMINISTIC_CONSENSUS_U_OPERATIONAL_REPAIR_REPLAY/model_certificate.json`
+- Source: `wiki/synthesis/latentatlas-u-development-reference-consensus-report.md`

@@ -1,0 +1,67 @@
+# Framework v4 奖励反馈后验恢复固定验证 Reward Feedback Posterior Recovery
+
+## 1. Date
+
+2026-10-09。承接[[latent-reward-channels-system-v3-validation]]；理论由ChatGPT维护，Codex独立固定验证。不覆盖历史。
+
+## 2. Purpose
+
+Research gap：同一最终偏好风险如何组合优化/参考/迁移/统计误差；条件矩匹配阶如何影响反馈任务；错误校准law是否留下迁移地板；偶数probe及未知截距的信息边界。A/C为主干，B仅接入条件通道迁移，无新方法线或网络。
+
+## 3. Code Version / Commit
+
+执行源SHA `3aefe139e2a7e021e0cfc8ac8286b1932a377f3a90ccb92ee9e07ff43e196b57`，配置SHA `ffe1e9190f66c2a3bfd631ab6d50726a4e1c0aba7313626a5a664f1e31b7e734`。一次短review PASS。独立验证器首次字段名错误保留后修复，未更改数值执行源/公式/数据。无可用Git HEAD，不编造commit。
+
+## 4. Dataset / Input
+
+有限clean(U,J)与source(A,L)，显式Q/R生成单输出原joint；r2/r3/r1固定格。CAL四条件单元、两校准law/n16/128，各128块、seed42051009，所有方法同块；512块共147456数学样本。AUD两独立Binomial、全129²计数。真实资产只引用已有资格，不重新全库审计。
+
+## 5. Parameters
+
+β.6/T1/ρ.8/α.75/c.4/d.15。COMP固定四扰动格；ORDER r2/r3 eta.1/.3与r1 eta.3，70位 eta.1/.03/.01比值；CAL目标delta.12/eta.3、校准delta0/.12、公开完整一参数盒、单次KKT/brentq xtol1e-12、gap1e-9；AUD n128各组/b.8/g.8/.2，偶数和式、MLE=投影；未知c控制g.8/.3。零搜索、无作者seed复用。
+
+## 6. Command
+
+本地单线程NumPy/SciPy/Matplotlib与已有mpmath运行最小固定数学模块。Observed由原source/interface联合表、双候选clean-BT标签积分及完整计数求和得到；标量公式仅独立对照。保存产物另重算sample/count、MLE gap、风险与配对SE、高精度source/标量差。
+
+## 7. Results
+
+| Formula / comparison | Predicted / observed / error | Status |
+|---|---|---|
+| F4/19–23/26 COMP | 四风险6.91866e-7/2.81318e-7/1.59163e-6/5.35388e-7均在界内；posterior重构≤1.11e-16；优化gap1.0082185e-4对应直接目标差 | SUPPORTED_IN_SPECIFIED_MODEL |
+| 错误KL相加 | p(.3,.7)、v(.08,−.04)：双步KL .00623314 > 两倍单步 .00307139 | REFUTED_BY_COUNTEREXAMPLE，仅错误三角式非F22 |
+| F16–18/27–36 ORDER | η.3 r2/r3风险6.9186556928e-7/1.3780732060e-9，低阶条件矩相同；F35误差≤2.6e-20；70位固定比值接近正系数 | SUPPORTED_IN_SPECIFIED_MODEL，非一般渐近证明 |
+| F13充分非必要控制 | 完整jointKL .09151622，utility posterior差5.55e-17 | 固定任务比完整kernel相等更弱 |
+| CAL错误law n128 | pool7.4979891e-7、MLE7.2184354e-7，精确迁移参考6.9186557e-7 | 有限观察与非零地板相容，不由两n证明极限 |
+| CAL正确law n128 | pool7.0187870e-8、同信息MLE3.4256092e-8；配对差3.5931777e-8，SE6.1761118e-9 | 强baseline优势保留，不同law分栏 |
+| F38–40 AUD | 偶数和式投影=MLE，误差1.92e-15；强probe风险1.3699047e-6仍劣不修复6.9186557e-7，弱/correct-baseline负格保留 | SUPPORTED_IN_SPECIFIED_MODEL |
+| 未知c边界 | (.4,0)与(.3826766543,.12)相同probe却target pair差.00454534475；g=eta时任务差2.22e-16 | 已知c假设撤销为ASSUMPTION_FAILED；控制支持信息边界 |
+
+512个CAL MLE解最大gap1.0767e-13（阈值1e-9），78端点解合法；AUD gap≤1.18e-16。321保存核验PASS，不称321个独立实验。
+
+[完整报告与三图](../../scripts/latent-reward-channels/outputs/paper-framework-v4-validation-20261009/report.md)；[CAL逐块配对](../../scripts/latent-reward-channels/outputs/paper-framework-v4-validation-20261009/calibration-paired.csv)；[CAL MLE gap](../../scripts/latent-reward-channels/outputs/paper-framework-v4-validation-20261009/calibration-MLE.csv)；[AUD全计数](../../scripts/latent-reward-channels/outputs/paper-framework-v4-validation-20261009/audit-counts.csv)。
+
+## 8. Analysis
+
+同一实际Y law的root-osc误差上界允许相关与抵消；优化扰动增加KL却降低pair风险，不是风险加性分解。增加错误校准law样本不能自动提供部署条件law；正确law信息与同信息MLE的优势需分开。偶数probe需要已知截距，任务可识别性弱于参数可识别性；原source接口合法域与参数盒/复合核范围分别报告。
+
+## 9. Problems
+
+没有所述假设内稿内公式数值矛盾需ChatGPT修订。错误KL加法是明确负例，奇数公式误用/未知c不是已知c定理反例。首次保存验证因log_opt/log-opt读取不一致停止，失败wall.20960925秒计入，保留后仅修读取，不重跑拟合。一般证明/连续效用/新颖性未认证。
+
+真实A OBSERVABLE_BUT_UNCERTIFIED，B/C MISSING_ASSET；缺有效E|U,Y、部署条件移动、单候选posterior与冻结同核probe，不由D64、分箱或pair反推补足。旧No-Go、真实A/B无优势、C旧gate机制未完成不变；旧adaptive=pool及n16 crossfit劣势只读保留。
+
+## 10. Next Steps
+
+固定四项已完成，不新增方法/参数搜索或获取新真实观测。ChatGPT维护理论修订与一般证明。两个n和三个高精度点不称极限/minimax证明或fresh视觉确认；不自动执行64次forward。
+
+新增wall **1.972862417秒**、CPU **1.870084秒**；累计wall **263.579702167秒**。COMP+CAL .019092秒、ORDER+AUD .085402秒、shared1.868369秒，15秒及6/4/5内；失败和恢复纳账，旧累计不重置。0GPU/远端/付费/真实forward/图像/特征/训练。无需服务器，未核查旧服务器状态。
+
+相关：[[latent-reward-channels]]；[[latent-reward-channels-system-v3-validation]]；[[latent-reward-channels-core-v2-validation]]。
+
+## 11. Sources
+
+Source: `raw/projects/latent-reward-channels/paper-framework-v4-validation-20261009/Paper_Theory_Framework_v4.md`。
+Source: `raw/projects/latent-reward-channels/paper-framework-v4-validation-20261009/Codex_Framework_v4_Validation.md`。
+Source: `scripts/latent-reward-channels/outputs/paper-framework-v4-validation-20261009/`（原joint/条件PMF/样本/逐块与全计数风险、MLE gap、图、成本与失败恢复证据）。
+Source: `scripts/latent-reward-channels/outputs/system-v3-validation-20261009/`（历史只读及真实资格表）。

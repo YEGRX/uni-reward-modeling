@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-reward-sufficiency-g1-formal",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Frozen G0.1 inventory: `1258096302a7da7147d159431b1eb53e8e141d39a1887b6847d7469c6775ef37`。\n- Dataset totals: `63,748` source rows、`56,074` usable pairs、`7,673` exact ties、`6,632` images、`282` image-connected components。\n- Usable train / validation / test pairs: `44,839 / 5,593 / 5,642`；上游已验证跨 split 的 image、prompt 与 source-row intersection 为空，且与冻结 Anchors overlap=`0`。\n- VAE families: `sd_vae_ft_mse`、`flux1_schnell_vae`、`dc_ae_f32c32`。\n- Anchor bank seeds: `2026080901 / 2026080902 / 2026080903`；每个 K=`64`，mapped source pool=`256` images。\n- GPU bundle 不含 target labels；target 与 source results 分别通过 sealed oracle capability 打开并进入 terminal evidence chain。",
+  "parameters_excerpt": "- Operators: `global_cosine` 与 `rank`。\n- Reward heads: linear 与 MLP；primary gate 使用 global-cosine MLP。\n- Training seeds: 三个冻结 seeds；每个 condition 最多 `100` epochs。\n- Optimizer: AdamW，learning rate=`1e-3`，weight decay=`1e-4`，batch size=`256`。\n- Checkpoint rule: source-validation macro BT-NLL 严格下降；patience=`10`；选择取得最小 validation NLL 的最早 epoch。\n- Label-shuffle seed: `2026081303`；wrong-Anchor seed: `2026081302`。\n- Bootstrap seed: `2026081301`；`10,000` 次 component draws，cluster key=`component_id`，保留 pair multiplicity，correct / wrong control 共享 draws。\n- Exact matrices: `270` condition rows、`621` source-gap rows、`85` gate-summary rows、`5,875` training-history rows、`21` resource rows；primary gate cells=`108`。",
+  "code_identity_excerpt": "- Git commit: `f342b9cc83629b6466663b68c500e2e6e3e68020`\n- Config SHA-256: `a7d2a0b6661db471d3c147526acf1668fd0c2ebe3b5d20bc578277c56300ceb7`\n- Plan SHA-256: `4fc1c43f6cf99f8eabc80c08de1657d0c17c5f54aaeac64f889d06a43f65c7ce`\n- Authority projection SHA-256: `48823b11dfd20d83028c354a2cc5ecef92bc2496fdfca8e3b0675c4e56ef1b2e`\n- Full run: `LatentAtlas-runs/g1-formal-f342b9c-20260815T062800Z`\n- Formal seal: `3cb7ef82a80e960ca08d2fb2973f1bb96f53323030b48db4c53d1ddde8b9c31c`\n- Terminal status: `complete / formal / pass`\n- Machine gate: `decision=no`，`subtype=control_failure`",
+  "source_snapshot": "docs/source-snapshots/latentatlas-reward-sufficiency-g1-formal.txt",
+  "primary_report": null
+}

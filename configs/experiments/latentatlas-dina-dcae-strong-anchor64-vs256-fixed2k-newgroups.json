@@ -1,0 +1,20 @@
+{
+  "experiment_id": "latentatlas-dina-dcae-strong-anchor64-vs256-fixed2k-newgroups",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "ANCHOR_EXPANSION_JOINT_GAIN_SUPPORTED",
+  "scope": "NEW_EVAL56：2,016对 / 56组 / 504图 / 4流",
+  "scientific_conclusion": "S64→S256：NMSE下降29.1081%；Accuracy68.5392%→69.9529%；G一致率85.8771%→88.6930%。",
+  "limitations": "单嵌套Anchor draw和初始化，固定2K更新；三端点调整区间通过，near-native未成立，来源pool已被source资格消费。",
+  "input_excerpt": "原Anchor父pool确认是COCO val2017，5000张图；原256抽样与FIT/VAL银行随机过程已远端CPU精确复现。新增192图按用户固定hash排序，排除旧256开发图、VAL及HPDv3原图/RGB身份。FIT256=原FIT64+192，原VAL64不变。\n新评价从372个合格组按预定hash选56个完整组，504图、2016对。四臂共64512个逻辑评分条件。所有候选来自已有source qualification消费过的来源pool；只与已知adapter开发组互斥，不能称项目全局fresh。未知预训练重叠保留。\n输入seal：f5924cb348b0955aad5a65763b7edbe5354e7e016567fcea43f39d993fe9843d。",
+  "parameters_excerpt": "仅新S256从旧Strong step0训练2000更新、batch32、64000抽样、seed20260827。原torch CPU randperm规则扩到256，物化抽样下每图250次；旧64每图1000次。匹配更新与LR不等于匹配每图曝光、FLOPs或时长。\n模型889424参数；W0来自原FIT64，T1/scaling/posterior合同固定。checkpoint为0/250/…/2000。评价仅N_NATIVE、G_T1、S64、S256，同新组与四流噪声。\n共同组bootstrap20000次、PCG64 seed2026100203；三个主端点用1/120与119/120分位区间，同时报普通95%。零基线/零参考分母保持UNDEFINED。",
+  "code_identity_excerpt": "独立分支codex/dcae-strong-anchor64-vs256-fixed2k-r1；科学提交963c6d5bd23b90a87d9606b167568063d5a28e33，code-formal-r3。科学spec SHA327becacc6d5239414d1765391d3c580f3eb56925d5878e8486360891907e26e冻结不改。\n\n独立CPU恢复code-completion-r2仅修正辅助cosine的累加精度，保留原公式、容差、模型输出及统计实现；CPU release SHA57e537f5cb2393e414bf3b34cc5d268240378616c56b8bfab351ccd7131d6734。该变化没有重训或重评。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-dina-dcae-strong-anchor64-vs256-fixed2k-newgroups.txt",
+  "primary_report": {
+    "source_locator": "wiki-store/raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/final-report-r3.md",
+    "original_sha256": "85f2d94ace757449542bfa017c9518ebe80be989963927682f87f05c9f986a38",
+    "file": "docs/reports/latentatlas-dina-dcae-strong-anchor64-vs256-fixed2k-newgroups-final.txt",
+    "sha256": "4df79dd115f2e3f881eab9d8bf96def693eebfdc171f4f399fb0e56bc734ebb3"
+  }
+}

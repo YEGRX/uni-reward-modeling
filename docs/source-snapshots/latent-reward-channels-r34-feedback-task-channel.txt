@@ -1,0 +1,63 @@
+# ABC R3.4 反馈与任务通道固定验证 Feedback and Task Channel Validation
+
+## 1. Date
+
+2026-10-08；承接[[latent-reward-channels-r33-channel-structure]]，不覆盖历史结果。
+
+## 2. Purpose
+
+Research gap：noisy reward优化后，即使新效用prior已知，within-utility likelihood变化是否仍令偏好posterior错误；reward probes能识别哪些任务核及需要多少统计信息。ChatGPT维护理论；Codex独立固定数值/机制检查，不扩网络。
+
+## 3. Code Version / Commit
+
+无可用Git HEAD；独立执行模块SHA `26b02361bde53bcc68dec099a55d38bb46f57b522aef4bc4517e38f75469b19b`。原件/配置冻结、一次短review及最终只读核验均有收据，作者脚本未执行。
+
+## 4. Dataset / Input
+
+四状态有限joint、四Gaussian成分、三效用三输出冻结核、两probe二项计数。Exact enumeration / known-model / formula-style；不是视觉数据训练。原endpoint、双VAE和旧NPZ仅只读字段/资格检查。
+
+## 5. Parameters
+
+AC：β=.6/η=.3，α=.4/ρ=.6，e0/U/V/UV；local η .3/.1/.03/.003，BT T1。G：t1=t2=1，GH40/80。B：u(-1,0,1)，p(.25,.5,.25)，probe(-.6,0,.6)，target0/.3，同一冻结K0/K1。S：θ.2只生成/评价，b.2/.8×n64/256，已知区间[-.25,.25]，五方法。无搜索。
+
+## 6. Command
+
+既有单线程Python/NumPy/SciPy/Matplotlib、CUDA禁用，执行最小模块`r2/verify_r34_feedback_task_channel.py`。AC从原joint算预算与256 pair NLL；G从Gaussian mixture直接Bayes；B从joint取marginal再solve；S完整count权重求MSE。独立最终核验从保存计数权重重算风险，并核对原件与代码hash。
+
+## 7. Results
+
+| 验证 | predicted / observed及baseline | 状态 |
+|---|---|---|
+| AC | V/UV同mean .537049567和总KL .043053014；posterior KL分别约0/.009634065。UV pair excess预测.002154038098144443、观测.002154038098144073；prior-only/最强Y1校准NLL .6807228824，repair/fulljoint oracle .6785688443 | SUPPORTED_IN_SPECIFIED_MODEL |
+| G | 实际h条件均值-.5/-1.5/.5/1.5；GH40/80平均posterior KL .0083553129846/.0083553126976，差2.87e-10；mixture/formula logit误差≤1.14e-13 | SUPPORTED_IN_SPECIFIED_MODEL |
+| B | 零probe marginals相同但核不同；三probe cond25.60154，核恢复误差8.88e-16。target0/.3 pair excess2.454e-8/2.950e-6，宽界.015122保留；完整内容差.2且utility核相同的控制保留 | SUPPORTED_IN_SPECIFIED_MODEL |
+| S | 主格b.2/n64逆MSE .04982288378劣于零.04；合法投影/预定选择.02415184255；oracle0。42.0042%超出已知参数类，不等于非法Bernoulli核比例；clean-labeled另列不同权限 | SUPPORTED_IN_SPECIFIED_MODEL |
+
+113核验达到固定容差，不是113独立实验；无本轮数值失败。近零负KL、不利逆格及保守风险界保留。没有满足完整假设的理论反例；有限点不证明渐近/连续完备性/整个minimax下界。
+
+[完整报告、底层CSV/JSON/NPZ及三张PNG/PDF主图](../../scripts/latent-reward-channels/outputs/r34-feedback-task-channel-20261008/report.md)。[实际成本](../../scripts/latent-reward-channels/outputs/r34-feedback-task-channel-20261008/source-and-cost.json)。
+
+## 8. Analysis
+
+排除了本模型中仅用reward mean或total KL描述posterior危害的解释。Residual-aware等于known-joint oracle是公式验证，不是学习算法胜过oracle。奖励倾斜可识别utility条件作用而不能自动恢复整个content channel。有限计数逆的方差代价、参数类合法性和投影收益需分开。
+
+## 9. Problems
+
+真实A原endpoint存在但D64非Gaussian线性坐标，192 unique rewards不提供同效用层证书：OBSERVABLE_BUT_UNCERTIFIED。B缺实际固定probe/条件任务核观测；C缺单候选π、likelihood/prior与within-utility变化：MISSING_ASSET；旧head训练合同ASSUMPTION_FAILED。不是积分精度不足。未从pair p/q反推π或任意分箱制造证书。
+
+报告review修正“参数类越界比例≠非法概率核比例”和“完整Bayes可达需表达/估计条件”两处措辞；数据、参数、公式对象均未变。
+
+新增wall **1.498222250秒**、已计时CPU **1.000176000秒**；累计wall **251.001740792秒**，预算不重置。科学计算、导入、微型计时、表图与数值核验计入；阅读/review/写作除外；启动CPU未完整计时明示。0新增GPU/远端/付费/图像/特征/真实fit。
+
+## 10. Next Steps
+
+本轮无需ChatGPT修订已限定公式。最值得新增的是冻结实际scorer/接口的reference与reward优化后同效用条件观测表，区分prior-only与within-utility变化；单孤立图像不够。本轮不获取、不采购，64新前向未授权未执行。旧No-Go和真实方法无优势、C旧gate未有效判别保持；后续无需GPU，未检查旧服务器状态。
+
+相关：[[latent-reward-channels]]；[[latent-reward-channels-r33-channel-structure]]；[[latent-reward-channels-r32-fixed-validation]]。
+
+## 11. Sources
+
+Source: `raw/projects/latent-reward-channels/r34-feedback-task-channel-20261008/ABC_R3_4_Theory_Researcher.md`。
+Source: `raw/projects/latent-reward-channels/r34-feedback-task-channel-20261008/ABC_R3_4_Experiments_Codex.md`。
+Source: `scripts/latent-reward-channels/outputs/r34-feedback-task-channel-20261008/`（协议、真实字段资格、表图、review及成本）。
+Source: `scripts/latent-reward-channels/outputs/r33-channel-structure-20261008/`（历史报告和账本不修改）；实际缓存路径/hash见本轮cache-qualification及final-verification。

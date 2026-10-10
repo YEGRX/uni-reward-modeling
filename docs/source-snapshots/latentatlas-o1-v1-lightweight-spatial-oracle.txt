@@ -1,0 +1,136 @@
+# LatentAtlas O1-v1 Lightweight Spatial Clean-Latent Reward Oracle
+
+## 1. Date
+
+2026-08-17
+
+## 2. Purpose
+
+在不引入 Anchor、Shared U、cross-VAE sharing 或预训练 reward model 的前提下，分别检验 SD-VAE、FLUX-VAE、DC-AE 的完整 deterministic clean latent 是否含有可被轻量 spatial reader 独立读取的 human preference / Reward signal。
+
+O1-v1 与 [[latentatlas-o1-independent-clean-latent-oracle-smoke]] 的唯一本质区别，是保留 `C×H×W` 的 local/spatial organization，而不再先压缩为 channel mean/std/RMS。数据契约继续来自 [[latentatlas-reward-data-preflight-g01]]，null protocol 沿用 [[latentatlas-o1-sd-shuffle-control-repair]] 的 train/validation 双置乱修复。
+
+## 3. Code Version / Commit
+
+- Production Git commit: `325b47146ade4fddd98877444d072e216aa9311d`
+- Branch: `codex/o1-v1-lightweight-spatial-oracle`
+- Split SHA-256: `83a96bcdeb2805e1743b4555c5a1366558612dc5033598c777295b3016ab64ea`
+- Runner: `source-workspace/.worktrees/o1-v1-lightweight-spatial-oracle/scripts/run_o1_spatial_oracle.py`
+- Config: `source-workspace/.worktrees/o1-v1-lightweight-spatial-oracle/configs/o1-v1-lightweight-spatial-oracle.json`
+- Production device: NVIDIA GeForce RTX 4090；PyTorch `2.5.1+cu121`；CUDA `12.1`；cuDNN `90100`。
+
+## 4. Dataset / Input
+
+- Dataset: Rapidata human coherence pairwise preference。
+- Cache-covered subset: `999` usable pairs、`713` unique reward images。
+- Pair counts: train/validation/test = `605 / 168 / 226`。
+- Unique image counts: train/validation/test = `481 / 114 / 118`。
+- 三个 split 的 image intersection 均为 `0`；`missing_latents=0`。
+- SD latent: `[4,64,64]`；FLUX latent: `[16,64,64]`；DC-AE latent: `[32,16,16]`。
+- 每个 VAE 的 channel normalization 只用 481 张 unique train images，在 image + spatial 维拟合 population mean/std；validation/test 只复用 train statistics。
+- 18 个 checkpoint 全部冻结并校验 SHA-256 后，真实 test labels 只打开一次；`test_label_open_count=1`。
+
+## 5. Parameters
+
+```text
+Conv2d(C_in,64,3,padding=1) -> GELU
+Conv2d(64,64,3,padding=1) -> GELU
+AdaptiveAvgPool2d-equivalent output (4,4)
+Flatten -> Linear(1024,128) -> GELU -> Dropout(0.1) -> Linear(128,1)
+
+loss = Bradley-Terry NLL
+optimizer = AdamW
+epochs = 15
+batch_size = 32
+lr = 3e-4
+weight_decay = 1e-4
+real_seed = 20260814
+null_seeds = 2026081401..2026081405
+patience = 3
+```
+
+参数量：SD=`170625`，FLUX=`177537`，DC-AE=`186753`。由于 PyTorch 2.5.1 的 CUDA `AdaptiveAvgPool2d` backward 在 strict deterministic mode 下使用不确定 atomic add，冻结的 `64×64` / `16×16` 输入采用数学等价、无参数的整数分块 `AvgPool2d`；CPU 测试确认前向值与梯度完全一致，production artifact 显式记录该实现。
+
+每个 null seed 同时控制 train-label permutation、validation-label permutation 和模型随机性；null checkpoint selection 完全不使用真实 validation preference labels。
+
+## 6. Command
+
+```bash
+LATENTATLAS_RUNS_ROOT=/root/autodl-tmp/latentatlas-runs \
+conda run -n latentatlas python scripts/run_o1_spatial_oracle.py \
+  --config configs/o1-v1-lightweight-spatial-oracle.json
+```
+
+生产运行在修复 deterministic CUDA 启动边界后执行一次并以 exit code `0` 完成。两个失败的启动尝试都在首个 batch、任何 checkpoint/test-label access 之前 fail closed，没有生成正式结果。
+
+## 7. Results
+
+| VAE | Real Acc | Real BT-NLL | Best Val NLL | Epoch | Null Acc Mean±Std | Null Acc Min–Max | Null NLL Mean±Std | ΔAcc | ΔNLL | Null≥Real | Gate |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| SD | 62.83% | 0.657236 | 0.666273 | 5 | 55.66%±3.52% | 50.88%–60.18% | 0.684805±0.008911 | +7.17% | +0.027569 | 0/5 | preliminary_positive |
+| FLUX | 56.19% | 0.665850 | 0.671706 | 2 | 50.97%±5.06% | 43.81%–56.64% | 0.691582±0.011148 | +5.22% | +0.025732 | 1/5 | preliminary_positive |
+| DC-AE | 61.06% | 0.633225 | 0.682258 | 2 | 49.29%±3.21% | 46.02%–54.87% | 0.694940±0.003580 | +11.77% | +0.061715 | 0/5 | preliminary_positive |
+
+Null test accuracy（seed `1401..1405`）：
+
+- SD：`50.88 / 60.18 / 53.98 / 53.98 / 59.29%`。
+- FLUX：`46.46 / 55.75 / 43.81 / 52.21 / 56.64%`。
+- DC-AE：`46.46 / 50.44 / 48.67 / 46.02 / 54.87%`。
+
+与 O1-v0 real accuracy 的同 split 描述性比较：SD `+3.54%`，FLUX `-1.77%`，DC-AE `-1.77%`。因此 spatial reader 没有在三个 VAE 上一致超过 mean/std/RMS reader。
+
+## 8. Analysis
+
+### 8.1 是否存在 independently readable Reward signal？
+
+三个 VAE 都通过预注册 smoke gate：real accuracy 高于 `null mean + 1 population std`，real BT-NLL 优于 null mean，且 real 至少超过 4/5 null。O1-v1 因而提供 preliminary evidence，支持“heterogeneous clean VAE latents independently contain readable Reward information”。这不是 formal significance test，也不证明 Reward-sufficient universal space。
+
+### 8.2 SD 是否得到确认？
+
+SD real=`62.83%`，null=`55.66%±3.52%`，5/5 null 均低于 real，且 `ΔNLL=+0.027569`。相较 O1-v0/O1-SD-C 的 unresolved 状态，SD readability 获得更可信的 preliminary smoke 支持。
+
+### 8.3 Spatial structure 是否普遍更容易读取？
+
+不能作普遍肯定。SD 相比 O1-v0 上升 `3.54%`，但 FLUX/DC-AE 都下降约 `1.77%`。正确结论是：spatial reader 让三个 VAE 都呈现 real-vs-null separation，但没有统一提高 absolute real accuracy。
+
+### 8.4 Memorization risk
+
+- SD：best train/validation NLL=`0.638969/0.666273`，`pretest_memorization_risk=False`。
+- FLUX：`0.665098/0.671706`，`pretest_memorization_risk=False`。
+- DC-AE：`0.642757/0.682258`，`pretest_memorization_risk=True`，原因是 train drop 大而 validation gain 仅 `0.003326`。DC-AE 虽通过 real-vs-null gate，解释时仍必须保留该 warning。
+
+## 9. Problems
+
+- 第一次 production 启动因 strict deterministic mode 缺少 `CUBLAS_WORKSPACE_CONFIG` fail closed；已在 PyTorch import 前固定为 `:4096:8`。
+- 第二次启动暴露 CUDA `AdaptiveAvgPool2d` backward 无 deterministic implementation；以冻结 shape 上数学等价的无参数 pooling 修复。两个失败尝试都未打开 test labels、未冻结 checkpoint。
+- FLUX 的 null population std=`5.06%`，且 1/5 null 略高于 real；其 gate margin 较窄，应视为最弱的 preliminary positive，而不是强结论。
+- DC-AE 有 pretest memorization risk；不能因其 `ΔAcc` 最大就忽略 train/validation gap。
+- O1-v1 仍只研究 independent readers；不支持跨 VAE 已对齐、Shared Reward Head 已成立或 unseen-VAE generalization。
+
+## 10. Next Steps
+
+O1-v1 到此停止，不升级 reader、不增加 null seed、不自动启动后续实验。当前 smoke evidence 足以停止继续做 Independent Oracle，并允许把 `Direct Shared Reader vs Minimal Reward Canonical U` 作为下一项独立、另行批准的设计问题；这不等于 O1-v1 已经证明 cross-VAE canonicalization 可行。
+
+## 11. Sources
+
+- Source: `source-workspace/.worktrees/o1-v1-lightweight-spatial-oracle/runs/O1_V1_LIGHTWEIGHT_SPATIAL_ORACLE/audit.json`
+- Source: `source-workspace/.worktrees/o1-v1-lightweight-spatial-oracle/runs/O1_V1_LIGHTWEIGHT_SPATIAL_ORACLE/summary.csv`
+- Source: `source-workspace/.worktrees/o1-v1-lightweight-spatial-oracle/runs/O1_V1_LIGHTWEIGHT_SPATIAL_ORACLE/comparison_with_o1_v0.csv`
+- Source: `source-workspace/.worktrees/o1-v1-lightweight-spatial-oracle/runs/O1_V1_LIGHTWEIGHT_SPATIAL_ORACLE/report.md`
+- Source: `source-workspace/.worktrees/o1-v1-lightweight-spatial-oracle/runs/O1_V1_LIGHTWEIGHT_SPATIAL_ORACLE/report.production.md`
+- Source: `source-workspace/.worktrees/o1-v1-lightweight-spatial-oracle/runs/O1_V1_LIGHTWEIGHT_SPATIAL_ORACLE/sd_real.json`
+- Source: `source-workspace/.worktrees/o1-v1-lightweight-spatial-oracle/runs/O1_V1_LIGHTWEIGHT_SPATIAL_ORACLE/flux_real.json`
+- Source: `source-workspace/.worktrees/o1-v1-lightweight-spatial-oracle/runs/O1_V1_LIGHTWEIGHT_SPATIAL_ORACLE/dcae_real.json`
+- Source: `source-workspace/.worktrees/o1-v1-lightweight-spatial-oracle/runs/O1_V1_LIGHTWEIGHT_SPATIAL_ORACLE/pretest_seal.json`
+- Source: `source-workspace/.worktrees/o1-v1-lightweight-spatial-oracle/runs/O1_V1_LIGHTWEIGHT_SPATIAL_ORACLE/checkpoint_manifest.json`
+- Source: `source-workspace/.worktrees/o1-v1-lightweight-spatial-oracle/configs/o1-v1-lightweight-spatial-oracle.json`
+
+## Related Pages
+
+- [[latentatlas]]
+- [[latentatlas-o1-independent-clean-latent-oracle-smoke]]
+- [[latentatlas-o1-sd-shuffle-control-repair]]
+- [[latentatlas-reward-data-preflight-g01]]
+- [[representation-learning]]
+- [[latent-space]]
+- [[variational-autoencoder]]

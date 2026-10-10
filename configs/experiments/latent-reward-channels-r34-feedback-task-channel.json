@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latent-reward-channels-r34-feedback-task-channel",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "theory_or_specified_model",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "四状态有限joint、四Gaussian成分、三效用三输出冻结核、两probe二项计数。Exact enumeration / known-model / formula-style；不是视觉数据训练。原endpoint、双VAE和旧NPZ仅只读字段/资格检查。",
+  "parameters_excerpt": "AC：β=.6/η=.3，α=.4/ρ=.6，e0/U/V/UV；local η .3/.1/.03/.003，BT T1。G：t1=t2=1，GH40/80。B：u(-1,0,1)，p(.25,.5,.25)，probe(-.6,0,.6)，target0/.3，同一冻结K0/K1。S：θ.2只生成/评价，b.2/.8×n64/256，已知区间[-.25,.25]，五方法。无搜索。",
+  "code_identity_excerpt": "无可用Git HEAD；独立执行模块SHA `26b02361bde53bcc68dec099a55d38bb46f57b522aef4bc4517e38f75469b19b`。原件/配置冻结、一次短review及最终只读核验均有收据，作者脚本未执行。",
+  "source_snapshot": "docs/source-snapshots/latent-reward-channels-r34-feedback-task-channel.txt",
+  "primary_report": null
+}

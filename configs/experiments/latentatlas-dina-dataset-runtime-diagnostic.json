@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-dina-dataset-runtime-diagnostic",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "历史 consumed DIAG643 + EXTERNAL2619；固定 datapointai revision `0e757688c64ff6ee7c412e8b810cdbded2751dfc` 的 README。没有读取 retired future、旧 official TEST 或 mixed raw parquet。",
+  "parameters_excerpt": "沿用缓存 u=.1、K4、preferred-other 分数；探索性诊断，不调整旧门槛。论文 t=.4 仅作为下一轮固定对照的依据，未运行。",
+  "code_identity_excerpt": "独立诊断身份 `DINA_DEV_DATASET_RUNTIME_DIAGNOSTIC_R1`。只读 DINA0 commit `00219a6afa7837d2ce84629c659dc919c0544572` 封存缓存。诊断脚本：`scripts/audit-dina-dataset-20260915.py`。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-dina-dataset-runtime-diagnostic.txt",
+  "primary_report": null
+}

@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-reward-v2-r0r1-oip-authority-oracle",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- OIP split：TRAIN=`4,059`，DEV=`900`，LOCKBOX=`2,500`；按 connected groups 隔离，`group_disjoint=true`。\n- DEV：900 pairs，561 groups；统计以 group bootstrap 为单位。\n- TRAIN/DEV exact RGB bytes：共读取 `8,118 + 1,800 = 9,918` 张图像。\n- Public registry metadata rows：`7,459`。Prompt Parquet 存在 label-blind mixed-row-group physical scan，但没有把 LOCKBOX prompt 行发射、建模或纳入统计。\n- LOCKBOX orientation/RGB/model-output/statistics access 全为 `0`；`lockbox_prompt_rows_emitted/modelled/in_statistics=0/0/0`。\n- Authority public-pairs SHA-256：`fb390a90b0af132193d032eccfea658557989291d2665ef95295d52259430224`。",
+  "parameters_excerpt": "- 实际 oracle：`FALLBACK_RGB_ORACLE`，不是 proper VLM oracle。\n- Backbone：`facebook/dinov2-small@ed25f3a31f01632728cabb09d1542f84ab7b0056`，本地离线冻结；`model.safetensors` SHA-256=`ae1e99fcefd534ed978cdeb8326f08030c96e28b7a81ffcbc98a857c84d14be1`。\n- 图像预处理：RGB；short edge 256；center crop 224×224；`1/255`；ImageNet mean/std；CLS pooling；float32。\n- Image projection：384→64，seed=`2026082701`；Text projection：historical hashed prompt 4096→64，seed=`2026082702`；输入与输出均 L2 normalize。\n- Candidates：C0 generator prior、C1 historical hashed prompt-only、C2 RGB-only、M1 RGB×prompt bilinear oracle；M1 参数量=`4,160`。\n- Training：CPU float64 `L-BFGS-B`，`maxiter=400`，L2=`1e-3`；C1/C2/M1 均收敛。\n- Controls：5 个 within-generator image nulls、5 个 wrong-prompt nulls。\n- Statistics：20,000 次 common group bootstrap；同时报告 90%/95% intervals 与 FLUX/SD preference directions。",
+  "code_identity_excerpt": "- Branch：`codex/reward-v2-r0r1-oip-rgbtext-oracle`\n- Design / plan commit：`0df1318`\n- Engineering predecessor：`14697437daf4a7fdaa651cb9187c700115c606f5`\n- Formal implementation commit：`bc3e8e95dc19e17b2ed314d74d47247a3a92c84a`\n- Sealed result commit：`6178d5f61f230233622f0f1268148a5ad67fba32`\n- Post-result checkout-test fix commit：`af3e87a5b0f83d7e8630d7d3ff5cc5c36eadf5d5`（只修旧 U4-B1 location-bound formal-copy 测试，不改变 Reward V2 结果）\n- Result seal SHA-256：`777c2869fe2ec85a9f175b48f30fd7bd79c1d2b987cf84dc65b414f51662b245`\n- Completed verifier：`PASS`，disk-only replay，`fit_calls=0`",
+  "source_snapshot": "docs/source-snapshots/latentatlas-reward-v2-r0r1-oip-authority-oracle.txt",
+  "primary_report": null
+}

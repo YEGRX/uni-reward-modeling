@@ -1,0 +1,20 @@
+{
+  "experiment_id": "latentatlas-hpsv3-frozen-interface-reuse",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "RETENTION_INCONCLUSIVE",
+  "scope": "已消费1,008对 / 28组 / 252图；统一新机六臂1,512分数",
+  "scientific_conclusion": "O/N/FLUX REC/Cosmos REC Accuracy76.091/75.298/73.413/74.702%；两REC保持判据未决。",
+  "limitations": "HPS正确加载已恢复，旧失效结果撤回；decoder-mediated；F_NOREG协议不兼容缺席，不称七臂完整。",
+  "input_excerpt": "固定已消费1008对/28关联组/252图，不是新held-out。O/N在新机重新评分原504个输入并验收；旧机504个修复分数保留为历史，不混入当前主比较；FLUX复用252份旧clean缓存；三Cosmos臂生成756份clean后共同解码。caption只读derived1008；未重新打开14400/future12455/External/oldTEST。历史metadata-only全源字节扫描及仅白名单物化的事实保留。",
+  "parameters_excerpt": "零训练；原BF16/batch1、FP32 head、SD3.5 VAE及Q不变。完整组bootstrap 20000次，seed2026092703。N资格：q05(Accuracy−0.5)>0。复用要求Accuracy差下界>−2pp且N排序一致率下界>90%；四项主检验另报Bonferroni。F_NOREG按评分前选项A协议不兼容缺席。",
+  "code_identity_excerpt": "HPS加载修复`56c1211`；条件续接`df9b13c`。官方revision `bd0c5fcb5f587617b0169c07222ab78d01e2f3c2`。含选项A的科学合同在评分前冻结，续接spec SHA `95f793f8f15a95774571e9d74bd4b3ed34ce4ace0c135345ecd33060ee713fb2`。解码r2仅恢复原base运行环境和执行编号，科学源码不变。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-hpsv3-frozen-interface-reuse.txt",
+  "primary_report": {
+    "source_locator": "wiki-store/raw/experiments/latentatlas/hpsv3-frozen-interface-reuse-2026-09-27/six-arm-option-a-complete-20261003/final-delivery-r1/FINAL_REPORT.md",
+    "original_sha256": "40e1ccc342abba3ef4b597fc4e9f76e319337451010906c4a6c12089d15980a4",
+    "file": "docs/reports/latentatlas-hpsv3-frozen-interface-reuse-final.txt",
+    "sha256": "86d0b06f23d00c883ba194cdba88c6d10bce9cbd5f128fd11ee18cfa51731e07"
+  }
+}

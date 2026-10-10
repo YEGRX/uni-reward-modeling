@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-u4a2-reward-free-train-closure-localization",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Population：从 5,201 个 train identities 按冻结 split seed `2026082201` 排序得到 P64；`K8 subset K16 subset K64`，P64 commitment 为 `298de01620748320cc2f5c521448f806ac13ecd5c2e3db7c544f7aa5956c9707`。\n- Input `z`：标准化 DCAE、CPU `float32`、shape `[K,32,16]`；标准化为 `(z_raw - (-0.41792598366737366)) / (2.2100250720977783 + 1e-6)`。\n- Target `H`：raw SD/FLUX barycenter、CPU `float32`、shape `[K,64]`，定义为 `(SD_shared + FLUX_shared) / 2`，没有 L2 normalization 或新 H 定义。\n- Pairing oracle 在 K8/K16/K64 上均为 R@1=`1.0`、MRR=`1.0`。\n- Input-target consistency 为 `INPUT_TARGET_FUNCTIONAL`；没有 duplicate source/target group，也没有 conflicting source group。\n- 只允许读取重建 train P64 所需的 manifest metadata；Reward、H1105、validation/test latent/output/metric/token/pair identity、CUDA、network 与 holdout materialization 计数均为 0。",
+  "parameters_excerpt": "- Seeds：`20260823`、`20260824`、`20260825`。\n- 每个 executed cell：full-batch、CPU `float32`、10,000 optimizer steps。\n- Milestones：`0/1000/2500/5000/10000`。\n- Optimizer：AdamW，primary `lr=1e-3`，`weight_decay=1e-4`；只有 gated C/K8 才预注册 `1e-4` 与 `1e-2`。\n- A：1,088 参数 `CanonicalBridge`，目标为原 U4-A direction + log-norm。\n- B：同一个 1,088 参数 Bridge，只改为直接 Charbonnier coordinate objective，`epsilon=1e-6`。\n- C：3,453,504 参数 residual capacity oracle，直接 Charbonnier objective；只有 B 没有同时 robustly close K8/K16 才运行。\n- Closure：K8/K16 要求 terminal R@1 达 identity ceiling 且 MRR 至少为 ceiling 的 0.99；K64 要求 R@1/MRR 至少为 ceiling 的 `0.95/0.98`。三个 seed 中至少两个通过才是 robust closure。\n- Decision 只由 terminal three-seed aggregates 驱动；best checkpoint、RMSE、rank 与 variance 都是 descriptive，不是 headline gate。",
+  "code_identity_excerpt": "- Branch：`codex/u4-a2-train-closure-localization`。\n- Final authorized production commit / formal execution parent：`a260494d0df26e61497ce0d57a63eb95d17b3b62`。\n- Formal result commit：`d119dbfef9e16461852a229601002aa25e2042d2`。\n- Result commit parent：`a260494d0df26e61497ce0d57a63eb95d17b3b62`，与 `provenance.json` 中冻结的 `production_commit` 完全一致。\n- U4-A predecessor production/result commits：`2510b798b7ad21b5bee35117c80fea943406ad1d` / `c047bfcb7e6b4168f530528926cfbc473843074e`。\n- U4-A predecessor classification 保持 `OPTIMIZATION_OR_CAPACITY_LIMITED_INDETERMINATE`，U4-A2 不回写或重解释该历史结果。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-u4a2-reward-free-train-closure-localization.txt",
+  "primary_report": null
+}

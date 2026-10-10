@@ -1,7 +1,4 @@
-#!/bin/bash
-
-set -e
-
-python src/eval.py \
-    --config configs/base.yaml \
-    --checkpoint checkpoints/model.pt
+#!/usr/bin/env bash
+set -euo pipefail
+REPO_ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+python3 "$REPO_ROOT/scripts/reproduce_records.py" --check

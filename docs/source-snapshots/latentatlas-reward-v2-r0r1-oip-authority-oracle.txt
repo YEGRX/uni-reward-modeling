@@ -1,0 +1,172 @@
+# LatentAtlas Reward V2 R0/R1：OIP Authority Audit + RGB-Text Oracle
+
+This experiment qualifies the human-preference authority using an RGB-text oracle before any latent representation is evaluated. The RGB oracle is a control ceiling, not the proposed LatentAtlas reward model; all method-level Reward experiments will operate directly on native VAE latents or learned shared U representations.
+
+## 1. Date
+
+- 正式运行完成：2026-08-26
+- Run ID：`REWARDV2_R0R1_DEV_OIP_AUTHORITY_RGBTEXT_ORACLE`
+- Evidence：`adaptive development-only non-confirmatory`
+
+## 2. Purpose
+
+本实验只回答：OIP 的 TRAIN→DEV human-preference authority，在拥有完整 RGB 与 prompt 信息时，是否存在超越 generator/prompt shortcuts、依赖正确 image/prompt 配对的可学习信号。
+
+RGB oracle 只是 `task observability ceiling / control`，不是 LatentAtlas 最终方法。最终方法仍冻结为：
+
+```text
+z_m -> U_m -> R_shared(U_m, p)
+```
+
+本实验不使用历史 H、candidate U、Bridge、旧 U0 Reward Head 或 DCAE mapping，也不编码任何新 VAE latent。
+
+此前 U4-B/H 系列统一保留为 `ARCHIVED_HISTORICAL_DIAGNOSTIC_LINE`，不删除也不改写，但不再是 Reward V2 的科学依赖；拟议的 `U4-B1D1P2` 未执行并标记为 `SUPERSEDED_BY_REWARD_V2`。
+
+## 3. Code Version / Commit
+
+- Branch：`codex/reward-v2-r0r1-oip-rgbtext-oracle`
+- Design / plan commit：`0df1318`
+- Engineering predecessor：`14697437daf4a7fdaa651cb9187c700115c606f5`
+- Formal implementation commit：`bc3e8e95dc19e17b2ed314d74d47247a3a92c84a`
+- Sealed result commit：`6178d5f61f230233622f0f1268148a5ad67fba32`
+- Post-result checkout-test fix commit：`af3e87a5b0f83d7e8630d7d3ff5cc5c36eadf5d5`（只修旧 U4-B1 location-bound formal-copy 测试，不改变 Reward V2 结果）
+- Result seal SHA-256：`777c2869fe2ec85a9f175b48f30fd7bd79c1d2b987cf84dc65b414f51662b245`
+- Completed verifier：`PASS`，disk-only replay，`fit_calls=0`
+
+## 4. Dataset / Input
+
+- OIP split：TRAIN=`4,059`，DEV=`900`，LOCKBOX=`2,500`；按 connected groups 隔离，`group_disjoint=true`。
+- DEV：900 pairs，561 groups；统计以 group bootstrap 为单位。
+- TRAIN/DEV exact RGB bytes：共读取 `8,118 + 1,800 = 9,918` 张图像。
+- Public registry metadata rows：`7,459`。Prompt Parquet 存在 label-blind mixed-row-group physical scan，但没有把 LOCKBOX prompt 行发射、建模或纳入统计。
+- LOCKBOX orientation/RGB/model-output/statistics access 全为 `0`；`lockbox_prompt_rows_emitted/modelled/in_statistics=0/0/0`。
+- Authority public-pairs SHA-256：`fb390a90b0af132193d032eccfea658557989291d2665ef95295d52259430224`。
+
+## 5. Parameters
+
+- 实际 oracle：`FALLBACK_RGB_ORACLE`，不是 proper VLM oracle。
+- Backbone：`facebook/dinov2-small@ed25f3a31f01632728cabb09d1542f84ab7b0056`，本地离线冻结；`model.safetensors` SHA-256=`ae1e99fcefd534ed978cdeb8326f08030c96e28b7a81ffcbc98a857c84d14be1`。
+- 图像预处理：RGB；short edge 256；center crop 224×224；`1/255`；ImageNet mean/std；CLS pooling；float32。
+- Image projection：384→64，seed=`2026082701`；Text projection：historical hashed prompt 4096→64，seed=`2026082702`；输入与输出均 L2 normalize。
+- Candidates：C0 generator prior、C1 historical hashed prompt-only、C2 RGB-only、M1 RGB×prompt bilinear oracle；M1 参数量=`4,160`。
+- Training：CPU float64 `L-BFGS-B`，`maxiter=400`，L2=`1e-3`；C1/C2/M1 均收敛。
+- Controls：5 个 within-generator image nulls、5 个 wrong-prompt nulls。
+- Statistics：20,000 次 common group bootstrap；同时报告 90%/95% intervals 与 FLUX/SD preference directions。
+
+## 6. Results
+
+### 6.1 Registered candidates
+
+| Candidate | DEV Accuracy | 90% CI | BT-NLL | 90% CI | FLUX-pref Acc | SD-pref Acc |
+|---|---:|---:|---:|---:|---:|---:|
+| C0 Generator Prior | 0.526667 | [0.498346, 0.554705] | 0.691763 | [0.689261, 0.694289] | 0.000000 | 1.000000 |
+| C1 Historical Hashed Prompt-Only | 0.553333 | [0.525275, 0.581006] | 0.681495 | [0.673422, 0.689734] | 0.406103 | 0.685654 |
+| C2 RGB-Only | 0.536667 | [0.510000, 0.563616] | 0.692437 | [0.685619, 0.699259] | 0.478873 | 0.588608 |
+| M1 RGB×Prompt | 0.526667 | [0.500000, 0.553629] | 0.692474 | [0.684992, 0.699978] | 0.469484 | 0.578059 |
+
+最强点估计来自 C1 prompt-only，而不是 RGB 模型。C0 的整体 Accuracy 略高于 0.5，但两个方向为 `0/1`，说明 generator direction confound 很强。
+
+### 6.2 Shortcut、specificity 与 incremental controls
+
+- M1 对 C0：`ΔAcc=0.000000`，90% lower=`-0.037415`；`ΔNLL=-0.000711`，90% lower=`-0.008365`。
+- M1 对 C1：`ΔAcc=-0.026667`，90% lower=`-0.061606`；`ΔNLL=-0.010978`，90% lower=`-0.020909`。
+- C2 image-specificity 的 worst NLL-improvement 90% lower=`-0.003777`；FAIL。
+- M1 image-specificity 的 worst NLL-improvement 90% lower=`-0.001525`；FAIL。
+- M1 prompt-specificity 的 worst NLL-improvement 90% lower=`-0.002863`；FAIL。
+- M1 相对 C2 的点估计增量：`ΔAcc=-0.010000`，`ΔNLL=-0.000037`；`rgb_incremental=false`。
+- C2/M1 均 noncollapsed，但都没有通过 absolute、shortcut、双方向和 specificity 的完整 gates。
+
+### 6.3 Frozen gate table
+
+| Gate | C2 | M1 |
+|---|---:|---:|
+| Absolute observability | FAIL | FAIL |
+| Beats registered shortcuts | FAIL | FAIL |
+| Image specificity | FAIL | FAIL |
+| Prompt specificity | N/A | FAIL |
+| Both preference directions > 0.50 | FAIL | FAIL |
+| Noncollapse | PASS | PASS |
+| RGB incremental | N/A | FAIL |
+
+### 6.4 Frozen decision
+
+```text
+validity_status      = VALID
+oracle_type          = FALLBACK_RGB_ORACLE
+authority_class      = INCONCLUSIVE_WEAK_ORACLE
+recommended_next_step= ACQUIRE_FROZEN_VLM_ORACLE
+```
+
+独立 verifier 从磁盘重算 authority join、logits、nulls、20,000 次 bootstrap、metrics、gates 与 classification，结果为 `PASS`，且没有重新拟合。
+
+## 7. Analysis
+
+1. Generator prior 不可忽略：overall Accuracy=`0.526667`，且 FLUX/SD 两方向完全分裂为 `0/1`。
+2. Prompt-only 是当前最强 shortcut：Accuracy/BT-NLL=`0.553333/0.681495`，但 FLUX-preferred Accuracy 只有 `0.406103`，仍不是方向稳健的完整 authority oracle。
+3. 当前只找到 exact historical DINO fallback；它没有语言编码器，prompt 侧只能沿用历史 hashed feature，因此证据强度不足。
+4. C2 虽有 Accuracy=`0.536667` 的正点估计，但 NLL upper、双方向与 five-null image-specificity 均失败，不能称已建立 image-specific preference signal。
+5. M1 没有超过 prompt-only，也没有超过 C0/C2；correct RGB 与 correct prompt 都未稳定胜过各自 nulls。
+6. OIP 当前究竟包含 image-only preference、prompt-conditioned preference，还是主要是 generator/prompt shortcut，使用这个 fallback oracle无法作出可靠裁决。
+7. 因此分类必须是 `INCONCLUSIVE_WEAK_ORACLE`。该分类不能淘汰 OIP，也不授权进入 R2 raw/native latent ceilings。
+8. 唯一冻结下一步是先获得并冻结一个 proper vision-language backbone，再以同一 R0/R1 合同重新资格审查；不能根据本结果扩大 DINO、改变 gates 或转去扫 latent readers。
+
+### 能说明什么
+
+- 本次正式流程、authority join、TRAIN→DEV、RGB bytes、projection、control、bootstrap、seal 与独立 replay 均操作有效。
+- 在精确 DINO+historical-hashed-prompt fallback 下，C2/M1 没有形成可归因的 image/prompt-pairing specificity；prompt-only shortcut 的点估计更强。
+- 旧 H/U/Bridge/DCAE 线不是本结论的依赖项。
+
+### 不能说明什么
+
+- 不能说明 OIP 本身没有 image-specific human preference signal；proper VLM oracle 尚未测试。
+- 不能把 OIP 定性为已被 prompt/generator shortcut 淘汰；Case E 对 weak fallback 的阴性结果有明确保护。
+- 不能说明 native SD/FLUX/DCAE latents 不保留 Reward 信息。
+- 不能说明 shared U、cross-VAE Reward Head、Reward transfer、calibration、fresh confirmation 或跨分布泛化成立或失败。
+- OIP 仍是 mixed pairwise preference authority，不能把它窄化为纯 aesthetics、纯 coherence 或纯 prompt alignment。
+
+## 8. Problems
+
+- 本机和服务器均没有已缓存且可哈希绑定的 compatible VLM，只能采用冻结的 DINO fallback。
+- Transformers 5.14 将 ImageNet mean/std 返回为 tuple；实现已用测试驱动方式只规范化 tuple/list 表示，不改变任何数值或预处理语义。
+- DINO 没有 text tower，C1/M1 的 prompt 侧仍是 historical hashed features；这正是最终分类必须降级为 `INCONCLUSIVE_WEAK_ORACLE` 的原因。
+- OIP 固定包含 FLUX-vs-SD generator confound；C0 与 direction-stratified metrics 证明必须继续保留 generator shortcut control。
+- 本实验是 adaptive development-only；DEV 已消费，不能作为 fresh confirmatory authority。
+
+## 9. Next Steps
+
+当前 R0/R1 已 hard stop。唯一允许记录、但未自动执行的下一步：
+
+```text
+ACQUIRE_FROZEN_VLM_ORACLE
+```
+
+应先获得 already-local、hash-bindable、冻结的 proper VLM，并在读取新 DEV oracle metrics 前固定 backbone、projection、C0/C1/C2/M1、five image nulls、five prompt nulls 与所有 gates。只有 future R1 分类为 `OIP_RGBTEXT_AUTHORITY_OBSERVABLE` 或明确的 `OIP_IMAGE_ONLY_COMPONENT_OBSERVABLE`，才可另行申请 R2。当前不运行 R2、不编码新 VAE latent、不打开 LOCKBOX。
+
+GPU 编码已结束，租用服务器已由用户关闭；当前归档和下一阶段设计均为 CPU-only / no server。
+
+## 10. Related Pages
+
+- [[latentatlas]]
+- [[latentatlas-u4b1d1-oip-source-reader-restoration]]
+- [[latentatlas-u4b1d1p-oip-prompt-observability]]
+- [[multimodal-learning]]
+- [[dino]]
+- [[clip]]
+- [[latent-space]]
+- [[variational-autoencoder]]
+
+## 11. Sources
+
+- Source: `source-workspace/.worktrees/reward-v2-r0r1-oip-rgbtext-oracle/runs/REWARDV2_R0R1_DEV_OIP_AUTHORITY_RGBTEXT_ORACLE/report.md`
+- Source: `source-workspace/.worktrees/reward-v2-r0r1-oip-rgbtext-oracle/runs/REWARDV2_R0R1_DEV_OIP_AUTHORITY_RGBTEXT_ORACLE/authority_decision.json`
+- Source: `source-workspace/.worktrees/reward-v2-r0r1-oip-rgbtext-oracle/runs/REWARDV2_R0R1_DEV_OIP_AUTHORITY_RGBTEXT_ORACLE/dev_evaluation.json`
+- Source: `source-workspace/.worktrees/reward-v2-r0r1-oip-rgbtext-oracle/runs/REWARDV2_R0R1_DEV_OIP_AUTHORITY_RGBTEXT_ORACLE/shortcut_comparison.json`
+- Source: `source-workspace/.worktrees/reward-v2-r0r1-oip-rgbtext-oracle/runs/REWARDV2_R0R1_DEV_OIP_AUTHORITY_RGBTEXT_ORACLE/image_specificity.json`
+- Source: `source-workspace/.worktrees/reward-v2-r0r1-oip-rgbtext-oracle/runs/REWARDV2_R0R1_DEV_OIP_AUTHORITY_RGBTEXT_ORACLE/prompt_specificity.json`
+- Source: `source-workspace/.worktrees/reward-v2-r0r1-oip-rgbtext-oracle/runs/REWARDV2_R0R1_DEV_OIP_AUTHORITY_RGBTEXT_ORACLE/backbone_manifest.json`
+- Source: `source-workspace/.worktrees/reward-v2-r0r1-oip-rgbtext-oracle/runs/REWARDV2_R0R1_DEV_OIP_AUTHORITY_RGBTEXT_ORACLE/access_manifest.json`
+- Source: `source-workspace/.worktrees/reward-v2-r0r1-oip-rgbtext-oracle/runs/REWARDV2_R0R1_DEV_OIP_AUTHORITY_RGBTEXT_ORACLE/verifier_receipt.json`
+- Source: `source-workspace/.worktrees/reward-v2-r0r1-oip-rgbtext-oracle/runs/REWARDV2_R0R1_DEV_OIP_AUTHORITY_RGBTEXT_ORACLE/result_seal.json`
+- Source: `owner-home/Documents/LatentAtlas-fresh-authority/20260826-u4b1d1-oip-v1/sealed-authority/`
+- Source: `owner-home/.codex/attachments/14e02fbf-9edb-4608-9fb5-12ea60d268d6/pasted-text.txt`
+- Source: `owner-home/.codex/attachments/e3526bf5-d643-4683-a158-c2fc7ceb8fb2/pasted-text.txt`

@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latent-reward-channels-r2-theory-refinement",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "theory_or_specified_model",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "复用192图冻结缓存，但开发仅使用原train32 prompts（4family各8、每prompt4候选）。旧val及已曝光8个OOD test不选模，也不是fresh确认。D64为1280空间均值的固定投影，原1280噪声特征缺失；B限定raw pooled64上的sin proxy；C有合法Brownian coupling及固定clean合成soft label，不是人类偏好。",
+  "parameters_excerpt": "冻结4外折×3内折，prompt分组，另报留族开发结果。全部预处理/教师/gate/校准均限当前fit权限；C不复用全train OOF教师。原始概率温度固定1.1371683169585047。A固定共同KL≤.1、ESS≥3，外层teacher不选beta。B同容量、300步与两个独立MC32块，low on-MMD−off-MMD主比较、高噪声完整保留。C唯一cross-fit gate允许全回退，不追加新head。\n\n预算A600、C900（含C0）、B900、共享600秒，共3000秒且原R2累计7200秒不重置。实际累计wall239.046秒、process CPU235.926秒；A7.305、C217.970、B4.133、共享9.637秒。含失败、微计时、统计、启动和绘图；内部账不重复相加。加早期描述计算及非实测启动余量，累计保守约244.2秒。新增GPU、远端、付费API、扩容、私有外传均0。",
+  "code_identity_excerpt": "旧32文件r11源锁复核未变，SHA `b2d9cfce485aae424a5e7c2e98c2a2ee0802345ce2f30a95e1210e05795b56f6`。新探针限于 `scripts/latent-reward-channels/r2/`，没有Git HEAD，不虚构commit。首次拟合前配置、折、输入及各线源码已冻结；锁与执行收据位于 `outputs/r2-cpu-20261006/`。45项当前必要测试通过，未重跑旧241测试或全部旧实验。",
+  "source_snapshot": "docs/source-snapshots/latent-reward-channels-r2-theory-refinement.txt",
+  "primary_report": null
+}

@@ -1,0 +1,68 @@
+# DC-AE 注册缺口定位：解码—重编码参照实验
+
+## 1. Date
+
+2026-09-25 建立；2026-09-26 完成固定科学评分、两次独立远端 CPU 回放、授权本地 CPU 回放及最终 seal。
+
+## 2. Purpose
+
+在相同 DC-AE latent 上，对比当前小 Projector 与“匹配 decoder → RGB → 原 SD3.5 encoder → 冻结 DiNa”固定替代路径，判断所测 Reward 行为缺口是否可由更完整的可实现接入路径缩小。此路径不是信息论上限。关联 [[latentatlas-dina-vae2-dcae-recipe-portability]]、[[latentatlas-dina-reg1-functional-registration]]、[[latentatlas]]。
+
+## 3. Code Version / Commit
+
+独立分支 `codex/dina-dcae-roundtrip-gap-localization`，HEAD `874d425`。首次科学前向前冻结 239 文件代码清单 SHA `60b38d2f11f0f55835bfd2f6e6a8883c50d5b8c8ecb4de5b1bf473d4bcf572dc`，完整规格 SHA `46e06b18aa6468fdb9ea428c5c97649521a87e2762f5265620b012f0c48118f1`。
+
+## 4. Dataset / Input
+
+旧 HPDv3 已消费开发集，固定 1,008 对、28 个完整关联组、4 流、252 个原图 byte 身份。旧 Native、DC-AE Projector、FLUX Projector 三臂只读封存评分；新增 DC-AE、FLUX、SD3.5 self round-trip。零目标偏好训练、零新增参数拟合。
+
+## 5. Parameters
+
+三条新增路径总计 24,192 Reward samplecondition；20,000 次共同关联组 bootstrap，seed `2026092502`，中央 90% 区间。技术上限 128，实际 97；累计 GPU 上限 21,600 秒，实际 13,001.83 秒。主联合判据在结果前固定：准确率差 D1 与 Native 排序一致率差 D2 的单侧 95% 下界都大于零。接近 Native 要求 D3 下界大于 −2pp 且 D4 下界大于 90%。
+
+## 6. Command
+
+唯一持久科学任务 `LatentAtlas-RoundTrip-Science-r1` 正常 exit0；随后 `LatentAtlas-RoundTrip-Postprocess-r1` 顺序执行两个独立远端 CPU 回放和 portable 打包，exit0。本地按明确授权仅运行最终 portable CPU 回放。没有重启科学任务或修改冻结规则。
+
+## 7. Results
+
+| 路径 | 准确率 | Native 排序一致率 | 相对 Native 准确率 |
+| --- | ---: | ---: | ---: |
+| Native | 72.82% | 100.00% | 基线 |
+| DC-AE Projector | 64.16% | 77.28% | −8.66pp |
+| DC-AE round-trip | **72.54%** | **97.47%** | −0.27pp，90%区间 [−0.87,+0.32]pp |
+| FLUX Projector | 72.79% | 91.69% | −0.02pp |
+| FLUX round-trip | 72.77% | 99.10% | −0.05pp，区间 [−0.42,+0.32]pp |
+| SD3.5 self round-trip | 72.45% | 98.99% | −0.37pp，区间 [−0.79,+0.02]pp |
+
+DC-AE round-trip 对旧 DC-AE Projector 的准确率增益 **+8.38pp**（90%区间 **[+5.58,+11.28]pp**），Native 排序一致率增益 **+20.19pp**（区间 **[+17.36,+23.22]pp**）。因此联合改善分类为 `DECODER_MEDIATED_ROUTE_IMPROVES_OVER_CURRENT_PROJECTOR`。D3 下界 −0.87pp、D4 下界 96.60%，满足预先固定的接近 Native 操作容忍度，分类为 `DECODER_MEDIATED_NEAR_NATIVE_REUSE_SUPPORTED`；`LOSS_EXCEEDING_2PP_INCONCLUSIVE` 表示没有支持超过 2pp 损失的预设证据，不是零损失证明。
+
+远端逐图诊断：DC-AE/FLUX/SD3.5 self 的像素 MSE 为 `0.006569/0.000321/0.000520`，SD3.5 latent MSE 为 `0.09027/0.004043/0.004054`。DC-AE 252/252 张使用 tiled decoder，其中 96 张执行固定尺寸恢复；预裁剪越界比例逐图均值 2.056%。详细元素加权误差、PSNR、clipping 在归档报告。
+
+两次独立远端 CPU 回放对 756 图路径、24,192 标量及旧三臂封存行逐文件核验，portable input 和最终结果逐字节一致；本地 CPU 数值容忍度 `1e−10`、分类完全一致。bundle SHA `d81d72247d15a09018a23447c5b6fa9ea3fa70593e8b3cdb95bf1efed079767b`；最终 seal SHA `40dd56e49a2e4a846515cecabee2805498d2c22189d19d8ca598c3418f56ed44`。
+
+## 8. Analysis
+
+**Research gap：** 原 DC-AE Projector 的 64.16% 是否是源 latent 固定限制，还是接入路线可改善。实验支持后一种操作性判断：对同一源 latent，存在一条固定可实现路径，在任务效用和 Native 排序两个端点都明显胜当前小 Projector，且在本开发集满足接近 Native 的操作门槛。这不证明小 Projector 只缺容量或训练步数，也不证明 64 个 Anchor 可以拟合 decoder 路径。
+
+**Baseline 与 controls：** Native 为共同参照；FLUX Projector/round-trip 与 SD3.5 self round-trip 显示额外重建—重编码不保证恒等。FLUX 路径相对自身 Projector 的准确率差 −0.02pp、SD3.5 self 相对 Native −0.37pp，二者区间均跨 0。不能从 DC-AE 差值中扣除控制差值并声称校正了公共误差。
+
+**Possible improvement：** 若以后单独立项，应在新样本上判别 decoder、RGB 几何恢复与 SD3.5 重编码各自贡献；本轮不自动启动新实验。
+
+## 9. Problems
+
+DC-AE 96 张图发生固定几何恢复，且存在 clipping/重建误差；因此改善属于整个组合路径，不能归因单一组件，也不能给出潜变量理论信息上限。旧 Projector 是此前单 seed 训练结果，本轮无新训练且没有等算力比较。开发样本已消费；bootstrap 不构成新样本确认，控制端点无家族多重比较校正。首次不可变代码复制后目录缺失导致清单发布中断，经逐文件比对仅补发清单，原证据保留。
+
+## 10. Next Steps
+
+本轮已封存并停止自动检查；不触发 FUNC、旧 16 fits 或其他实验。外推与原因分解须另立且预先固定的研究设计。
+
+## 11. Sources
+
+- Source: raw/experiments/latentatlas/dina-dcae-roundtrip-gap-localization-2026-09-25/verified-complete-20260926T095502Z/REPORT.md
+- Source: raw/experiments/latentatlas/dina-dcae-roundtrip-gap-localization-2026-09-25/verified-complete-20260926T095502Z/RESULT_SEAL.json
+- Source: raw/experiments/latentatlas/dina-dcae-roundtrip-gap-localization-2026-09-25/verified-complete-20260926T095502Z/science-portable-remote-verification.json
+- Source: raw/experiments/latentatlas/dina-dcae-roundtrip-gap-localization-2026-09-25/verified-complete-20260926T095502Z/science-local-portable-replay.json
+- Source: raw/experiments/latentatlas/dina-dcae-roundtrip-gap-localization-2026-09-25/verified-complete-20260926T095502Z/science-report-diagnostics-r1.json
+- Source: raw/experiments/latentatlas/dina-dcae-roundtrip-gap-localization-2026-09-25/verified-complete-20260926T095502Z/science-portable-evidence-r1/bundle/results/replay-result.json
+- Source: raw/experiments/latentatlas/dina-dcae-roundtrip-gap-localization-2026-09-25/verified-complete-20260926T095502Z/science-portable-evidence-r1/bundle/authority/ROUNDTRIP_EXPERIMENT_SPEC.json

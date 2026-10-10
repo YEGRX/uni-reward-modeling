@@ -1,0 +1,79 @@
+# LatentAtlas 投稿实验证据补全 Submission Evidence
+
+## 1. Date
+
+2026-10-09；身份LATENTATLAS_SUBMISSION_EVIDENCE_20261009_R1。已完成E0/E1与E2真实CPU拟合；新REC任务评分未运行，不宣称投稿贡献链闭合。
+
+## 2. Purpose
+
+围绕实际28页中文稿建立由合理baseline、真实输出和有效评价支撑的贡献证据。先复用合法缓存，再固定最小REC对照，不因Q32导数资格失败停止无关REC。
+
+## 3. Code Version / Commit
+
+独立目录：scripts/latentatlas-submission-evidence-20261009-r1/。原研究代码只读；本轮未提交原研究Git仓库。代码/配置/结果SHA由归档manifest绑定。公开参考Latentis固定commit800699f9fd5a98880adac40590e075aaffb87ab9，方法为密集空间适配，不称忠实复现。
+
+## 4. Dataset / Input
+
+DEV28：252图、1008对、4流4032逐流判断；已开发消费。NEW56：504图、2016对、4流8064；与旧adapter组互斥，但父pool已用于source qualification。独立内容单位分别28/56个完整connected groups，不是流或pair数。
+
+E2：同原FIT64/VAL64；Cosmos同图T0、DC-AE同图T1。新ridge/SVD拟合不查Reward、不用目标偏好标签。数据用途、源/目标、模型与缓存身份见资产合同表。
+
+## 5. Parameters
+
+旧Accuracy严格tie=0；agreement排除reference tie、student tie=.5；逐流和ensemble分别列；原组权重与noise coupling保持。NEW N/G非tie分母8017/8026；DEV N3999。组bootstrap不覆盖初始化或Anchor抽样。
+
+E2 ridge λ∈{0,.001}仅VAL坐标选择，SVD一个固定候选；FIT-only标准化、每图等权；共享矩阵Cosmos272/DC-AE528参数。部署FP32 affine→BF16，再加canonical noise。Cosmos源tensor identity-grid资格已独立CPU检查；DC-AE变量网格仍需核对。
+
+## 6. Command
+
+从脚本目录运行：
+
+    python -m unittest discover -s tests
+    python analyze_cache.py --output results/e1-replay-new-identity
+    python evaluate_translations.py --manifest configs/e2-cosmos-forward-r1.json --output /tmp/unused
+
+第三条仅prepare-only，无模型调用；新GPU执行必须新增范围授权。旧身份/输出不覆盖，继续前先查看回执。
+
+## 7. Results
+
+| 结果 | 实际观察 | 证据边界 |
+|---|---|---|
+| S256−S64 | 原坐标MSE下降29.1081%、Accuracy+1.4137pp、G agreement+2.8158pp | 单次固定Anchor/初始化开发控制；仍未near-native |
+| 双向人类判断 | 修复324、损坏210、都正确5317、都错误2213 | 分母8064逐流，不是8064独立样本 |
+| G−N | margin平方差0.063646592、G对N agreement96.8130% | 参照路径不同，不能合并 |
+| 分箱 | S256最小margin失配46.77%，margin>4为0.25% | 后验描述，不是风险证书 |
+| 式5.8经验界 | S256固定τ最小约0.9641，S64截断后1 | 对2pp门槛无实用认证力 |
+| Cosmos ridge/SVD VAL | 0.228049708/0.444343958 | 真实CPU坐标，Reward未评 |
+| DC-AE ridge/SVD VAL | 0.326515707/1.062346963 | 真实CPU坐标，Reward未评 |
+| 新Q32冻结前向VAL | 实际中心风险下降9.3826%；双侧95%[-1.2221%,22.4936%]跨零；Q对A未决 | 独立新协议，行动门槛通过不恢复旧FD；人工Accuracy为空 |
+
+E1 CPU0.425614秒；E2成功拟合/VAL3.013秒，CPU2线程。新增本轮Reward/反向/VAE/训练0。另一个聊天新VAL成本8技术+768科学前向单独记录。新确认结果为空。
+
+## 8. Analysis
+
+REC对合理已有方法的独立任务增量尚未建立；锚点坐标优势不能替代行为对照。少Anchor相对优势与稳定性未证；Cosmos开发near-native保留。当前无事前理论预测，只有后验精确风险分解与经验界检查。HPS/PickScore仍是decoder复合路径；多个latent-native Reward/梯度引导有效性没有证据。
+
+中心化与自由offset形式可能等价；局部求解仅产生指定线性目标的候选，对真实holdout各自增量未识别。新Q32严格G一致率C32高于Q32，风险下降不等于排序保持。
+
+## 9. Problems
+
+E2 R1旧teacher格式读取错误、R2名义网格断言失败，R3修复后完成CPU拟合；工程失败不作为模型低分。首次E1审查发现DEV trust root缺口，已修复并保留失败测试/回执。E2独立CPU充分量精确一致、部署VAL最大差1.77e-8；GPU代码根/计时问题已修正，但GPU集成未运行。
+
+旧Q32仍为LOCAL_METHOD_NUMERICALLY_UNQUALIFIED，FD1.086510520>0.20；旧E2/MAIN8未执行。新前向VAL独立归档；新MAIN8在首个科学评分前因文本张量指纹与旧缓存不一致被拦住，科学评分0；另一个聊天正CPU定位，尚无效果终点。
+
+## 10. Next Steps
+
+优先只运行Cosmos两冻结基线真实任务评分：16,128科学+16技术DiNa、28唯一prompt、GPU硬上限90分钟；训练/反向/VAE0，不采购。新增范围审批已提出一次，尚待回复；旧权限未覆盖它。现有Q32聊天不重复启动、不终止。DC-AE部署资格和后续32,256评分另列计划。
+
+若只有一轮有限计算，这项合理REC对照最可能改变方法贡献判断。随后仅在主张需要时补关键Anchor/初始化重复、事前预测、新独立完整组及公平部署成本，不默认全交叉。
+
+相关页面：[[latentatlas]]、[[latentatlas-dina-unseen-encoder-fixed-recipe-portability]]、[[latentatlas-dina-dcae-strong-anchor64-vs256-fixed2k-newgroups]]、[[latentatlas-dcae-q32-lowcost-main8]]、[[latentatlas-dina-dcae-fixed-strong-bridge-2k]]。
+
+## 11. Sources
+
+- Source: raw/papers/latentatlas/2026-10-09/latentatlas-paper-draft-cn-v0-1.pdf
+- Source: raw/experiments/latentatlas/submission-evidence-20261009-r1/
+- Source: raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/
+- Source: raw/experiments/latentatlas/dina-unseen-encoder-fixed-recipe-pilot-2026-09-25/verified-complete-20260926/
+- Source: raw/experiments/latentatlas/dcae-q32-lowcost-main8-2026-10-09/real-e1-numerical-stop-r1/
+- 新VAL源：LatentAtlas-runs/LATENTATLAS_FROZEN_CANDIDATE_FORWARD_AUDIT-20261009-R1/evidence/accepted-val-results-r1.json，SHA见新归档source-binding。

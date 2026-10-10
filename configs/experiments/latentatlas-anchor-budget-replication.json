@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-anchor-budget-replication",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- 复用第一轮 COCO val2017 固定 256-image latent cache。\n- 三组互斥 64-anchor banks，对应 seeds `2026080901 / 2026080902 / 2026080903`。\n- 剩余 64 images 作为所有条件共享的固定 queries。\n- VAE families: SD-VAE、FLUX VAE、DC-AE。\n- 三组 bank 在索引上严格互斥，因此不是概率意义上完全独立的随机样本。",
+  "parameters_excerpt": "- K: `8 / 16 / 32 / 64`，每个 seed 使用嵌套 prefixes。\n- Operators: global cosine、normalized rank、soft relation。\n- Soft tau: `0.03 / 0.07 / 0.15 / 0.30`。\n- Pairs: SD↔FLUX、SD↔DC-AE、FLUX↔DC-AE，双向报告。\n- Null: 每个有向 condition 做 200 次 target-anchor column permutation。\n- Metrics: Recall@1、Recall@5、MRR、empirical p-value、observed-minus-null effect。",
+  "code_identity_excerpt": "- Branch: `codex/anchor-feasibility-pilot`\n- Exact experiment commit: `0c0737074a93f39f9a36c03d622f0f21dadd2bd6`\n- Config: `configs/anchor-replication-a.json`",
+  "source_snapshot": "docs/source-snapshots/latentatlas-anchor-budget-replication.txt",
+  "primary_report": null
+}

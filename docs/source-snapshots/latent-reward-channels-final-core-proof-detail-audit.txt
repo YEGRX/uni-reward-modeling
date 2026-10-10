@@ -1,0 +1,45 @@
+# 最终稿新增证明细节核验 Final Core Proof Detail Audit
+
+## 1. Date
+
+2026-10-09。
+
+## 2. Purpose
+
+冻结“两项核心＋一项连接”；仅检查(15)/(19)常数算术、(34)L1换测度链路、(36)充分η范围，不扩展理论或旧实验。
+
+## 3. Code Version / Commit
+
+执行源SHA：`66be98cabd9afcb0d9a516f2fc8eb74f5cbf07c914d9ff8828df91ddaa119cc7`。未编造Git commit；复用旧Core model helper与原n1 NPZ，原件只读。
+
+## 4. Dataset / Input
+
+最终稿与Core_Proof_Audit完整读取；old Core四条件单元各n1的256数据序列与五种旧预测。目标从原joint累计clean BT标签质量，未从作者目标公式反填。
+
+## 5. Parameters
+
+a≤.5/k≥1的算术包络；C₀=4096/8192/16384为预定算术点。L1 n1、τ1/64、η.1，仅检查有限链路，不给η.1式(35)资格。
+
+## 6. Command
+
+单线程本机执行冻结新细节脚本并保存核验。无抽样、拟合、GPU或远端；具体协议/源/底层表见[报告](../../scripts/latent-reward-channels/outputs/final-core-proof-detail-audit-20261009/report.md)。
+
+## 7. Results
+
+(15)每k系数64/9、196/9；(19)最小项4096/3、四次项29.47685，均≤2048。(34)五种只读旧输出的L1链路成立；错误直接L2替换被合法.5/.51输入反驳，不是(34)反例。C₀4096充分η₀=1.21478504163849e-6，旧η.1不获认证。62主检查/60保存核验通过；新增wall0.228057秒，累计265.762224秒。
+
+## 8. Analysis
+
+研究对象仍是奖励反馈后偏好风险；本次仅提供新增证明细节的数值/算术核验，不能替代一般证明、新颖性或ICML认证。旧MLE优势、adaptive=pool与No-Go保留。
+
+## 9. Problems
+
+先追加E1投影伤害只在不覆盖事件内；E2覆盖内非恶化不适用于KL中心。旧原件与报告未覆盖。正确被检式本次无反例；真实数据结构资格仍未取得。
+
+## 10. Next Steps
+
+不新增支线或大实验。一般主定理证明、可能理论修订与原创性仍由ChatGPT负责；若外部审查发现反例，以原假设/最小输入更新证据。相关：[[latent-reward-channels]]、[[latent-reward-channels-framework-v5-task-observability]]、[[latent-reward-channels-core-v2-validation]]。
+
+## 11. Sources
+
+Source: `raw/projects/latent-reward-channels/final-core-proof-detail-audit-20261009/Final_Manuscript.md`；`raw/projects/latent-reward-channels/final-core-proof-detail-audit-20261009/Core_Proof_Audit.md`；[完整结果](../../scripts/latent-reward-channels/outputs/final-core-proof-detail-audit-20261009/report.md)；old Core原NPZ与模块SHA记录。

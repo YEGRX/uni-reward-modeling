@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latent-reward-channels-r36-structural-statistical-repair",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "theory_or_specified_model",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "R3.5原六条件单元NPZ，n16/n128各2048块seed350109，完整复用而不重新采样。另新增已批准四Z未知形状有限模型、偶阶正值积分状态与完整二项计数。均为finite/formula-style或数学MC；真实缓存资格只读继承，不能称视觉收益、fresh确认或ICML新颖性。",
+  "parameters_excerpt": "A/AC：原六单元n16/128，eta.3/.6；n1完整64序列、eta.1/.03/.01。C：Z(-.8,-.4,.4,.8)，theta.06，alpha.4/beta.6，四单元n16/128、eta.6/.3，2048块seed360209；theta0正确baseline与.05u结构扰动各单格。M：r2/4、a.1/.4、theta.2，单样本枚举；下界输入r1/2/4、n16/128、a.3。B：Delta.12/.03，N192/384，上界选择n0=10/18/4/6，同总N对照。",
+  "code_identity_excerpt": "无可用Git HEAD，不编造commit。最小验证模块SHA `7991fb70df49c77c9068c5833be9408ceee17a364c698e461d6b2b37382be1a1`。冻结配置、一次短设计review、只读实现核对与最终独立保存结果复核保留。作者脚本未执行。",
+  "source_snapshot": "docs/source-snapshots/latent-reward-channels-r36-structural-statistical-repair.txt",
+  "primary_report": null
+}

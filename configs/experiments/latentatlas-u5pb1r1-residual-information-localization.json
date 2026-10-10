@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-u5pb1r1-residual-information-localization",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Reused P4096 fold-0 transport：train/validation/evaluation=`2868/408/820` identities。\n- Source：SD `[4,64,64]` + FLUX `[16,64,64]`；target：train-normalized DCAE `[32,16,16]`。\n- Frozen checkpoints：B3、S64-W primary；Q128、Q64-W secondary。\n- B3/S64-W conditions：correct、sd_wrong、flux_wrong、factorial_both_wrong；Q128/Q64-W 只做 correct。\n- Five null definitions 与 2×2 factorial commitment 均在任何 forward 前冻结。\n- Reward、Reward Head、RGB、H/H-bar、network access 均为 0。",
+  "parameters_excerpt": "- Identity-grouped common bootstrap：5,000 replicates，seed=`2026082502`。\n- Channel concentration：top-8/32 lower `>0.50`。\n- Spatial concentration：top-26/256 lower `>0.203125`。\n- Frequency：high lower `>0.50` 或 mid+high lower `>0.70`。\n- Gram close：relative-gap upper `<=0.25`。\n- Source magnitude：raw lower `>0` 且 normalized lower `>0.20`；association 还需 Spearman lower `>0.20` 与 Q4−Q1 lower `>0`。\n- Strict validation replay tolerance：`rtol=1e-4`、`atol=1e-6`。\n- No training：optimizer/backward/parameter update 全部禁止。",
+  "code_identity_excerpt": "- Branch：`codex/u5-pb1r1-residual-localization`\n- Base：`aee8ba3ceaef3a920eaff507ae8a0e0405515bd8`\n- Formal production commit：`139009e5f3bb9847f444de3b96d012fa1aa4205d`\n- Future-authority-only hash fix：`d1eca17ec7233f944cac6d606c6b2539bdcfdd4f`\n- Config SHA-256：`9d27bfdd00606cbfcf28b61e8d75630437cd31c5bcffe3534ce0eb6ebd379406`\n- Spec / plan SHA-256：`d72f2d…bd3f / 21f763…8f9a0`\n- Validation receipt SHA-256：`071859e3363282ace5479dd24b12772289ba131dd4f8adf72bef132862f7e922`\n- Attempt status：`BLOCKED_AFTER_CONSUMED_EVALUATION_ACCESS__HASH_SCHEMA_MISMATCH`",
+  "source_snapshot": "docs/source-snapshots/latentatlas-u5pb1r1-residual-information-localization.txt",
+  "primary_report": null
+}

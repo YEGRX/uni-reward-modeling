@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-u4a6d-deterministic-consensus-u",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- 冻结 P4096 的 fold 0：3,276 fit identities、820 evaluation identities。\n- 输入为 SD、FLUX、DCAE 三个注册 view 的 paired latent representation。\n- Correct 与固定 null 使用相同 init、batch schedule 与训练预算。\n- 不访问 H1105、Reward、validation/test、fresh authority、网络或 CUDA。",
+  "parameters_excerpt": "- One-seed deterministic consensus pilot。\n- 三个 view 共享训练协议；没有 per-VAE core 或 identity lookup。\n- Primary comparison 同时要求 specificity、noncollapse、chance、VAE probe、integrity 与 arithmetic-reference noninferiority。\n- Arithmetic baseline noninferiority threshold：R@1 与 MRR lower bound 均需 `>= -0.02`。",
+  "code_identity_excerpt": "- Common frozen base：`2ed98d379c2b7134385f44faee6cbe87e12764f7`。\n- Original production/invalid result：`9030245a664ef002b3a983ada96d2b8f05f9d2cb` / `56efb73dd79744f9fcd07ac593f9d2ae64a1fce1`。\n- D2 production/result：`164e1edd59a38400f7543ab83df420a43a938bb5` / `16442f95e40afd833c41f1d129fe7b714639c2b9`。\n- D2 是独立 `operational-repair replay`；原失败结果保留不变，未合并到 `main`。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-u4a6d-deterministic-consensus-u.txt",
+  "primary_report": null
+}

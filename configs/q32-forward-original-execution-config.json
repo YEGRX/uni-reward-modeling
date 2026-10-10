@@ -1,0 +1,239 @@
+{
+  "identity": "LATENTATLAS_DCAE_FROZEN_CANDIDATE_FORWARD_AUDIT_R1",
+  "evidence_level": "ADAPTIVE_DEVELOPMENT_FIXED_CANDIDATE_FORWARD_VALIDATION",
+  "mode": "VAL_THEN_CONDITIONAL_MAIN8",
+  "scientific_purpose": "Evaluate immutable saved candidates by actual forward outputs; not revive or qualify the old derivative method.",
+  "old_stop": {
+    "status": "LOCAL_METHOD_NUMERICALLY_UNQUALIFIED",
+    "preserved": true,
+    "fd_ratio": 1.0865105197485838,
+    "fd_threshold": 0.2,
+    "derivative_qualification_remains_failed": true
+  },
+  "source": {
+    "archive_filename": "MICRO_RAW_NUMERICAL_STOP_R1.zip",
+    "archive_sha256": "698d0b7b65c7528e1a2397146be1f4d3435d5927a65ae50f548f9c9487e4fc5f",
+    "candidate_member": "micro-r1/SMALL_SOLVES.json",
+    "candidate_member_sha256": "4b6bea50332e2a126a0a95c275344edb5e58d8cb65172288a5ee11349152ba5d",
+    "preparation_member": "inputs/REAL_CPU_PREPARATION_R1.json",
+    "preparation_member_sha256": "e74076853037823f6ca7994a302a7bd8a0f91f3a186da9a07b6d6c1968fc12a4",
+    "live_main8_member": "inputs/LIVE_MAIN8_REFERENCE_REQUESTS_R1.json",
+    "live_main8_member_sha256": "e52906bee7a53fd8efdf070401ce118fe3ef5ef4fdf1b0d746c96fb0ebc8f221"
+  },
+  "baseline": {
+    "name": "base_S256_2000",
+    "checkpoint_sha256": "185c045bea7b448643a0fa2309a27cc0d76f2baa75b768fa14188d99920fe425",
+    "parameter_count": 889424,
+    "trainable": false,
+    "anchor_spec_sha256": "327becacc6d5239414d1765391d3c580f3eb56925d5878e8486360891907e26e"
+  },
+  "correction": {
+    "source": "original saved SMALL_SOLVES theta and preparation.basis",
+    "channels": 16,
+    "parameters": 32,
+    "refit": false,
+    "family": "original_reader_adapter.affine",
+    "math": "base.float()+alpha*(base.float()-mu)+std*beta, then cast back to BF16",
+    "affine_dtype": "float32",
+    "clean_score_dtype": "bfloat16",
+    "deployment": "explicit_affine",
+    "V": 0.020987387803285677,
+    "L0": 0.20987387803285676,
+    "radius_search": false,
+    "fold_into_tail": false
+  },
+  "candidates": [
+    "C32",
+    "A32",
+    "Q32",
+    "P32"
+  ],
+  "primary_candidate": "Q32",
+  "technical": {
+    "max_dina_forwards": 8,
+    "inputs": "first original FIT panel, first two members, block0",
+    "per_image_paths": [
+      "original_BASE",
+      "new_BASE_theta0",
+      "new_Q32",
+      "new_Q32_repeat"
+    ],
+    "same_process_exact": true,
+    "historical_atol": 0.001,
+    "historical_rtol": 0.001,
+    "no_derivative_checks": true
+  },
+  "val": {
+    "manifest_source": "original preparation.panels.VAL",
+    "n_panels": 8,
+    "images_per_panel": 4,
+    "n_task_images": 32,
+    "n_blocks": 4,
+    "n_coordinate_images": 64,
+    "methods": [
+      "G",
+      "BASE",
+      "C32",
+      "A32",
+      "Q32",
+      "P32"
+    ],
+    "forward_conditions": 768,
+    "new_input_gradients": 0,
+    "shuffle_or_regenerate_seeds": false,
+    "label_fields_in_analysis": false
+  },
+  "val_bootstrap": {
+    "bit_generator": "PCG64",
+    "seed": 2026100904,
+    "n_replicates": 20000,
+    "group_sort": "full_panel_id_lexicographic",
+    "unit": "complete_VAL_panel",
+    "preserve_duplicate_draws": true,
+    "dtype": "float64",
+    "quantile_method": "linear",
+    "ordinary_quantiles": [
+      0.025,
+      0.975
+    ],
+    "action_upper_quantile": 0.95
+  },
+  "action_gate": {
+    "name": "FORWARD_AUDIT_ACTION_GATE_R1",
+    "is_new_protocol": true,
+    "requires_derivative_qualification": false,
+    "requires_old_fit_linearization": false,
+    "min_baseline_centered_risk_exclusive": 1e-08,
+    "min_Q32_relative_risk_reduction": 0.01,
+    "q95_Q32_minus_BASE_lt_zero": true,
+    "max_Q32_VAL64_coordinate_ratio": 1.1,
+    "require_frozen_candidates_and_complete_valid_forward": true,
+    "require_MAIN8_reference_qualified": true,
+    "require_MAIN8_runtime_comparability": true,
+    "select_alternate_winner": false
+  },
+  "main8": {
+    "manifest_source": "original preparation.main8_groups plus LIVE_MAIN8_REFERENCE_REQUESTS_R1.json",
+    "groups": [
+      "component-52ef581f7f19fb4e12d880b2b8e017c9cee1a850d03d23ee87e29bad72b5877a",
+      "component-ac8ebb86ff2c28225d9edc73dddbb331cffb39e657dc969b4f3eccd34735c15a",
+      "component-a0e8a1274f77101ba9e899ac3536884bc7799235901628a299295f4b50a59de7",
+      "component-695344fd87b95fba0da08de8c09f3a1a6d1926b28b11296f67de157f77b0718c",
+      "component-ae70035ea27a9cd81350783c4b8c8a19eb9314a3820fac2fcc346b6282fb5e71",
+      "component-c7cc94ebee3f94ef0c642ee23c271e8a326b3b7a0511bc7e4ac40ca37867cde8",
+      "component-e6b3c9e0267a3e4051ea7a0465cd9133f992c88088415637ef7e0d4eff0917c8",
+      "component-de6df71cb7ebe6564a89dc4e1f982f6093873949235e81d35d5e1058bd0db76f"
+    ],
+    "n_groups": 8,
+    "n_images": 72,
+    "n_pairs": 288,
+    "n_streams": 4,
+    "reused_methods": [
+      "N_NATIVE",
+      "G_T1",
+      "BASE_S256_2000"
+    ],
+    "new_methods": [
+      "C32",
+      "A32",
+      "Q32"
+    ],
+    "conditions_per_new_method": 2304,
+    "new_conditions_total": 6912,
+    "noise": "original pair-specific source seeds",
+    "image_level_score_deduplication": false,
+    "image_text_cache_reuse": true,
+    "global_fresh": false,
+    "reference_rule": "both q05(Accuracy_N-0.5)>0 and q05(Accuracy_G-0.5)>0 on fixed MAIN8",
+    "new_reference_scores_allowed": false
+  },
+  "main8_bootstrap": {
+    "unit": "complete_connected_group",
+    "n_groups": 8,
+    "n_replicates": 20000,
+    "bit_generator": "PCG64",
+    "seed": 2026100908,
+    "group_sort": "full_id_lexicographic",
+    "ordinary_quantiles": [
+      0.025,
+      0.975
+    ],
+    "primary_quantiles": [
+      0.00625,
+      0.99375
+    ],
+    "quantile_method": "linear",
+    "dtype": "float64",
+    "effects": [
+      "r_G",
+      "dAgree_G",
+      "dAcc",
+      "r_QA"
+    ]
+  },
+  "secondary_comparisons": {
+    "VAL": [
+      "Q32_minus_A32",
+      "Q32_minus_C32",
+      "Q32_minus_P32"
+    ],
+    "MAIN8": [
+      "Q32_minus_C32"
+    ],
+    "quantiles": [
+      0.025,
+      0.975
+    ],
+    "multiplicity_adjusted": false,
+    "retain_when_unfavorable": true
+  },
+  "budgets": {
+    "new_small_parameter_fits": 0,
+    "new_deep_optimizer_updates": 0,
+    "new_backward_calls": 0,
+    "new_JVP_calls": 0,
+    "new_FD_forwards": 0,
+    "new_vae_encoder_calls": 0,
+    "new_vae_decoder_calls": 0,
+    "max_technical_dina_conditions": 8,
+    "max_VAL_dina_conditions": 768,
+    "max_MAIN8_dina_conditions": 6912,
+    "max_total_new_valid_dina_conditions": 7688,
+    "max_if_VAL_only": 776,
+    "max_base_projector_cache_miss_images": 138,
+    "max_new_unique_text_prompt_bundles": 16,
+    "count_failures_separately": true,
+    "automatic_full_eval": false
+  },
+  "excluded": [
+    "new_gradients",
+    "FD_repair",
+    "precision_change",
+    "new_theta_fit",
+    "radius_or_step_search",
+    "teacher_resampling",
+    "new_VAE",
+    "HPS",
+    "PickScore",
+    "Strong_4K",
+    "new_anchors",
+    "full_56_groups",
+    "second_model_family"
+  ],
+  "statistics": {
+    "independent_cpu_atol": 1e-10,
+    "independent_cpu_rtol": 1e-10,
+    "float64": true,
+    "new_fields_when_not_run": null
+  },
+  "reporting": {
+    "publish_VAL_report_immediately": true,
+    "all_candidates_plotted": true,
+    "plots": "Matplotlib, PNG plus source numeric data",
+    "one_plot_per_canvas": true,
+    "do_not_claim_global_certificate": true,
+    "derivative_model_rehabilitated": false,
+    "beats_all_prior_methods": "NOT_TESTED",
+    "paper_level_independent_confirmation": "NOT_ESTABLISHED"
+  }
+}

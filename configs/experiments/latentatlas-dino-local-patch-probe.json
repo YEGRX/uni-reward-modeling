@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-dino-local-patch-probe",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- 复用 256 张固定并哈希审计的 RGB 图像。\n- 三组互斥 64-anchor banks；固定 64 queries。\n- 三种冻结 VAE：SD-VAE ft-MSE、FLUX.1-schnell VAE、DC-AE f32c32。\n- 冻结 DINOv2-small，固定 revision `ed25f3a31f01632728cabb09d1542f84ab7b0056`。\n- 三个 anchor seeds；global cosine 与 rank relation。\n- 相关页面：[[dino]]、[[vision-transformer]]、[[representation-alignment]]、[[latent-space]]。",
+  "parameters_excerpt": "- Probes: `cls / mean_patch / local_set / spatial_patch`。\n- Neighbor overlap: `k=5/10`。\n- Formal column-null: 每个注册 cell 1,000 次。\n- Formal spatial permutation: 每个注册 cell 100 次。\n- CLS reproduction hard gate：逐图 feature cosine `≥0.999999`、paired ranks 精确一致、Spearman 差 `≤1e-6`。\n- Pearson 只作为支持证据，不是复现硬门槛。",
+  "code_identity_excerpt": "- Branch: `codex/dino-local-patch-probe`\n- Exact formal commit: `66bf408dc63f410de76cb870c0d7691508ae4f45`\n- Config SHA-256: `41dc944a18c62aa50fb1a2c10841dc8ed80bfc8ed24cb99f9c59a2d8eb487b8b`\n- Formal run: `20260811T132128Z-66bf408-41dc944a-dino-local-patch`\n- Formal decision: **Partial Local Support**",
+  "source_snapshot": "docs/source-snapshots/latentatlas-dino-local-patch-probe.txt",
+  "primary_report": null
+}

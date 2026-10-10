@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latent-reward-channels-paper-framework-v4-validation",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "theory_or_specified_model",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "有限clean(U,J)与source(A,L)，显式Q/R生成单输出原joint；r2/r3/r1固定格。CAL四条件单元、两校准law/n16/128，各128块、seed42051009，所有方法同块；512块共147456数学样本。AUD两独立Binomial、全129²计数。真实资产只引用已有资格，不重新全库审计。",
+  "parameters_excerpt": "β.6/T1/ρ.8/α.75/c.4/d.15。COMP固定四扰动格；ORDER r2/r3 eta.1/.3与r1 eta.3，70位 eta.1/.03/.01比值；CAL目标delta.12/eta.3、校准delta0/.12、公开完整一参数盒、单次KKT/brentq xtol1e-12、gap1e-9；AUD n128各组/b.8/g.8/.2，偶数和式、MLE=投影；未知c控制g.8/.3。零搜索、无作者seed复用。",
+  "code_identity_excerpt": "执行源SHA `3aefe139e2a7e021e0cfc8ac8286b1932a377f3a90ccb92ee9e07ff43e196b57`，配置SHA `ffe1e9190f66c2a3bfd631ab6d50726a4e1c0aba7313626a5a664f1e31b7e734`。一次短review PASS。独立验证器首次字段名错误保留后修复，未更改数值执行源/公式/数据。无可用Git HEAD，不编造commit。",
+  "source_snapshot": "docs/source-snapshots/latent-reward-channels-paper-framework-v4-validation.txt",
+  "primary_report": null
+}

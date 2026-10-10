@@ -1,0 +1,26 @@
+{
+  "A32": {
+    "Q32_minus_method_risk": -0.053253173828125,
+    "CI95": [
+      -0.357818603515625,
+      0.2657623291015625
+    ],
+    "multiplicity_adjusted": false
+  },
+  "C32": {
+    "Q32_minus_method_risk": -0.17629241943359375,
+    "CI95": [
+      -0.3603973388671875,
+      -0.0053863525390625
+    ],
+    "multiplicity_adjusted": false
+  },
+  "P32": {
+    "Q32_minus_method_risk": -0.446685791015625,
+    "CI95": [
+      -0.8780059814453125,
+      -0.03273773193359375
+    ],
+    "multiplicity_adjusted": false
+  }
+}

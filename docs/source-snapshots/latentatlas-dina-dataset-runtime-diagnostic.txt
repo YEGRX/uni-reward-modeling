@@ -1,0 +1,51 @@
+# DiNa 数据任务与推理契约诊断
+
+## 1. Date
+
+2026-09-15。CPU 诊断完成，HPDv3 源域评分未启动。
+
+## 2. Purpose
+
+定位 DINA0 接近随机的原因。Research gap：区分数据标注错误、任务/分布迁移与官方推理设置差异。用户决定后续采用 DiNa，组内 Critic 缺失不再阻塞该路线。
+
+## 3. Code Version / Commit
+
+独立诊断身份 `DINA_DEV_DATASET_RUNTIME_DIAGNOSTIC_R1`。只读 DINA0 commit `00219a6afa7837d2ce84629c659dc919c0544572` 封存缓存。诊断脚本：`scripts/audit-dina-dataset-20260915.py`。
+
+## 4. Dataset / Input
+
+历史 consumed DIAG643 + EXTERNAL2619；固定 datapointai revision `0e757688c64ff6ee7c412e8b810cdbded2751dfc` 的 README。没有读取 retired future、旧 official TEST 或 mixed raw parquet。
+
+## 5. Parameters
+
+沿用缓存 u=.1、K4、preferred-other 分数；探索性诊断，不调整旧门槛。论文 t=.4 仅作为下一轮固定对照的依据，未运行。
+
+## 6. Command
+
+用 DINA0 的 runtime-cpu Python 执行 `scripts/audit-dina-dataset-20260915.py`。产物以独占创建方式写出，不能覆盖旧诊断结果。
+
+## 7. Results
+
+Baseline/metrics：原K4 accuracy50.420%，反号49.580%；四个单次noise accuracy50.344%–50.477%。上游行身份与方向一致。86/2619在四次噪声中出现严格正负翻转，1178对四次均错；19对平均分差为零。输入清单6524图均512×512。DIAG投票权重与方向全部一致，按共识程度分组的准确率不单调。
+
+## 8. Analysis
+
+数据来源为参考图驱动的身份保持生成，full版等权且未筛选；DINA0只给提示词/候选图并评估Overall Preference。任务信息和分布不匹配是待验证假设，不能把Prompt Alignment定义套到Overall Preference。固定官方静态示例u=.1与论文默认t=.4不同；原实验不是论文主表复现。
+
+## 9. Problems
+
+EXTERNAL pack缺投票权重，未核查其标注共识；官方benchmark完整推理契约未齐；旧HPDv3原始JPEG临时目录已删除。远程连接/GPU正常，但本轮没有新科学前向或完整CUDA准入。
+
+## 10. Next Steps
+
+用户随后提供完整SRC0/SHIFT0/REG1新协议；当前来源准入状态见 [[latentatlas-dina-src0-source-domain-parity]]。新协议允许历史HPDv3 test用于development；用户进一步授权无法联系作者时自主解决。完整test与预处理已在读行前冻结，实际14,400对，图像下载中；论文精确绑定仍不确定。
+
+Possible improvement：先固定 HPDv3 原图、checkpoint、t=.4和预处理，核查源域能力，再比较迁移。源域成功不能当作fresh外部泛化；旧DINA0 negative保持，不启动DINA1。
+
+相关：[[latentatlas]]、[[latentatlas-dina0-r1-native-qualification]]、[[latentatlas-glc0-group-latent-critic-native-qualification]]。
+
+## 11. Sources
+
+- `raw/experiments/latentatlas/dina-dataset-diagnostic-2026-09-15/diagnostic-report-zh.md`
+- 同目录 `cache-diagnostic.json`、`diag-vote-strength.json`、`datapointai-pinned-readme.md`、`dina-pinned-readme.md`、`dina-paper.html`、`source-receipts.json`、`pinned-card-retry-receipt.json`。
+- 同目录 `user-direction.md`、`senior-discussion.png`：用户方向与非正式假设来源。

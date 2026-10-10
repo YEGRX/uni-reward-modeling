@@ -1,0 +1,1016 @@
+{
+  "snapshot_date": "2026-10-10",
+  "scope": "Documentation export, not new scientific execution",
+  "experiments": [
+    {
+      "id": "latent-reward-channels-core-v2-validation",
+      "category": "theory_or_specified_model",
+      "source_locator": "wiki-store/wiki/experiments/latent-reward-channels-core-v2-validation.md",
+      "original_bytes": 6074,
+      "original_sha256": "79bad26c1c87f01437299d751258789c8a07b217366311fde0855bcae2144482",
+      "snapshot_file": "docs/source-snapshots/latent-reward-channels-core-v2-validation.txt",
+      "snapshot_sha256": "79bad26c1c87f01437299d751258789c8a07b217366311fde0855bcae2144482",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latent-reward-channels-final-core-proof-detail-audit",
+      "category": "theory_or_specified_model",
+      "source_locator": "wiki-store/wiki/experiments/latent-reward-channels-final-core-proof-detail-audit.md",
+      "original_bytes": 2589,
+      "original_sha256": "b74e84ba005dbb1153feacf2611555b3b136236b7fc3f29605682a5f93134404",
+      "snapshot_file": "docs/source-snapshots/latent-reward-channels-final-core-proof-detail-audit.txt",
+      "snapshot_sha256": "b74e84ba005dbb1153feacf2611555b3b136236b7fc3f29605682a5f93134404",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latent-reward-channels-framework-v5-task-observability",
+      "category": "theory_or_specified_model",
+      "source_locator": "wiki-store/wiki/experiments/latent-reward-channels-framework-v5-task-observability.md",
+      "original_bytes": 3676,
+      "original_sha256": "760c0da57d24ff1ad70c4803a8fed3e81be81d4dde63e624e4b58a5cc1e277e4",
+      "snapshot_file": "docs/source-snapshots/latent-reward-channels-framework-v5-task-observability.txt",
+      "snapshot_sha256": "760c0da57d24ff1ad70c4803a8fed3e81be81d4dde63e624e4b58a5cc1e277e4",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latent-reward-channels-initial-audit",
+      "category": "theory_or_specified_model",
+      "source_locator": "wiki-store/wiki/experiments/latent-reward-channels-initial-audit.md",
+      "original_bytes": 3778,
+      "original_sha256": "c348f5dc4d9b0eaea390b23d0e84e93891d6c8a033464f68efcaaae651d7edc1",
+      "snapshot_file": "docs/source-snapshots/latent-reward-channels-initial-audit.txt",
+      "snapshot_sha256": "c348f5dc4d9b0eaea390b23d0e84e93891d6c8a033464f68efcaaae651d7edc1",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latent-reward-channels-paper-framework-v4-validation",
+      "category": "theory_or_specified_model",
+      "source_locator": "wiki-store/wiki/experiments/latent-reward-channels-paper-framework-v4-validation.md",
+      "original_bytes": 6333,
+      "original_sha256": "8f9934c049d0c21147435495692dac05bfe37f1349408baa217b0ebcaa459936",
+      "snapshot_file": "docs/source-snapshots/latent-reward-channels-paper-framework-v4-validation.txt",
+      "snapshot_sha256": "8f9934c049d0c21147435495692dac05bfe37f1349408baa217b0ebcaa459936",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latent-reward-channels-r2-theory-refinement",
+      "category": "theory_or_specified_model",
+      "source_locator": "wiki-store/wiki/experiments/latent-reward-channels-r2-theory-refinement.md",
+      "original_bytes": 8428,
+      "original_sha256": "39f0ab4c49eb7bcba05a283c00c622a17f98a27182c78fd88a12723cf50b30b1",
+      "snapshot_file": "docs/source-snapshots/latent-reward-channels-r2-theory-refinement.txt",
+      "snapshot_sha256": "39f0ab4c49eb7bcba05a283c00c622a17f98a27182c78fd88a12723cf50b30b1",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latent-reward-channels-r31-task-boundaries",
+      "category": "theory_or_specified_model",
+      "source_locator": "wiki-store/wiki/experiments/latent-reward-channels-r31-task-boundaries.md",
+      "original_bytes": 4579,
+      "original_sha256": "bd14adea1d49562770a23644a9300d4216498fe6daaa22e004595154deb9b4ae",
+      "snapshot_file": "docs/source-snapshots/latent-reward-channels-r31-task-boundaries.txt",
+      "snapshot_sha256": "bd14adea1d49562770a23644a9300d4216498fe6daaa22e004595154deb9b4ae",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latent-reward-channels-r32-fixed-validation",
+      "category": "theory_or_specified_model",
+      "source_locator": "wiki-store/wiki/experiments/latent-reward-channels-r32-fixed-validation.md",
+      "original_bytes": 4752,
+      "original_sha256": "1b52e693850994889ddb6dfd12ee2ad0ba1f90a68639d07ed7d69a95dddd1859",
+      "snapshot_file": "docs/source-snapshots/latent-reward-channels-r32-fixed-validation.txt",
+      "snapshot_sha256": "1b52e693850994889ddb6dfd12ee2ad0ba1f90a68639d07ed7d69a95dddd1859",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latent-reward-channels-r33-channel-structure",
+      "category": "theory_or_specified_model",
+      "source_locator": "wiki-store/wiki/experiments/latent-reward-channels-r33-channel-structure.md",
+      "original_bytes": 5330,
+      "original_sha256": "74507e9eaa1e557b4ead022d351959e5a299dc6828bc5c057e470bccea843084",
+      "snapshot_file": "docs/source-snapshots/latent-reward-channels-r33-channel-structure.txt",
+      "snapshot_sha256": "74507e9eaa1e557b4ead022d351959e5a299dc6828bc5c057e470bccea843084",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latent-reward-channels-r34-feedback-task-channel",
+      "category": "theory_or_specified_model",
+      "source_locator": "wiki-store/wiki/experiments/latent-reward-channels-r34-feedback-task-channel.md",
+      "original_bytes": 5527,
+      "original_sha256": "41f59fef2a4cb46ed55e6aa0c2c2e482097adeee9699e1d603c43b3ba4e52041",
+      "snapshot_file": "docs/source-snapshots/latent-reward-channels-r34-feedback-task-channel.txt",
+      "snapshot_sha256": "41f59fef2a4cb46ed55e6aa0c2c2e482097adeee9699e1d603c43b3ba4e52041",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latent-reward-channels-r35-task-sensitive-validation",
+      "category": "theory_or_specified_model",
+      "source_locator": "wiki-store/wiki/experiments/latent-reward-channels-r35-task-sensitive-validation.md",
+      "original_bytes": 6208,
+      "original_sha256": "ef76a9e18b0ca9dcb641026ff4c6cfdd530059f85f71aad532818b8d63759950",
+      "snapshot_file": "docs/source-snapshots/latent-reward-channels-r35-task-sensitive-validation.txt",
+      "snapshot_sha256": "ef76a9e18b0ca9dcb641026ff4c6cfdd530059f85f71aad532818b8d63759950",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latent-reward-channels-r36-structural-statistical-repair",
+      "category": "theory_or_specified_model",
+      "source_locator": "wiki-store/wiki/experiments/latent-reward-channels-r36-structural-statistical-repair.md",
+      "original_bytes": 6605,
+      "original_sha256": "6b83c596e0ec05ebfac1d8a366c25330080360654abccec975b305ac18228147",
+      "snapshot_file": "docs/source-snapshots/latent-reward-channels-r36-structural-statistical-repair.txt",
+      "snapshot_sha256": "6b83c596e0ec05ebfac1d8a366c25330080360654abccec975b305ac18228147",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latent-reward-channels-system-v3-validation",
+      "category": "theory_or_specified_model",
+      "source_locator": "wiki-store/wiki/experiments/latent-reward-channels-system-v3-validation.md",
+      "original_bytes": 5857,
+      "original_sha256": "f1f0465a640d38ae827de8234ef981b22c0f13ef415483507f557be67ed79f9a",
+      "snapshot_file": "docs/source-snapshots/latent-reward-channels-system-v3-validation.txt",
+      "snapshot_sha256": "f1f0465a640d38ae827de8234ef981b22c0f13ef415483507f557be67ed79f9a",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-anchor-budget-replication",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-anchor-budget-replication.md",
+      "original_bytes": 5391,
+      "original_sha256": "bb532cdddef5a0c7fe0a1d11dea942f000ff6e2e3060f2f8305ef99336e1ea4c",
+      "snapshot_file": "docs/source-snapshots/latentatlas-anchor-budget-replication.txt",
+      "snapshot_sha256": "2ab3adf7370551ad6ee0da3a529f37eb1e6fa3c0bbd212cdd8fb28a237a7c465",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-anchor-feasibility-pilot",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-anchor-feasibility-pilot.md",
+      "original_bytes": 4145,
+      "original_sha256": "cbb88cf0cdd2386f69c8e5e8863bf0039dca75755840189218c84cda1afc1769",
+      "snapshot_file": "docs/source-snapshots/latentatlas-anchor-feasibility-pilot.txt",
+      "snapshot_sha256": "b029a310b5ffbe9c0c4075568b5ef8ab5d653b15aed6603aeb9ed7def17c3457",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-c0-mini-v1-direct-shared-reader",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-c0-mini-v1-direct-shared-reader.md",
+      "original_bytes": 8296,
+      "original_sha256": "5a48358b57638aba3ba8b9d3039c877ce679e7b39543ed785ebe6d4f0697a84e",
+      "snapshot_file": "docs/source-snapshots/latentatlas-c0-mini-v1-direct-shared-reader.txt",
+      "snapshot_sha256": "098e4c2b8f99942cae1f1ad44107df3967c51e8cc75b0007a3c7837474fc52fa",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-c1-mini-loo-shared-reader",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-c1-mini-loo-shared-reader.md",
+      "original_bytes": 8939,
+      "original_sha256": "513051f09ee2ca0a19e64bbef9201ba669fa3ca55d88701338a458562c3f1fe8",
+      "snapshot_file": "docs/source-snapshots/latentatlas-c1-mini-loo-shared-reader.txt",
+      "snapshot_sha256": "e08419819934d70b5d600d5eed478b28eec93c8a82441ee24f525a4ab39f7b57",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-c1r-fresh-authority-audit",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-c1r-fresh-authority-audit.md",
+      "original_bytes": 5180,
+      "original_sha256": "9bc5906a2f6138d2afbddcaa41d38db16c4e006ba819c11592754aeb4b8c569f",
+      "snapshot_file": "docs/source-snapshots/latentatlas-c1r-fresh-authority-audit.txt",
+      "snapshot_sha256": "a304e1fb542aab99cc5c743cb1e66838ff061b22d7e612522b0d89d6bcf920c2",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-c2-dev-generic-dg-baselines",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-c2-dev-generic-dg-baselines.md",
+      "original_bytes": 7572,
+      "original_sha256": "289987a2a78bf67832e047b1482deb8c49bcb691c8525c2b44854e65459c7016",
+      "snapshot_file": "docs/source-snapshots/latentatlas-c2-dev-generic-dg-baselines.txt",
+      "snapshot_sha256": "5eae1df90cea6f9844ffb86747ec6eed8fd6e9688fdf1b3c0c41beb58f052feb",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-cvjdd0-cross-vae-joint-denoising-anomaly",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-cvjdd0-cross-vae-joint-denoising-anomaly.md",
+      "original_bytes": 10294,
+      "original_sha256": "9e3d3ed7a4dce2f25d6b0aa0bd14878d9361d4794fb9541a1d7fc6d1ed7a9075",
+      "snapshot_file": "docs/source-snapshots/latentatlas-cvjdd0-cross-vae-joint-denoising-anomaly.txt",
+      "snapshot_sha256": "fa6d4eec66f9d7a3a91bc893fe8427bfd5fb11a141c13c4bbae136baf960ecad",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-dcae-q32-lowcost-main8",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-dcae-q32-lowcost-main8.md",
+      "original_bytes": 6743,
+      "original_sha256": "0336367e2cc720907aeae5e11269b6acf71635760cab9790a9db0a2887c86a1b",
+      "snapshot_file": "docs/source-snapshots/latentatlas-dcae-q32-lowcost-main8.txt",
+      "snapshot_sha256": "0336367e2cc720907aeae5e11269b6acf71635760cab9790a9db0a2887c86a1b",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": {
+        "source_locator": "wiki-store/raw/experiments/latentatlas/dcae-q32-lowcost-main8-2026-10-09/real-e1-numerical-stop-r1/FINAL_REPORT.md",
+        "original_sha256": "a2141a15f628271eae88f696dbb58a9adf102238c5a9d5ea8138acab2256bc5e",
+        "file": "docs/reports/latentatlas-dcae-q32-lowcost-main8-final.txt",
+        "sha256": "a2141a15f628271eae88f696dbb58a9adf102238c5a9d5ea8138acab2256bc5e"
+      }
+    },
+    {
+      "id": "latentatlas-dina-dataset-runtime-diagnostic",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-dina-dataset-runtime-diagnostic.md",
+      "original_bytes": 3237,
+      "original_sha256": "d45bd240b121f5e9c490b70d658f2c5d8ead0a3ebd46ed9bc3dd08f050b8948e",
+      "snapshot_file": "docs/source-snapshots/latentatlas-dina-dataset-runtime-diagnostic.txt",
+      "snapshot_sha256": "d45bd240b121f5e9c490b70d658f2c5d8ead0a3ebd46ed9bc3dd08f050b8948e",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-dina-dcae-ab-budget-response-4k",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-dina-dcae-ab-budget-response-4k.md",
+      "original_bytes": 19212,
+      "original_sha256": "5274e10b117a1d8a9a9e6a42929351e4ae1439cceefc4e12ac8713fce1527616",
+      "snapshot_file": "docs/source-snapshots/latentatlas-dina-dcae-ab-budget-response-4k.txt",
+      "snapshot_sha256": "8f1d0be4de6f0e93aa7b06b55ed546d51f35bd3eff55ae994f5eacaaccb30754",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": {
+        "source_locator": "LatentAtlas-runs/DINA_DCAE_AB_BUDGET_RESPONSE_4K-20260927-R1/FINAL_REPORT.md",
+        "original_sha256": "6b2fb695d10b1411bd86a64e3614a3bdb1ff3761bd4a0a92ae25f079a7709e14",
+        "file": "docs/reports/latentatlas-dina-dcae-ab-budget-response-4k-final.txt",
+        "sha256": "6b2fb695d10b1411bd86a64e3614a3bdb1ff3761bd4a0a92ae25f079a7709e14"
+      }
+    },
+    {
+      "id": "latentatlas-dina-dcae-fixed-strong-bridge-2k",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-dina-dcae-fixed-strong-bridge-2k.md",
+      "original_bytes": 6626,
+      "original_sha256": "4454994991ac42377b627d67f5e42662031d82a04a03169974c78197cfa65c3d",
+      "snapshot_file": "docs/source-snapshots/latentatlas-dina-dcae-fixed-strong-bridge-2k.txt",
+      "snapshot_sha256": "ee371fd2c70a192bbf55022af648c39b0839098dd2d0a31a092b4d278ba86008",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": {
+        "source_locator": "LatentAtlas-runs/DINA_DCAE_FIXED_STRONG_BRIDGE_2K-20260929-R1/FINAL_REPORT.md",
+        "original_sha256": "dbd02ecfa7674255fdf0cdd0f1c0caf544c61078533dbf49fd0218e1d8d45d0f",
+        "file": "docs/reports/latentatlas-dina-dcae-fixed-strong-bridge-2k-final.txt",
+        "sha256": "dbd02ecfa7674255fdf0cdd0f1c0caf544c61078533dbf49fd0218e1d8d45d0f"
+      }
+    },
+    {
+      "id": "latentatlas-dina-dcae-roundtrip-gap-localization",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-dina-dcae-roundtrip-gap-localization.md",
+      "original_bytes": 6571,
+      "original_sha256": "875cf1e90e43128b4ab0449079f1ffb66b4f06a46b4815060b36c3d16500a730",
+      "snapshot_file": "docs/source-snapshots/latentatlas-dina-dcae-roundtrip-gap-localization.txt",
+      "snapshot_sha256": "875cf1e90e43128b4ab0449079f1ffb66b4f06a46b4815060b36c3d16500a730",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": {
+        "source_locator": "wiki-store/raw/experiments/latentatlas/dina-dcae-roundtrip-gap-localization-2026-09-25/verified-complete-20260926T095502Z/REPORT.md",
+        "original_sha256": "b7e201944a1d267f50e6c425fd97abf06bac8032abdb6c556115ee25c1f0f540",
+        "file": "docs/reports/latentatlas-dina-dcae-roundtrip-gap-localization-final.txt",
+        "sha256": "b7e201944a1d267f50e6c425fd97abf06bac8032abdb6c556115ee25c1f0f540"
+      }
+    },
+    {
+      "id": "latentatlas-dina-dcae-strong-anchor64-vs256-fixed2k-newgroups",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-dina-dcae-strong-anchor64-vs256-fixed2k-newgroups.md",
+      "original_bytes": 23814,
+      "original_sha256": "7fbfb6fe9d664c33a09c65186a2243b1f0a2ae37fe370706066d8baef6896559",
+      "snapshot_file": "docs/source-snapshots/latentatlas-dina-dcae-strong-anchor64-vs256-fixed2k-newgroups.txt",
+      "snapshot_sha256": "2fe769141a4f48b7046159430b6f8fc14c5fb4b0e4d09864ee7c27c4aa7de494",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": {
+        "source_locator": "wiki-store/raw/experiments/latentatlas/dcae-anchor64-vs256-fixed2k-20261002/final-report-r3.md",
+        "original_sha256": "85f2d94ace757449542bfa017c9518ebe80be989963927682f87f05c9f986a38",
+        "file": "docs/reports/latentatlas-dina-dcae-strong-anchor64-vs256-fixed2k-newgroups-final.txt",
+        "sha256": "4df79dd115f2e3f881eab9d8bf96def693eebfdc171f4f399fb0e56bc734ebb3"
+      }
+    },
+    {
+      "id": "latentatlas-dina-dcae-strong-bridge-eval-domain-t1-localization",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-dina-dcae-strong-bridge-eval-domain-t1-localization.md",
+      "original_bytes": 7361,
+      "original_sha256": "12c90a49d75cdc86e8150f1ff0bebf8d331abe7de2a4e29517fec7cc565dfbcd",
+      "snapshot_file": "docs/source-snapshots/latentatlas-dina-dcae-strong-bridge-eval-domain-t1-localization.txt",
+      "snapshot_sha256": "09ec8c7422f33753012d480773b65fca8e028bf358862b631e5dbd9794defd21",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": {
+        "source_locator": "LatentAtlas-runs/DINA_DCAE_STRONG_BRIDGE_EVAL_DOMAIN_T1_LOCALIZATION-20261001-R3/final-completion-r2/FINAL_REPORT.md",
+        "original_sha256": "4ab466e6f1c99f5d66022f5412461a675bd858ee8152ec247e6e67f5a8c3bbd6",
+        "file": "docs/reports/latentatlas-dina-dcae-strong-bridge-eval-domain-t1-localization-final.txt",
+        "sha256": "87980397e0f2f234ed721a03a921db7c02bdc14021a59fd66ea3ac0817143a8e"
+      }
+    },
+    {
+      "id": "latentatlas-dina-dcae-target-spatial-factorial",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-dina-dcae-target-spatial-factorial.md",
+      "original_bytes": 4149,
+      "original_sha256": "bfeec26718a6bd02957458e737c6be30133f6a98b824c8944fa8b9b79fd06a04",
+      "snapshot_file": "docs/source-snapshots/latentatlas-dina-dcae-target-spatial-factorial.txt",
+      "snapshot_sha256": "bfeec26718a6bd02957458e737c6be30133f6a98b824c8944fa8b9b79fd06a04",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": {
+        "source_locator": "wiki-store/raw/experiments/latentatlas/dina-dcae-target-spatial-factorial-2026-09-26/verified-complete-20260927-r1/FINAL_REPORT.md",
+        "original_sha256": "06312ce52db97f10ba921f15d0c69c3bf047333487ad796dedc88b1e4da13baf",
+        "file": "docs/reports/latentatlas-dina-dcae-target-spatial-factorial-final.txt",
+        "sha256": "06312ce52db97f10ba921f15d0c69c3bf047333487ad796dedc88b1e4da13baf"
+      }
+    },
+    {
+      "id": "latentatlas-dina-reg1-functional-registration",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-dina-reg1-functional-registration.md",
+      "original_bytes": 21731,
+      "original_sha256": "cc489f1a8b45c811cdc47583db706de5d629221b5aea2aab627f9285f5e606c1",
+      "snapshot_file": "docs/source-snapshots/latentatlas-dina-reg1-functional-registration.txt",
+      "snapshot_sha256": "99fd3a2506a587a4c59c456dd2dd9bf06c27da63c1dfea54f5dc31a346445454",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-dina-shift0-dataset-runtime-localization",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-dina-shift0-dataset-runtime-localization.md",
+      "original_bytes": 6563,
+      "original_sha256": "e860d75988a557f865863b44ea132abaaa5dca7c4b23f355a2091ea28d6cdbae",
+      "snapshot_file": "docs/source-snapshots/latentatlas-dina-shift0-dataset-runtime-localization.txt",
+      "snapshot_sha256": "b3595322f8a5cbb87c5ed105a77c00cbd8e3b80fd63477c7cebe1718663301c4",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": {
+        "source_locator": "LatentAtlas-runs/DINA_SOURCE_SHIFT_REGISTRATION-20260915-R1/continuations/authorized-best-evidence-r1/verified-shift0-results-20260918/DINA_SHIFT0_REPORT.md",
+        "original_sha256": "c0ad9660e3270138210127f7f92330d2ff9fb5f624ddb637609313d2b74be64f",
+        "file": "docs/reports/latentatlas-dina-shift0-dataset-runtime-localization-final.txt",
+        "sha256": "c0ad9660e3270138210127f7f92330d2ff9fb5f624ddb637609313d2b74be64f"
+      }
+    },
+    {
+      "id": "latentatlas-dina-src0-source-domain-parity",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-dina-src0-source-domain-parity.md",
+      "original_bytes": 9956,
+      "original_sha256": "ae97c59354d256c33f2be6b8d2b8bbb76aedf40f6f331804849096d66efabdcf",
+      "snapshot_file": "docs/source-snapshots/latentatlas-dina-src0-source-domain-parity.txt",
+      "snapshot_sha256": "0c0e17ae51652a6d6065637610074c850fdd751d2ee726f46f2bc2d251f70134",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": {
+        "source_locator": "LatentAtlas-runs/DINA_SOURCE_SHIFT_REGISTRATION-20260915-R1/continuations/authorized-best-evidence-r1/verified-src0-results-20260918/DINA_SRC0_REPORT.md",
+        "original_sha256": "8ace389deff345a7de36945efb4d627f5fb2f0eeb23aad8572aa6a6ce8b3b428",
+        "file": "docs/reports/latentatlas-dina-src0-source-domain-parity-final.txt",
+        "sha256": "8ace389deff345a7de36945efb4d627f5fb2f0eeb23aad8572aa6a6ce8b3b428"
+      }
+    },
+    {
+      "id": "latentatlas-dina-unseen-encoder-fixed-recipe-portability",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-dina-unseen-encoder-fixed-recipe-portability.md",
+      "original_bytes": 6713,
+      "original_sha256": "7f9c5cef9a506563dda08452656fefe1414ee4f299800d50ab09284c73507e12",
+      "snapshot_file": "docs/source-snapshots/latentatlas-dina-unseen-encoder-fixed-recipe-portability.txt",
+      "snapshot_sha256": "f1216e111b84741641f50cf379eaf8a26547743d02db508fe028a505119b88f6",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": {
+        "source_locator": "LatentAtlas-runs/DINA_UNSEEN_ENCODER_FIXED_RECIPE_PILOT-20260925-R1/REPORT.md",
+        "original_sha256": "1b2d04e4907d530431b84f724455437ad3d8f24bad5bc21f6535c73ac88ca5d1",
+        "file": "docs/reports/latentatlas-dina-unseen-encoder-fixed-recipe-portability-final.txt",
+        "sha256": "2d5d3b30f36885d7752e4cbd777d20f6f59e013090c7c2d273e543c2f6051080"
+      }
+    },
+    {
+      "id": "latentatlas-dina-vae2-dcae-recipe-portability",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-dina-vae2-dcae-recipe-portability.md",
+      "original_bytes": 5566,
+      "original_sha256": "3aa4e2b27445e7b70f235ecf729b12efdfb354e955e422d96db5478ce9c75d5e",
+      "snapshot_file": "docs/source-snapshots/latentatlas-dina-vae2-dcae-recipe-portability.txt",
+      "snapshot_sha256": "4f6367e44c11ae6ea3d7a3ddf02d93aa670beb4a476bab85a94725ba0f34f786",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": {
+        "source_locator": "LatentAtlas-runs/DINA_VAE2_DCAE_RECIPE_PORTABILITY_PILOT-20260924-R1/REPORT.md",
+        "original_sha256": "fd32a9b0a92b2aec1ec11f0ae1b6772a5ec7c351713f401556d395034a865caf",
+        "file": "docs/reports/latentatlas-dina-vae2-dcae-recipe-portability-final.txt",
+        "sha256": "fd32a9b0a92b2aec1ec11f0ae1b6772a5ec7c351713f401556d395034a865caf"
+      }
+    },
+    {
+      "id": "latentatlas-dina0-r1-native-qualification",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-dina0-r1-native-qualification.md",
+      "original_bytes": 8325,
+      "original_sha256": "ec3fa370827ca179c02a6829bd592660152fed66493297e5b4be898c4da546f1",
+      "snapshot_file": "docs/source-snapshots/latentatlas-dina0-r1-native-qualification.txt",
+      "snapshot_sha256": "502459e7fb686f83de1bcb3953d546c9e2ec2c99e3eaaffeaa71a422b5370aad",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-dina1-external-frozen-reward-functional-registration",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-dina1-external-frozen-reward-functional-registration.md",
+      "original_bytes": 7733,
+      "original_sha256": "203df88212e791121a78f69e5c2477528e7bc9b4fbb226521d030076fac206c0",
+      "snapshot_file": "docs/source-snapshots/latentatlas-dina1-external-frozen-reward-functional-registration.txt",
+      "snapshot_sha256": "f044a5cd8879c4524a7545cf31e3a1ef2a83e275f0fd4f291087e1ec9a0705ce",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-dino-local-patch-probe",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-dino-local-patch-probe.md",
+      "original_bytes": 7573,
+      "original_sha256": "57a27326dbcf7cdaaf09a46978722e8608bac6fc65adc1c7327bb1ef496174fc",
+      "snapshot_file": "docs/source-snapshots/latentatlas-dino-local-patch-probe.txt",
+      "snapshot_sha256": "fb7906d50506c68451e346e8012a910690a59f8c848da58636df9de385699950",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-fra0-public-fresh-coherence-authority-audit",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-fra0-public-fresh-coherence-authority-audit.md",
+      "original_bytes": 25698,
+      "original_sha256": "628c4a0c1b6c64d7bfb1deb26f0498339e191bd8c2f0119a040c64375e991e09",
+      "snapshot_file": "docs/source-snapshots/latentatlas-fra0-public-fresh-coherence-authority-audit.txt",
+      "snapshot_sha256": "b61fe648054cbdee79307be847f3f575b05c22fe6e42c6c8d236613681081dba",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-fra0r-provenance-recovery",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-fra0r-provenance-recovery.md",
+      "original_bytes": 9072,
+      "original_sha256": "cb34cf0e0aa86c24d7a7d747f7822dcb26d2be39c22f5ab9f0920a1a0ede6e5d",
+      "snapshot_file": "docs/source-snapshots/latentatlas-fra0r-provenance-recovery.txt",
+      "snapshot_sha256": "494f79d2208229ee4f3cdfb15d39218cf686d65995c841c46401811dbc527ac0",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-frozen-candidate-forward-audit",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-frozen-candidate-forward-audit.md",
+      "original_bytes": 9163,
+      "original_sha256": "0f8cf5dfe5d9f6181b2d05e47b8dd95f4901e854974fc03677c23934ecc15523",
+      "snapshot_file": "docs/source-snapshots/latentatlas-frozen-candidate-forward-audit.txt",
+      "snapshot_sha256": "0f8cf5dfe5d9f6181b2d05e47b8dd95f4901e854974fc03677c23934ecc15523",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": {
+        "source_locator": "wiki-store/raw/experiments/latentatlas/frozen-candidate-forward-audit-2026-10-09/val-main8-complete-r1/FINAL_REPORT.md",
+        "original_sha256": "9b973ad156cd98e9530b4b99eaebdffc3c0c1608c2e47a798ff624fe65be664d",
+        "file": "docs/reports/latentatlas-frozen-candidate-forward-audit-final.txt",
+        "sha256": "9b973ad156cd98e9530b4b99eaebdffc3c0c1608c2e47a798ff624fe65be664d"
+      }
+    },
+    {
+      "id": "latentatlas-frozen-projector-mechanism-and-readout",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-frozen-projector-mechanism-and-readout.md",
+      "original_bytes": 9804,
+      "original_sha256": "a3e19785e8d78db4542f6629aac7591561d5c55cfcfb5a50ee9c3866bf86d7b6",
+      "snapshot_file": "docs/source-snapshots/latentatlas-frozen-projector-mechanism-and-readout.txt",
+      "snapshot_sha256": "46a02db53ebdbc21c0e8b4d9122b322d73fa598778f413778a0c8df260738cf4",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": {
+        "source_locator": "LatentAtlas-runs/DINA_REG1_MECHANISM_AUDIT-20260924-R1/study-report.md",
+        "original_sha256": "8fcf3878702c3fbee97b0ebc1e4623f12697d6c54e6dc33bbcbfcc4e54f3b711",
+        "file": "docs/reports/latentatlas-frozen-projector-mechanism-and-readout-final.txt",
+        "sha256": "8fcf3878702c3fbee97b0ebc1e4623f12697d6c54e6dc33bbcbfcc4e54f3b711"
+      }
+    },
+    {
+      "id": "latentatlas-g2-minimal-reward-local-geometry",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-g2-minimal-reward-local-geometry.md",
+      "original_bytes": 7791,
+      "original_sha256": "f00f952a9a46bb2956a34423604b7dd8a55c046177bf042c3fe29397203da22d",
+      "snapshot_file": "docs/source-snapshots/latentatlas-g2-minimal-reward-local-geometry.txt",
+      "snapshot_sha256": "c41ce369fecbfcdc3d2a4f8eb94254dfaffd48dd8de176c132929d7a56b5cd2a",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-g2-reward-stratified-anchor",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-g2-reward-stratified-anchor.md",
+      "original_bytes": 7941,
+      "original_sha256": "c9efe408e1c883a736796bf99293c6e27edda35676740dc832cd5766f695ce66",
+      "snapshot_file": "docs/source-snapshots/latentatlas-g2-reward-stratified-anchor.txt",
+      "snapshot_sha256": "6b5663420189f7ae89ed16856a1470af5beff68e018738e8d83393fededf21e7",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-gfi1-group-frozen-interface-registration",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-gfi1-group-frozen-interface-registration.md",
+      "original_bytes": 5161,
+      "original_sha256": "d5b7b29190a4d4945b6a68a26e2865be0631fe16c7cc1c9985aaaf526b7aff23",
+      "snapshot_file": "docs/source-snapshots/latentatlas-gfi1-group-frozen-interface-registration.txt",
+      "snapshot_sha256": "00aa2a89a36a4a1e14b7a71994eaecf581f15e796978427f5a0f722dd35dc0ca",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-glc0-group-latent-critic-native-qualification",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-glc0-group-latent-critic-native-qualification.md",
+      "original_bytes": 3920,
+      "original_sha256": "cdecd2ee33a1aa3f57dac62f629c9b79085eb347906e103d80b765f9fe9c2c47",
+      "snapshot_file": "docs/source-snapshots/latentatlas-glc0-group-latent-critic-native-qualification.txt",
+      "snapshot_sha256": "cdecd2ee33a1aa3f57dac62f629c9b79085eb347906e103d80b765f9fe9c2c47",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-hpsv3-frozen-interface-reuse",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-hpsv3-frozen-interface-reuse.md",
+      "original_bytes": 8345,
+      "original_sha256": "d8574bd545cdd2990659fc328d0c40af09438c0f8d10033c218038fcd5bb1456",
+      "snapshot_file": "docs/source-snapshots/latentatlas-hpsv3-frozen-interface-reuse.txt",
+      "snapshot_sha256": "e56007bbcfa1fb4df3dcfabaffc14fc524d55c27a9e5b27ee40d77fefe36187b",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": {
+        "source_locator": "wiki-store/raw/experiments/latentatlas/hpsv3-frozen-interface-reuse-2026-09-27/six-arm-option-a-complete-20261003/final-delivery-r1/FINAL_REPORT.md",
+        "original_sha256": "40e1ccc342abba3ef4b597fc4e9f76e319337451010906c4a6c12089d15980a4",
+        "file": "docs/reports/latentatlas-hpsv3-frozen-interface-reuse-final.txt",
+        "sha256": "86d0b06f23d00c883ba194cdba88c6d10bce9cbd5f128fd11ee18cfa51731e07"
+      }
+    },
+    {
+      "id": "latentatlas-o1-independent-clean-latent-oracle-smoke",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-o1-independent-clean-latent-oracle-smoke.md",
+      "original_bytes": 7269,
+      "original_sha256": "6421f6fc884552adacfb6b8fb52513ef96fabe46b82493693ca440e5c6eed8a7",
+      "snapshot_file": "docs/source-snapshots/latentatlas-o1-independent-clean-latent-oracle-smoke.txt",
+      "snapshot_sha256": "553cbb957cc775d6042b2f27d57c4ee123d10d0965378c0e1ebb374b45604693",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-o1-sd-shuffle-control-repair",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-o1-sd-shuffle-control-repair.md",
+      "original_bytes": 5813,
+      "original_sha256": "e6f571c3584d633b5f1343e61165d4737a8b17bdecb619cb6a6fd6216d4dcdac",
+      "snapshot_file": "docs/source-snapshots/latentatlas-o1-sd-shuffle-control-repair.txt",
+      "snapshot_sha256": "61489e9955641adcef02d2597b38fc9ca42c3d72b8ff62bd2f82a5fcb9846ca8",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-o1-v1-lightweight-spatial-oracle",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-o1-v1-lightweight-spatial-oracle.md",
+      "original_bytes": 8926,
+      "original_sha256": "5d94c613dd2187a7bea25cfc79f6b31b04cde6d6c884569f3faa5d8b016945f4",
+      "snapshot_file": "docs/source-snapshots/latentatlas-o1-v1-lightweight-spatial-oracle.txt",
+      "snapshot_sha256": "7e1e71b51cfba5e5494b7666f74162d815dfb367378a0c8e97b1321846146df6",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-reward-data-preflight-g0",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-reward-data-preflight-g0.md",
+      "original_bytes": 7513,
+      "original_sha256": "e374cda8dc09f9938a6e2087abc22f7699dfc73e0ace2476941bf27317e32ab5",
+      "snapshot_file": "docs/source-snapshots/latentatlas-reward-data-preflight-g0.txt",
+      "snapshot_sha256": "420fb96fe0fc1ccd6d856b03ac0ee4fee1ad83e368e611b215caed56fb1b41a6",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-reward-data-preflight-g01",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-reward-data-preflight-g01.md",
+      "original_bytes": 7788,
+      "original_sha256": "ee5a62128be189a7019d8ac41fcd0edd2550b22d0aace7933facdbf797f1d270",
+      "snapshot_file": "docs/source-snapshots/latentatlas-reward-data-preflight-g01.txt",
+      "snapshot_sha256": "16a746c55063d53102d41861685476f3863e637b3b810263e32c13218b470ecc",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-reward-sufficiency-g1-formal",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-reward-sufficiency-g1-formal.md",
+      "original_bytes": 13904,
+      "original_sha256": "24f41e0871963d416c534c9c2387c1a91c5755dc9eb22bda517401873c39ed44",
+      "snapshot_file": "docs/source-snapshots/latentatlas-reward-sufficiency-g1-formal.txt",
+      "snapshot_sha256": "8a1a3e0e9e3e3cc192a33ad82e67f71f0d44cb25156878ad22df31c671440336",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-reward-sufficiency-g1-minimal-sd-smoke",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-reward-sufficiency-g1-minimal-sd-smoke.md",
+      "original_bytes": 9773,
+      "original_sha256": "8fcf10289b1a9907f07ad30a2cdd050dcb128a88525f10f4650e19869a59e893",
+      "snapshot_file": "docs/source-snapshots/latentatlas-reward-sufficiency-g1-minimal-sd-smoke.txt",
+      "snapshot_sha256": "8fcf10289b1a9907f07ad30a2cdd050dcb128a88525f10f4650e19869a59e893",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-reward-sufficiency-g1-true-smoke",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-reward-sufficiency-g1-true-smoke.md",
+      "original_bytes": 10953,
+      "original_sha256": "9b83a0e3c63c4ac1c3aeb1d86f1497dbccac808abbe30ad96287d5b25c6071ac",
+      "snapshot_file": "docs/source-snapshots/latentatlas-reward-sufficiency-g1-true-smoke.txt",
+      "snapshot_sha256": "85d6c8f732c0f2a1ad3edcc545a112ec549e9df2d08ebd266a334c63619d32af",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-reward-v2-r0r1-oip-authority-oracle",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-reward-v2-r0r1-oip-authority-oracle.md",
+      "original_bytes": 11747,
+      "original_sha256": "9f1ff24b341a13f7bca969c10713e9bc4c26b2ed339c7cc1f5a0152245943dbd",
+      "snapshot_file": "docs/source-snapshots/latentatlas-reward-v2-r0r1-oip-authority-oracle.txt",
+      "snapshot_sha256": "55283eff9d8d0ca09565577cb1acc0bf68ba51633e0c85d34f786a51c8eb9718",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-reward-v2-r1v-frozen-clip-oracle",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-reward-v2-r1v-frozen-clip-oracle.md",
+      "original_bytes": 13793,
+      "original_sha256": "1e7871c3b81f18a2c365dfa02b15913917ec9c821ccfb5b7eb6411c6a3e64fa3",
+      "snapshot_file": "docs/source-snapshots/latentatlas-reward-v2-r1v-frozen-clip-oracle.txt",
+      "snapshot_sha256": "d81a3376fe5c66d452534972efee32793800332de721a0c420a30e82dac47b64",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-reward-v2-r2p0-projector-only-preflight",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-reward-v2-r2p0-projector-only-preflight.md",
+      "original_bytes": 8367,
+      "original_sha256": "4d68b8f9588a7300cfb4487f6d2f5b513b3eef9b10b62e82035099915c0ea6c2",
+      "snapshot_file": "docs/source-snapshots/latentatlas-reward-v2-r2p0-projector-only-preflight.txt",
+      "snapshot_sha256": "a7f6d2f5e0ff251977a05205391b853243bf4500df719292712e854c0ab6c2ec",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-rgen1-reward-external-generalization",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-rgen1-reward-external-generalization.md",
+      "original_bytes": 10320,
+      "original_sha256": "74acc31821424d3bfc3e71495079d60f49f788b2680dd3f93bf716b2548cdfb7",
+      "snapshot_file": "docs/source-snapshots/latentatlas-rgen1-reward-external-generalization.txt",
+      "snapshot_sha256": "3a62d2aa1a7274a89676e1edaef4454728a87a9c82653a9ee9bc1a934bc5eec0",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-rpj1-reward-projector-dev",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-rpj1-reward-projector-dev.md",
+      "original_bytes": 5879,
+      "original_sha256": "53ce1c8b1e060dbfd895d481dc4c2194e06c664f30bab54f11189636977a62d4",
+      "snapshot_file": "docs/source-snapshots/latentatlas-rpj1-reward-projector-dev.txt",
+      "snapshot_sha256": "67f265cf1951d5264776cf0312ac96b4b7da5a8626755d80a9b21452e9854aeb",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-rrv1-cache-preflight",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-rrv1-cache-preflight.md",
+      "original_bytes": 3639,
+      "original_sha256": "c5c59eb7ba408ef2f5411858c1452132c5fa52859bdaba013f2ac3989ff4fe32",
+      "snapshot_file": "docs/source-snapshots/latentatlas-rrv1-cache-preflight.txt",
+      "snapshot_sha256": "f47a8d800fab12e0d4451c9a8d0599d23e9cbc75e79775c6b158d19fb900a2ba",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-rrv1-frozen-latent-reward-readout",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-rrv1-frozen-latent-reward-readout.md",
+      "original_bytes": 5862,
+      "original_sha256": "ab48cac295afac5469dcc7b8c7610d318f43400373775a5ec1064a453fb1f104",
+      "snapshot_file": "docs/source-snapshots/latentatlas-rrv1-frozen-latent-reward-readout.txt",
+      "snapshot_sha256": "298cfcdd0a5da0f8db33893dc1467befc1af57c421a557f58ba7ec9a1e3a5efd",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-semantic-appearance-intervention",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-semantic-appearance-intervention.md",
+      "original_bytes": 7657,
+      "original_sha256": "bfd27a1340867cdf0237699c626781182628111feb5945a38c26500961060ec6",
+      "snapshot_file": "docs/source-snapshots/latentatlas-semantic-appearance-intervention.txt",
+      "snapshot_sha256": "270916a555a56ddab0f1193d52ff33b63a9ab37cbf8fd19c5086dbcb9bdfe6b0",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-shared-geometry-explanation",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-shared-geometry-explanation.md",
+      "original_bytes": 6634,
+      "original_sha256": "f8793521c86859d426206f4d699aa7406fbc97a4f6b040dd1e3328b63e40a1ee",
+      "snapshot_file": "docs/source-snapshots/latentatlas-shared-geometry-explanation.txt",
+      "snapshot_sha256": "74ebfda9238a4c18097aa5a035397ed2674108c21b80255f713b3e364fe5498f",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-submission-evidence-20261009",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-submission-evidence-20261009.md",
+      "original_bytes": 6076,
+      "original_sha256": "f202bccc4eb5a803485aa1ca059fd0a3b864ba0a2269d5713a58a4565e9f8e1a",
+      "snapshot_file": "docs/source-snapshots/latentatlas-submission-evidence-20261009.txt",
+      "snapshot_sha256": "bea476e74aaecd7fedf39cbe0446ac177f772947443c334b205b7358d1da9e61",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": {
+        "source_locator": "wiki-store/raw/experiments/latentatlas/submission-evidence-20261009-r1/deliverables/EXPERIMENT_REVISION_REPORT.md",
+        "original_sha256": "e7649209d804a5901de78b6be37bacfe256372f7a791e0aa78060b5d5ba80c19",
+        "file": "docs/reports/latentatlas-submission-evidence-20261009-final.txt",
+        "sha256": "e7649209d804a5901de78b6be37bacfe256372f7a791e0aa78060b5d5ba80c19"
+      }
+    },
+    {
+      "id": "latentatlas-u4-development-final-experiment-report",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-u4-development-final-experiment-report.md",
+      "original_bytes": 18047,
+      "original_sha256": "4511394f83b812d787d7c398498b5fdb83f8ca7573001e75134daa26918c43b8",
+      "snapshot_file": "docs/source-snapshots/latentatlas-u4-development-final-experiment-report.txt",
+      "snapshot_sha256": "28c9be1615e7b3bd7e39a591f75c6f548004c129d5b5674ee25ffff567918f54",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-u4a2-reward-free-train-closure-localization",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-u4a2-reward-free-train-closure-localization.md",
+      "original_bytes": 13482,
+      "original_sha256": "993d65bcfcde2a73b9b9161805ea5c0ef6150cab1541046279e8a1af4aaebc10",
+      "snapshot_file": "docs/source-snapshots/latentatlas-u4a2-reward-free-train-closure-localization.txt",
+      "snapshot_sha256": "1fa340f2abaebdf7f7ccb4442a551b5a5f3a59d3f7e24b651f50213b4ee71dc4",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-u4a3-reward-free-k64-parameterization-factorization",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-u4a3-reward-free-k64-parameterization-factorization.md",
+      "original_bytes": 12905,
+      "original_sha256": "f6bdcc92c1471e3870c8d768e7397a0e2497af868fa3cc40d96b4ea1ba34c25d",
+      "snapshot_file": "docs/source-snapshots/latentatlas-u4a3-reward-free-k64-parameterization-factorization.txt",
+      "snapshot_sha256": "0677635b43532208a4d5d400819feb5cc2be4942123f055d207bd903edd483a8",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-u4a4-reward-free-p4096-crossfit-correspondence-specificity",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-u4a4-reward-free-p4096-crossfit-correspondence-specificity.md",
+      "original_bytes": 21339,
+      "original_sha256": "0538c87b594d2fca796b5b55e91845129d41cfe7b193853e6f1aaa774f68ada9",
+      "snapshot_file": "docs/source-snapshots/latentatlas-u4a4-reward-free-p4096-crossfit-correspondence-specificity.txt",
+      "snapshot_sha256": "3af3d191d068a7d7f5e53588d1d1b47e46f747b10b962449ea9599bcf234c662",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-u4a5-reference-u-necessity",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-u4a5-reference-u-necessity.md",
+      "original_bytes": 7186,
+      "original_sha256": "d605cf584363f06c9112a33382b57355791548fe56904b10f8a196adcf5364cf",
+      "snapshot_file": "docs/source-snapshots/latentatlas-u4a5-reference-u-necessity.txt",
+      "snapshot_sha256": "3dd5c32ce17d543a040c72f3f73921241c5211090bc1a8b62a51d70569b4b2e3",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-u4a6d-deterministic-consensus-u",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-u4a6d-deterministic-consensus-u.md",
+      "original_bytes": 6238,
+      "original_sha256": "9ddb8e520059dbc00ef45ee96533f8c53a52e22d3cc47935ecf20a387b7fcadb",
+      "snapshot_file": "docs/source-snapshots/latentatlas-u4a6d-deterministic-consensus-u.txt",
+      "snapshot_sha256": "c62ba7d175a565156537880cee9da4c98ebebd6bec4c9f9869bd7f4898456aa5",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-u4a6prob-distributional-consensus-u",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-u4a6prob-distributional-consensus-u.md",
+      "original_bytes": 5915,
+      "original_sha256": "f2aafe442cc802eb12b7ac2b9db9a451aa09adb4f45260fef3453ed807437de0",
+      "snapshot_file": "docs/source-snapshots/latentatlas-u4a6prob-distributional-consensus-u.txt",
+      "snapshot_sha256": "f5e0aab0bfee2d52ad8ab5046f899fc78d80c90218b22910ede5464ede3f9256",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-u4b0-fresh-functional-authority-gate",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-u4b0-fresh-functional-authority-gate.md",
+      "original_bytes": 7738,
+      "original_sha256": "44691d94a5a1871bb2b08cd25391d3e3db06c80ac7ec953256af68607d2eceb4",
+      "snapshot_file": "docs/source-snapshots/latentatlas-u4b0-fresh-functional-authority-gate.txt",
+      "snapshot_sha256": "42fdd53c8031be74db3aaa8fe8c318c8decd63974c2bbb10b6afe57576259465",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-u4b1-284-exploratory-fresh-functional-specificity",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-u4b1-284-exploratory-fresh-functional-specificity.md",
+      "original_bytes": 10002,
+      "original_sha256": "59793666967741b6894fb5640b62d03fc725923202fbeff7bc4cac9efff79be1",
+      "snapshot_file": "docs/source-snapshots/latentatlas-u4b1-284-exploratory-fresh-functional-specificity.txt",
+      "snapshot_sha256": "05e064a7d8f48c43006fbed095ac6d2810620a1fcda3c9041170ddea1d689b05",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-u4b1d0-source-head-reference-adequacy",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-u4b1d0-source-head-reference-adequacy.md",
+      "original_bytes": 7747,
+      "original_sha256": "96a5a7d4bc0bc1727ad92cc54ac2cf64bc335bc0af106c01626e243f110198f2",
+      "snapshot_file": "docs/source-snapshots/latentatlas-u4b1d0-source-head-reference-adequacy.txt",
+      "snapshot_sha256": "d51c4778f168452cf5478679f94be3a3db1e815ab732cee89deabbcb5e4872c8",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-u4b1d1-oip-source-reader-restoration",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-u4b1d1-oip-source-reader-restoration.md",
+      "original_bytes": 10301,
+      "original_sha256": "901c452600e11e0b100e729a8284d40f0d392d4cdb717d4b0eec11d0cf87fdc8",
+      "snapshot_file": "docs/source-snapshots/latentatlas-u4b1d1-oip-source-reader-restoration.txt",
+      "snapshot_sha256": "32fa480645f5adbe99d3e57a2ac505ac234a8425f3f71774a057b294e0ce4de7",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-u4b1d1p-oip-prompt-observability",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-u4b1d1p-oip-prompt-observability.md",
+      "original_bytes": 7570,
+      "original_sha256": "0c66848f9837fdd19dd8a875e058683e5b69ad5f6d118b19a3fbc7d0236ed601",
+      "snapshot_file": "docs/source-snapshots/latentatlas-u4b1d1p-oip-prompt-observability.txt",
+      "snapshot_sha256": "e55698c29f1fe086c9fcfac1581e0294eb50c3b47677b1f0afcb89c6ff65ca41",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-u4bd1-frozen-head-function-preservation",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-u4bd1-frozen-head-function-preservation.md",
+      "original_bytes": 12382,
+      "original_sha256": "055b16225ce9b5d0bd9204816dcac5512a122c7a5cda42a51945b3fb623dba92",
+      "snapshot_file": "docs/source-snapshots/latentatlas-u4bd1-frozen-head-function-preservation.txt",
+      "snapshot_sha256": "abd18918d4248b013a8ae30d4e708fe102e2089f2edd5e3a9122b0460576d5c4",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-u5-proj0-frozen-b3-structural-projector",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-u5-proj0-frozen-b3-structural-projector.md",
+      "original_bytes": 12078,
+      "original_sha256": "21c1ed0788f1f2ea79aa50e2bcfa849fd972a54a8e53e2a898e5fbd7ad2fda44",
+      "snapshot_file": "docs/source-snapshots/latentatlas-u5-proj0-frozen-b3-structural-projector.txt",
+      "snapshot_sha256": "d754c7c41a6a3128aa3ddd0fbdbafa8fe11e9387473b9e5f5f7d4c51e9699afe",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-u5pb0-target-free-predictive-bottleneck",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-u5pb0-target-free-predictive-bottleneck.md",
+      "original_bytes": 10442,
+      "original_sha256": "bfda636f22e09a5c97ff38cfb09b2ddd97deaf1c4b1a105b2f95896d06ef1d1c",
+      "snapshot_file": "docs/source-snapshots/latentatlas-u5pb0-target-free-predictive-bottleneck.txt",
+      "snapshot_sha256": "7ae550a3b6b2b9d8a76835a2c45e1bbf47b0bfcfeafece4d4ed158dec3335588",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-u5pb1-predictive-u-capacity-spatial-topology",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-u5pb1-predictive-u-capacity-spatial-topology.md",
+      "original_bytes": 10267,
+      "original_sha256": "3901e3eb538d544ea0667f025a4ede23e920a3b4625a3486199a25cd2468b5d7",
+      "snapshot_file": "docs/source-snapshots/latentatlas-u5pb1-predictive-u-capacity-spatial-topology.txt",
+      "snapshot_sha256": "3354251aed67b4e0ce3e53db6f117c39f23fd2e9ff98df126d83f6cfc88c46ab",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-u5pb1r1-residual-information-localization",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-u5pb1r1-residual-information-localization.md",
+      "original_bytes": 8959,
+      "original_sha256": "d57185fa217ecc26ac5f152f15ea2a1dc2e1196832e96157cf456d4ef0c89297",
+      "snapshot_file": "docs/source-snapshots/latentatlas-u5pb1r1-residual-information-localization.txt",
+      "snapshot_sha256": "5fd611f92f88fd30dcc2e16dd2b7edd334a6879e0cf1e60b464c75c0ee35e86b",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-u6-rcu0-reward-compatible-u-feasibility",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-u6-rcu0-reward-compatible-u-feasibility.md",
+      "original_bytes": 7534,
+      "original_sha256": "d8b6fc3169f302eea11060fa3693da4c78d0c68df1568b17e4facd5938c89fee",
+      "snapshot_file": "docs/source-snapshots/latentatlas-u6-rcu0-reward-compatible-u-feasibility.txt",
+      "snapshot_sha256": "034628ee41ac3351956c0acfd8bed791a367079a8ba95a7a1ef7824130aed70a",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "latentatlas-u7-reconstructed-anchor-onboarding",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/latentatlas-u7-reconstructed-anchor-onboarding.md",
+      "original_bytes": 9372,
+      "original_sha256": "372e7411fbf8a8a89402ceb8daa83e5c8d56a15b90d93794114ebc62fe000d25",
+      "snapshot_file": "docs/source-snapshots/latentatlas-u7-reconstructed-anchor-onboarding.txt",
+      "snapshot_sha256": "3e9c3f08f6190c9e60abf70935cf143baf5288aa5d7b186086c27db4cdd3d0b6",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "rpj2-projector-noncollapse-anchor-mechanism",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/rpj2-projector-noncollapse-anchor-mechanism.md",
+      "original_bytes": 7915,
+      "original_sha256": "08522ecbce5e1474d30b190090d26f62c9c8ad704de75c5d719f5e40105aef9a",
+      "snapshot_file": "docs/source-snapshots/rpj2-projector-noncollapse-anchor-mechanism.txt",
+      "snapshot_sha256": "b032f926114a982a1bd14059435c80626bb03262bd544109c3f514368b7dbe56",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "rpj3-anchor-reward-instance-specificity-localization",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/rpj3-anchor-reward-instance-specificity-localization.md",
+      "original_bytes": 7058,
+      "original_sha256": "fdb1c0bd866b036a0fe5c8e0288f2c4aa8cff8ccc6b7128402f868797f2c85b8",
+      "snapshot_file": "docs/source-snapshots/rpj3-anchor-reward-instance-specificity-localization.txt",
+      "snapshot_sha256": "152bfbae30c076044a73ac2d6bb8ada56412f96e818a764cb0fbeda6220dcc10",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    },
+    {
+      "id": "rpj4-true-unseen-sd35-anchor-confirmation",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/rpj4-true-unseen-sd35-anchor-confirmation.md",
+      "original_bytes": 10275,
+      "original_sha256": "e1c7e148d093b1ae3f72e2a6817af5648619d0de9e8ccd17e7c249fa2e0440c8",
+      "snapshot_file": "docs/source-snapshots/rpj4-true-unseen-sd35-anchor-confirmation.txt",
+      "snapshot_sha256": "9dc23faab385eb4b42422a23f1a046e1a6898b79bbdb7b393b25ea7f1390c27d",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": null
+    }
+  ]
+}

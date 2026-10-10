@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-shared-geometry-explanation",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- 复用已哈希验证的 256 张 COCO val2017 图像和三个只读 VAE latent caches。\n- 三组互斥 64-anchor banks；固定 64 queries；K=64。\n- VAE representations: SD-VAE ft-MSE、FLUX.1-schnell VAE、DC-AE f32c32。\n- Baselines:\n  - Pixel RGB64：`3×64×64 = 12,288` 维；\n  - Color：RGB population moments + 每通道 16-bin histogram，共 54 维；\n  - Frequency：灰度、Hann window、log FFT、32-bin radial spectrum；\n  - DINO：冻结的 DINOv2-small final-layer CLS，384 维。",
+  "parameters_excerpt": "- Anchor seeds: `2026080901 / 2026080902 / 2026080903`。\n- Operators: global cosine、rank relation。\n- Retrieval: 15 个无向 pairs、两个方向，共 180 个正式 directional rows。\n- Geometry: 七种 representations 的 21 个 pair；Spearman、Pearson、kNN overlap `k=5/10`。\n- Null: 每个方向/metric 使用 1,000 次配对 target-anchor column permutations。\n- Wrong-anchor: `0901→0902→0903→0901` 的预注册 target-bank cycle。\n- Primary gate: global R@1、global geometry Spearman、逐 VAE R@1、六个 directional wrong-anchor effects。",
+  "code_identity_excerpt": "- Branch: `codex/shared-geometry-explanation`\n- Exact formal commit: `949b2d1409722a4c361a3975cbced9a4a3869ceb`\n- Config: `configs/shared-geometry-d.json`\n- Config SHA-256: `620ed6a670a92417dbcc40f9b671237a28f79e05f78e97b646666441be57151f`",
+  "source_snapshot": "docs/source-snapshots/latentatlas-shared-geometry-explanation.txt",
+  "primary_report": null
+}

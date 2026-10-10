@@ -1,0 +1,189 @@
+# LatentAtlas U4-B1D1：OIP Source Reader Restoration
+
+## 1. Date
+
+- 2026-08-26
+
+## 2. Purpose
+
+沿 [[latentatlas-u4b1d0-source-head-reference-adequacy]] 的结论，使用此前未被 LatentAtlas 消费的 Open Image Preferences（OIP）大样本，先恢复 source/head/reference adequacy，再决定是否有资格进入 DCAE correct-vs-null：
+
+```text
+更大 OIP source-development authority
+        ↓
+只比较 R0 / R1 / R2 source readers
+        ↓ eligible candidate only
+冻结唯一 candidate
+        ↓
+同源、预承诺 LOCKBOX 的 SOURCE_H gate
+        ↓ Pass only
+另行执行 U4-B1D2 DCAE correct-vs-null
+```
+
+U4-B1D1 是 `adaptive development + same-source partition lockbox`，不是独立数据集确认。实际结果在 DEV selection 阶段停止，没有打开 LOCKBOX，也没有评价 DCAE。
+
+## 3. Code Version / Commit
+
+- Branch：`codex/u4-b1d1-oip-source-restoration`
+- Protocol freeze：`1e9120e`
+- Result-bound implementation：`468ac0cbcf100aa1b515056bb165d4b4cc2f5242`
+- Run：`U4B1D1_DEV_OIP_SOURCE_READER_RESTORATION`
+- Classification：`NO_SOURCE_READER_RESTORED`
+- Candidate：`null`
+- Lockbox orientation access count：`0`
+- DCAE materialization / mapping materialization / evaluation count：`0 / 0 / 0`
+
+## 4. Dataset / Input
+
+- Binarized source：`data-is-better-together/open-image-preferences-v1-binarized@421d9b4e11f22d576a15c14e38aaa4687748023f`
+- Raw-vote source：`data-is-better-together/open-image-preferences-v1-results@532865f46c87d7ca33f6805b4c9c42f0a5a6b7c0`
+- Retained pairs：`7,459`
+- Unique images：`14,918`
+- Connected prompt/base-ID/image groups：`4,671`
+- Split：TRAIN=`4,059`、DEV=`900`、LOCKBOX=`2,500`
+- Cross-split prompt/base-ID/image overlap：`0 / 0 / 0`
+- 历史 authority exact encoded-byte image overlap：G0.1=`0`、P4096=`0`、H1105=`0`、FRA-SVG0=`0`
+
+OIP 每一对都比较 FLUX.1-dev 与 SD3.5-large。其人类偏好语义混合了 prompt adherence 与 aesthetics；本实验 reader 不读取 prompt，因此结果不能解释为纯 coherence 或完整 prompt adherence。历史 overlap audit 只覆盖 exact encoded bytes，不能排除感知近重复、语义近重复或跨 authority prompt overlap。
+
+## 5. Parameters
+
+### 5.1 Frozen source representation
+
+```text
+U_SD   = Bridge_SD(tokens_SD)
+U_FLUX = Bridge_FLUX(tokens_FLUX)
+H      = (U_SD + U_FLUX) / 2
+```
+
+- Source VAE、Bridge、normalization 与 `H` 构造冻结。
+- Source image encoding 使用本机 Apple MPS；没有使用租用 GPU。
+- U4-A4 DCAE mapping bytes 在 U4-B1D1 中保持未读。
+
+### 5.2 Candidate registry
+
+- `R0_FROZEN_U0_SHARED_H`：旧 U0 shared Reward Head，不训练。
+- `R1_LINEAR_SHARED_H`：`64 -> 1` affine reader。
+- `R2_U0_MLP_SHARED_H`：`Linear(64,64) -> GELU -> Dropout(0.1) -> Linear(64,1)`，从旧 U0 head 初始化。
+- R1/R2：AdamW，learning rate=`1e-3`，weight decay=`1e-4`，seed=`2026082601`，batch size=`256`，epochs=`30`。
+- 训练 objective：SD、FLUX 与 H 三个 Bradley-Terry losses 等权。
+
+### 5.3 Eligibility gate
+
+候选必须同时满足：
+
+- `H` Accuracy point `>= 0.52` 且 one-sided lower `> 0.50`；
+- `H` BT-NLL point 与 one-sided upper 都 `< log(2)`；
+- SD 与 FLUX 各自 point Accuracy `> 0.50`、BT-NLL `< log(2)`；
+- 相对 TRAIN-only generator-prior，paired-bootstrap `ΔAccuracy` 与 `ΔNLL` 的 lower 都 `> 0`；
+- 在 FLUX-preferred 与 SD-preferred 两个方向 strata 上，H Accuracy 都 `> 0.50`；
+- 候选不坍缩。
+
+最小改动优先级冻结为 `R0 < R1 < R2`。若 DEV 无合格候选，必须停止且不得打开 LOCKBOX/DCAE。
+
+## 6. Command
+
+```bash
+cd source-workspace/.worktrees/u4-b1d1-oip-source-restoration
+
+PYTHONPATH=src source-workspace/.venv/bin/python \
+  scripts/run_u4b1d1_source_encoding.py \
+  --authority-root owner-home/Documents/LatentAtlas-fresh-authority/20260826-u4b1d1-oip-v1/sealed-authority \
+  --model-root owner-home/Documents/LatentAtlas-fresh-authority/20260825-u4b1-model-bundle \
+  --output-root owner-home/Documents/LatentAtlas-fresh-authority/20260826-u4b1d1-oip-v1/source-cache \
+  --device mps \
+  --batch-size 8
+
+PYTHONPATH=src source-workspace/.venv/bin/python \
+  scripts/run_u4b1d1.py \
+  --repository source-workspace/.worktrees/u4-b1d1-oip-source-restoration \
+  --authority-root owner-home/Documents/LatentAtlas-fresh-authority/20260826-u4b1d1-oip-v1/sealed-authority \
+  --cache-root owner-home/Documents/LatentAtlas-fresh-authority/20260826-u4b1d1-oip-v1/source-cache \
+  --output-root runs/U4B1D1_DEV_OIP_SOURCE_READER_RESTORATION
+```
+
+## 7. Results
+
+### 7.1 Generator-prior control
+
+TRAIN-only generator prior 在 DEV 上为：
+
+- Accuracy：`0.526667`
+- BT-NLL：`0.691763`
+
+这说明 OIP 中存在不可忽略的 generator identity shortcut；source reader 必须显著胜过该 baseline，不能只靠“总是偏好某个生成器”取得表面准确率。
+
+### 7.2 Development candidates
+
+| Candidate | H Accuracy [lower, upper] | H BT-NLL [lower, upper] | ΔAcc lower | ΔNLL lower | FLUX-win Acc | SD-win Acc | Eligible |
+|---|---:|---:|---:|---:|---:|---:|---|
+| `R0_FROZEN_U0_SHARED_H` | `0.507778 [0.479376,0.535754]` | `0.702748 [0.694378,0.711334]` | `-0.061471` | `-0.020170` | `0.544601` | `0.474684` | No |
+| `R1_LINEAR_SHARED_H` | `0.503333 [0.475930,0.530454]` | `0.705298 [0.699117,0.711568]` | `-0.060674` | `-0.020023` | `0.474178` | `0.529536` | No |
+| `R2_U0_MLP_SHARED_H` | `0.492222 [0.465423,0.519553]` | `0.714340 [0.705210,0.723615]` | `-0.071349` | `-0.031987` | `0.474178` | `0.508439` | No |
+
+三个候选都没有通过 eligibility gate：
+
+- R0 的 H Accuracy lower 未过 0.5、NLL point/upper 未低于 `log(2)`，且 SD-preferred stratum `<0.5`。
+- R1 的 H Accuracy 与 NLL 均未过绝对门槛，FLUX-preferred stratum `<0.5`。
+- R2 的 H Accuracy point `<0.5`、NLL 更差，FLUX-preferred stratum `<0.5`。
+- 三者相对 generator prior 的 `ΔAccuracy lower` 与 `ΔNLL lower` 都为负。
+
+### 7.3 Frozen decision
+
+```text
+classification                    = NO_SOURCE_READER_RESTORED
+candidate                         = null
+lockbox_orientation_access_count  = 0
+dcae_materialization_count        = 0
+dcae_mapping_materialization_count= 0
+dcae_evaluation_count             = 0
+```
+
+因此，预备好的 U4-B1D2 没有获得执行授权；没有 DCAE scientific result。
+
+## 8. Analysis
+
+### 8.1 当前结果能说明什么
+
+- 旧冻结 U0 head、固定线性 reader 与当前 U0-MLP reader，在 OIP 的 4,059-pair TRAIN → 900-pair DEV 条件下都没有恢复 H-compatible source adequacy。
+- 相比 B1D0 的 284-pair SVG localization，本实验使用更大且此前未消费的 OIP source-development cohort，仍没有找到能同时通过 absolute、generator-prior 与双方向 gates 的候选。
+- 失败不仅是“没超过随机”：三种候选都不能稳健超过 OIP 中很强的 generator-prior shortcut。
+- 按冻结顺序在最早失败层停止，避免把 source-reader failure 错写成 DCAE mapping failure。
+
+### 8.2 当前结果不能说明什么
+
+- 不证明 SD/FLUX latent 不含任何人类偏好或 Reward 信息。
+- 不否定 prompt-aware reader、显式分解 aesthetics/prompt adherence、不同 reference、不同 head capacity 或新的训练语义。
+- 不构成独立数据集 fresh confirmation；LOCKBOX 甚至没有打开。
+- 不评价 DCAE correct-vs-null、Reward transfer、canonical/universal `U`、unseen-VAE onboarding 或跨分布泛化。
+- OIP 的 mixed semantics 加上 reader 无 prompt 输入，使负结果可能来自 task/observation mismatch，而不只是 representation inadequacy。
+
+## 9. Problems
+
+- 每个 pair 的两个生成器固定，generator prior 在 DEV 已达到 Accuracy=`0.526667`，造成明显 shortcut pressure。
+- OIP 标签混合 prompt adherence 与 aesthetics，但当前 reader 没有 prompt；它可能无法观察决定偏好的关键变量。
+- 当前候选 registry 很小，只测试冻结旧 head、线性 reader 与旧架构 MLP；负结果不能外推到所有 reader。
+- 因 candidate 为 null，LOCKBOX freshness 与同数据集泛化能力仍未被消费或判断。
+
+## 10. Next Steps
+
+1. U4-B1D2 保持封存，不执行 DCAE encoding 或 correct-vs-null。
+2. 下一轮优先处理 semantics/observability：把 prompt-aware 与纯视觉 aesthetics-only 问题分开，先建立 source-only ceiling。
+3. 在 development authority 上冻结唯一新的 source candidate 后，再使用未消费 authority 或预承诺 lockbox 做 `SOURCE_H` gate。
+4. 只有 `SOURCE_H` 通过 absolute、generator-prior 与方向 gates，才解锁 U4-B1D2。
+
+本轮 source encoding 已由本机 Apple MPS 完成；当前后续分析与报告为 CPU-only，不需要租用 GPU 服务器。
+
+## 11. Sources
+
+- Source: `source-workspace/.worktrees/u4-b1d1-oip-source-restoration/runs/U4B1D1_DEV_OIP_SOURCE_READER_RESTORATION/report.md`
+- Source: `source-workspace/.worktrees/u4-b1d1-oip-source-restoration/runs/U4B1D1_DEV_OIP_SOURCE_READER_RESTORATION/result.json`
+- Source: `source-workspace/.worktrees/u4-b1d1-oip-source-restoration/runs/U4B1D1_DEV_OIP_SOURCE_READER_RESTORATION/inventory.json`
+- Source: `source-workspace/.worktrees/u4-b1d1-oip-source-restoration/docs/superpowers/specs/2026-08-26-u4-b1d1-oip-source-reader-restoration-design.md`
+- Source: `source-workspace/.worktrees/u4-b1d1-oip-source-restoration/docs/superpowers/plans/2026-08-26-u4-b1d1-oip-source-reader-restoration.md`
+- Source: `owner-home/Documents/LatentAtlas-fresh-authority/20260826-u4b1d1-oip-v1/exact-overlap-audit.json`
+- Source: `owner-home/Documents/LatentAtlas-fresh-authority/20260826-u4b1d1-oip-v1/sealed-authority/public/split-seal.json`
+- Source: `owner-home/Documents/LatentAtlas-fresh-authority/20260826-u4b1d1-oip-v1/source-cache/provenance.json`
+- Source: `owner-home/Documents/LatentAtlas-fresh-authority/20260826-u4b1d1-oip-v1/source-cache/seal.json`
+
+相关页面：[[latentatlas]]、[[latentatlas-u4b-complete-experiment-report]]、[[latentatlas-u4b1d0-source-head-reference-adequacy]]、[[latentatlas-u4b1-284-exploratory-fresh-functional-specificity]]、[[representation-alignment]]。

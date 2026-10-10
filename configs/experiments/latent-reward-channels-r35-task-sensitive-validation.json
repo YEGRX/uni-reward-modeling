@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latent-reward-channels-r35-task-sensitive-validation",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "theory_or_specified_model",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "Finite BSC/Gaussian模型、四状态盲区、六conditional residual单元、三效用二输出probe计数。精确积分/枚举或数学MC，不是真实视觉数据。原缓存仅继承并只读核对R3.4资格表hash；不任意分箱或从pair p/q倒推π。",
+  "parameters_excerpt": "A：β.6/η.1，ρ .15/.5/ρ_star/.8/.98，中心差分h1e-5，β0三控制，Gaussian t.2/1/5、GH64/128及唯一预定quad恢复。C：a.8/b.4/α.4/β.6，η.6/.3/.1/.03/0；BT gauge0、Newton≤20。Sample：六单元各n16/128，η.3/.6，2048块seed350109，CR1/2与两η共享块。B：b.6/Δ.12/.03，192/384总调用，两/三probe及两版contrast，null/oracle。",
+  "code_identity_excerpt": "无可用Git HEAD，不编造commit。最小模块SHA `17f5080d2dc955152a4898d08dea5663ac8eac8ddd33f037663958d1b176229b`；冻结protocol、一次短设计review、实现只读核对及最终rawjoint/样本块复核均保存。作者脚本未执行。",
+  "source_snapshot": "docs/source-snapshots/latent-reward-channels-r35-task-sensitive-validation.txt",
+  "primary_report": null
+}

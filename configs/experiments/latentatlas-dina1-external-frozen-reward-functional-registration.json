@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-dina1-external-frozen-reward-functional-registration",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "计划仅用consumed DIAG643 strict rows和RPJ4-only EXTERNAL2619 strict rows。本轮两个surface的orientation访问都为0。future reserve12455 rows、oldofficialTEST仍禁止读取。\n\n已核实COCO val2017原始RGB两组64候选：文件SHA/尺寸/解码/FITVAL去重通过；没有preference labels。查询128个候选自身bytehash在全局图片目录中的路径，均不存在。但完整目录覆盖证明尚缺，因此这还不是已通过资格的Anchor bank。\n\n旧6632-image overlap证据不能证明与完整20818-row新authority不重叠。可接受U7已有raw-byte identity，不额外要求decoded-RGB；仍需完整namespace的coverage/nonmembership证明。不会临时读取future索引来补证。",
+  "parameters_excerpt": "全部为用户协议/预检继承结论，**正式spec未冻结**。\n\n- source：SD/FLUX posterior mode、DCAE deterministic；teacherSD3.5 posterior stateless sample后(z−0.0609)×1.5305。\n- 官方model card文本长度256；u=0.1对应nearest sigma；K_noise=4，按image共享噪声，平均raw scores。\n- FUNC用empty prompt注册，最终评价用真实prompt；Projector不输入prompt；H4/H8/H12等权，不加入latent/score/preference loss。\n- RPJ2是token输出，不能直接复用为SD35 latent输出；采用用户已允许conv fallback。REC/FUNC同架构，SD/FLUX/DCAE分别38288/39056/40080参数。\n- 完整历史训练registry可继承AdamW、3e-4→3e-5、warmup500、effective batch32、12000updates、每500以AnchorVAL选checkpoint。架构fallback不自动改变optimizer。\n- 计划108fits（54REC+54FUNC），seeds20260827/28/29、5个permutation；本轮实际fit0。\n- metrics：Accuracy、PAIR_RO、direction、teacher margin agreement、functional similarity、q_MSE。20k common connected bootstrap，q.05/q.95是一侧95%界/中央90%区间。FUNC−REC Acc下界>-0.02；q_MSE>=1.25解释阈值。\n- resolution/preprocessing、permutation maps、完整cache/weightbindings与进一步统计操作定义待冻结。训练reference1024不是model card强制resize证据。",
+  "code_identity_excerpt": "- branch：`codex/dina1-external-frozen-reward-functional-registration`。\n- predecessor：`e6e6cf33fca336a422e13ea316269f7e76821534`（RGEN1finalizer）。\n- preflight finalizer：`de971295f2cd4d9f674e9004ab9c531436d9e19f`；无DINA scientific commit。\n- worktree：`source-workspace/.worktrees/dina1-external-frozen-reward-functional-registration`；封存时CLEAN。\n- DiNa repo：`5a5a025e3ed090c86e96af0d924153569e2cace8`。\n- DiNa HF：`31d99dc51bf4c6fd46eb6a5ba0d352e36320cad9`。\n- SD3.5 base：`b940f670f0eda2d07fbb75229e779da1ad11eb80`。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-dina1-external-frozen-reward-functional-registration.txt",
+  "primary_report": null
+}

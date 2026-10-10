@@ -1,0 +1,56 @@
+{
+  "r_G": {
+    "point": -0.44761813282415863,
+    "CI95": [
+      -0.7123492508181807,
+      -0.24471462040415373
+    ],
+    "adjusted_CI": [
+      -0.7969516620885667,
+      -0.20623776146151918
+    ],
+    "undefined_replicates": 0,
+    "absolute_margin_MSE_reduction": -0.30192862616644967,
+    "classification": "DETERIORATION_SUPPORTED"
+  },
+  "r_QA": {
+    "point": -0.032282262965332764,
+    "CI95": [
+      -0.21199624795615013,
+      0.11073230759198673
+    ],
+    "adjusted_CI": [
+      -0.2770760902812321,
+      0.14985141514356967
+    ],
+    "undefined_replicates": 0,
+    "absolute_margin_MSE_reduction": -0.030536280737982868,
+    "classification": "CHANGE_INCONCLUSIVE"
+  },
+  "dAgree_G": {
+    "point": -0.027027027027027084,
+    "CI95": [
+      -0.06222802436901653,
+      0.0
+    ],
+    "adjusted_CI": [
+      -0.07310704960835501,
+      0.003926701570680535
+    ],
+    "undefined_replicates": 0,
+    "classification": "CHANGE_INCONCLUSIVE"
+  },
+  "dAcc": {
+    "point": -0.00868055555555558,
+    "CI95": [
+      -0.0277777777777779,
+      0.005208333333333481
+    ],
+    "adjusted_CI": [
+      -0.03472222222222221,
+      0.007817925347224227
+    ],
+    "undefined_replicates": 0,
+    "classification": "CHANGE_INCONCLUSIVE"
+  }
+}

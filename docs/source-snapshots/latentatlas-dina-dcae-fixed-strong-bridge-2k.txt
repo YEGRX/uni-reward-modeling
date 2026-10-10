@@ -1,0 +1,65 @@
+# DC-AE 固定强 Bridge 函数类定位预实验
+
+## 1. Date
+
+2026-09-29 建档；2026-10-01 完成唯一 S2000 训练、固定评分、远端双重独立 CPU 复算、本地便携 CPU 回放和最终封存。
+
+## 2. Purpose
+
+只读旧 B2000（P0＋T1），固定 64 FIT/64 VAL Anchor、T1、前 2000 步日程与评分集，只把映射改为 12 个残差块的 S，检验函数类／归纳偏置变化的坐标与行为效应。结构同时改变参数量和计算量，因此不能单独归因于容量。相关背景：[[latentatlas-dina-dcae-ab-budget-response-4k]]、[[latentatlas-dina-dcae-target-spatial-factorial]]。
+
+## 3. Code Version / Commit
+
+独立工作区 `source-workspace/.worktrees/dina-dcae-fixed-strong-bridge-2k-r1`；冻结 HEAD `9d397e8`，release SHA `8addc3c222ab513c84aa84bb3e66b4bd2c8f5aa1967ef203b0ba75ba1471ce3b`，spec SHA `afbe959948b8f01fc5c6d9042d152eb8295eb29e35c3147779d3545773c4f41d`。完整发布远端独立逐字节回读通过；本轮最终 52 文件 seal SHA `93a1a133657c04eefe6620edfbaf00a4aa8d2e14543ba8de0bc4ea00cb3c06e8`，独立 readback PASS。
+
+## 4. Dataset / Input
+
+64 FIT／64 VAL 互斥，并与当前 252 张开发评价图像无身份重叠；T1 固定目标、FIT-only W0，B 的前 2000 步学习率和 64,000 次抽样序列已按旧实际状态核对。评价 1008 对、28 个 connected groups、4 个 streams；旧 A/B/Native/G 逐行只读复用。旧 B 评价的 `clean=false`、外层 exit1、attempt uncertain 仍保留，其完整科学输出仅在原范围内获补充接受。缺失的 2026-09-28 Context Snapshot 不能作为已读来源；关键合同从冻结工件恢复。
+
+## 5. Parameters
+
+旧 P0 为 40,080 个可训练参数；新 S 为 32→64 stem、12 个 64 通道双 3×3 残差块、64→16 tail，共 889,424 个可训练参数。seed `20260827`；正式训练 2000 更新，每 250 步完整 checkpoint（含 optimizer、sampler 和 RNG），终点不按中间 Accuracy 选择。技术 FIT smoke 16 次单独计账。源网格／resize／batch／目标、数值后端和评价语义均按冻结规格。
+
+## 6. Command
+
+正式训练任务 `LatentAtlas-DCAE-StrongBridge-Training-r1`，正式评分任务 `LatentAtlas-DCAE-StrongBridge-Evaluation-r1`，均为唯一尝试且实际 exit0、guard clean。评分产生 1008 行、8064 个新逻辑条件；两独立远端 CPU 复算及授权本地纯 CPU 便携回放均 PASS。生产原始数据仍在远端本轮 run；本地交付从最终报告及 seal 入口查验。
+
+## 7. Results
+
+| 固定 S2000 − B2000 主比较 | B2000 | S2000 | 变化 |
+|---|---:|---:|---:|
+| FIT T1 normalized MSE | 0.281846 | 0.180594 | −35.92% 相对 |
+| VAL T1 normalized MSE | 0.283370 | 0.272625 | −3.79% 相对 |
+| Accuracy | 64.8562% | 68.4276% | +3.5714 pp |
+| Native agreement | 77.7694% | 83.9335% | +6.1640 pp |
+
+20,000 次 paired group bootstrap、同一 28 组、调整后的单侧 q0.0125 下界：Accuracy 增益 +1.5377 pp、agreement 增益 +3.4974 pp，故 `JOINT_BEHAVIOR_GAIN_SUPPORTED=true`。但 S 比 Native Accuracy 低 4.3899 pp、agreement 83.9335%；near-native 两门槛均未通过。FIT 的预定 10% 描述尺度通过，VAL 未通过；自动分类 `MIXED_ENDPOINT_RESPONSE`。它表示坐标和行为端点反应不同，并非 Accuracy／agreement 一正一负。完整数值、曲线、区间及 B1000/A2000/Native/G 对照见最终报告。
+
+正式训练 2000 更新、9 个完整检查点；正式评分 8064 条件，无新失败科学条件。训练／评分账本 GPU 时间分别 3321.88／3078.26 秒，合计 6400.14 秒；技术 16 次更新另列。远端独立算法复核最大绝对差 2.60×10⁻¹⁷，本地便携回放 1826 个数值最大差 1.67×10⁻¹⁵，预定容差 1e−12。52 文件 seal 独立 readback PASS。
+
+## 8. Analysis
+
+同一更新预算下改变映射函数类在固定开发评价上建立行为联合收益，且明显降低 FIT 坐标误差；VAL 坐标改善仅 3.79%，不足预定描述尺度。尚不能区分容量、归纳偏置、优化路径、Anchor 覆盖或 Reward-sensitive geometry 的贡献。已核验便携包没有 S/B 在相同评价图像上可比的 T1 坐标，故不能据 Anchor-VAL 推断评价域坐标改善或认定 objective mismatch。未通过的 near-native 门槛不等于所有方法都无法逼近 Native。
+
+## 9. Problems
+
+旧 B 的时间 guard 不确定性不可转写为干净；本轮技术 r1 模型构造前失败及两次发布工程失败均保留费用和证据，正式训练、评分自身干净完成。只有一个训练 seed、固定 Anchor draw、28 评价组、已消费的开发评价集；S/B 架构与计算量不同，没有新增 strong permutation control。S 不是组内完整 Latent Bridge 的忠实复现，不能主张 universal U、信息无损或严格 zero-shot。
+
+## 10. Next Steps
+
+用户2026-10-01另行授权的评价域坐标诊断见 [[latentatlas-dina-dcae-strong-bridge-eval-domain-t1-localization]]；该新 identity 当前BLOCKED，不改变本页前序封存结果。
+
+本 identity 完成即停止。唯一后续建议是另行预注册同一评价图像上的 S/B 配对 T1 坐标诊断，先确定不读取偏好标签的目标来源；此处不执行。当前无 GPU 或远端服务器需求。
+
+## 11. Sources
+
+- Source: `raw/experiments/latentatlas/dina-dcae-fixed-strong-bridge-2k-2026-09-29/user-authority-20260929.txt`
+- Source: `LatentAtlas-runs/DINA_DCAE_FIXED_STRONG_BRIDGE_2K-20260929-R1/FINAL_REPORT.md`
+- Source: `LatentAtlas-runs/DINA_DCAE_FIXED_STRONG_BRIDGE_2K-20260929-R1/FINAL_SEAL.json`
+- Source: `LatentAtlas-runs/DINA_DCAE_FIXED_STRONG_BRIDGE_2K-20260929-R1/evidence/FINAL_SEAL_INDEPENDENT_READBACK.json`
+- Source: `LatentAtlas-runs/DINA_DCAE_FIXED_STRONG_BRIDGE_2K-20260929-R1/evidence/FORMAL_TRAINING_INDEPENDENT_REMOTE_CPU.json`
+- Source: `LatentAtlas-runs/DINA_DCAE_FIXED_STRONG_BRIDGE_2K-20260929-R1/evidence/PRE_EVALUATION_INDEPENDENT_REMOTE_CPU.json`
+- Source: `LatentAtlas-runs/DINA_DCAE_FIXED_STRONG_BRIDGE_2K-20260929-R1/evidence/REPLAY_THIRD_VERIFICATION_REMOTE_CPU.json`
+- Source: `LatentAtlas-runs/DINA_DCAE_FIXED_STRONG_BRIDGE_2K-20260929-R1/evidence/LOCAL_PORTABLE_REPLAY_R1.json`
+- Source: `LatentAtlas-runs/DINA_DCAE_FIXED_STRONG_BRIDGE_2K-20260929-R1/RESOURCE_AND_FAILURE_LEDGER.json`
+- Source: `raw/experiments/latentatlas/dina-dcae-fixed-strong-bridge-2k-2026-09-29/final-evidence-manifest-20261001.txt`

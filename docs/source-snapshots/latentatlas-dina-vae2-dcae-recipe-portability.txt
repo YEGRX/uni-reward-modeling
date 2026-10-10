@@ -1,0 +1,65 @@
+# DC-AE 注册配方迁移预实验 DC-AE Recipe Portability Pilot
+
+## 1. Date
+
+2026-09-24 至 2026-09-25；最终核验2026-09-25 20:23北京时间。状态 **VERIFIED_COMPLETE**。
+
+## 2. Purpose
+
+检验已在FLUX上使用的固定REC配方，经必要接口移植后，能否让已知第二编码器DC-AE在零目标偏好训练标签下复用同一冻结DiNa Reward。检验配方迁移，不迁移FLUX Projector权重。
+
+## 3. Code Version / Commit
+
+HEAD `fa301d7`；远端不可变`code-full-4086931bfe1d`。完整spec SHA`d34942fc7635f2142c732d3c9ff921774ce9c9f4d8276d2986664429e873402f`。
+
+## 4. Dataset / Input
+
+固定64FIT/64VAL COCO anchors；HPDv3开发评价1008pairs/28完整关联组/4原噪声流。复用封存Native与FLUXREC，三新DC-AE臂共24192科学条件。目标偏好标签仅用于固定评价，不用于训练；禁用数据未新增消费。
+
+## 5. Parameters
+
+两REC各1000更新，seed20260827；batch32；原12000步LR曲线前1000步。每500checkpoint按自身正确VALloss选点；正确选1000，置换选500。Projector32→64→64→16、40080参数，FP32 bilinear align_corners=False在卷积前对齐source网格。官方DC-AE FP32 tiled512/stride448，原RGB/rawlatent。
+
+## 6. Command
+
+持久FullChain-r1依次执行训练、独立CPU核验、固定评价及双独立远端CPU回放；父任务核portable信任根后实际本地CPU重放并封存。所有模型计算在远端。本轮已结束，保留命令/源码仅供复核，不自动重跑。
+
+## 7. Results
+
+**固定REC配方在DC-AE上产生明确注册收益，但仍明显低于Native。**
+
+| 路径 | Accuracy | 与Native差值及中央90%CI（pp） | Native排序一致率 | VAL NMSE |
+|---|---:|---|---:|---:|
+| Native SD3.5 | 72.82% | 0 [0,0] | 100.00% | 0 |
+| FLUXREC（旧结果） | 72.79% | −0.02 [−1.56,1.46] | 91.69% | NOT_AVAILABLE |
+| DC-AE未训练接口 | 43.06% | −29.76 [−34.60,−24.92] | 58.03% | 2.239122 |
+| DC-AE正确对应 | 64.16% | −8.66 [−11.51,−5.88] | 77.28% | 0.309381 |
+| DC-AE置换对应 | 48.69% | −24.13 [−27.23,−21.01] | 58.64% | 1.087466 |
+
+正确−未训练 **+21.11pp [16.39,25.99]**；正确−置换 **+15.48pp [12.03,18.92]**。五项联合注册收益下界均>0，因此`SECOND_FAMILY_REGISTERED_REWARD_SIGNAL_SUPPORTED`。接近Native标准未满足，且q95差值<−2pp：`LOSS_EXCEEDING_2PP_SUPPORTED`。
+
+正式训练占用约33.53分钟、评价94.20分钟；全历史累计账本3.04小时含旧失败保守预留。两远端回放inventory相同；本地26输出最大浮点差5.551115123125783e-16，容差1e-10内一致且分类exact。最终seal独立读回通过，GPU锁已释放。
+
+## 8. Analysis
+
+baseline包括Native、旧FLUXREC、未训练和置换对应。metrics保持逐流strictgreater后平均；Native排序一致率剔除Native tie、adaptertie计0.5。20000次共同group bootstrap、seed2026092402。
+
+research gap：坐标层拟合与Reward复用存在剩余差距。正确组VAL检索R@1/R@5均100%，仍未恢复Native准确率/排序保真；VAL是开发诊断，不能代替固定偏好评价。单seed、单置换不支持跨训练随机性的稳定性主张；置换含几何混杂。只能支持本DC-AE/Anchor/1000步/HPDv3开发样本/冻结DiNa条件，不证明任意VAE或true-unseen通用。possible improvement须另行提出并获得新实验授权，本轮不追加测试。
+
+## 9. Problems
+
+旧IOTiming失败/预算暂停及全部账本保留；用户2026-09-25明确恢复并取消资源预算，科学范围不变。父核验脚本生成的22pyc已按SHA归档，修正控制后通过；冻结生产源码、spec、checkpoints未改，生产任务未重启。此前12–24小时仅保守安排，本轮正式GPU两阶段实际约2.13小时。
+
+## 10. Next Steps
+
+**已停止：自动检查latentatlas-dc-ae已删除；没有下一实验授权。** [完整中文报告](LatentAtlas-runs/DINA_VAE2_DCAE_RECIPE_PORTABILITY_PILOT-20260924-R1/REPORT.md)。相关项目[[latentatlas]]、历史[[latentatlas-dina-reg1-functional-registration]]。
+
+## 11. Sources
+
+- `raw/experiments/latentatlas/dina-vae2-dcae-recipe-portability-2026-09-24/verified-complete-20260925T122303Z/REPORT.md`：中文阅读报告与七项直接回答。
+- `raw/experiments/latentatlas/dina-vae2-dcae-recipe-portability-2026-09-24/verified-complete-20260925T122303Z/verified-final-results/FINAL_REPORT.md`：原封存程序报告。
+- `raw/experiments/latentatlas/dina-vae2-dcae-recipe-portability-2026-09-24/verified-complete-20260925T122303Z/verified-final-results/BOOTSTRAP_STATISTICS.json`、`TEACHER_FIDELITY.json`、`REGISTRATION_SUMMARY.json`：完整连续指标。
+- `raw/experiments/latentatlas/dina-vae2-dcae-recipe-portability-2026-09-24/verified-complete-20260925T122303Z/vae2-portable-evidence-r1.tar.gz`：SHA绑定完整portable来源（不含大模型/全量缓存）。
+- `raw/experiments/latentatlas/dina-vae2-dcae-recipe-portability-2026-09-24/verified-complete-20260925T122303Z/portable-local-verification.json`、`final-seal-independent-readback.json`：最终本地/封存独立验证。
+- `raw/experiments/latentatlas/dina-vae2-dcae-recipe-portability-2026-09-24/verified-complete-20260925T122303Z/verified-final-results/result_seal.json`：SHA`09fc55e580bf37deccb7f6db25035f8e7200b0e843f075eb4b2c5724a293a0fa`。
+- `raw/experiments/latentatlas/dina-vae2-dcae-recipe-portability-2026-09-24/verified-complete-20260925T122303Z/wiki-experiment-before-final.md`：完整阶段历史，只读保留，不作为当前续行指令。

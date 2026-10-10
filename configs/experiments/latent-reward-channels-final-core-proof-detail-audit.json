@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latent-reward-channels-final-core-proof-detail-audit",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "theory_or_specified_model",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "最终稿与Core_Proof_Audit完整读取；old Core四条件单元各n1的256数据序列与五种旧预测。目标从原joint累计clean BT标签质量，未从作者目标公式反填。",
+  "parameters_excerpt": "a≤.5/k≥1的算术包络；C₀=4096/8192/16384为预定算术点。L1 n1、τ1/64、η.1，仅检查有限链路，不给η.1式(35)资格。",
+  "code_identity_excerpt": "执行源SHA：`66be98cabd9afcb0d9a516f2fc8eb74f5cbf07c914d9ff8828df91ddaa119cc7`。未编造Git commit；复用旧Core model helper与原n1 NPZ，原件只读。",
+  "source_snapshot": "docs/source-snapshots/latent-reward-channels-final-core-proof-detail-audit.txt",
+  "primary_report": null
+}
