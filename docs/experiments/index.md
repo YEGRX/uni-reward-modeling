@@ -1,12 +1,12 @@
 # LatentAtlas 实验索引
 
-覆盖所有当前命名为LatentAtlas、RPJ2–4及相关latent-reward-channels实验页。不是把每次工程attempt计作独立实验。
+归档LatentAtlas、RPJ2–4、latent-reward-channels及其R18视觉/规定模型后续记录。不是每次attempt一项独立实验。
 
 [逐次日志](../experiment_log.md) · [主要证据导航](../evidence-and-reproduction.md)
 
 ## 视觉、接口与历史工程实验
 
-| 实验 | 记录日期 | 证据层级 | 当前归档状态 |
+| 实验 | 记录日期 | 证据层级 | 归档状态 |
 |---|---|---|---|
 | [LatentAtlas Anchor Budget Replication](latentatlas-anchor-budget-replication.md) | 2026-08-09 | WIKI_SNAPSHOT_NOT_REAUDITED | WIKI_SNAPSHOT_NOT_REAUDITED |
 | [LatentAtlas Anchor Feasibility Pilot](latentatlas-anchor-feasibility-pilot.md) | 2026-08-08 | WIKI_SNAPSHOT_NOT_REAUDITED | WIKI_SNAPSHOT_NOT_REAUDITED |
@@ -77,13 +77,14 @@
 | [LatentAtlas U5-PB1R1 Residual Information Localization](latentatlas-u5pb1r1-residual-information-localization.md) | 2026-08-27 | WIKI_SNAPSHOT_NOT_REAUDITED | WIKI_SNAPSHOT_NOT_REAUDITED |
 | [LatentAtlas U6-RCU0 Reward-Compatible U Feasibility](latentatlas-u6-rcu0-reward-compatible-u-feasibility.md) | 2026-08-29 | WIKI_SNAPSHOT_NOT_REAUDITED | WIKI_SNAPSHOT_NOT_REAUDITED |
 | [U7 True-Unseen Reconstructed-Anchor Onboarding](latentatlas-u7-reconstructed-anchor-onboarding.md) | 2026-08-29 | WIKI_SNAPSHOT_NOT_REAUDITED | WIKI_SNAPSHOT_NOT_REAUDITED |
+| [R18 × DiNa 真实缓存选图 Pilot](r18-dina-real-visual-pilot-20261010.md) | 2026-10-10 | PRIMARY_REPORT_BOUND | NO_GAIN |
 | [RPJ2 Projector Noncollapse and Anchor Mechanism](rpj2-projector-noncollapse-anchor-mechanism.md) | 2026-08-29 | WIKI_SNAPSHOT_NOT_REAUDITED | WIKI_SNAPSHOT_NOT_REAUDITED |
 | [RPJ3 Anchor Reward Instance Specificity Localization](rpj3-anchor-reward-instance-specificity-localization.md) | 2026-08-29 | WIKI_SNAPSHOT_NOT_REAUDITED | WIKI_SNAPSHOT_NOT_REAUDITED |
 | [RPJ4 True-Unseen SD3.5 Reconstructed-Anchor Confirmation](rpj4-true-unseen-sd35-anchor-confirmation.md) | 2026-08-29 | WIKI_SNAPSHOT_NOT_REAUDITED | WIKI_SNAPSHOT_NOT_REAUDITED |
 
-## 理论、有限模型及证明检查（不等同真实视觉实验）
+## 理论、规定模型及证明检查（不等同视觉增益）
 
-| 实验 | 记录日期 | 证据层级 | 当前归档状态 |
+| 实验 | 记录日期 | 证据层级 | 归档状态 |
 |---|---|---|---|
 | [Core v2 有限转移与完整MLE固定验证 Finite Transfer and Full MLE](latent-reward-channels-core-v2-validation.md) | 2026-10-09 | WIKI_SNAPSHOT_NOT_REAUDITED | WIKI_SNAPSHOT_NOT_REAUDITED |
 | [最终稿新增证明细节核验 Final Core Proof Detail Audit](latent-reward-channels-final-core-proof-detail-audit.md) | 2026-10-09 | WIKI_SNAPSHOT_NOT_REAUDITED | WIKI_SNAPSHOT_NOT_REAUDITED |
@@ -98,3 +99,4 @@
 | [ABC R3.5 任务敏感性固定验证 Task Sensitive Validation](latent-reward-channels-r35-task-sensitive-validation.md) | 2026-10-08 | WIKI_SNAPSHOT_NOT_REAUDITED | WIKI_SNAPSHOT_NOT_REAUDITED |
 | [ABC R3.6 结构统计修复固定验证 Structural Statistical Repair](latent-reward-channels-r36-structural-statistical-repair.md) | 2026-10-08 | WIKI_SNAPSHOT_NOT_REAUDITED | WIKI_SNAPSHOT_NOT_REAUDITED |
 | [System v3 任务效率与反馈闭合固定验证 Task Efficiency and Feedback Closure](latent-reward-channels-system-v3-validation.md) | 2026-10-09 | WIKI_SNAPSHOT_NOT_REAUDITED | WIKI_SNAPSHOT_NOT_REAUDITED |
+| [R18 方法实现与实际 MVP 验证](r18-method-mvp-20261010.md) | 2026-10-10 | PRIMARY_REPORT_BOUND | MIXED |

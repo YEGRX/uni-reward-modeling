@@ -118,5 +118,21 @@
     "reported_result": "Cosmos ridge/SVD VAL NMSE0.228049708/0.444343958；DC-AE0.326515707/1.062346963。",
     "limitation": "仅CPU拟合/坐标评价；新基线Reward评分与新增确认未运行。本报告旧Q32进度已由独立前向审计覆盖，历史原文保留。",
     "source_report": "docs/reports/latentatlas-submission-evidence-20261009-final.txt"
+  },
+  {
+    "experiment_id": "r18-method-mvp-20261010",
+    "scope": "14,720无重叠模拟库；真实AI NOT_RUN",
+    "status": "MIXED",
+    "reported_result": "规定模型主格V1相对合格混合MLE posterior KL下降53.8%；偏离模型中强MLE更好。",
+    "limitation": "这是模拟限定收益，不是视觉成功；旧V2种子独立性撤回、强基线未决格与负结果保留。",
+    "source_report": "docs/reports/r18-method-mvp-20261010-final.txt"
+  },
+  {
+    "experiment_id": "r18-dina-real-visual-pilot-20261010",
+    "scope": "旧28组 / 252图 / 1,008 human pairs；4折回顾性交叉拟合",
+    "status": "NO_GAIN",
+    "reported_result": "固定V2对原生四流选图胜率37.86%，对Logistic38.13%；两主比较97.5%区间上界均45.98%。",
+    "limitation": "新增图片/评分/GPU0；固定案例8图已恢复，其余244图未下载。旧源已消费，B NOT_RUN，不声称fresh或论文级独立确认。",
+    "source_report": "docs/reports/r18-dina-real-visual-pilot-20261010-final.txt"
   }
 ]

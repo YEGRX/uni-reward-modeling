@@ -4,9 +4,9 @@
 
 | 位置 | 内容 | 证据边界 |
 | --- | --- | --- |
-| [实验索引](experiments/index.md) / [日志](experiment_log.md) | 85条带来源记录 | 72条视觉/接口历史，13条理论或规定模型 |
-| `docs/reports/` | 15项主要实验最终报告的可移植文本导出 | 根据最终报告整理，不是本次重跑 |
-| `docs/source-snapshots/` | 85份wiki来源快照 | 70项仅来源快照，未重审原始资产 |
+| [实验索引](experiments/index.md) / [日志](experiment_log.md) | 87条带来源记录 | 73条视觉/接口历史，14条理论或规定模型 |
+| `docs/reports/` | 17项主要实验最终报告的可移植文本导出 | 根据最终报告整理，不是本次重跑 |
+| `docs/source-snapshots/` | 87份wiki来源快照 | 70项仅来源快照，未重审原始资产 |
 | `configs/experiments/` | 数据、参数、版本、状态的历史配置摘要 | `historical_documentation_not_executable`；不能派发生产任务 |
 | [Q32历史执行配置](../configs/q32-forward-original-execution-config.json) | 新协议固定范围的原配置 | 配套全部生产caller与模型未入仓，不能单文件重跑 |
 | `results/evidence/` | Q32原FD失败、新协议VAL/MAIN8数值及既有独立回执 | 既有CPU接受不等于新独立科学确认 |
@@ -26,7 +26,7 @@ python3 scripts/reproduce_records.py --check
 
 Python 3.9+标准库。入口验证来源、记录和配置对应关系及仓内资产SHA，从归档的结果JSON重建：
 
-- `results/tables/experiment_summary.csv`：15项主要实验摘要。
+- `results/tables/experiment_summary.csv`：17项主要实验摘要。
 - `results/tables/q32_main8.csv`：六臂全部标量指标和已报告区间。
 - `results/tables/q32_main8_effects.csv`：四项主效应及调整区间/原分类。
 - `results/tables/q32_val.csv`：VAL六臂风险、坐标保护和区间。
@@ -53,3 +53,7 @@ Python 3.9+标准库。入口验证来源、记录和配置对应关系及仓内
 - MAIN8是已使用开发池中固定8组；不声称论文级独立确认。P32仅VAL，未评价MAIN8。
 - HPSv3为六臂，F_NOREG协议缺席；decoder介导读出不能证明直接潜空间复用。
 - 理论/规定模型页的数学验证不构成真实视觉增益或机制因果证明。
+
+## R18最新补充
+
+R18模拟MVP为MIXED，与真实缓存NO_GAIN分开归档。新增的[R18来源清单](../results/r18_source_manifest.json)逐文件绑定已有结果、既有效果图及照片回执；本PR没有重跑拟合或评分。真实summary的local_original_rgb_bytes=MISSING属于取回8张固定原图之前的时点，最新照片完成状态见PHOTO_VERIFICATION.json与[取回报告](reports/r18-visual-image-recovery.txt)。其余244图未取回，独立确认B未运行。

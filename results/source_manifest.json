@@ -1011,6 +1011,38 @@
       "snapshot_sha256": "9dc23faab385eb4b42422a23f1a046e1a6898b79bbdb7b393b25ea7f1390c27d",
       "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
       "primary_report": null
+    },
+    {
+      "id": "r18-method-mvp-20261010",
+      "category": "theory_or_specified_model",
+      "source_locator": "wiki-store/wiki/experiments/r18-method-mvp-20261010.md",
+      "original_bytes": 4843,
+      "original_sha256": "751faf76aff571c8ec79c033853022f3fc0048e297027b18e814270124627850",
+      "snapshot_file": "docs/source-snapshots/r18-method-mvp-20261010.txt",
+      "snapshot_sha256": "e28766915d6da5df29bb3f96d3f323eb94de41104296869466919bec2d6a9713",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": {
+        "source_locator": "wiki-store/scripts/latent-reward-channels/reports/r18-method-20261010/MVP_EXPERIMENT_REPORT.md",
+        "original_sha256": "c646e9451c0275f857185c6d7f97f9394a62476ce818851a5b19712e63a79de0",
+        "file": "docs/reports/r18-method-mvp-20261010-final.txt",
+        "sha256": "c646e9451c0275f857185c6d7f97f9394a62476ce818851a5b19712e63a79de0"
+      }
+    },
+    {
+      "id": "r18-dina-real-visual-pilot-20261010",
+      "category": "latentatlas_visual_or_interface_history",
+      "source_locator": "wiki-store/wiki/experiments/r18-dina-real-visual-pilot-20261010.md",
+      "original_bytes": 5899,
+      "original_sha256": "4abe8c7fd0ca573c9118a4da728c44e24d106300648e4a3488b4575e6c40329b",
+      "snapshot_file": "docs/source-snapshots/r18-dina-real-visual-pilot-20261010.txt",
+      "snapshot_sha256": "1b0250a300833b35f6531a84e5032ff7d29ee8b130e5c0f254c6cb9df4a01793",
+      "export_transformation": "Owner absolute paths and private tailnet addresses normalized; historical scientific numbers unchanged",
+      "primary_report": {
+        "source_locator": "wiki-store/scripts/latent-reward-channels/reports/r18-dina-visual-20261010/TECHNICAL_REPORT.md",
+        "original_sha256": "1151b15ba14eae4487e5a01683d60a56848a7f8a402379d3e2c44d3e5e83724d",
+        "file": "docs/reports/r18-dina-real-visual-pilot-20261010-final.txt",
+        "sha256": "1151b15ba14eae4487e5a01683d60a56848a7f8a402379d3e2c44d3e5e83724d"
+      }
     }
   ]
 }

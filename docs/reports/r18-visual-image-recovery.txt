@@ -1,0 +1,34 @@
+# 固定案例原图恢复与可视核查
+
+**PHOTO_PANEL_COMPLETE。** 用户提供既有服务器 `<private-tailnet-host>` 后，使用既有授权 SSH 连接，仅读取固定案例8张图片。8/8 PNG文件哈希、8/8 RGB像素哈希与旧 HPS O_ORIGINAL 回执一致；未生成、重建或重新评分图片。主结论仍为 **NO_GAIN**，实验B仍为 **NOT_RUN**。
+
+## 实际执行与来源
+
+使用既有 Windows 主机中的 WSL `LatentAtlas`，从以下历史目录按清单取回文件：
+
+```text
+/opt/latentatlas/hpsv3-frozen-interface-reuse-20260927-r1/science-r1/original-q-r3/png/
+```
+
+这是历史有效原始 RGB 输入的无损PNG（O），与重建臂N区分；不声称它们是未经历史输入预处理的最初JPEG。远端8文件都存在、文件哈希匹配后，只读流式传输到新的raw目录。本地再次核验PNG及 `sha256(RGB.tobytes())`，并将案例ID与已经封存的R2选择记录绑定。仅下载8张固定案例图，其余244图未下载。
+
+Source: `raw/experiments/latent-reward-channels/r18-dina-real-visual-20261010/case-images-recovery-20261010/`；`IMAGE_REMOTE_PROBE.json`、`IMAGE_TRANSFER_RECEIPT.json`、`verified-case-images.csv`、`PHOTO_VERIFICATION.json`。
+
+## 不改变实验的方法补充
+
+CASE_POLICY.json 的固定ID顺序规则未改：非零λ=.125、Best9、V2与native_mean4不同选择，各取group ID最先两个人类胜例与两个人类负例。没有根据新看到的外观挑图。渲染保留整图与长宽比，边框及标注在图外；绿框仅标记已有该对人类标签。总面板与4个独立双图面板实际生成并目视检查，无新增人工标签。
+
+- `human_win-1`：同Y=3、同后验概率，固定ID并列规则选中人类偏好图；不是校正带来的可识别收益。
+- `human_win-2`：跨格反转，人类支持R18，HPS略支持原生；训练质量代理与最终人类目标存在差异。
+- `human_loss-3`：跨格反转，人类与HPS都支持原生；四格概率排序在该例失效。
+- `human_loss-4`：同Y=1、同后验，固定ID规则选错，人类与HPS都支持原生；原生连续评分在格内提供的区分被抹去。
+
+实际原图、原prompt、π+、Y、原生分、HPS及已有标签在 [CASE_RECORDS.md](CASE_RECORDS.md) 与 `photo-case-diagnostics.csv` 中。图片内容可以直接核查，但本轮不把助手的视觉印象当作独立评价器。4例是机制线索，不能估计总体频率、归因全部劣化或替代28组CI。
+
+## 成本和Stop / Go
+
+只读传输压缩包6,225,572字节，图片文件合计6,225,335字节；传输wall 15.3093秒。远端写文件0、新图片0、DiNa/teacher评分0、新人类标签0、GPU调用0、付费API0。图表与报告处理为本地CPU；本轮完整文件核查、渲染和交付打包总耗时未完整计时，标UNKNOWN。没有查询或改变GPU运行状态，不需要GPU阶段。
+
+固定照片补齐→GO且已完成；方法/数值输出修改→未进行；扩大训练/新增评分→STOP；独立确认B→NOT_RUN。补图消除了案例图片缺口，但不消除回顾性数据已消费、评价器预训练重叠未知、真实条件积分/KL真值未知等边界。没有V3/V4或GRPO。
+
+旧审计和旧ZIP里“本地缺图”描述的是传输前状态，保留作为历史证据；本补充报告及新的Photo Complete ZIP记录当前状态。旧raw、旧ZIP与R1/R2科学结果不覆盖。新包同时包含源码、配置、基线、原始结果、成本、照片与哈希清单。

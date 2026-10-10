@@ -47,6 +47,7 @@ risk:
   - HPSv3与PickScore经过decoder，不等同于潜空间直接读取
   - 同信息量与预算匹配的简单baseline、独立确认和机制干预仍有缺口
   - 70条历史记录仅归档wiki来源，未在本次重新审计原始工件
+  - R18规定模型MIXED；真实缓存选图NO_GAIN，独立确认B未运行
   - 完整模型数据包与生产执行代码未全部入仓
 
 next_milestone: >

@@ -33,7 +33,7 @@ def sha(path):
 def verify_docs():
     log = local_path('docs/experiment_log.md').read_text(encoding='utf-8')
     entries = re.split(r'(?=^## \d{4}-\d{2}-\d{2} — )', log, flags=re.M)[1:]
-    require(len(entries) == 85, 'Expected 85 log entries')
+    require(len(entries) == 87, 'Expected 87 log entries')
     for entry in entries:
         for field in ('Experiment', 'Config', 'Result', 'Conclusion', 'Next'):
             require('**' + field + ':**' in entry, 'Missing log field: ' + field)
@@ -65,10 +65,10 @@ def verify_sources():
         require(sha(p) == asset['sha256'], 'Asset SHA mismatch: ' + asset['path'])
     manifest = read_json('results/source_manifest.json')['experiments']
     catalog = read_json('results/experiment_catalog.json')
-    require(len(catalog) == len(manifest) == 85, 'Expected 85 archived records')
+    require(len(catalog) == len(manifest) == 87, 'Expected 87 archived records')
     by_id = {row['id']: row for row in manifest}
-    require(len(by_id) == 85, 'Duplicate source IDs')
-    require(len({row['experiment_id'] for row in catalog}) == 85, 'Duplicate catalog IDs')
+    require(len(by_id) == 87, 'Duplicate source IDs')
+    require(len({row['experiment_id'] for row in catalog}) == 87, 'Duplicate catalog IDs')
     for record in catalog:
         source = by_id[record['experiment_id']]
         for key in ('record', 'config', 'source'):
@@ -79,7 +79,7 @@ def verify_sources():
         primary = source['primary_report']
         if primary:
             require(sha(local_path(primary['file'])) == primary['sha256'], 'Primary report mismatch')
-    require(sum(s['primary_report'] is not None for s in manifest) == 15, 'Expected 15 final reports')
+    require(sum(s['primary_report'] is not None for s in manifest) == 17, 'Expected 17 final reports')
     return len(assets)
 
 
@@ -107,7 +107,7 @@ def tables():
     val_fields = ['method', 'centered_risk', 'risk_CI95', 'raw_score_MSE', 'common_offset_MSE', 'pair_margin_MSE', 'strict_G_agreement', 'strict_G_agreement_CI95', 'coordinate_MSE', 'relative_risk_reduction_vs_BASE', 'relative_reduction_CI95', 'paired_risk_reduction_vs_BASE_CI95']
     val_rows = [{'method': name, **metrics} for name, metrics in val['methods'].items()]
     keys = read_json('results/key_experiments.json')
-    require(len(keys) == 15, 'Expected 15 key experiments')
+    require(len(keys) == 17, 'Expected 17 key experiments')
     return {
         'results/tables/q32_main8.csv': csv_text(rows, fields),
         'results/tables/q32_main8_effects.csv': csv_text(effects, list(effects[0])),
@@ -129,7 +129,7 @@ def main():
             with path.open('w', encoding='utf-8', newline='') as handle:
                 handle.write(content)
         require(path.read_bytes() == content.encode('utf-8'), 'Table mismatch: ' + name)
-    print('PASS: 85 records, 15 final reports, %d asset hashes, 4 published tables.' % count)
+    print('PASS: 87 records, 17 final reports, %d asset hashes, 4 published tables.' % count)
     print('Scope: documentation integrity and published-result table reconstruction; no new scientific replay or GPU calls.')
 
 

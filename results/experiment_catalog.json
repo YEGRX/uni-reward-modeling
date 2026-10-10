@@ -933,5 +933,27 @@
     "config": "configs/experiments/rpj4-true-unseen-sd35-anchor-confirmation.json",
     "record": "docs/experiments/rpj4-true-unseen-sd35-anchor-confirmation.md",
     "source": "docs/source-snapshots/rpj4-true-unseen-sd35-anchor-confirmation.txt"
+  },
+  {
+    "experiment_id": "r18-method-mvp-20261010",
+    "title": "R18 方法实现与实际 MVP 验证",
+    "reported_date": "2026-10-10",
+    "category": "theory_or_specified_model",
+    "evidence_level": "PRIMARY_REPORT_BOUND",
+    "reported_status": "MIXED",
+    "config": "configs/experiments/r18-method-mvp-20261010.json",
+    "record": "docs/experiments/r18-method-mvp-20261010.md",
+    "source": "docs/source-snapshots/r18-method-mvp-20261010.txt"
+  },
+  {
+    "experiment_id": "r18-dina-real-visual-pilot-20261010",
+    "title": "R18 × DiNa 真实缓存选图 Pilot",
+    "reported_date": "2026-10-10",
+    "category": "latentatlas_visual_or_interface_history",
+    "evidence_level": "PRIMARY_REPORT_BOUND",
+    "reported_status": "NO_GAIN",
+    "config": "configs/experiments/r18-dina-real-visual-pilot-20261010.json",
+    "record": "docs/experiments/r18-dina-real-visual-pilot-20261010.md",
+    "source": "docs/source-snapshots/r18-dina-real-visual-pilot-20261010.txt"
   }
 ]

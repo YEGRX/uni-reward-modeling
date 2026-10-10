@@ -2,3 +2,6 @@
 # Rendered records and maintained Markdown still use normal whitespace checks.
 docs/reports/*.txt whitespace=-blank-at-eol,-blank-at-eof
 docs/source-snapshots/*.txt whitespace=-blank-at-eol,-blank-at-eof
+# Original CSV exports retain CRLF for byte-exact provenance.
+results/evidence/r18-visual/group-metrics.csv whitespace=cr-at-eol
+results/evidence/r18-visual/probability-metrics.csv whitespace=cr-at-eol

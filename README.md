@@ -43,9 +43,9 @@ DiNa 潜空间读出和经 decoder 的 RGB 读出是不同评估路径，不能�
 - [x] Writing paper
 - [ ] Finished
 
-截至 2026-10-10，归档 **85 条实验/审计记录**：72 条视觉或接口历史记录、13 条理论或规定模型记录；15 项主要实验对照最终报告整理。其余 70 条标记 `WIKI_SNAPSHOT_NOT_REAUDITED`，保留原记录但不声称本次重验全部原始工件。
+截至 2026-10-10，归档 **87 条实验/审计记录**：73 条视觉或接口历史记录、14 条理论或规定模型记录；17 项主要实验对照最终报告整理。其余 70 条标记 `WIKI_SNAPSHOT_NOT_REAUDITED`，保留原记录但不声称本次重验全部原始工件。
 
-原 Q32 MICRO 保持 `LOCAL_METHOD_NUMERICALLY_UNQUALIFIED`。后来独立的新协议前向审计实际完成 VAL 和 MAIN8，结论为 **`MAIN8_TRADEOFF_OR_DETERIORATION`**；该候选修复线已停止，不能用新协议抹去原 FD 失败。后续机制与方法设计属于待验证研究，不是本次归档新增的完成结果。
+原 Q32 MICRO 保持 `LOCAL_METHOD_NUMERICALLY_UNQUALIFIED`。后来独立的新协议前向审计实际完成 VAL 和 MAIN8，结论为 **`MAIN8_TRADEOFF_OR_DETERIORATION`**；该候选修复线已停止，不能用新协议抹去原 FD 失败。R18规定模型MVP为 `MIXED`；随后真实DiNa缓存选图pilot为 **`NO_GAIN`**。这些是今日已有结果的补充归档，不是本次提交新执行的实验。
 
 # 6. Key Results
 
@@ -58,8 +58,10 @@ DiNa 潜空间读出和经 decoder 的 RGB 读出是不同评估路径，不能�
 | [Cosmos 固定配方](docs/experiments/latentatlas-dina-unseen-encoder-fixed-recipe-portability.md)，开发集1,008 对 / 28 组 | REC 72.6190%，Native 72.8175%；NOREG 44.6181%，PERM 49.0823% | 原注册容忍标准下近原生复用通过；是目标接口训练和已使用开发面板，不是零样本或新总体确认 |
 | [DC-AE Anchor64→256](docs/experiments/latentatlas-dina-dcae-strong-anchor64-vs256-fixed2k-newgroups.md)，2,016 对 / 56 组 | NMSE .296255→.210021；Accuracy 68.5392%→69.9529%；G一致率85.8771%→88.6930% | 单次嵌套 Anchor 扩展的联合增益；未近原生、未独立总体确认 |
 | [HPSv3 六臂](docs/experiments/latentatlas-hpsv3-frozen-interface-reuse.md)，1,008 对 / 28 组 | O/N/F_REC/C_REC Accuracy 76.091%/75.298%/73.413%/74.702% | 两个 REC 保留结论均未确立；F_NOREG 协议不兼容缺席，不能称七臂完整 |
+| [R18真实缓存选图](docs/experiments/r18-dina-real-visual-pilot-20261010.md)，旧28组 / 252图 | V2对原生四流人类胜率37.86%，对同标签Logistic38.13%；两项97.5%区间上界均45.98% | NO_GAIN；旧数据回顾性交叉拟合，独立确认B未运行 |
 | [Q32 原 MICRO](docs/experiments/latentatlas-dcae-q32-lowcost-main8.md) | FD 比值1.0865105 > .20；FIT线性误差 .1201572 < .25 | 原 E1 失败；原协议 E2/MAIN8 未运行 |
 | [固定候选新协议审计](docs/experiments/latentatlas-frozen-candidate-forward-audit.md)，固定MAIN8的288 对 / 8 组 / 四流 | Q32 相对 BASE 的 G-margin MSE **增加44.7618%**；调整后的相对改善区间 [-79.6952%,-20.6238%] | 退化得到支持；Q32 优于同信息 A32 未确立，C32 的教师误差更好（二级未调整比较） |
+
 
 MAIN8 同面板对比（Accuracy 越高越好，G-margin MSE 越低越好）：
 
@@ -77,6 +79,8 @@ MAIN8 同面板对比（Accuracy 越高越好，G-margin MSE 越低越好）：
 ![MAIN8 G-margin RMSE](results/figures/q32-forward/MAIN8_G_margin_RMSE.png)
 
 VAL 曾出现9.3826%的 Q32 中心化风险点改善，但普通双侧95%区间跨0；固定单侧行动门槛通过仅允许进入 MAIN8，不证明泛化增益。VAL 没有人类 Accuracy，也不是独立测试集。见 [VAL 数值](results/tables/q32_val.csv) 与 [实际效用图](results/figures/q32-forward/VAL_centered_risk.png)。
+
+R18数值与照片见[真实pilot记录](docs/experiments/r18-dina-real-visual-pilot-20261010.md)、[原汇报](docs/reports/r18-dina-real-visual-pilot-20261010-final.txt)与[固定照片面板](results/figures/r18-visual/photo-cases.png)。原运行summary中的图片缺失是补图前历史时点；最新8/8核验见[照片回执](results/evidence/r18-visual/PHOTO_VERIFICATION.json)，不将其他244图写成已下载。R18模拟主格53.8% KL改善仅限[规定模型MVP](docs/experiments/r18-method-mvp-20261010.md)，不抵消真实NO_GAIN。
 
 # 7. Next Step
 

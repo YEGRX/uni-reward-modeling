@@ -2,7 +2,7 @@
 
 按实验室模板归档已有记录；导入日期2026-10-10，不新增实验。每条对应一个研究身份/实验页（阶段与attempt不冒充新的独立实验）。
 
-主要15项有最终报告绑定；其余为历史wiki快照，未在本次重验全部raw。数学/指定模型验证单列，不能称真实视觉收益。旧“运行中/待执行”均是历史时点；主要实验以绑定的最终报告为准。
+主要17项有最终报告绑定；其余为历史wiki快照，未在本次重验全部raw。数学/指定模型验证单列，不能称真实视觉收益。旧“运行中/待执行”均是历史时点；主要实验以绑定的最终报告为准。
 
 详见[全实验索引](experiments/index.md)和[证据边界](evidence-and-reproduction.md)。
 
@@ -1024,3 +1024,27 @@
 **Conclusion:** 仅CPU拟合/坐标评价；新基线Reward评分与新增确认未运行。本报告旧Q32进度已由独立前向审计覆盖，历史原文保留。
 
 **Next:** 不自动扩展；见[实验记录](experiments/latentatlas-submission-evidence-20261009.md)。
+
+## 2026-10-10 — r18-method-mvp-20261010
+
+**Experiment:** R18 方法实现与实际 MVP 验证
+
+**Config:** [历史配置摘要](../configs/experiments/r18-method-mvp-20261010.json)。
+
+**Result:** 规定模型主格V1相对合格混合MLE posterior KL下降53.8%；偏离模型中强MLE更好。
+
+**Conclusion:** 这是模拟限定收益，不是视觉成功；旧V2种子独立性撤回、强基线未决格与负结果保留。
+
+**Next:** 仅归档；见[完整记录](experiments/r18-method-mvp-20261010.md)，不启动新实验。
+
+## 2026-10-10 — r18-dina-real-visual-pilot-20261010
+
+**Experiment:** R18 × DiNa 真实缓存选图 Pilot
+
+**Config:** [历史配置摘要](../configs/experiments/r18-dina-real-visual-pilot-20261010.json)。
+
+**Result:** 固定V2对原生四流选图胜率37.86%，对Logistic38.13%；两主比较97.5%区间上界均45.98%。
+
+**Conclusion:** 新增图片/评分/GPU0；固定案例8图已恢复，其余244图未下载。旧源已消费，B NOT_RUN，不声称fresh或论文级独立确认。
+
+**Next:** 仅归档；见[完整记录](experiments/r18-dina-real-visual-pilot-20261010.md)，不启动新实验。

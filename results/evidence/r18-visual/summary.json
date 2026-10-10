@@ -1,0 +1,72 @@
+{
+  "experiment": "RETROSPECTIVE_REAL_IMAGES_CONTROLLED_FEEDBACK",
+  "fresh_confirmation": "NOT_RUN",
+  "independent_groups": 28,
+  "local_original_rgb_bytes": "MISSING",
+  "no_original_uniform_theorem_claim": true,
+  "prediction_seal": {
+    "human_labels_used_in_fit": false,
+    "sha256": "933e1e9177a5e4db11a5db613a9738d136aa1d47c297831d4185eb28a75c445e",
+    "stage": "BEFORE_HUMAN_LABEL_EXTRACTION"
+  },
+  "primary": {
+    "candidate_size": 4,
+    "changed_from_native": 0.5857142857142856,
+    "groups": 28,
+    "human_quality": {
+      "hi": 0.625,
+      "lo": 0.5102678571428572,
+      "mean": 0.56875
+    },
+    "human_quality_difference_vs_native": {
+      "hi": -0.06762834821428579,
+      "lo": -0.19575892857142854,
+      "mean": -0.13191964285714283
+    },
+    "lambda": 0.125,
+    "method": "r18_v2",
+    "teacher_mu": {
+      "hi": 10.925161779075857,
+      "lo": 9.228987522785152,
+      "mean": 10.054515826702119
+    },
+    "teacher_mu_difference_vs_native": {
+      "hi": -0.4809893400115628,
+      "lo": -1.2378696876551423,
+      "mean": -0.8486352741718292
+    },
+    "top_tied": 0.6446428571428571,
+    "vs_native_gain": {
+      "hi": -0.050892857142857136,
+      "lo": -0.19285714285714287,
+      "mean": -0.12142857142857143
+    },
+    "vs_native_gain_97_5": {
+      "hi": -0.04017857142857143,
+      "lo": -0.20089285714285715,
+      "mean": -0.12142857142857143
+    },
+    "vs_strong_gain": {
+      "hi": -0.04910714285714287,
+      "lo": -0.1883928571428571,
+      "mean": -0.11875000000000001
+    },
+    "vs_strong_gain_97_5": {
+      "hi": -0.04017857142857143,
+      "lo": -0.19821428571428573,
+      "mean": -0.11875000000000001
+    }
+  },
+  "runtime": {
+    "numpy": "2.4.6",
+    "python": "3.12.14",
+    "scipy": "1.15.3"
+  },
+  "selection_seal": {
+    "historical_source_was_already_consumed": true,
+    "prediction_sha256": "933e1e9177a5e4db11a5db613a9738d136aa1d47c297831d4185eb28a75c445e",
+    "sha256": "3648b5ab32958bea59ce236ff88b7ed9edbded362b839a5846f7ba4d216d7f8d",
+    "stage": "BEFORE_HUMAN_LABEL_EXTRACTION"
+  },
+  "status": "NO_GAIN"
+}

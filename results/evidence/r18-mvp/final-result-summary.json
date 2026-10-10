@@ -1,0 +1,28 @@
+{
+  "status": "MIXED",
+  "unique_final_datasets": 14720,
+  "all_generated_datasets": 16000,
+  "simulated_score_draws": 123084800,
+  "experiment_wall_seconds": 249.67387945903465,
+  "gpu_seconds": 0,
+  "real_model_calls": 0,
+  "paid_api_calls": 0,
+  "primary": "m00-binary-n1024-k4-nb32768",
+  "v1_primary_posterior_kl": 1.6616368234692973e-05,
+  "corrected_grid_primary_posterior_kl": 3.596910018344309e-05,
+  "visible_primary_posterior_kl": 2.7714070790363083e-05,
+  "real_ai_validation": "NOT_RUN",
+  "final_seed_audit": {
+    "original_seed_count": 13440,
+    "deprecated_seed_count": 1280,
+    "old_v2_overlap": 1280,
+    "final_seed_count": 1280,
+    "final_vs_r1_overlap": 0,
+    "final_vs_old_v2_overlap": 0,
+    "final_range": [
+      302610100,
+      302917139
+    ],
+    "decision": "old V2 is correlated; final V2 is disjoint"
+  }
+}

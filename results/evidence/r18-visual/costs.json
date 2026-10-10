@@ -1,0 +1,79 @@
+{
+  "actual_repeats_are_groups_not_candidates": true,
+  "best9_standalone_native_calls_per_group": {
+    "native_mean4_and_calibrators": 36,
+    "native_single": 9
+  },
+  "controlled_best4_total_native_calls_per_group_all_methods": 36,
+  "controlled_proposal_native_calls_per_group": 36,
+  "elapsed_cpu_wall_seconds": 0.5606321670056786,
+  "frozen_transform_thresholds": 4,
+  "generator_rm_parameter_updates": 0,
+  "gpu_seconds": 0,
+  "historical_calibration_label_exposures_across_outer_folds": 756,
+  "historical_generation_gpu_cost": "UNKNOWN: no verified historical generation ledger",
+  "historical_human_annotation_time_and_money": "UNKNOWN: existing preference labels, no invoice/time ledger",
+  "historical_human_pairs": 1008,
+  "historical_teacher_forward_seconds_for_used_O_scores": 44.67902077199881,
+  "historical_unique_teacher_calls": 252,
+  "historical_used_unique_images": 252,
+  "logistic_parameters": 11,
+  "native_score_positions_used": 1008,
+  "native_source_atomic_calls": 8064,
+  "new_cpu_fitting": [
+    {
+      "fold": 0,
+      "lambda": 0.0,
+      "seconds": 0.011613833979936317
+    },
+    {
+      "fold": 1,
+      "lambda": 0.0,
+      "seconds": 0.010939250001683831
+    },
+    {
+      "fold": 2,
+      "lambda": 0.0,
+      "seconds": 0.010885167022934183
+    },
+    {
+      "fold": 3,
+      "lambda": 0.0,
+      "seconds": 0.010319291992345825
+    },
+    {
+      "fold": 0,
+      "lambda": 0.125,
+      "seconds": 0.010760333010694012
+    },
+    {
+      "fold": 1,
+      "lambda": 0.125,
+      "seconds": 0.010673917015083134
+    },
+    {
+      "fold": 2,
+      "lambda": 0.125,
+      "seconds": 0.011158124980283901
+    },
+    {
+      "fold": 3,
+      "lambda": 0.125,
+      "seconds": 0.010763415979454294
+    }
+  ],
+  "new_dina_calls": 0,
+  "new_human_labels": 0,
+  "new_images": 0,
+  "new_teacher_calls": 0,
+  "paid_api_calls": 0,
+  "peak_rss_bytes": 144719872,
+  "r18_stored_reference_and_weight_tables": 16,
+  "scores_per_inference_candidate": {
+    "native_single": 1,
+    "other_methods": 4,
+    "teacher_extra_information": "1 extra HPS call"
+  },
+  "training_groups_per_outer_fold": 21,
+  "training_images_per_outer_fold": 189
+}
