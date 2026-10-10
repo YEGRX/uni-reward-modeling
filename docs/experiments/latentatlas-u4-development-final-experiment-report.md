@@ -91,7 +91,7 @@ Reference preference 不统一：
 
 因此，A5-R1 不支持“arithmetic barycenter 是唯一必要 reference”，也没有识别出 SD、FLUX 或 BAR 中的 canonical U。
 
-Decision SHA-256：`7930fb63f8601742f7255a50a107b36828b5b11e3a08b1deef13a2e5801387a8`。  
+Decision SHA-256：`7930fb63f8601742f7255a50a107b36828b5b11e3a08b1deef13a2e5801387a8`。
 Inventory SHA-256：`e35cc7fd9cd154f6aa7bd324ce78532ff3a8bb1721e72af8276a7b768523bff3`。
 
 ### 7.3 U4-A6-D2：Deterministic Consensus-U
@@ -110,7 +110,7 @@ Inventory SHA-256：`e35cc7fd9cd154f6aa7bd324ce78532ff3a8bb1721e72af8276a7b76852
 
 > Learned deterministic consensus 非塌缩并含 correct-pairing-specific structure，但相对 arithmetic reference 的检索损失超过注册容忍度。
 
-Decision SHA-256：`8a079465076677c760eeca590313694ec69d2e197e567cfce385a605b6863fe4`。  
+Decision SHA-256：`8a079465076677c760eeca590313694ec69d2e197e567cfce385a605b6863fe4`。
 Inventory SHA-256：`9b806e59bec63d4ab5bdaaf3303dd2ca04402862d6686da362282183b0d6e55e`。
 
 ### 7.4 U4-A6-PROB：Distributional Consensus-U
