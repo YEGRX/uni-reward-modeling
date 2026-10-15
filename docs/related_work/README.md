@@ -1,6 +1,6 @@
 # Related Work / 相关文献与科研分析
 
-核查日期：2026-10-15。沿用本仓既有入口；本轮重点整理六篇文献，保留原有 DC-AE 组件条目，共七篇、每篇一个规范入口。[BibTeX](references.bib) · [原文核查、版本差异与内部证据定位](related_work/source_audit.md)。本页是文献分析，不执行或改写实验，也不证明研究问题已无相关前作。
+核查日期：2026-10-15。沿用本仓既有入口；本轮重点整理六篇文献，保留原有 DC-AE 组件条目，共七篇、每篇一个规范入口。[BibTeX](references.bib) · [原文核查、版本差异与内部证据定位](source_audit.md)。本页是文献分析，不执行或改写实验，也不证明研究问题已无相关前作。
 
 ## 阅读导航
 
@@ -69,7 +69,7 @@
 
 **实验与已有覆盖。**§5、附录D/E在不同噪声上报告 CLIP retrieval、HPSv2 preference accuracy、美学 SRCC，并检验 DPS、FK steering、DiffusionNFT 等生成对齐。它不仅涉及 SD3/FLUX 各自 VAE，还比较直接把其 **noisy VAE latent** 接到 Reward 后缀的 baseline；因此 noisy-latent stitching 本身已经是前作。跨骨干分别构造学生，不等于已证明用同一个完整冻结 DiNa、同一套 clean-only Anchors 即可跨异构 VAE。
 
-**可研究区别，而非已证创新：**我们希望复用既有 clean Projector，不新增 noisy-state 接口训练，不在接口训练中读取 Reward 特征/分数，并保持完整 DiNa 权重不变。这是更严格的预算与冻结合同，尚未证明有效或新颖；源扩散 denoiser 的计算成本也必须计入。官方当前代码的多分辨率训练明确声明与论文配方不同，不能混写为论文复现。核查位置见[来源审计](related_work/source_audit.md#stitchvm)。
+**可研究区别，而非已证创新：**我们希望复用既有 clean Projector，不新增 noisy-state 接口训练，不在接口训练中读取 Reward 特征/分数，并保持完整 DiNa 权重不变。这是更严格的预算与冻结合同，尚未证明有效或新颖；源扩散 denoiser 的计算成本也必须计入。官方当前代码的多分辨率训练明确声明与论文配方不同，不能混写为论文复现。核查位置见[来源审计](source_audit.md#stitchvm)。
 
 ## C. Noisy-to-Clean 恢复理论
 
@@ -103,7 +103,7 @@ $$\mathbb E[X\mid Y=y]=y+\Sigma\nabla_y\log p_Y(y),\qquad Y=X+\epsilon.$$
 
 **clean 接口不等于 clean 底层网络。**§4.3、§5.2由 clean 样本构造参考噪声输入，单噪声主文默认 $t=0.4$，也支持多时间特征 ensembling。官方 clean-latent `reward()` 封装可加噪后再调用显式 `latents, timesteps` 的底层网络；代码默认参数与论文推荐值还需区分。已经是 noisy 的 source state 不能不审查就再当 clean 传入，否则噪声及时间合同可能错位。
 
-**结论与限制。**论文以多偏好 benchmark 和生成对齐验证 Reward；附录C.3明确，“多骨干可实例化该方法”不表示单个已训练 Reward 可任意跨不兼容 VAE，SD3.5-M→L迁移也是共享 latent 空间。我们因此研究在保持**同一个完整 DiNa**不变时的异构接口，但需要匹配 scaling/shift、packing、文本与 reference noise，并单独核验坐标、功能和混池评分。[既有来源资格记录](experiments/latentatlas-dina-src0-source-domain-parity.md)不是精确论文复现。
+**结论与限制。**论文以多偏好 benchmark 和生成对齐验证 Reward；附录C.3明确，“多骨干可实例化该方法”不表示单个已训练 Reward 可任意跨不兼容 VAE，SD3.5-M→L迁移也是共享 latent 空间。我们因此研究在保持**同一个完整 DiNa**不变时的异构接口，但需要匹配 scaling/shift、packing、文本与 reference noise，并单独核验坐标、功能和混池评分。[既有来源资格记录](../experiments/latentatlas-dina-src0-source-domain-parity.md)不是精确论文复现。
 
 ## 已有组件与交叉引用（保留）
 
@@ -112,21 +112,21 @@ $$\mathbb E[X\mid Y=y]=y+\Sigma\nabla_y\log p_Y(y),\qquad Y=X+\epsilon.$$
 
 Junyu Chen, Han Cai, Junsong Chen, Enze Xie, Shang Yang, Haotian Tang, Muyang Li, Yao Lu, Song Han；ICLR 2025，arXiv:2410.10733（2024首发）。引用键：`chen2025deep`。
 
-DC-AE通过 residual autoencoding、解耦高分辨率适配提高空间压缩效率；高质量重建不自动证明其 latent 可由另一个冻结 Reward 正确读取。保留其原有目标编码器角色，不将本轮文献核对写成新模型运行。[论文](https://arxiv.org/abs/2410.10733) · [官方 DC-AE 文档](https://github.com/mit-han-lab/efficientvit/blob/master/applications/dc_ae/README.md) · [既有 Anchor 比较](experiments/latentatlas-dina-dcae-strong-anchor64-vs256-fixed2k-newgroups.md)。
+DC-AE通过 residual autoencoding、解耦高分辨率适配提高空间压缩效率；高质量重建不自动证明其 latent 可由另一个冻结 Reward 正确读取。保留其原有目标编码器角色，不将本轮文献核对写成新模型运行。[论文](https://arxiv.org/abs/2410.10733) · [官方 DC-AE 文档](https://github.com/mit-han-lab/efficientvit/blob/master/applications/dc_ae/README.md) · [既有 Anchor 比较](../experiments/latentatlas-dina-dcae-strong-anchor64-vs256-fixed2k-newgroups.md)。
 
-FLUX、Cosmos、PickScore、HPSv3 的 checkpoint 与预处理仍以原报告为准：[FLUX机制与独立RGB读出](experiments/latentatlas-frozen-projector-mechanism-and-readout.md)、[Cosmos固定配方](experiments/latentatlas-dina-unseen-encoder-fixed-recipe-portability.md)、[HPSv3六臂](experiments/latentatlas-hpsv3-frozen-interface-reuse.md)。不额外扩展未核查的文献清单。
+FLUX、Cosmos、PickScore、HPSv3 的 checkpoint 与预处理仍以原报告为准：[FLUX机制与独立RGB读出](../experiments/latentatlas-frozen-projector-mechanism-and-readout.md)、[Cosmos固定配方](../experiments/latentatlas-dina-unseen-encoder-fixed-recipe-portability.md)、[HPSv3六臂](../experiments/latentatlas-hpsv3-frozen-interface-reuse.md)。不额外扩展未核查的文献清单。
 
 ## Implications for LatentAtlas
 
 ### 1. Clean Anchor 为什么不足以单独支撑创新
 
-P1已包含小 support set 的同图线性映射，P2扩展到多类生成模型，P3系统研究冻结网络的 stitching 与功能评价。因此 Clean Anchor → Projector → Frozen DiNa 具有工程与功能迁移价值，却不能只靠“跨 VAE 映射成功”“冻结模型只训练小接口”支撑顶会原创性。[原投稿证据记录](experiments/latentatlas-submission-evidence-20261009.md)中的缺口不能因补齐引用就视为解决。
+P1已包含小 support set 的同图线性映射，P2扩展到多类生成模型，P3系统研究冻结网络的 stitching 与功能评价。因此 Clean Anchor → Projector → Frozen DiNa 具有工程与功能迁移价值，却不能只靠“跨 VAE 映射成功”“冻结模型只训练小接口”支撑顶会原创性。[原投稿证据记录](../experiments/latentatlas-submission-evidence-20261009.md)中的缺口不能因补齐引用就视为解决。
 
 比较时须区分 clean-coordinate-only、读取 Reward feature/score 的蒸馏、带任务标签训练及额外 source-denoiser 计算；不同信息量和成本不构成同预算优势。这里指出应比较的基线，不声称本轮已完成这些实验。
 
 ### 2. 已有结果到底支持到哪里
 
-下表是**既有结果的文献讨论摘要**；10月15日两项来自已完成的本地报告，本轮只读核对，不重推模型、不重算统计。[完整来源、SHA和未入仓原件说明](related_work/source_audit.md#internal-evidence)。
+下表是**既有结果的文献讨论摘要**；10月15日两项来自已完成的本地报告，本轮只读核对，不重推模型、不重算统计。[完整来源、SHA和未入仓原件说明](source_audit.md#internal-evidence)。
 
 | 层次 / 样本 | 已有观察 | 证据限制 |
 | --- | --- | --- |
