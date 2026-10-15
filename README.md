@@ -2,7 +2,7 @@
 
 LatentAtlas 研究能否用少量配对样本学习轻量接口（Projector），让冻结的潜空间奖励模型读取其他编码器的表示，并恢复下游偏好行为。本仓按实验室模板整理已有实验、配置摘要、数值结果和审计证据；本次整理不产生新训练或科学评分。
 
-快速入口：[Related Work：六篇重点论文与科研分析](docs/related_work.md) · [完整实验索引](docs/experiments/index.md) · [逐次实验日志](docs/experiment_log.md) · [主要结果总表](results/tables/experiment_summary.csv) · [证据与复现说明](docs/evidence-and-reproduction.md) · [当前任务](TODO.md)。
+快速入口：[Related Work：六篇重点论文与科研分析](docs/related_work/README.md) · [完整实验索引](docs/experiments/index.md) · [逐次实验日志](docs/experiment_log.md) · [主要结果总表](results/tables/experiment_summary.csv) · [证据与复现说明](docs/evidence-and-reproduction.md) · [当前任务](TODO.md)。
 
 # 1. Problem
 

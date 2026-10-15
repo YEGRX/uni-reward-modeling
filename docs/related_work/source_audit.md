@@ -1,6 +1,6 @@
 # Related Work 来源与核查记录
 
-核查日期：2026-10-15。规范综述入口只有 [docs/related_work.md](../related_work.md)，文献键见 [references.bib](../references.bib)。本文件记录出处与证据边界，不创建重复论文页。
+核查日期：2026-10-15。规范综述入口只有 [docs/related_work/README.md](README.md)，文献键见 [references.bib](references.bib)。本文件记录出处与证据边界，不创建重复论文页。
 
 ## 1. 原文实际阅读范围
 
@@ -66,6 +66,6 @@ DEV中`d`表示Native-tie排除后的失配率，`Delta=(dFC+dCF-dFF-dCC)/2`，�
 ## 5. PDF、目录与检查范围
 
 - 本仓没有论文PDF归档惯例，本轮不保存/镜像PDF，仅提供出版社、会议、arXiv官方可访问入口。公开可读或代码有许可证不自动赋予所有版本论文再分发权；没有逐份完成PDF许可审核，不擅自扩建镜像目录。
-- 不重复创建顶层`related_work/`或`papers/`，沿用既有`docs/related_work.md`。`docs/related_work/`只放本来源审计。
-- 变更允许集合：`README.md`、`docs/related_work.md`、`docs/references.bib`、本文件。未修改实验代码、配置、权重、结果或历史记录。
+- 不重复创建顶层`related_work/`或`papers/`，统一使用既有`docs/related_work/`文件夹：`README.md`为综述入口，`references.bib`为文献引用，本文件记录来源审计；外层不再保留重复入口文件。
+- 变更允许集合：仓库`README.md`与`docs/related_work/`下的综述、引用及本文件。未修改实验代码、配置、权重、结果或历史记录。
 - 检查对象是引用元数据、BibTeX语法/唯一性、Markdown文件与锚点、官方URL访问及既有CPU文档完整性；不构成新的模型评分、论文实验复现或科研独立确认。
