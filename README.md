@@ -40,7 +40,7 @@ DiNa 潜空间读出和经 decoder 的 RGB 读出是不同评估路径，不能�
 - [x] Idea
 - [x] Running baseline
 - [x] Improving method
-- [x] Writing paper
+- [ ] Writing paper
 - [ ] Finished
 
 截至 2026-10-10，归档 **87 条实验/审计记录**：73 条视觉或接口历史记录、14 条理论或规定模型记录；17 项主要实验对照最终报告整理。其余 70 条标记 `WIKI_SNAPSHOT_NOT_REAUDITED`，保留原记录但不声称本次重验全部原始工件。
