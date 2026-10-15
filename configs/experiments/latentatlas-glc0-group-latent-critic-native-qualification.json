@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-glc0-group-latent-critic-native-qualification",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "实际只读取包内 64 对 latent 测试数组；source/DIAG/EXTERNAL 偏好行、old TEST、future reserve、RGB 均 0。没有打开旧 TEST 或 future 来做身份检查。",
+  "parameters_excerpt": "Bridge 为 16→64→16、12 residual blocks、1,482,640 params，CPU float32。GLC0 计划512、sigma0、CFG7；Critic runtime 需正式 checkpoint provenance。未来 GFI1 是 FLUX-only、64 FIT+64 VAL、16 fits，尚未创建。",
+  "code_identity_excerpt": "用户上传 AAAI_2027_Supplementary_Code.zip，SHA256 `7ab469f435d7b10b505e8cb5ad41003bf73e94ee862859679ff625b4743a713e`；90 个原始文件已逐个登记。没有科学实现 commit，GLC0 spec 仅为尚未准入的 preflight 草案。历史 GFI worktree 未改。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-glc0-group-latent-critic-native-qualification.txt",
+  "primary_report": null
+}

@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-o1-v1-lightweight-spatial-oracle",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Dataset: Rapidata human coherence pairwise preference。\n- Cache-covered subset: `999` usable pairs、`713` unique reward images。\n- Pair counts: train/validation/test = `605 / 168 / 226`。\n- Unique image counts: train/validation/test = `481 / 114 / 118`。\n- 三个 split 的 image intersection 均为 `0`；`missing_latents=0`。\n- SD latent: `[4,64,64]`；FLUX latent: `[16,64,64]`；DC-AE latent: `[32,16,16]`。\n- 每个 VAE 的 channel normalization 只用 481 张 unique train images，在 image + spatial 维拟合 population mean/std；validation/test 只复用 train statistics。\n- 18 个 checkpoint 全部冻结并校验 SHA-256 后，真实 test labels 只打开一次；`test_label_open_count=1`。",
+  "parameters_excerpt": "```text\nConv2d(C_in,64,3,padding=1) -> GELU\nConv2d(64,64,3,padding=1) -> GELU\nAdaptiveAvgPool2d-equivalent output (4,4)\nFlatten -> Linear(1024,128) -> GELU -> Dropout(0.1) -> Linear(128,1)\n\nloss = Bradley-Terry NLL\noptimizer = AdamW\nepochs = 15\nbatch_size = 32\nlr = 3e-4\nweight_decay = 1e-4\nreal_seed = 20260814\nnull_seeds = 2026081401..2026081405\npatience = 3\n```\n\n参数量：SD=`170625`，FLUX=`177537`，DC-AE=`186753`。由于 PyTorch 2.5.1 的 CUDA `AdaptiveAvgPool2d` backward 在 strict deterministic mode 下使用不确定 atomic add，冻结的 `64×64` / `16×16` 输入采用数学等价、无参数的整数分块 `AvgPool2d`；CPU 测试确认前向值与梯度完全一致，production artifact 显式记录该实现。\n\n每个 null seed 同时控制 train-label permutation、validation-label permutation 和模型随机性；null checkpoint selection 完全不使用真实 validation preference labels。",
+  "code_identity_excerpt": "- Production Git commit: `325b47146ade4fddd98877444d072e216aa9311d`\n- Branch: `codex/o1-v1-lightweight-spatial-oracle`\n- Split SHA-256: `83a96bcdeb2805e1743b4555c5a1366558612dc5033598c777295b3016ab64ea`\n- Runner: `source-workspace/.worktrees/o1-v1-lightweight-spatial-oracle/scripts/run_o1_spatial_oracle.py`\n- Config: `source-workspace/.worktrees/o1-v1-lightweight-spatial-oracle/configs/o1-v1-lightweight-spatial-oracle.json`\n- Production device: NVIDIA GeForce RTX 4090；PyTorch `2.5.1+cu121`；CUDA `12.1`；cuDNN `90100`。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-o1-v1-lightweight-spatial-oracle.txt",
+  "primary_report": null
+}

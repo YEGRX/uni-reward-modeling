@@ -1,0 +1,77 @@
+# DC-AE 固定强 Bridge 函数类定位预实验｜最终报告
+
+实验身份：`DINA_DCAE_FIXED_STRONG_BRIDGE_LOCALIZATION_2K_PILOT_R1`。本轮比较新训练的 S2000 与只读旧 B2000，固定 Anchor、T1 目标、前 2000 步日程和评价，只更换映射函数类。以下结果来自完整评分后封存的逐行数据及两次独立远端 CPU 复算，另经授权的本地纯 CPU 回放核验；这是一项已反复使用开发评价集上的机制诊断，不是独立测试集结论。
+
+S2000 相比 B2000，FIT 的 T1 normalized MSE 从 **0.281846** 降到 **0.180594**，相对降低 **35.92%**；VAL 从 **0.283370** 降到 **0.272625**，相对降低 **3.79%**。固定评价的 Accuracy 从 **64.8562%** 升到 **68.4276%**，增加 **3.5714 个百分点**；Native agreement 从 **77.7694%** 升到 **83.9335%**，增加 **6.1640 个百分点**。Accuracy 与 agreement 两项增益的 20,000 次 paired group bootstrap、Bonferroni-style q0.0125 下界均大于零，因此预声明的 **JOINT_BEHAVIOR_GAIN_SUPPORTED = true**。但 S 的 Accuracy 仍低于 Native **4.3899 个百分点**，agreement 仅 **83.9335%**；两条 near-native 门槛均未通过，**NEAR_NATIVE_SUPPORTED = false**。
+
+本轮自动分类是 **MIXED_ENDPOINT_RESPONSE**：行为两端点均建立增益，FIT 超过预定 10% 坐标改善尺度，但 VAL 仅改善 3.79%，没有达到该尺度。它说明在此固定协议下改变函数类/归纳偏置有行为收益；不能只归因于参数容量，也不能从 Anchor-VAL 改善推出评价域坐标已改善。旧 B 实验的时间 guard 不确定性原样保留；本轮训练和评分各自 exit0、guard clean，完整结果、独立复算及 portable 回放通过。限制包括单 seed、固定 Anchor draw、28 个评价组和已消费的开发评价集。
+
+## 1. 预声明协议与真正变化
+
+| 项目 | S2000 与 B2000 的关系 |
+|---|---|
+| 训练数据与目标 | 同序 64 FIT/64 VAL、同一 T1、FIT-only T0 方差 W0，normalized MSE；训练不使用目标偏好标签。 |
+| 日程 | 同一 seed `20260827` 的前 64,000 次 source 抽样、batch 32、前 2000 步逐步匹配的旧 B 学习率、AdamW 和梯度裁剪；均固定 2000 次更新。 |
+| 空间接口 | 同一 32 通道 DC-AE 输入、源原生目标网格与 `bilinear` resize（`align_corners=False`），输出 16 通道。 |
+| 映射 | B 为旧 P0：32→64 的 1×1 卷积、64→64 的 3×3 卷积、64→16 的 1×1 卷积，两个中间 SiLU；**40,080** 个可训练参数。S 为 32→64 stem、12 个 64 通道双 3×3 残差块、64→16 tail，残差相加后无激活；**889,424** 个可训练参数，标准 Conv2d 初始化。 |
+| 评价 | 同一 1008 对、28 个 connected groups、4 个 noise streams、PAPER_T04 与 frozen DiNa；旧 A/B/Native/G 逐行只读复用，仅对 S2000 做一次新评分。 |
+
+两个结构的参数量、算子与 FLOPs 不同；“相同更新步数”不等于“相同计算量”。S 也不是组内完整 Latent Bridge 的忠实复现。旧 B 的抽样和学习率前 2000 步已有 exact match 证据；最终本轮协议复核见 [PROTOCOL_MATCH_FINAL_AUDIT.json](PROTOCOL_MATCH_FINAL_AUDIT.json)，原先的只读审计及其未解决项作为历史快照保留于 [PROTOCOL_MATCH_AUDIT.json](PROTOCOL_MATCH_AUDIT.json)。冻结规则与代码见 [EXPERIMENT_SPEC.json](EXPERIMENT_SPEC.json)、[ARCHITECTURE_AND_INITIALIZATION.json](ARCHITECTURE_AND_INITIALIZATION.json)。
+
+## 2. 训练、坐标曲线与诊断边界
+
+S 从独立标准初始化到固定 2000 步，每 250 步保存完整模型、optimizer、sampler 和 Python/NumPy/Torch/CUDA RNG 状态；9 个检查点的哈希链在 [TRAINING_REGISTRY.json](TRAINING_REGISTRY.json)，全部 2000 条逐步训练记录在 [TRAINING_STEPS.jsonl](TRAINING_STEPS.jsonl)。第 1／2000 步的 FIT 训练 loss 分别为 3.552918／0.176483，学习率为 0.0000006／0.000288824，梯度范数为 15.787474／0.252027；逐步记录包含有限梯度和实际 optimizer step。未依据中间 Accuracy 选择终点或调参。
+
+下表是每点全量 64 FIT／64 VAL、T0/T1 的 normalized MSE。逐图的 normalized MSE、raw MSE、cosine 和身份在 [便携包坐标数据](verified-portable-r1/evidence/coordinates.json) 中；继承实现未提供可比的 R@1/R@5 候选池定义，本轮未另造检索指标。
+
+| 更新 | FIT T0 | FIT T1 | VAL T0 | VAL T1 |
+|---:|---:|---:|---:|---:|
+| 0 | 3.383795 | 3.463207 | 3.418069 | 3.489485 |
+| 250 | 0.355511 | 0.315920 | 0.341902 | 0.312070 |
+| 500 | 0.325719 | 0.272510 | 0.322849 | 0.287179 |
+| 750 | 0.308071 | 0.243689 | 0.311559 | 0.273342 |
+| 1000 | 0.299523 | 0.225284 | 0.310175 | 0.268679 |
+| 1250 | 0.291394 | 0.210999 | 0.310061 | 0.268244 |
+| 1500 | 0.290910 | 0.198571 | 0.315351 | 0.268505 |
+| 1750 | 0.287518 | 0.188591 | 0.317791 | 0.270222 |
+| 2000 | 0.287393 | 0.180594 | 0.322361 | 0.272625 |
+
+预先固定的 10% 相对下降仅是描述性坐标尺度：`FIT_material=true`、`VAL_material=false`。VAL 仍有 3.79% 的正向改善，不能写成“无改善”；其 T1 误差在 1250 步为 0.268244、2000 步为 0.272625，但终点按协议保持 2000，不回选较低的中间点。T0 仅是交叉目标诊断，不能把它与 T1 own-target loss 混作同一优劣判断。固定评价图像上没有在已核验便携证据中同时提供 S/B 两者可比的 T1 目标预测，故标记 `EVAL_COORDINATE_COMPARISON_UNAVAILABLE`；未据 Anchor-VAL 证明评价域坐标改善，也未额外生成 teacher 或重跑旧臂 Reward。见 [可得性记录](EVAL_COORDINATE_AVAILABILITY.json)。
+
+## 3. 固定评价与四个端点
+
+每个新逻辑评分条件是一张 pair-side 图像在一个 stream 下的评分：`1008 × 2 × 4 = 8064`。这不是 8064 个独立样本。真实 S 评分开始和完成调用均为 8064，落盘 1008 对；四流留在原 pair 内。旧行逐项复用，训练不接触偏好标签；人类偏好只在封存 S2000 后用于固定 Accuracy 评价。Native agreement 仅在 Native 非平局的 **3999 个 pair-stream 条件**上计算，其分母与 Accuracy 不互换。
+
+| 只读旧参照／新臂 | Accuracy | Native agreement |
+|---|---:|---:|
+| B1000 | 64.4345% | 76.9067% |
+| B2000（主对照） | 64.8562% | 77.7694% |
+| A2000 | 65.1786% | 78.0195% |
+| S2000（唯一新臂） | **68.4276%** | **83.9335%** |
+| Native | 72.8175% | 100.0000% |
+| G | 72.5446% | 97.4744% |
+
+20,000 次 paired cluster bootstrap 以共同的 28 个 connected groups 为重采样单位，seed `2026092901`；每次重复抽到的 group 按次数保留，所有臂共用索引。`q0.05–q0.95` 是中心 **90%** 区间；四个单侧预声明端点另报告 Bonferroni-style `q0.0125` 下界。不能把 1008 对、4032 pair-stream 判断或 8064 条件当 iid。完整统计、索引合同及哈希在 [BOOTSTRAP_STATISTICS.json](BOOTSTRAP_STATISTICS.json)。
+
+| 预声明单侧端点 | 点估计 | 中心 90% 区间 | q0.0125 下界 | 判定 |
+|---|---:|---:|---:|---|
+| ΔAccuracy = S−B2000 > 0 | +3.5714 pp | [+2.0089, +5.2083] pp | +1.5377 pp | **成立** |
+| ΔNative agreement = S−B2000 > 0 | +6.1640 pp | [+4.2011, +8.1125] pp | +3.4974 pp | **成立** |
+| Accuracy(S)−Accuracy(Native) > −2 pp | −4.3899 pp | [−6.2996, −2.6042] pp | −7.0188 pp | **未成立** |
+| Native agreement(S) > 90% | 83.9335% | [81.1609%, 86.2173%] | 79.9749% | **未成立** |
+
+因此 `ACC_GAIN_SUPPORTED=true`、`FIDELITY_GAIN_SUPPORTED=true`、`JOINT_BEHAVIOR_GAIN_SUPPORTED=true`，而 `NEAR_NATIVE_SUPPORTED=false`。未调整 q0.05 下界单独保存在统计文件，属于探索性描述，不替换上述主判据。辅助固定比较：相对 A2000，S 的 Accuracy／agreement 分别高 3.2490／5.9140 pp；相对 B1000 高 3.9931／7.0268 pp；相对 G 低 4.1171／13.5409 pp。这些不参与主对照选择。Native margin MAE、相关性及 pair 行可在 [统计文件](BOOTSTRAP_STATISTICS.json)和[原始逐行便携数据](verified-portable-r1/inputs/reward-rowwise.json)复核，均为次级描述性指标。
+
+## 4. 解释、工程完整性与成本
+
+机器分类按预声明优先级为 `MIXED_ENDPOINT_RESPONSE`，原因是行为增益两项成立、FIT 超过 10% 描述尺度，而 VAL 未超过 10%。这个“混合”指坐标与行为反应不完全同向，并非 Accuracy 与 agreement 一正一负。更强函数类在本协议下确有行为收益，但尚不能区分归纳偏置、容量、优化路径、Anchor 覆盖和 Reward-sensitive geometry 各自的贡献；评价域坐标不可比更限制目标失配的归因。也不能说现有映射已经 near-native、信息无损或具备 universal U／任意 encoder 普适接入能力。
+
+本轮正式训练新更新 **2000**、正式新 Reward 条件 **8064**，无新增失败科学评分条件或恢复尝试；技术 FIT 测试 **16** 更新独立计账（r2 十次、benchmark 六次）。训练 worker 约 **3312.12 秒**、干净结算的账本 GPU 时间 **3321.88 秒**，评分 worker 约 **3060.13 秒**、账本 **3078.26 秒**，本轮正式两阶段账本累计 **6400.14 秒**；不能与旧实验的预约收费混算。训练／评分的 worker、shell、外层时限分别为 18000／18180／18540 秒和 144000／144300／144660 秒，调度器没有额外短时限，实际退出均未触及守护。训练记录的峰值分配显存 **17,130,930,688 字节**；评分没有同定义的独立峰值显存记录，不虚构数值。参数量和实际计算量均不同，不声称公平加速比。技术 r1 在模型构造前 exit1、更新0；最初两次 full release 发布工程失败亦保留原始回执，均不是新的科学失败或退款。旧 A/B 的训练／评价 guard 异常仍在原账本；旧完整科学行的补充接受不转移成本轮。本轮两阶段外层 exit0、guard clean，源代码/spec/初态及检查点已绑定。详情见 [RESOURCE_AND_FAILURE_LEDGER.json](RESOURCE_AND_FAILURE_LEDGER.json)。
+
+两次独立远端 CPU 回放分别形成 inventory SHA `89d83c58ad4dab85a097adf9a8753e5f6faed36bf24670c10168b5be192edb96`、`3bc93d730f5ebb2c24bc5095a7a3ac48108f2d67d51878a97a17540ec2cad43c`，复算从逐行数值独立核对 pair/group/stream、tie mask、Bootstrap 和判据；独立算法核验的最大绝对差 **2.60×10⁻¹⁷**。获授权的本地纯 CPU 使用已哈希核验的冻结源码再回放 **1826 个数值**，最大绝对差 **1.67×10⁻¹⁵**，低于预先固定的 `1e−12` 容差。源文件哈希、实际加载模型的前后参数/buffer 状态以及两个阶段的当前进程 parity 分别按适用路径核验；未加载的模型只以来源哈希约束。便携包 SHA `defac281187ebaac9f2394de6811fd1ecafe2c1057a2df0aa9c670dc7ba75d52`，远端核验凭证 SHA `e8de3c82d6255040c4676c50b7a81b025187b4394623c812c5da8c06b9d0a7d6`。见 [远端回放证明](verified-portable-r1/evidence/remote-verification.json)、[本地回放回执](evidence/LOCAL_PORTABLE_REPLAY_R1.json)和[便携包](verified-portable-r1/bundle.json)。最终交付 seal 与独立 readback 将本报告及全部列出的证据逐文件绑定，以实际 seal 回执为准。
+
+## 5. 限制与唯一后续建议
+
+本轮只有一个训练 seed 和固定 Anchor draw，评价仅 28 个组，且使用已消费的 development evaluation；结构与计算成本同时变化，没有新增 capacity-matched strong permutation control。固定 S 并非组内完整 Latent Bridge 的忠实复现。本轮未取得可比的评价域 T1 坐标对照，也没有测试严格 zero-shot、其他 encoder 或更大训练预算；未通过 near-native 不等于所有方法都无法接近 Native。推荐下一项单独预注册的诊断是：**在同一评价图像上构建不读取偏好标签的 S2000/B2000 配对 T1 坐标对照**，先明确合法冻结目标来源和资源范围，用以区分 Anchor-VAL 迁移不足与行为对坐标残差的敏感性。本轮不执行该后续实验。
+
+主要信任根：冻结 release SHA `8addc3c222ab513c84aa84bb3e66b4bd2c8f5aa1967ef203b0ba75ba1471ce3b`、spec SHA `afbe959948b8f01fc5c6d9042d152eb8295eb29e35c3147779d3545773c4f41d`、S2000 checkpoint SHA `bb5f0ea90ae615deabaa9bf61e42ec95967f51bd9c75cbbcbcb27292e5f27a3d`。原始任务与回放工件在远端 `/opt/latentatlas/dina-dcae-fixed-strong-bridge-2k-20260929-r1/`，本地小型证据与报告在本报告所在 run 目录；封存后以 `FINAL_SEAL.json` 的逐文件 SHA 为交付边界。

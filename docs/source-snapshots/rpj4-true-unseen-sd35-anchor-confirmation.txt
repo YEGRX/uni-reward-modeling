@@ -1,0 +1,153 @@
+# RPJ4 True-Unseen SD3.5 Reconstructed-Anchor Confirmation
+
+## 1. Date
+
+2026-08-29 至 2026-09-02
+
+## 2. Purpose
+
+检验一个 operationally unseen 的 SD3.5 VAE，能否在 shared Reward、source checkpoints 与 target protocol 全部冻结、target preference labels=`0` 的条件下，仅用 same-image reconstructed anchors 建立 reward-free interface；随后按 `SOURCE_DEV → LOCKBOX` 的顺序，确认该 interface 是否保留 instance-specific Reward behavior。
+
+本实验的最高证据等级固定为 `TRUE_UNSEEN_ONBOARDING_ON_RECONSTRUCTED_ANCHORS`。它不使用 original HPDv3 RGB anchors，也不能描述为 pristine RPJ4 或 universal VAE confirmation。
+
+## 3. Code Version / Commit
+
+- Branch：`codex/rpj4-true-unseen-sd35-anchor-confirmation`
+- Scientific commit：`7c7b04bc15746a4bac221d765a8cbfa44e5fffb0`
+- Worktree：`source-workspace/.worktrees/rpj4-true-unseen-sd35-anchor-confirmation`
+- Run：`LatentAtlas-runs/rpj4-20260829-1825aa7`
+- Evidence class：`TRUE_UNSEEN_ONBOARDING_ON_RECONSTRUCTED_ANCHORS`
+- Claim ceiling：`RECONSTRUCTED_ANCHOR_ONBOARDING_ONLY`
+
+## 4. Dataset / Input
+
+- Target VAE：`stabilityai/stable-diffusion-3.5-medium`，只使用 VAE。
+- Fresh authority：`datapointai/text-2-image-dpo-human-preferences-full` 的 pinned snapshot。
+- Fresh rows：20,818；SOURCE_DEV 选中 4,164 rows，其中 3,429 个有向 non-ties，735 ties 排除。
+- Reconstructed anchors：128 张；由冻结 DCAE latent 经冻结 decoder 重建为 clamped FP16 RGB，再由 SD、FLUX、DCAE 与 SD3.5 对同一像素重新编码。
+- Source latent/text caches、reconstructed-target cache 与 fresh-source cache 均在 authority 前封存，并通过 disk-only verifier。
+
+Authority ledger：
+
+- target training Reward-label access：`0`
+- target training preference orientation access：`0`
+- fresh SOURCE_DEV orientation access：`1`
+- fresh LOCKBOX orientation access：`0`
+- old official TEST access：`0`
+
+## 5. Parameters
+
+- Target registration：3 seeds ×（1 correct + 5 permutations）=`18` arms。
+- 每个 target fit：12,000 updates。
+- Seeds：`20260827/20260828/20260829`。
+- Anchor budget：`64+64`。
+- Fresh controls：better-than-chance、`PAIR_RO`、`GLOBAL_SD`、wrong prompt、direction balance、three-seed robustness。
+- Statistics：20,000 common connected-group bootstrap，seed=`20260829046`。
+- Frozen order：`SOURCE_DEV qualified → pre-lockbox freeze → exactly-once LOCKBOX`。
+
+## 6. Command
+
+正式执行顺序如下；这里省略环境路径与凭据，精确 CLI、日志和 receipts 均保存在 run root：
+
+```text
+freeze pre-authority
+open SOURCE_DEV exactly once
+evaluate frozen source on sealed source/text caches
+finalize prepare → scientific verify → report → seal → completed replay
+```
+
+SOURCE_DEV 未合格，因此 protocol 按设计没有创建 pre-lockbox freeze、没有打开 LOCKBOX，也没有运行 target Reward evaluation。Target training 与 formal interface evaluation 已在 GPU 阶段完成，未因网络恢复而重跑。
+
+## 7. Results
+
+### 7.1 Target interface：PASS
+
+- 18×12,000 target fits 全部完成；18 receipts、18 selected checkpoints、0 interim checkpoints。
+- Target training registry SHA256=`23f1f2b1225b9900fa1177e1ccdda207f10be581aec21b7dd7a276bd12990472`。
+- Interface metrics SHA256=`c595324440e2450f4baae236a0ac920cb5cd83a07999a17bf27c65af97591817`，artifact status=`PASS`。
+
+| Seed | Correct MSE | Permutation MSE macro | Correct R@1 | Permutation R@1 macro |
+|---:|---:|---:|---:|---:|
+| 20260827 | 0.00394252 | 0.01166841 | 1.000000 | 0.015625 |
+| 20260828 | 0.00403790 | 0.01168367 | 1.000000 | 0.012500 |
+| 20260829 | 0.00403065 | 0.01214970 | 1.000000 | 0.009375 |
+
+这证明 frozen reconstructed-anchor interface 在该几何指标上可建立；它本身不证明 Reward compatibility。
+
+### 7.2 Fresh SOURCE_DEV：FAIL-CLOSED
+
+Terminal source status：`FRESH_AUTHORITY_SOURCE_REWARD_UNQUALIFIED`。
+
+| Seed | Teacher | Accuracy | BT-NLL | Seed consistency |
+|---:|---|---:|---:|---|
+| 20260827 | dcae | 0.486439 | 0.724506 | FAIL |
+| 20260828 | dcae | 0.504229 | 0.707090 | FAIL |
+| 20260829 | dcae | 0.498104 | 0.716970 | FAIL |
+
+- Aggregate Accuracy=`0.487022`，BT-NLL=`0.711464`。
+- Accuracy-above-chance=`-0.012978 [-0.026945, 0.001312]`。
+- NLL advantage over chance=`-0.018317 [-0.023339, -0.013330]`。
+- Better-than-chance、`PAIR_RO`、`GLOBAL_SD`、wrong-prompt、direction-balance gates 均未通过；seed robustness=`0/3`。
+- `fresh_source_qualification.json` SHA256=`ac86b56dee2660c10f58bf259cfdb90b0304ecfd2a30fa686a02e725cd1b349e`。
+
+### 7.3 Frozen decision and verification
+
+- Executive answer=`INDETERMINATE`。
+- Final classification=`FRESH_AUTHORITY_SOURCE_REWARD_UNQUALIFIED`。
+- Recommendation=`STOP_WITHOUT_OPENING_FRESH_LOCKBOX`。
+- Decision SHA256=`032903ccf0951ee7d5efaec07b585f117b52ead85d6700cf579315af01a3aa26`。
+- Scientific disk-only verifier=`PASS`；network/model-forward/training/old TEST 均为 `0`。
+- Result seal SHA256=`c7cfa3443ba96d0d4f619cbfb2c2eac08a26781bd90e3628adb11dfa6073cd69`。
+- Completed replay=`PASS`：64,603 files、42,933,254,755 bytes，model-forward/training/network/old TEST=`0/0/0/0`。
+
+## 8. Analysis
+
+RPJ4 的关键结果是：reconstructed-anchor interface geometry 成立，但 frozen source Reward 在真正 fresh SOURCE_DEV 上不合格。由于 source control 是进入 LOCKBOX 的前置必要条件，target Reward readability、Anchor-vs-NoReg、Anchor-vs-permutations、Reward retention 以及 fresh LOCKBOX 的所有结论都保持 `NOT_EVALUATED`。
+
+因此不能把结果解释为“SD3.5 onboarding Reward 失败”，也不能从几何 registration 成功推断 Reward-compatible onboarding 成功。当前唯一合法结论是：确认性问题在 source-control gate 处变为 `INDETERMINATE`。
+
+## Possible Conflict / 待确认冲突
+
+2026-09-06 [[latentatlas-rgen1-reward-external-generalization]] 核对出 RPJ4 与 U7 并非同一 SOURCE_DEV：本实验为 4,164 行，U7 为 5,202 行，交集仅 1,003 行。本页 source Acc/NLL 不能作为 U7 5,202 行上的 exact replay 目标。RPJ4 SOURCE_DEV 中有 3,161 行落在 U7 LOCKBOX，U7 SOURCE_DEV 中有 4,199 行落在 RPJ4 LOCKBOX；两次各自 LOCKBOX=0 的历史凭据不支持全局 untouched 声明。原报告、模型与结果保持封存。RGEN1最初在冻结前暂停，随后按用户批准amendment重新定义authority并完成：测试路线BROAD FAIL、fresh native固定协议FAIL、RGB两面PASS；最终定位和限制见[[latentatlas-rgen1-reward-external-generalization]]。Future reserve 12,455行方向访问仍为0。
+
+Source: 本页 §11 原 RPJ4 report 与 `raw/experiments/latentatlas/rgen1-preflight-2026-09-06/input_read_ledger.json` 绑定的双方 split/identity/access receipts；重算结果见 `raw/experiments/latentatlas/rgen1-preflight-2026-09-06/authority_identity_audit.json`。
+
+追加 Source: `raw/experiments/latentatlas/rgen1-final-2026-09-06/RGEN1_FINAL_REPORT.md`、`result_seal.json`；批准范围修订见`raw/experiments/latentatlas/rgen1-authority-freeze-2026-09-06/approved-authority-amendment.txt`。
+
+## 9. Problems
+
+- 大型 cache 回传期间 GPU 主机网络中断；所有 partial 均保留，恢复后仅以 `rsync -a --partial` 同源同目标续传。最终 reconstructed-target seal=`6879cbeb2e66b34d1614d2ef252abdbe53509981bf7f61b2344fc8a5858aa63b`，fresh-source seal=`a5d7e57ae10feb54fa59bfa69434a3c55d0a42eeb4e8ba90cb9ad887d8515a0e`，本地 disk-only verifier 均 PASS。
+- SOURCE_DEV durable access receipt 写入后，首次 evaluation 把 source bundle wrapper 当作实际 cache root，第二次又把 text wrapper 当作 `text-cache/cache`；两次都在任何 scoring/output 前因 manifest 路径不存在而停止。Raw authority 没有重新打开，durable SOURCE_DEV access 始终为 `1`。只读确认两个正确冻结路径后，evaluation 在相同方法、参数、权重与 authority 上完成。
+- 上述均为 operational recovery，不是 scientific gate 修改；没有重算 target fits、没有重跑 interface、没有修改 seeds、thresholds、controls 或 authority 顺序。
+
+## 10. Next Steps
+
+本实验 hard stop。不得重放 SOURCE_DEV、打开当前 LOCKBOX、挑 seed、调 threshold，或把 interface PASS 升级为 Reward confirmation。若未来继续，应新建独立 TRAIN/DEV-only mechanism study，先定位 source Reward qualification 与 prompt/image-specific attribution 的失败原因；只有冻结新候选后，才能申请新的 genuinely fresh authority。
+
+当前 GPU 阶段已经结束，后续报告与 Wiki 归档只需本地 CPU/磁盘。
+
+## 11. Sources
+
+- `LatentAtlas-runs/rpj4-20260829-1825aa7/RPJ4_FINAL_CONFIRMATORY_REPORT.md`
+- `LatentAtlas-runs/rpj4-20260829-1825aa7/pre_authority_freeze_manifest.json`
+- `LatentAtlas-runs/rpj4-20260829-1825aa7/fresh_source_dev_access_receipt.json`
+- `LatentAtlas-runs/rpj4-20260829-1825aa7/fresh_source_qualification.json`
+- `LatentAtlas-runs/rpj4-20260829-1825aa7/decision.json`
+- `LatentAtlas-runs/rpj4-20260829-1825aa7/verifier_receipt.json`
+- `LatentAtlas-runs/rpj4-20260829-1825aa7/result_seal.json`
+- `LatentAtlas-runs/rpj4-20260829-1825aa7/completed_replay.json`
+- `LatentAtlas-runs/rpj4-20260829-1825aa7/target-training/target_training_registry.json`
+- `LatentAtlas-runs/rpj4-20260829-1825aa7/target-training/interface_registration_metrics.json`
+- `LatentAtlas-runs/rpj4-20260829-1825aa7/reconstructed-target-cache-network-recovery-local-verifier-receipt.json`
+- `LatentAtlas-runs/rpj4-20260829-1825aa7/fresh-source-cache-network-recovery-local-verifier-receipt.json`
+
+## Related Pages
+
+- [[latentatlas]]
+- [[latentatlas-u7-reconstructed-anchor-onboarding]]
+- [[rpj3-anchor-reward-instance-specificity-localization]]
+- [[rpj2-projector-noncollapse-anchor-mechanism]]
+- [[latentatlas-rpj1-reward-projector-dev]]
+- [[representation-alignment]]
+- [[projector]]
+- [[stable-diffusion]]

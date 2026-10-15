@@ -1,0 +1,15 @@
+{
+  "experiment_id": "rpj3-anchor-reward-instance-specificity-localization",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Frozen known-VAE pseudo-unseen official HPDv3 DEV。\n- 已在 RPJ2 消费过的 mechanism lockbox，仅作为 diagnostic replay surface，不重新称 fresh lockbox。\n- Frozen SD / FLUX / DCAE representation cache、authoritative text cache、RPJ2 Teacher/SUP/Anchor/NoReg checkpoints。\n- 新 null family：`GLOBAL_SD`、`PAIR_RO`、`PAIR_SP`、`PROMPT_RO`、nuisance-matched random orientation；每类 5 个预冻结 seeds。\n\nAuthority / access：\n\n- official TEST orientation / forward / metrics：`0 / 0 / 0`\n- new training fits：`0`\n- network / RGB access：`0 / 0`",
+  "parameters_excerpt": "- Primary instance-specificity null：`PAIR_RO`。\n- Supporting null：`GLOBAL_SD`。\n- Side-preservation diagnostic：`PAIR_SP`。\n- PROMPT_RO coverage floor：`500` rows；实际每 target `3,109/5,000`。\n- Nuisance-matched coverage：每 target `4,998/5,000`。\n- Statistics：`20,000` connected-group paired bootstrap，共同 indices。\n- Exact RPJ2 replay tolerance：`1e-5`，未放宽。\n- GPU 仅用于 frozen forward；分析、verifier、inventory、seal 和报告均在本地 disk-only 完成。",
+  "code_identity_excerpt": "- Branch：`codex/rpj3-anchor-reward-specificity-localization`\n- Scientific commit：`2bd47b28b2255ed25431b0caba1172c03a17bde0`\n- Finalizer / verifier commit：`61d78116ed73ba5db1c0a32426e281fa8381c90b`\n- Worktree：`source-workspace/.worktrees/rpj3-anchor-reward-specificity-localization`",
+  "source_snapshot": "docs/source-snapshots/rpj3-anchor-reward-instance-specificity-localization.txt",
+  "primary_report": null
+}

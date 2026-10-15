@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-u4b0-fresh-functional-authority-gate",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- 数据集：`Rapidata/svg-benchmark`\n- 固定 revision：`bbb5fde7d01c82bad242fd555a9ed2a2fad38b06`\n- 本地 snapshot：80 files，`42,761,735,974` bytes，309,955 physical rows。\n- FRA-SVG0 完整分类：\n  - retained strict-fresh rows：284\n  - missing coherence question：120,141\n  - exact ties：4\n  - encoded self-pairs：143\n  - identical decoded RGB：758\n  - conflicting duplicate rows：80,964\n  - duplicate nonrepresentative rows：107,665\n- 对 G0.1、U4 P4096、U4 H1105 的历史 overlap 在全部登记维度上均为 0。",
+  "parameters_excerpt": "- FRA strict-pool version：`STRICT_FRESH_POOL_V3`\n- B0 selection：对 strict-fresh public rows 做 label-blind 全选，按 `public_row_id` 字典序冻结。\n- B0 eligible authority：284 rows / 284 pairs / 568 images / 284 prompts。\n- 图结构：284 connected components；每对独立成分量。\n- B1 冻结 sample gate：\n  - `selected_pair_count >= 300`\n  - `unique_selected_image_count >= 300`",
+  "code_identity_excerpt": "- FRA-SVG0 production/verifier commit：`25be30466fe06bc9581392f52b907245d407942a`\n- FRA-SVG0 terminal seal：`b0d0a878f49219570db1bf5d1325c2146e8af668a9a40e1a98741613782ce923`\n- B0 V3 consumer compatibility commit：`fb887f9d91b0959ab9c0fba3ccdc75821fa3698f`\n- B0 formal production commit：`beb431f3453d4817412b469b9749ad073512a22d`\n- B0 result commit：`1df1b2bec072f75edb08fe9d1b27395850748058`\n- B1 compatibility/preformal HEAD：`deda48b4f7c234190fb4e1bd47c374d8484fe8d1`",
+  "source_snapshot": "docs/source-snapshots/latentatlas-u4b0-fresh-functional-authority-gate.txt",
+  "primary_report": null
+}

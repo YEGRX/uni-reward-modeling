@@ -1,0 +1,207 @@
+# LatentAtlas U4-A4 Reward-Free P4096 Cross-Fit Correspondence Specificity
+
+## 1. Date
+
+2026-08-24（冻结设计与实施计划日期为 2026-08-23）
+
+## 2. Purpose
+
+U4-A4 是 U4-A3 之后唯一一次 `development-only / adaptive follow-up / non-confirmatory / reward-free / reused nonfresh evaluation cohort / CPU-only` 的 P4096 cross-fit correspondence specificity audit。Run identity 为 `U4A4_DEV_REWARD_FREE_P4096_CROSSFIT_CORRESPONDENCE_SPECIFICITY`。
+
+它只回答一个有限问题：用注册的 P4096 source rows 训练时，若 target pairing 是 correct canonical target 或五个冻结 whole-row permutation null，参数量匹配的 flat affine family F 与 invariant nonlinear family N 能否在 identity-disjoint、但历史上已经暴露的 H1105 development cohort 上表现出稳定的 correct-over-all-nulls advantage。
+
+这不是 Reward 实验，也不是 fresh holdout、independent test、confirmatory authority 或 generalization experiment。它不能建立 canonical U、universal U、Reward transfer、unseen-VAE transfer、真实部署能力，也不能把 H1105 称为 unseen/fresh/test cohort。
+
+相关页面：[[latentatlas]]、[[latentatlas-u4a3-reward-free-k64-parameterization-factorization]]、[[representation-alignment]]、[[latent-space]]。
+
+## 3. Code Version / Commit
+
+- Branch：`codex/u4-a4-p4096-crossfit-specificity`；隔离 worktree 未合并到 main。
+- Formal production commit：`cf1282bf7fd93c813ab52673f7b160ef5d8d8ef6`。
+- Formal result commit：`77a62a6b762306be41bdb7fc255727e1ff51d921`；其直接父提交为 formal production commit `cf1282bf7fd93c813ab52673f7b160ef5d8d8ef6`。
+- U4-A3 predecessor production/result commits：`08226a77837bba49b41e196184cec23a5e81f1a9` / `dff8967756cb2b9672f663ad5447f93b307274d4`。
+- 更早的 U4-A production/result commits：`2510b798b7ad21b5bee35117c80fea943406ad1d` / `c047bfcb7e6b4168f530528926cfbc473843074e`。
+- Canonical config SHA-256：`577faaab4819a1dbf4e8b513ee0cbaabfcb8de383192da725c386f3307152ed4`。
+- Binding scientific spec SHA-256：`1a64e5848ef9650c9a7baf82f9aedefe41e038611349d88b893d5d36b0f9e4c9`。
+- Implementation plan SHA-256：`8deea2b97176bf9129f40bd3c1862b3f6d5d60a69f40df5d80a2e876be4df528`。
+- Decision / inventory / fit-seal SHA-256：`8ff401c7836689982e2cb80c3234e3da6dd79de9cca76370bc7afb3841059eaf` / `ef19d3896c937e6a2b9f54fcfc73e2f6892e2e9af71a23d44daae835e04a18cb` / `f6b01499bbb1c0b5d8465092d050887fc8c3f603cb7e0ba838e4dc448b270ae5`。
+- Owner digest：`fcb8b03e55ae409d904d9e7285f08421fc662cf4fb3e58e1a37f7337e7370aa7`。
+
+## 4. Dataset / Input
+
+- Population algorithm：`sha256_rank_split_seed_2026082201`；T=`5201`、P4096=`4096`、H1105=`1105`。
+- Population proof：P4096 与 H1105 disjoint，且二者 union 等于 T。
+- P4096 source：标准化 DCAE tokens，`float32 [4096,32,16]`；target：raw SD/FLUX barycenter，`float32 [4096,64]`。
+- H1105 evaluation：source `float32 [1105,32,16]`，correct canonical barycenter target `[1105,64]`；全 24 个 artifacts 使用同一 original-order correct H1105 gallery，query `i` 的 positive index 固定为 `i`。
+- DCAE normalization：`(-0.41792598366737366, 2.2100250720977783, 1e-6)`，不从 H1105 重新估计。
+- Pairings：`correct` 加 `perm_01..perm_05`；五个 null 是 seeds `2026082202..2026082206` 的 single-cycle whole-row derangements，全部 bijective、fixed points=`0`、target-row multiset 与 correct 完全相同。
+- 只用 P4096 拟合；H1105 只在 fit seal 之后由 one-shot private evaluator 打开一次。本次 P/H identity-disjoint，但 H1105 已在历史 U4-A 流程中暴露，因此不能解释成新鲜泛化证据。
+
+## 5. Parameters
+
+- `F`：seedless flat affine，连续 row-major flatten `32×16=512`，加 bias 后映射到 raw 64-d target；`32,832` 参数、CPU `float64`，一次 `[4096,513]` thin SVD 复用到 6 个 RHS。
+- `N`：shared-token `Linear(16,404) → GELU → Linear(404,64) → mean over 32 tokens`；`32,788` 参数，无 position/identity/VAE/index/lookup input。
+- N seeds：`20260823/20260824/20260825`；每个 seed 在全部六个 pairings 上使用相同 initial state 与 batch schedule，但重新加载独立 model/optimizer。
+- N optimization：CPU `float32`，AdamW，batch=`64`、updates=`10,000`、identity presentations=`640,000`、effective epochs=`156.25`、`lr=1e-3`、`weight_decay=1e-4`，global Charbonnier loss `sqrt(mean(error²)+1e-12)`；无 scheduler、early stop、best checkpoint、warm start 或 resume。
+- H aggregate metrics：`float64` NRMSE/RMSE/MSE、mean cosine、R@1/R@5/MRR、mean/median rank、output effective rank 与 variance mass；off-positive similarity `>=` positive 时计为 outrank。
+- Bootstrap：fixed-cohort paired query bootstrap，seed=`2026082404`、20,000 replicates、sample size=`1105`；lower bound 是排序后 zero-based index `999`，无插值。
+- Registered gates：`L_E >= 0.05`、`L_R1 >= 0.02`、`L_M >= 0.02`；N 还必须先通过 18-cell optimization adequacy。
+- Two-phase authority：real P4096 access 前 durable attempt receipt；24 个 artifacts 完成后 immutable fit seal；H access 前 durable H receipt；随后一次 materialization、顺序评价 24 artifacts，不持久化 per-query H payload。
+
+## 6. Command
+
+唯一一次正式 CPU attempt：
+
+~~~bash
+env PYTHONNOUSERSITE=1 PYTHONPATH="$PWD/src:$PWD" CUDA_VISIBLE_DEVICES='' \
+OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 \
+VECLIB_MAXIMUM_THREADS=1 NUMEXPR_NUM_THREADS=1 \
+source-workspace/.venv/bin/python \
+scripts/run_u4a4_crossfit_specificity.py \
+--config configs/u4a4-dev-reward-free-p4096-crossfit-correspondence-specificity.json
+~~~
+
+Disk-only completed-tree verifier：
+
+~~~bash
+env PYTHONNOUSERSITE=1 PYTHONPATH="$PWD/src:$PWD" CUDA_VISIBLE_DEVICES='' \
+OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 \
+VECLIB_MAXIMUM_THREADS=1 NUMEXPR_NUM_THREADS=1 \
+source-workspace/.venv/bin/python \
+scripts/verify_u4a4_crossfit_specificity.py \
+runs/U4A4_DEV_REWARD_FREE_P4096_CROSSFIT_CORRESPONDENCE_SPECIFICITY
+~~~
+
+Post-formal focused tests：U4-A4=`58 passed in 2.27s`；U4-A/U4-A2/U4-A3 predecessor regression=`330 passed in 58.95s`。Post-formal full suite=`2547 passed in 699.53s (0:11:39)`。Disk verifier 输出：`verified 67 paths: CROSS_FAMILY_CORRECT_PAIRING_ADVANTAGE_ON_HISTORIC_DEV_COHORT`。
+
+## 7. Results
+
+### 7.1 Frozen classification
+
+正式分类：**`CROSS_FAMILY_CORRECT_PAIRING_ADVANTAGE_ON_HISTORIC_DEV_COHORT`**。
+
+Safe claim：在当前注册协议中，P4096-trained F 与 N 都在历史已暴露的 H1105 development cohort 上对 correct pairing 产生了 robust correct-over-all-nulls advantage。它是 development-only、adaptive、non-confirmatory、reward-free 证据，不是 fresh holdout 或 generalization evidence。
+
+### 7.2 F 的 P4096 train summary
+
+F 的 shared SVD design shape 为 `[4096,513]`，numerical rank=`513`，effective condition number=`124.854808`，cutoff=`6.672854e-10`。六个解析 artifacts 全部 finite；normal-equation 与 row-space relative residual 都约为 `1e-15`。
+
+| Pairing | Global Charbonnier | NRMSE | R@1 | MRR | Mean cosine | Relative fit residual |
+|---|---:|---:|---:|---:|---:|---:|
+| correct | 0.639248 | 0.199769 | 0.426758 | 0.528332 | 0.982769 | 0.199769 |
+| perm_01 | 0.915929 | 0.286233 | 0.001465 | 0.008440 | 0.963834 | 0.286233 |
+| perm_02 | 0.917105 | 0.286601 | 0.003174 | 0.009106 | 0.963751 | 0.286601 |
+| perm_03 | 0.916300 | 0.286349 | 0.002686 | 0.009722 | 0.963818 | 0.286349 |
+| perm_04 | 0.917179 | 0.286624 | 0.001221 | 0.006746 | 0.963728 | 0.286624 |
+| perm_05 | 0.915767 | 0.286183 | 0.001465 | 0.008592 | 0.963902 | 0.286183 |
+
+### 7.3 N 的 P4096 train summary 与 adequacy
+
+每个 cell 均为 10,000 updates / 640,000 presentations，finite、terminal reload/hash 一致且 parameter delta norm `>0`。下表为同一 pairing 的三个 seed range。
+
+| Pairing | Terminal loss range | Terminal/initial range | NRMSE range | R@1 range | MRR range | Adequate seeds |
+|---|---:|---:|---:|---:|---:|---:|
+| correct | 0.567753–0.569622 | 0.176477–0.177577 | 0.177426–0.178010 | 0.400879–0.411377 | 0.489804–0.498522 | 3/3 |
+| perm_01 | 0.959574–0.961145 | 0.298048–0.300475 | 0.299873–0.300364 | 0.000488–0.000732 | 0.003242–0.003536 | 3/3 |
+| perm_02 | 0.959420–0.960612 | 0.298137–0.300131 | 0.299825–0.300197 | 0.000488–0.000488 | 0.002833–0.002940 | 3/3 |
+| perm_03 | 0.959324–0.960997 | 0.297738–0.300040 | 0.299795–0.300318 | 0.000244–0.000488 | 0.002893–0.003149 | 3/3 |
+| perm_04 | 0.959638–0.961237 | 0.298196–0.300003 | 0.299893–0.300393 | 0.000244–0.000732 | 0.003445–0.003578 | 3/3 |
+| perm_05 | 0.959762–0.960224 | 0.297959–0.300041 | 0.299931–0.300076 | 0.000244–0.000244 | 0.002659–0.002803 | 3/3 |
+
+N optimization adequacy=`PASS`：correct adequate seeds=`3/3`；每个 null 也都是 `3/3`；exact registry、same-seed bindings 与 terminal integrity 全部为 true，failure reasons 为空。
+
+### 7.4 H1105 全部 24 个 aggregate metric rows
+
+下表保留全部注册 aggregate metrics；显示值四舍五入，机器判定使用 `evaluation_summary.csv` 中未舍入的 float64 数值。
+
+| Family | Pairing | Seed | NRMSE | RMSE | MSE | Cosine | R@1 | R@5 | MRR | Mean rank | Median rank | Eff. rank | Var. mass | Finite |
+|---|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---:|---|
+| F | correct | — | 0.225712 | 0.720134 | 0.518593 | 0.977590 | 0.363801 | 0.601810 | 0.471814 | 26.171 | 3.0 | 14.434 | 36.449 | true |
+| F | perm_01 | — | 0.325956 | 1.039964 | 1.081525 | 0.952625 | 0.000905 | 0.007240 | 0.007549 | 544.453 | 529.0 | 20.867 | 9.111 | true |
+| F | perm_02 | — | 0.326954 | 1.043149 | 1.088159 | 0.952144 | 0.000905 | 0.003620 | 0.007162 | 545.855 | 547.0 | 21.188 | 8.777 | true |
+| F | perm_03 | — | 0.324653 | 1.035807 | 1.072895 | 0.952804 | 0.000905 | 0.004525 | 0.007569 | 545.660 | 555.0 | 21.469 | 8.830 | true |
+| F | perm_04 | — | 0.325962 | 1.039984 | 1.081566 | 0.952561 | 0.000000 | 0.003620 | 0.006252 | 548.060 | 547.0 | 20.666 | 8.881 | true |
+| F | perm_05 | — | 0.327414 | 1.044615 | 1.091220 | 0.952219 | 0.001810 | 0.004525 | 0.007619 | 548.900 | 560.0 | 21.084 | 9.070 | true |
+| N | correct | 20260823 | 0.186790 | 0.595956 | 0.355163 | 0.983665 | 0.462443 | 0.652489 | 0.552928 | 25.425 | 2.0 | 17.085 | 37.392 | true |
+| N | correct | 20260824 | 0.186014 | 0.593479 | 0.352218 | 0.983792 | 0.471493 | 0.669683 | 0.562360 | 24.395 | 2.0 | 16.968 | 38.031 | true |
+| N | correct | 20260825 | 0.186863 | 0.596189 | 0.355441 | 0.983726 | 0.465158 | 0.660633 | 0.555902 | 24.537 | 2.0 | 17.010 | 37.834 | true |
+| N | perm_01 | 20260823 | 0.309298 | 0.986818 | 0.973810 | 0.957725 | 0.000905 | 0.002715 | 0.006257 | 543.510 | 545.0 | 16.913 | 1.805 | true |
+| N | perm_01 | 20260824 | 0.311465 | 0.993731 | 0.987501 | 0.957228 | 0.000905 | 0.003620 | 0.006704 | 549.295 | 547.0 | 16.548 | 1.869 | true |
+| N | perm_01 | 20260825 | 0.311191 | 0.992858 | 0.985766 | 0.957434 | 0.001810 | 0.002715 | 0.007138 | 544.485 | 540.0 | 16.591 | 1.872 | true |
+| N | perm_02 | 20260823 | 0.309924 | 0.988813 | 0.977751 | 0.957523 | 0.000905 | 0.005430 | 0.007115 | 547.252 | 537.0 | 17.014 | 1.886 | true |
+| N | perm_02 | 20260824 | 0.310867 | 0.991823 | 0.983712 | 0.957318 | 0.000905 | 0.005430 | 0.006899 | 553.225 | 551.0 | 16.699 | 1.841 | true |
+| N | perm_02 | 20260825 | 0.311430 | 0.993619 | 0.987278 | 0.957096 | 0.000905 | 0.004525 | 0.006623 | 556.981 | 561.0 | 16.881 | 1.805 | true |
+| N | perm_03 | 20260823 | 0.310979 | 0.992181 | 0.984423 | 0.957261 | 0.002715 | 0.003620 | 0.008054 | 552.563 | 549.0 | 16.682 | 1.780 | true |
+| N | perm_03 | 20260824 | 0.310272 | 0.989924 | 0.979949 | 0.957354 | 0.001810 | 0.004525 | 0.007467 | 550.266 | 562.0 | 16.869 | 1.791 | true |
+| N | perm_03 | 20260825 | 0.311015 | 0.992294 | 0.984648 | 0.957324 | 0.000905 | 0.004525 | 0.007124 | 553.263 | 560.0 | 16.850 | 1.749 | true |
+| N | perm_04 | 20260823 | 0.311124 | 0.992643 | 0.985341 | 0.957585 | 0.000905 | 0.006335 | 0.008056 | 548.185 | 545.0 | 15.197 | 1.830 | true |
+| N | perm_04 | 20260824 | 0.310578 | 0.990902 | 0.981887 | 0.957429 | 0.001810 | 0.006335 | 0.008293 | 549.833 | 545.0 | 15.633 | 1.791 | true |
+| N | perm_04 | 20260825 | 0.309948 | 0.988891 | 0.977905 | 0.957570 | 0.000905 | 0.006335 | 0.007647 | 549.375 | 545.0 | 15.554 | 1.780 | true |
+| N | perm_05 | 20260823 | 0.311177 | 0.992813 | 0.985677 | 0.957489 | 0.001810 | 0.005430 | 0.007961 | 549.930 | 546.0 | 16.344 | 1.822 | true |
+| N | perm_05 | 20260824 | 0.311173 | 0.992798 | 0.985648 | 0.957315 | 0.001810 | 0.006335 | 0.007749 | 553.591 | 553.0 | 16.135 | 1.812 | true |
+| N | perm_05 | 20260825 | 0.309584 | 0.987729 | 0.975609 | 0.957790 | 0.001810 | 0.007240 | 0.007842 | 545.340 | 543.0 | 16.458 | 1.781 | true |
+
+### 7.5 Registered G/L gates
+
+`G_E` 是 correct 相对最难 null 的 NRMSE 改善比例；`G_R1` 与 `G_M` 分别是 R@1/MRR 的 correct-minus-null gap。N 先在同一 null 内对三个 seeds 取 median，再对五个 null 取 min；F 直接对五个 seedless null 取 min。
+
+| Family | G_E | L_E | G_R1 | L_R1 | G_M | L_M | Thresholds passed |
+|---|---:|---:|---:|---:|---:|---:|---|
+| F | 0.304760 | 0.295859 | 0.361991 | 0.337557 | 0.464195 | 0.442579 | yes |
+| N | 0.399348 | 0.386852 | 0.463348 | 0.439819 | 0.548060 | 0.527077 | yes |
+
+F 与 N 的三个 bootstrap lower bounds 都大幅高于注册阈值 `0.05/0.02/0.02`；两族 gate 均通过，且 N optimization adequacy 通过。因此 decision precedence 进入 cross-family positive classification，而不是 family-specific 或 indeterminate 分支。
+
+### 7.6 Authority、seal 与 verifier
+
+- 本次 H authority counts 严格为 attempt/materialization/evaluated artifacts=`1/1/24`。
+- 24 artifacts=`6 F + 18 N`；completed tree=`67` paths，self-excluded inventory=`66` entries。
+- Fit seal 在 H access 前绑定 24-artifact registry、59-path pending inventory、model schemas、population、thresholds、bootstrap protocol 与 zero counters；fit-seal SHA-256=`f6b01499bbb1c0b5d8465092d050887fc8c3f603cb7e0ba838e4dc448b270ae5`。
+- Authority/pipeline、capability boundary 与 null control 三个 validity gates 全部为 true。
+- 14 个 frozen forbidden counters 全部为 `0`：`adaptive_selection`、`cuda_access`、`h1105_access_before_fit_seal`、`h1105_reopen_or_replay`、`network_access`、`per_identity_h1105_persistence`、`reward_checkpoint_access`、`reward_label_or_orientation_access`、`reward_model_or_evaluator_access`，以及五项 `validation_or_test_*` latent/cache-row、metric、model-output、pair-identity、token access。
+- Source-free CPU benchmark=`READY_FOR_FORMAL_ATTEMPT`：projected runtime=`503.824s`（gate `<=7200s`），peak RSS=`478,887,936 bytes`（gate `<=4 GiB`）。
+- Standard-library-only disk verifier 通过，重算 aggregate gate arithmetic 与 decision precedence，并验证 exact paths、hash、seal、receipt、safetensors layout、counter 与 forbidden-payload schema。
+
+## 8. Analysis
+
+1. U4-A3 只证明 K64 上 F/N 能同时插值 correct 与 null，不能证明 correspondence specificity。U4-A4 把拟合 population 扩到 P4096、在 identity-disjoint H1105 上 cross-fit 后，F 与 N 的 correct 都稳定胜过全部五个 null，且三项 registered lower-bound gates 同时通过；这建立了当前历史开发 cohort 内的 correspondence-specific signal。
+2. 信号不是单一 architecture 偶然：parameter-matched F 与 N 都通过，故冻结 headline 是 cross-family advantage。N 的点估计更高，但 U4-A4 没有注册 F-vs-N model-selection gate，不能据此宣布 N 为最终架构。
+3. Correct mapping 并非完美 coordinate recovery：F/N correct H NRMSE 约为 `0.226` / `0.186`，R@1 约为 `0.364` / `0.462–0.471`。因此本实验支持“正确配对具有可识别优势”，不等于 raw coordinate 已完全恢复或 universal canonical target 已证明。
+4. Query bootstrap 只度量固定 H1105 cohort 上、固定 artifacts 下的 conditional query robustness。它不是 training-randomness CI、population-generalization CI 或显著性检验。
+5. 结果把解释空间从“小样本纯 interpolation”推进到“大量配对、历史开发 cohort 上的 correct/null discrimination”，但仍没有跨越 Reward-free registered development audit 到 fresh functional confirmation 的证据边界。
+
+## 9. Problems
+
+- H1105 是 historically exposed development evaluation cohort；本次 one-shot 只约束 U4-A4 内部 access，不能抹去此前 U4-A formal/audit 已各打开一次的历史。
+- 当前是 dense transductive paired onboarding：P4096 使用大量 paired identities，不能称为 low-cost anchor onboarding。
+- 五个 null 是相关的 frozen falsification controls，不是独立抽样的 significance distribution。
+- 为遵守 authority boundary，工件不持久化 per-query H predictions、ranks、embeddings、IDs 或 bootstrap samples。因此 disk-only verifier 无法独立重算 H predictions 或 bootstrap；它验证 sealed evaluator/code provenance，并从已保存 aggregates 重算 gate 与 decision。这是明确的 verifier trust boundary。
+- 未访问 Reward label/checkpoint/model/evaluator，故所有 functional Reward 结论仍未知。
+- 本实验未测试新 VAE、fresh holdout、larger K、模型选择或现实数据分布；这些都不能从当前正结果外推。
+
+## 10. Next Steps
+
+1. 当前执行 hard stop：不自动设计、创建或运行 U4-A5、U4-B、Reward、fresh holdout、larger K、新 VAE 或任何其他 follow-up。
+2. 仅作为建议、并未执行：先进行 scientific review；如果之后有独立审批与真正未触碰的 authority，再冻结单一协议检验这种 structural correspondence specificity 是否能转化为 Reward functional specificity。不能复用当前 H1105 作为 fresh confirmation。
+3. 不应依据本实验的 N 较高点估计直接做 architecture selection；若未来需要选择，必须另行冻结选择 authority 与 gate。
+4. 正式运行和结果整理均为 CPU-only；GPU 未使用且无需租用服务器，若 GPU 实例仍开着可以关闭。
+
+## 11. Sources
+
+- Source: `source-workspace/.worktrees/u4-a4-p4096-crossfit-specificity/runs/U4A4_DEV_REWARD_FREE_P4096_CROSSFIT_CORRESPONDENCE_SPECIFICITY/design_spec.md`
+- Source: `source-workspace/.worktrees/u4-a4-p4096-crossfit-specificity/runs/U4A4_DEV_REWARD_FREE_P4096_CROSSFIT_CORRESPONDENCE_SPECIFICITY/implementation_plan.md`
+- Source: `source-workspace/.worktrees/u4-a4-p4096-crossfit-specificity/runs/U4A4_DEV_REWARD_FREE_P4096_CROSSFIT_CORRESPONDENCE_SPECIFICITY/config.json`
+- Source: `source-workspace/.worktrees/u4-a4-p4096-crossfit-specificity/runs/U4A4_DEV_REWARD_FREE_P4096_CROSSFIT_CORRESPONDENCE_SPECIFICITY/report.md`
+- Source: `source-workspace/.worktrees/u4-a4-p4096-crossfit-specificity/runs/U4A4_DEV_REWARD_FREE_P4096_CROSSFIT_CORRESPONDENCE_SPECIFICITY/evaluation_summary.csv`
+- Source: `source-workspace/.worktrees/u4-a4-p4096-crossfit-specificity/runs/U4A4_DEV_REWARD_FREE_P4096_CROSSFIT_CORRESPONDENCE_SPECIFICITY/robustness_summary.json`
+- Source: `source-workspace/.worktrees/u4-a4-p4096-crossfit-specificity/runs/U4A4_DEV_REWARD_FREE_P4096_CROSSFIT_CORRESPONDENCE_SPECIFICITY/decision.json`
+- Source: `source-workspace/.worktrees/u4-a4-p4096-crossfit-specificity/runs/U4A4_DEV_REWARD_FREE_P4096_CROSSFIT_CORRESPONDENCE_SPECIFICITY/audit.json`
+- Source: `source-workspace/.worktrees/u4-a4-p4096-crossfit-specificity/runs/U4A4_DEV_REWARD_FREE_P4096_CROSSFIT_CORRESPONDENCE_SPECIFICITY/inventory.json`
+- Source: `source-workspace/.worktrees/u4-a4-p4096-crossfit-specificity/runs/U4A4_DEV_REWARD_FREE_P4096_CROSSFIT_CORRESPONDENCE_SPECIFICITY/provenance.json`
+- Source: `source-workspace/.worktrees/u4-a4-p4096-crossfit-specificity/runs/U4A4_DEV_REWARD_FREE_P4096_CROSSFIT_CORRESPONDENCE_SPECIFICITY/training_diagnostics.json`
+- Source: `source-workspace/.worktrees/u4-a4-p4096-crossfit-specificity/runs/U4A4_DEV_REWARD_FREE_P4096_CROSSFIT_CORRESPONDENCE_SPECIFICITY/analytical_certificate.json`
+- Source: `source-workspace/.worktrees/u4-a4-p4096-crossfit-specificity/runs/U4A4_DEV_REWARD_FREE_P4096_CROSSFIT_CORRESPONDENCE_SPECIFICITY/fit_seal.json`
+- Source: `source-workspace/.worktrees/u4-a4-p4096-crossfit-specificity/runs/U4A4_DEV_REWARD_FREE_P4096_CROSSFIT_CORRESPONDENCE_SPECIFICITY/authority_manifest.json`
+- Source: `source-workspace/.worktrees/u4-a4-p4096-crossfit-specificity/runs/U4A4_DEV_REWARD_FREE_P4096_CROSSFIT_CORRESPONDENCE_SPECIFICITY/population_manifest.json`
+- Source: `source-workspace/.worktrees/u4-a4-p4096-crossfit-specificity/runs/U4A4_DEV_REWARD_FREE_P4096_CROSSFIT_CORRESPONDENCE_SPECIFICITY/null_manifest.json`
+- Source: `source-workspace/.worktrees/u4-a4-p4096-crossfit-specificity/runs/U4A4_DEV_REWARD_FREE_P4096_CROSSFIT_CORRESPONDENCE_SPECIFICITY/h1105_attempt_receipt.json`

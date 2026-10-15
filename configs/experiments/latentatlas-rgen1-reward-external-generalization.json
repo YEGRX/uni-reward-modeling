@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-rgen1-reward-external-generalization",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "数据：`datapointai/text-2-image-dpo-human-preferences-full@0e757688c64ff6ee7c412e8b810cdbded2751dfc`；primary label：Overall Preference。\n\n| 范围 | 原始行 | Strict preference | 用途 |\n|---|---:|---:|---|\n| FIT | 3,641 | 2,985 | 固定训练 |\n| SELECT | 781 | 653 | 仅按 BT-NLL 选 checkpoint |\n| DIAG | 780 | 643 | Adaptive development diagnostic 主判定 |\n| RPJ4-only EXTERNAL | 3,161 | 2,619 | 历史已消费外部诊断，不参与训练/选择 |\n| Future reserve | 12,455 | 不读取 | Globally unconsumed future reserve |\n\nU7 开发池 5,202 行；RPJ4 SOURCE_DEV 4,164 行；交集 1,003；consumed union 8,363。独立身份图审计 20,818 行/20,785 组件，去连接后 future reserve 仍为 12,455，quarantine=0。已有行、图像、prompt、pair、组件交叉审计通过；缺 generator/group metadata，因此 clean 声称只覆盖可用身份字段与已记录消费历史。\n\n原 U7 15,616 行 LOCKBOX 不能整体称 globally untouched。两个历史实验各自 LOCKBOX=0 的事实保留；跨实验 consumption union 单独记录。",
+  "parameters_excerpt": "Baselines：RRV1 independent native SD / FLUX / DCAE、U6 A Direct、U6 D explicit U、RPJ1 Projector；prompt/latent-only ×3 seeds，共 36 个 frozen checkpoint。每面 72 个模型种子×VAE 条件，汇总为 24 个三种子条件。\n\nFresh DCAE：prompt/latent-only ×3 seeds =6 fits。固定 RRV1 reader；AdamW lr3e-4、betas.9/.95、wd.01、batch256、5,000 updates、warmup250、cosine minlr3e-5、clip1；每250步验证保存，只按SELECT NLL选择。\n\nNative FAIL 后按门槛跳过 fresh Direct/Projector/U，执行一个已审查的本地 RGB diagnostic：冻结 CLIP ViT-L/14，768维 L2 features；98,561 参数固定 MLP head；相同3seeds/5,000步/选择规则，共3 fits。RGB编码器无梯度，无新下载。\n\n全部评分使用 MPS/BF16 同一 primitive。每面21个 arms（正确配对、PAIR_RO5/GLOBAL_SD5/PAIR_SP5/wrong-prompt5）与20,000 common connected-component bootstrap；三种子逐行 margin 均值后计算指标，另检验seed robustness。q.05/q.95为单侧95%界限/中央90%区间，不能称双侧95% CI。",
+  "code_identity_excerpt": "- Branch：`codex/rgen1-reward-external-generalization`。\n- Native execution：`11e894a`；RGB scientific commit：`51a6717c48a0704935050b16dd85cdcea705786d`。\n- Finalizer：`e6e6cf33fca336a422e13ea316269f7e76821534`；最终 worktree `CLEAN`。\n- Worktree：`source-workspace/.worktrees/rgen1-reward-external-generalization`。\n- Run：`LatentAtlas-runs/RGEN1_DEV_REWARD_EXTERNAL_GENERALIZATION_LOCALIZATION-20260906-R1`。\n- 全部 RRV1 / U6 / RPJ1 / RPJ3 / RPJ4 / U7 source commits 和最终 hashes 见 `raw/experiments/latentatlas/rgen1-final-2026-09-06/delivery-manifest.md`。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-rgen1-reward-external-generalization.txt",
+  "primary_report": null
+}

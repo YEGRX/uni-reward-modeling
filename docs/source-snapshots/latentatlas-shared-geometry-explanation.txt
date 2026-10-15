@@ -1,0 +1,137 @@
+# LatentAtlas Shared Geometry Explanation
+
+## 1. Date
+
+2026-08-09
+
+## 2. Purpose
+
+在 [[latentatlas-anchor-budget-replication]] 已证明 anchor-relative correspondence 对 anchor budget 和 anchor seed 具有稳健性后，回答更关键的解释性问题：跨 VAE correspondence 是否主要来自低层外观，还是 DINOv2 这类视觉表征能够提供更强的共享 geometry 解释。
+
+本实验是零训练的 Experiment D。它不训练 projector、Reward Head 或 VAE，只比较三种 VAE latent 与 Pixel、Color、Frequency、DINOv2-small CLS 四类 baseline。
+
+## 3. Code Version / Commit
+
+- Branch: `codex/shared-geometry-explanation`
+- Exact formal commit: `949b2d1409722a4c361a3975cbced9a4a3869ceb`
+- Config: `configs/shared-geometry-d.json`
+- Config SHA-256: `620ed6a670a92417dbcc40f9b671237a28f79e05f78e97b646666441be57151f`
+
+## 4. Dataset / Input
+
+- 复用已哈希验证的 256 张 COCO val2017 图像和三个只读 VAE latent caches。
+- 三组互斥 64-anchor banks；固定 64 queries；K=64。
+- VAE representations: SD-VAE ft-MSE、FLUX.1-schnell VAE、DC-AE f32c32。
+- Baselines:
+  - Pixel RGB64：`3×64×64 = 12,288` 维；
+  - Color：RGB population moments + 每通道 16-bin histogram，共 54 维；
+  - Frequency：灰度、Hann window、log FFT、32-bin radial spectrum；
+  - DINO：冻结的 DINOv2-small final-layer CLS，384 维。
+
+## 5. Parameters
+
+- Anchor seeds: `2026080901 / 2026080902 / 2026080903`。
+- Operators: global cosine、rank relation。
+- Retrieval: 15 个无向 pairs、两个方向，共 180 个正式 directional rows。
+- Geometry: 七种 representations 的 21 个 pair；Spearman、Pearson、kNN overlap `k=5/10`。
+- Null: 每个方向/metric 使用 1,000 次配对 target-anchor column permutations。
+- Wrong-anchor: `0901→0902→0903→0901` 的预注册 target-bank cycle。
+- Primary gate: global R@1、global geometry Spearman、逐 VAE R@1、六个 directional wrong-anchor effects。
+
+## 6. Command
+
+```bash
+conda run -n latentatlas python scripts/run_shared_geometry.py \
+  --config configs/shared-geometry-d.json --mode dry-run --device cpu
+
+conda run -n latentatlas python scripts/run_shared_geometry.py \
+  --config configs/shared-geometry-d.json --mode smoke --device cuda
+
+conda run -n latentatlas python scripts/run_shared_geometry.py \
+  --config configs/shared-geometry-d.json --mode formal --device cuda
+```
+
+## 7. Results
+
+### Macro primary metrics
+
+| Baseline | Macro pair-average R@1 | Macro geometry Spearman |
+| --- | ---: | ---: |
+| Pixel RGB64 | 0.099826 | 0.299376 |
+| Color | 0.040799 | 0.245235 |
+| Frequency | 0.017361 | 0.025281 |
+| DINOv2-small CLS | 0.061632 | 0.080458 |
+
+Pixel 在两项预注册 macro primary metrics 上都排第一。DINO 的 R@1 高于 Color 和 Frequency，但低于 Pixel；DINO 的 geometry Spearman 同时低于 Pixel 和 Color。
+
+### Per-VAE evidence
+
+| VAE | DINO R@1 | Best low-level R@1 | 通过? |
+| --- | ---: | ---: | --- |
+| SD-VAE | 0.052083 | 0.101562 | 否 |
+| FLUX VAE | 0.036458 | 0.093750 | 否 |
+| DC-AE | 0.096354 | 0.104167 | 否 |
+
+DINO 对三个 VAE 都没有超过最佳低层 baseline。
+
+### Wrong-anchor control
+
+六个 DINO-VAE directional seed-mean R@1 effects 为：
+
+`[0.041667, 0.041667, 0.000000, 0.062500, 0.093750, 0.083333]`。
+
+五个方向为正，但 FLUX→DINO 为 0，因此“六个方向全部严格为正”的检查失败。
+
+### Exact output counts
+
+- 180 directional rows；
+- 90 pair-average rows；
+- 90 seed-summary rows；
+- 126 geometry-correlation rows；
+- 252 neighbor-overlap rows；
+- 180 negative-control rows；
+- 360 null-summary rows；
+- 360 个 null arrays，每个长度 1,000。
+
+## 8. Analysis
+
+### Pre-registered gate
+
+四项检查全部失败：DINO macro R@1 first、DINO macro Spearman first、DINO per-VAE R@1 first、all wrong-anchor effects positive。
+
+**正式判定：No-GO-B。当前不应启动 Minimal Reward Transfer。**
+
+### 最佳支持解释
+
+当前 cross-VAE correspondence 中存在明显的 appearance-level / low-level visual component。Pixel 对 identity retrieval 和 geometry 的解释力都高于 DINO；Color 的 geometry 也高于 DINO。因此，不需要诉诸“已经形成共享高层语义空间”就能解释主要结果。
+
+这不等于 DINO 或语义信息完全无效。DINO 的 macro R@1 仍高于 Color/Frequency，六个 wrong-anchor effects 中有五个为正。但现有协议无法把语义 geometry 从低层结构中充分隔离出来。
+
+### 禁止性结论
+
+- Observed correspondence ≠ Semantic geometry。
+- 当前实验没有建立 unified latent space。
+- Geometry correspondence ≠ Reward-sufficient。
+- No-GO-B 是阶段门控结果，不是“LatentAtlas 整个方向失败”。
+
+## 9. Problems
+
+1. Dry-run 首次发现 `query-ids.json` 配置 SHA 抄错一位；真实 artifact 未损坏，修复后完整测试通过。
+2. 第一次 smoke 发现 antialiased bilinear resize 最大产生 `1.000000596` 的 float32 overshoot；最终只允许 8 epsilon 内舍入并 clamp，真实越界仍硬失败。
+3. 服务器在正式审计通过后立即关闭，完整 artifacts 尚未镜像到本机；它们仍保存在远端持久化数据盘。本地 Wiki 和 compact Git report 来自已捕获的正式 `metrics.json` gate evidence。
+
+## 10. Next Steps
+
+1. 先与导师讨论“Pixel/Color 比 DINO 更能解释当前 geometry”这一核心发现。
+2. 设计 appearance-controlled / semantic-intervention 实验，例如控制颜色与纹理、按语义组采样、比较同语义不同外观与同外观不同语义。
+3. 可增加另一个 semantic baseline（如 CLIP/SigLIP）验证结果是否依赖 DINOv2-small CLS，但不得事后修改本次 gate。
+4. 在新的解释性证据通过前，不训练 Minimal Reward Transfer、projector 或 Reward Head。
+5. 下次开启服务器时，用约一分钟把完整 formal artifacts 镜像到本地 raw 存档；不需要重新运行实验。
+
+## 11. Sources
+
+- Source: `raw/experiments/latentatlas-shared-geometry-explanation-2026-08-09.md`
+- Source: `source-workspace/.worktrees/anchor-feasibility-pilot/reports/20260809T104642Z-949b2d1-620ed6a6-shared-geometry/summary.md`
+- Source: `source-workspace/.worktrees/anchor-feasibility-pilot/reports/20260809T104642Z-949b2d1-620ed6a6-shared-geometry/metrics-summary.csv`
+- Source: remote full run `/root/autodl-tmp/latentatlas-runs/20260809T104642Z-949b2d1-620ed6a6-shared-geometry`
+- Related: [[latentatlas]]、[[latentatlas-anchor-feasibility-pilot]]、[[latentatlas-anchor-budget-replication]]、[[representation-alignment]]、[[dino]]。

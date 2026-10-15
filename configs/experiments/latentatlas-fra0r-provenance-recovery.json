@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-fra0r-provenance-recovery",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- 历史 G0.1 authority：`LatentAtlas-runs/20260813T004136Z-40a2a17-f84d373a-reward-data-preflight`\n- G0.1 本地数据：`owner-home/Documents/LatentAtlas-data/rapidata-human-coherence`\n- `Rapidata/Seedream-3_t2i_human_preference`：`a9cd84d2a93e82954fe69bd3097b53c48f51a486`\n- `Rapidata/Recraft-v3-24-7-25_t2i_human_preference`：`d7d47aab05cf8fcb5427e278d8817b9dbd65eafb`\n- `Rapidata/HunyuanImage-2.1_t2i_human_preference`：`c8a2675e752d9e4c0036f4be4e4d933e07f4c1c6`\n- `Rapidata/Flux-2-pro_t2i_human_preference`：`ef2e83f43b41897a8e1a40dd8a5dac209d164c79`",
+  "parameters_excerpt": "- 新隔离工作树：`source-workspace/.worktrees/fra0-provenance-recovery-v1`\n- 输出父目录：`runs/FRA0R_PROVENANCE_RECOVERY_V1/`\n- Metadata 网络重试：同一已解析 immutable revision 上最多 5 次，退避 `1/2/4/8` 秒；仅精确 `httpx.ConnectError` 可重试，内容或 provenance 校验错误立即失败。\n- Public identity mode：`UNORDERED_PUBLIC_PAIR_IDENTITIES_V1`\n- Prompt namespace：`LATENTATLAS_FRA0_PROMPT_NFC_STRIP_V1`\n- 资源：CPU、网络、本地存储；不需要 GPU。",
+  "code_identity_excerpt": "- 分支：`codex/fra0-provenance-recovery-v1`\n- Predecessor result commit：`8659dd2b337a5a5e43df49a8f4ecc68ff8cd9ff8`\n- Recovery production commit：`d4ae0d2622e1df34d89d46c4734ae24b3dbe54e9`\n- Recovery result commit：`dfd55c47a4893e623564bf58030f58e0d9e14efd`\n- Frozen config SHA-256：`7d9324ee2073983b85f471abdc4c521557140160c41dff43fb429bb647f18591`\n- Terminal seal SHA-256：`a2a1b3a4145d1040504d81b66e460aab3c1add4f5c4853d111b47a229d0156ab`",
+  "source_snapshot": "docs/source-snapshots/latentatlas-fra0r-provenance-recovery.txt",
+  "primary_report": null
+}

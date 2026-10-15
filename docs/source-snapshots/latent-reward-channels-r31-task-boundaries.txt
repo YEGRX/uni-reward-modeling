@@ -1,0 +1,59 @@
+# Latent Reward Channels R3.1：固定任务边界验证
+
+## 1. Date
+
+2026-10-07。
+
+## 2. Purpose
+
+ChatGPT维护给定理论；Codex独立核验有限模型预测、真实缓存假设与最小反例。Research gap：观测噪声如何改变clean效用差、接口任务作用和pair probability；不恢复完整clean分布，也不把toy当视觉确认。
+
+## 3. Code Version / Commit
+
+现有模块下新增 `scripts/latent-reward-channels/r2/verify_r31_task_boundaries.py`。没有可用Git HEAD，不编造commit。执行版/维护版SHA见source-and-cost.json；维护版仅修严格概率保护与C-N2引用，原始执行版保留。
+
+## 4. Dataset / Input
+
+A：两点计数与27序列二维支持；B：二元source、连续合法U与两任务；C：16联合状态。真实只读为旧train32固定outer0 fit24/eval8，A M3/t1与M4、C categorical与固定一致性.1。旧val/test不选模，开发数据不fresh。
+
+## 5. Parameters
+
+A K4/m8，控制(4,1)/(4,4)/(3,4)；方差K3/m2,8。B α.4/β.2/v.25/source1，ell1,2,3,4,16,64；高信息/scalar负对照完整。C γ.6及六个预定nuisance控制；toy温度1，真实标签温度1.1371683169585047不变。参数在首次执行前冻结，无开放搜索。
+
+## 6. Command
+
+单线程CPU、CUDA不可见，现有Python环境运行固定小验证模块。原输出已封存，不向同目录重跑。全部底层state/draw数据、协议、环境及初始源文件位于[输出目录](../../scripts/latent-reward-channels/outputs/r3-1-task-boundaries-20261007/report.md)。
+
+## 7. Results
+
+- A：U无偏但J1系数−1/18，中点凸性失败；cap/clip期望偏差1/24与.0234375。有理数误差0，A-N14/18方差枚举误差≤4.441e−16。
+- B：全部连续确定性最优MSE=.09025141459110135；全随机核=.07834166666666667，差−.01190974792443468。ell1/2无优势、ell3起出现；高信息两者0；scalar随机额外损失.06。
+- C：主格相对最强B-only校准NLL下降.0076221229809127，真实I=.0077531760693810。artifact格NLL下降6.14509e−6而I=0；全部固定误差达标。
+
+上述为SUPPORTED_IN_SPECIFIED_MODEL，没有给定假设内理论反例。有限数值支持不替代一般证明/新颖性审查。3个边界QP点的严格合法部署资格不足，高信息点一阶残差还超预设容差，保留4行NUMERICALLY_INDETERMINATE。
+
+## 8. Analysis
+
+A说明凸处理会改变部署风险，而非新方法提分。B排除弱确定性NN解释，优势依赖固定非凸二任务与内部调用预算。C明确区分prediction gain和beyond-calibration information，校准伪改善是错误信息解释的最小反例。
+
+真实A描述风险可读但未获独立覆盖证书；B原生几何NOT_IDENTIFIABLE_WITH_CURRENT_ASSETS；C只读两head训练anchor/epoch不匹配，方法归因ASSUMPTION_FAILED，均值NLL差+.00464515。缺reverse及匹配nuisance资产，不伪造；条件矩可观测但OBSERVABLE_BUT_UNCERTIFIED。
+
+## 9. Problems
+
+QP边界微小b<d²曾被容差允许为signed积分；初始表、源码与负值保留，现表清楚标不合格，严格保护已做最小检查，不clip/重优化。作者自检脚本不在本次两附件中，不声称已经执行或比对。
+
+历史A/B无优势、C gate未完成机制判别和旧No-Go不变。无新增fit、数据、特征、GPU、远端或付费API。
+
+## 10. Next Steps
+
+Possible improvement仅为观测需求：如果只取得一个成组真实观测，优先固定prompt四候选的独立K16噪声块（64次冻结LRM前向），用于区分同内容MC与稳定相对残差，不能证明跨prompt泛化。需要另行授权新前向/特征与资源，本轮不自动获取。理论修改继续交ChatGPT。
+
+## 11. Sources
+
+Source: `raw/projects/latent-reward-channels/r31-task-boundaries-20261007/ABC_R3_1_Theory_Researcher.md`。
+Source: `raw/projects/latent-reward-channels/r31-task-boundaries-20261007/ABC_R3_1_Experiments_Codex.md`。
+Source: [完整报告](../../scripts/latent-reward-channels/outputs/r3-1-task-boundaries-20261007/report.md)、[缓存资格](../../scripts/latent-reward-channels/outputs/r3-1-task-boundaries-20261007/cache-applicability.md)、[成本/版本](../../scripts/latent-reward-channels/outputs/r3-1-task-boundaries-20261007/source-and-cost.json)。
+
+相关：[[latent-reward-channels]]；[[latent-reward-channels-r2-theory-refinement]]；[[latent-reward-channels-initial-audit]]。
+
+新增实测wall=2.638664秒，processCPU=1.970723秒；承接历史累计wall=243.079106秒，仍在所有授权上限内。阅读/review/报告编辑不伪记为训练。

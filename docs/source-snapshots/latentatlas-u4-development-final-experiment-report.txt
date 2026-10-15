@@ -1,0 +1,314 @@
+# LatentAtlas U4 Reference 与 Consensus-U 开发实验报告
+
+> 实验日期：2026-08-24 至 2026-08-25  
+> 报告日期：2026-08-25  
+> 实验范围：U4-A5-R1、U4-A6-D2、U4-A6-PROB  
+> 证据等级：Reward-free、development-only、adaptive、non-confirmatory  
+> 计算环境：CPU-only
+
+## 1. Date
+
+本批实验于 2026-08-24 至 2026-08-25 完成。公共协议冻结、正式运行、operational-repair replay、completed-tree verification、独立终审与结果归档均已结束。
+
+## 2. Purpose
+
+### 2.1 研究背景
+
+[[latentatlas-u4a4-reward-free-p4096-crossfit-correspondence-specificity]] 已经在历史 development cohort 上建立了一个重要前提：使用正确跨 VAE identity correspondence 拟合时，F 与 N 两种 mapping family 都能在样本外评价中稳定优于五个 permutation null。
+
+但 U4-A4 没有解决三个更进一步的问题：
+
+1. 正确配对信号是否依赖某一个固定 reference target？
+2. 能否不依赖手工 arithmetic reference，直接学习一个 deterministic consensus U？
+3. 如果 point representation 不足，distributional U 是否能提供额外价值；复杂 Flow 是否优于简单 Gaussian？
+
+### 2.2 本批实验目标
+
+本批实验共享同一冻结 P4096 authority，并拆为三个相互独立的诊断 track：
+
+- **U4-A5-R1 — Reference-U Necessity**：比较 `H_SD`、`H_FLUX` 与 `H_BAR`，检验是否存在跨 F/N 一致优选的单一 reference。
+- **U4-A6-D2 — Deterministic Consensus-U**：检验 learned deterministic consensus 是否同时具备 correct-pairing specificity、noncollapse 与 arithmetic-reference noninferiority。
+- **U4-A6-PROB — Distributional Consensus-U**：比较 Point、diagonal Gaussian 与 conditional Flow，检验 distributional representation 的新增价值。
+
+本实验不以任何候选已是 universal/canonical/Reward U 为前提。
+
+## 3. Code Version / Commit
+
+公共协议冻结提交：`2ed98d379c2b7134385f44faee6cbe87e12764f7`。
+
+| Track | Production commit | Result commit | 状态 |
+|---|---|---|---|
+| U4-A5 original | `5b025a29cffa1dc15a5d20203138b2bdb52c92ca` | `b3dff0225762000ae4ab1b761a0b4d947103e334` | Operationally invalid，保留原树 |
+| U4-A5-R1 | `4c57e9d43dc7111ec7abe046bc5b98366bc08ed8` | `71ba031ad94e5715f1f42372c806d11d62d14fb5` | Verified replay |
+| U4-A6-D original | `9030245a664ef002b3a983ada96d2b8f05f9d2cb` | `56efb73dd79744f9fcd07ac593f9d2ae64a1fce1` | Operationally invalid，保留原树 |
+| U4-A6-D2 | `164e1edd59a38400f7543ab83df420a43a938bb5` | `16442f95e40afd833c41f1d129fe7b714639c2b9` | Verified replay |
+| U4-A6-PROB | `bffdeb4c668dd7760db70d83f30281182ceb7675` | `7ca799ed6a0034005b14ce5c097039b3856fe242` | Verified pilot |
+
+最终跨 track 综合报告提交：`af85f1afe7216050dc2f6fec7a3422a74347c6d8`。
+
+所有实验均保存在隔离 branch/worktree 中，没有覆盖原结果，也没有合并到 `main`。
+
+## 4. Dataset / Input
+
+### 4.1 公共 population
+
+- Authority：冻结的 P4096 paired identity population。
+- Registered views：SD、FLUX、DCAE 三种 VAE representation。
+- Correspondence：同一 RGB identity 在不同 VAE 中的 matched latent。
+- Null controls：冻结的 whole-row permutation pairings，保持 target-row multiset 不变，只破坏 identity correspondence。
+- U4-A5-R1 使用 P4096 五折 cross-fit。
+- U4-A6-D2 与 U4-A6-PROB 使用 fold 0：3,276 fit identities、820 evaluation identities。
+
+### 4.2 Access boundary
+
+本批实验没有访问：
+
+- H1105；
+- Reward labels、orientation、checkpoint、model 或 evaluator；
+- validation/test identities、latent、metric 或 model output；
+- fresh authority；
+- 网络或 CUDA。
+
+每个有效 replay/pilot 均只有一次 registered materialization，16 项 forbidden counters 全部为零，且没有持久化 per-identity prediction、embedding、rank、nearest-neighbour 或 bootstrap-sample payload。
+
+### 4.3 Anchor 口径
+
+这里使用的是 P4096 大规模同图跨 VAE correspondence，可视为 **dense paired onboarding**。它不是早期 K=64 的低成本 Anchor onboarding，因此成功结果不能表述为“少量 Anchor 已完成新 VAE 接入”。
+
+## 5. Parameters
+
+### 5.1 U4-A5-R1
+
+- Candidate targets：`H_SD`、`H_FLUX`、raw arithmetic barycenter `H_BAR`。
+- Mapping families：解析 F 与非线性 N。
+- Pairings：correct 加五个固定 permutation null。
+- 总计 360 个 aggregate evaluation cells。
+- Specificity lower-bound thresholds：relative cNRMSE `0.01`、R@1 `0.005`、MRR `0.005`。
+- N adequacy 必须在每个 target 对应的 90-cell local registry 上通过。
+
+### 5.2 U4-A6-D2
+
+- One-seed deterministic consensus pilot。
+- Primary gates：specificity、noncollapse、retrieval-above-chance、VAE probe、architecture integrity、matched streams、training integrity、arithmetic-reference noninferiority/material gain。
+- Arithmetic-reference noninferiority threshold：R@1 与 MRR lower bound 均需 `>= -0.02`。
+
+### 5.3 U4-A6-PROB
+
+- Point：deterministic point reference system。
+- Gaussian：共享 context `16→128→64` 加 diagonal Gaussian head，总参数 `18,752`，sigma 范围 `[0.05, 2]`。
+- Flow：单一 shared conditional velocity core，总参数 `85,184`；16 samples、16-step midpoint solver。
+- Flow target：三个 learned view contexts 的随机 mixture 加 `0.10 ε`，不是固定 `U_BAR`。
+- Flow shuffled control：只打乱 condition，保持 base noise 与 target，用于检验 condition dependence。
+- Metrics：cNRMSE、R@1、MRR、energy score、calibration error。
+
+## 6. Command
+
+正式 one-shot runners 已消费，不应再次运行。以下命令只对已封存结果执行 disk-only verification。
+
+### 6.1 U4-A5-R1 verifier
+
+~~~bash
+cd source-workspace/.worktrees/u4-a5r1-operational-repair-replay
+env PYTHONDONTWRITEBYTECODE=1 PYTHONNOUSERSITE=1 CUDA_VISIBLE_DEVICES='' \
+OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 \
+source-workspace/.venv/bin/python -B \
+scripts/verify_u4a5r1_operational_repair_replay.py \
+runs/U4A5R1_DEV_REWARD_FREE_CROSSFIT_REFERENCE_U_NECESSITY_OPERATIONAL_REPAIR_REPLAY
+~~~
+
+### 6.2 U4-A6-D2 verifier
+
+~~~bash
+cd source-workspace/.worktrees/u4-a6d2-operational-repair-replay
+env PYTHONDONTWRITEBYTECODE=1 PYTHONNOUSERSITE=1 CUDA_VISIBLE_DEVICES='' \
+source-workspace/.venv/bin/python -B \
+scripts/verify_u4a6d2_operational_repair_replay.py \
+runs/U4A6D2_DEV_REWARD_FREE_DETERMINISTIC_CONSENSUS_U_OPERATIONAL_REPAIR_REPLAY
+~~~
+
+### 6.3 U4-A6-PROB verifier
+
+~~~bash
+cd source-workspace/.worktrees/u4-a6prob-distributional-u
+env PYTHONDONTWRITEBYTECODE=1 PYTHONNOUSERSITE=1 CUDA_VISIBLE_DEVICES='' \
+source-workspace/.venv/bin/python -B \
+scripts/verify_u4a6prob_distributional_u.py \
+runs/U4A6PROB_DEV_REWARD_FREE_DISTRIBUTIONAL_CONSENSUS_U_PILOT
+~~~
+
+## 7. Results
+
+### 7.1 结果总览
+
+| Track | Frozen classification | Correct vs null | Baseline comparison | Collapse | 主要结论 |
+|---|---|---|---|---|---|
+| U4-A5-R1 | `REFERENCE_RESULTS_MIXED_ON_HISTORIC_DEV` | 6/6 target×family gates 通过 | F prefers SD；N prefers FLUX | 无 validity failure | 三种 reference 都有 specificity，但无统一 reference |
+| U4-A6-D2 | `DETERMINISTIC_CONSENSUS_U_NOT_CORRESPONDENCE_SPECIFIC` | Specificity 实际通过 | Arithmetic noninferiority 失败 | Noncollapse 通过 | 当前 learned consensus 有结构但弱于简单 baseline |
+| U4-A6-PROB | `DISTRIBUTIONAL_U_FEASIBLE_BUT_FLOW_NOT_NECESSARY` | Gaussian、Flow specificity 通过 | Gaussian adds value；Flow 不 adds value | 两者均通过 | Simple Gaussian 可行，Flow 暂无必要 |
+
+### 7.2 U4-A5-R1：Reference-U Necessity
+
+六个 target-by-family specificity gates 全部通过：
+
+| Target / family | Relative cNRMSE LB | R@1 LB | MRR LB |
+|---|---:|---:|---:|
+| SD / F | 0.406224 | 0.635010 | 0.719393 |
+| SD / N | 0.248391 | 0.231934 | 0.311678 |
+| FLUX / F | 0.218381 | 0.110596 | 0.195962 |
+| FLUX / N | 0.472304 | 0.646729 | 0.724975 |
+| BAR / F | 0.297083 | 0.365234 | 0.473485 |
+| BAR / N | 0.383890 | 0.481689 | 0.567016 |
+
+Reference preference 不统一：
+
+- F prefers SD；SD 相对更优 alternative 的 lower bounds 为 `(0.106625, 0.257568, 0.236287)`。
+- N prefers FLUX；FLUX 相对更优 alternative 的 lower bounds 为 `(0.085295, 0.153076, 0.147789)`。
+- BAR 在两个 family 中都不是 materially stronger，也没有同时对另外两个 target noninferior。
+- Single cross-family preferred target 不存在。
+
+因此，A5-R1 不支持“arithmetic barycenter 是唯一必要 reference”，也没有识别出 SD、FLUX 或 BAR 中的 canonical U。
+
+Decision SHA-256：`7930fb63f8601742f7255a50a107b36828b5b11e3a08b1deef13a2e5801387a8`。  
+Inventory SHA-256：`e35cc7fd9cd154f6aa7bd324ce78532ff3a8bb1721e72af8276a7b768523bff3`。
+
+### 7.3 U4-A6-D2：Deterministic Consensus-U
+
+实际 gate state：
+
+- Specificity lower bounds `(relative cNRMSE, R@1, MRR)=(0.158261, 0.150000, 0.124974)`，全部通过。
+- Variance mass=`16.550848`，effective rank=`37.521936`，64 active dimensions；noncollapse 通过。
+- Worst-view R@1=`0.895122`，lower=`0.876829 > 1/820`；chance gate 通过。
+- VAE probe balanced accuracy=`0.421545 <= 0.433333`；VAE probe gate 通过。
+- Architecture、matched streams 与 training integrity 全部通过。
+- 相对 arithmetic reference，R@1/MRR point gap=`-0.065854/-0.048732`，lower=`-0.087805/-0.064485`；没有达到 `>= -0.02` 的 noninferiority threshold。
+- Failure reasons 只有 `noninferiority`。
+
+冻结 fallback classification 的名称比实际 gate state 更宽。准确解释是：
+
+> Learned deterministic consensus 非塌缩并含 correct-pairing-specific structure，但相对 arithmetic reference 的检索损失超过注册容忍度。
+
+Decision SHA-256：`8a079465076677c760eeca590313694ec69d2e197e567cfce385a605b6863fe4`。  
+Inventory SHA-256：`9b806e59bec63d4ab5bdaaf3303dd2ca04402862d6686da362282183b0d6e55e`。
+
+### 7.4 U4-A6-PROB：Distributional Consensus-U
+
+| System | cNRMSE | R@1 | MRR | Energy | Calibration error |
+|---|---:|---:|---:|---:|---:|
+| Point | 0.419571 | 0.998374 | 0.998950 | 1.559275 | 0.818595 |
+| Gaussian | 0.485829 | 0.994715 | 0.996622 | 0.154735 | 0.174047 |
+| Flow | 0.437064 | 0.989837 | 0.993776 | 1.689232 | 0.055758 |
+| Flow shuffled | 1.304822 | 0.000000 | 0.007175 | 5.532565 | 0.409118 |
+
+关键注册结果：
+
+- Gaussian vs null specificity=`(0.354501, 0.026423, 0.017669)`，通过。
+- Gaussian vs Point retrieval lower=`(-0.006504, -0.004225)`，通过 noninferiority。
+- Gaussian vs Point relative energy-gain lower=`0.899367`，通过 added-value gate。
+- Flow vs shuffled 的 energy/MRR degradation lower=`0.691115/0.984158`，说明 Flow 确实依赖 condition。
+- Flow vs Point relative energy-gain lower=`-0.092358`，没有 registered added value。
+- Flow vs Gaussian relative energy-gain lower=`-10.026466`，没有 registered added value。
+
+Gaussian 几乎保持 Point retrieval，同时显著改善 energy score；Flow 虽然 genuinely conditional，但额外复杂度没有转化为 primary utility。
+
+Decision SHA-256：`a3cea01e978d10f4a2b37a188fa8b8acce54a598f525ad49bb1d7f1a64080850`。  
+Inventory SHA-256：`50aa10424e93e53834e8825156a9e3f9128a44278a09919b2d158fe4c1f0f668`。
+
+### 7.5 Verification 与完整性
+
+- Common protocol：`24` focused、`82` combined、`2571` full-suite tests passed。
+- U4-A5-R1：`121` focused、`2616` full-suite tests passed；16-path verifier PASS。
+- U4-A6-D2：`151` focused、`2640` full-suite tests passed；post-result subset `75` passed；15-path verifier PASS。
+- U4-A6-PROB：`119` relevant、`2608` full-suite tests passed；15-path verifier PASS。
+- 三项独立只读终审均为 PASS；未发现 lineage、hash、decision arithmetic、access accounting、architecture contract 或 payload leakage 差异。
+
+## 8. Analysis
+
+### 8.1 本实验建立了什么
+
+第一，正确跨 VAE correspondence 中确实存在可学习、能够拒绝 permutation null 的共享结构。该结论不依赖唯一的 SD、FLUX 或 BAR reference target。
+
+第二，shared structure 的存在不自动意味着任意 learned consensus 都优于简单 reference。A6-D2 表明当前 deterministic consensus 已经学到结构，但 arithmetic reference 仍是更强的检索基线。
+
+第三，对 uncertainty 做最小参数化具有潜在价值。A6-PROB 中 simple Gaussian 仅轻微损失 retrieval，却显著改善 energy score，是本批实验中最明确的新候选。
+
+第四，更复杂的模型不自动更好。Flow condition-shuffle control 证明其确实使用输入条件，但它仍没有取得相对 Point 或 Gaussian 的 registered added value。
+
+### 8.2 本实验没有建立什么
+
+本实验不能证明：
+
+- 已得到 universal、canonical 或 Reward-aligned U；
+- SD、FLUX、BAR 或 Gaussian 已被选为最终 reference/representation；
+- fixed Shared Reward Head 能在 onboarded VAE 上工作；
+- Reward transfer、unseen-VAE onboarding 或 zero-target-Reward functionality 已实现；
+- 结果能推广到 fresh holdout、新 VAE、新任务或新数据分布；
+- P4096 dense pairing 等价于低成本 Anchor onboarding；
+- 所有 deterministic consensus 或 Flow architecture 都不可能有效。
+
+### 8.3 当前课题阶段
+
+最准确的阶段定位是：
+
+> **Reward-free development 中已经建立 correspondence-specific candidate mechanism，并找到 simple Gaussian distributional candidate；reference identity、Reward functionality、fresh generalization 与 unseen-VAE onboarding 仍未解决。**
+
+## 9. Problems
+
+### 9.1 U4-A5 original failure
+
+原 A5 attempt 完成了全部 360 个 evaluation cells，但 terminal N-adequacy code 将完整 270-cell multi-target registry 直接交给要求 target-local 90 cells 的 assessor。Completed verifier 因 `ValueError: N adequacy arithmetic drift` fail-closed。
+
+原树中的 `BLOCKED_PREMEASUREMENT` 没有通过 verifier，因此不作为科学分类。A5-R1 使用新的 branch、worktree、run identity 与 commits，只修复 270→90 target-local registry projection；原结果字节保持。
+
+### 9.2 U4-A6-D original failure
+
+原 A6-D 在训练完成后生成 terminal certificate 时，未先移除 transient `checkpoint_bytes` 就执行 recursive canonical JSON conversion，触发 `ValueError: U4-A6-D document contains a noncanonical value`。原 attempt 没有保存 metrics 或 scientific decision。
+
+A6-D2 只把 transient bytes removal 移到 canonical conversion 之前，不改变 architecture、data、random streams、loss、optimization、metrics、thresholds 或 decision precedence。
+
+### 9.3 解释风险
+
+- A6-D2 的冻结分类名 `DETERMINISTIC_CONSENSUS_U_NOT_CORRESPONDENCE_SPECIFIC` 容易被按字面误读。实际 specificity 为 true，唯一失败是 `noninferiority`。
+- A5-R1 与两个 A6 tracks 都属于 adaptive development；即使 verifier 与 operational audit 完整，也不能升级为 fresh scientific confirmation。
+- Energy 与 calibration 对 Flow 的偏好并不完全一致；最终结论遵循预先冻结的 primary energy added-value precedence。
+
+## 10. Next Steps
+
+本批实验完成后执行 hard stop，不自动追加 target、architecture、Flow、Reward、fresh-data 或 unseen-VAE 实验。
+
+若未来另行批准并取得真正 fresh functional authority，建议：
+
+1. 将 simple diagonal Gaussian 作为预冻结候选，而不是继续增加 Flow 复杂度；
+2. 将 reference selection 作为独立 unresolved gate，避免按当前 development result 事后挑选 SD 或 FLUX；
+3. 冻结 Shared Reward Head、mapping family、hyperparameters 与 model-selection rule；
+4. 在完全未被当前开发流程消费的 Reward authority 上，一次性比较 correct、permutation null 与 direct baseline；
+5. 只有 structural 与 functional gates 同时通过，才讨论 canonical U 或 unseen-VAE onboarding。
+
+以上只是 suggested-only research direction，未在本批 authority 上执行。
+
+GPU 状态：本批实验与报告均为 CPU-only；不需要开启或维持租用 GPU 服务器。
+
+## 11. Sources
+
+- Source: `source-workspace/.worktrees/u4-dev-common-protocol/docs/superpowers/reports/2026-08-25-u4-development-tracks-synthesis.md`
+- Source: `source-workspace/.worktrees/u4-dev-common-protocol/docs/superpowers/reviews/2026-08-25-u4-development-tracks-independent-audit.md`
+- Source: `source-workspace/.worktrees/u4-a5-reference-u-necessity/runs/U4A5_DEV_REWARD_FREE_CROSSFIT_REFERENCE_U_NECESSITY/`
+- Source: `source-workspace/.worktrees/u4-a5r1-operational-repair-replay/runs/U4A5R1_DEV_REWARD_FREE_CROSSFIT_REFERENCE_U_NECESSITY_OPERATIONAL_REPAIR_REPLAY/`
+- Source: `source-workspace/.worktrees/u4-a6d-deterministic-consensus-u/runs/U4A6D_DEV_REWARD_FREE_DETERMINISTIC_CONSENSUS_U_PILOT/`
+- Source: `source-workspace/.worktrees/u4-a6d2-operational-repair-replay/runs/U4A6D2_DEV_REWARD_FREE_DETERMINISTIC_CONSENSUS_U_OPERATIONAL_REPAIR_REPLAY/`
+- Source: `source-workspace/.worktrees/u4-a6prob-distributional-u/runs/U4A6PROB_DEV_REWARD_FREE_DISTRIBUTIONAL_CONSENSUS_U_PILOT/`
+- Source: `wiki/experiments/latentatlas-u4a5-reference-u-necessity.md`
+- Source: `wiki/experiments/latentatlas-u4a6d-deterministic-consensus-u.md`
+- Source: `wiki/experiments/latentatlas-u4a6prob-distributional-consensus-u.md`
+- Source: `wiki/synthesis/latentatlas-u-development-reference-consensus-report.md`
+
+## 12. Related Pages
+
+- [[latentatlas]]
+- [[latentatlas-u-series-comprehensive-report]]
+- [[latentatlas-u-development-reference-consensus-report]]
+- [[latentatlas-u4a4-reward-free-p4096-crossfit-correspondence-specificity]]
+- [[latentatlas-u4a5-reference-u-necessity]]
+- [[latentatlas-u4a6d-deterministic-consensus-u]]
+- [[latentatlas-u4a6prob-distributional-consensus-u]]
+- [[representation-alignment]]
+- [[latent-space]]

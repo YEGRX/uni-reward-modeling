@@ -1,0 +1,10 @@
+{
+  "status": "PASS_LOCAL_PORTABLE_FROZEN_RAW_CPU_REPLAY",
+  "files_verified": 7949,
+  "archive_sha256": "bc8fabf4214cd7d1145df380cd43413ce9feb760248c8241c28b26d093f91b96",
+  "arithmetic_comparisons": 7856,
+  "VAL": 768,
+  "MAIN8": 6912,
+  "decision": "MAIN8_TRADEOFF_OR_DETERIORATION",
+  "scope": "Raw identity/manifest/numeric statistics replay; real tensor coordinate affine independently verified remotely, no model or tensor construction locally."
+}

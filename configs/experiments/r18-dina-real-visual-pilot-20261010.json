@@ -1,0 +1,20 @@
+{
+  "experiment_id": "r18-dina-real-visual-pilot-20261010",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "NO_GAIN",
+  "scope": "旧28组 / 252图 / 1,008 human pairs；4折回顾性交叉拟合",
+  "scientific_conclusion": "固定V2对原生四流选图胜率37.86%，对Logistic38.13%；两主比较97.5%区间上界均45.98%。",
+  "limitations": "新增图片/评分/GPU0；固定案例8图已恢复，其余244图未下载。旧源已消费，B NOT_RUN，不声称fresh或论文级独立确认。",
+  "input_excerpt": "旧28 prompt groups、252图、1008完整人类pair。原生native每图固定最小pair ID的一次四流，前两流Y，后两流H，K2。HPS新版O原图mu与pixel/PNG/prompt身份匹配，训练折中位数二元U；human不入拟合。新56图组零重叠但缺clean teacher，单独审计，不拼接。\n\n初始本地缺原图片字节；用户提供既有服务器<private-tailnet-host>后，已只读取回固定案例8张O原图，PNG与RGB像素hash8/8通过。两胜两负照片已渲染并实际查看；其余244图未下载。预训练数据重叠未知，历史源已消费，重切分不fresh。",
+  "parameters_excerpt": "4外折，每折21组189图训练、7组63图评价；强L2 Logistic正则.1/1/10在训练组三内折选，均选10。λ0与.125固定；真实图片受控q_hat抽样，非GRPO反馈。每组Best4重复20共享子集、Best9全集；28组bootstrap10000，主两比较97.5%区间；最小有意义胜率55%。\n\n输入tanh改变scorer/目标；四格Y、跨prompt共享、未知p_min和有限评分q_hat均不能直接继承原二元IID固定prompt统一保证。输出是指定HPS二元质量代理，不是完整连续质量分布。",
+  "code_identity_excerpt": "未创建提交/PR。新增 `src/lrc/r18_visual.py` 和 `r18_visual_run.py`；复用R18 polynomial/product_moments。主V2固定2.2414，保留V1与高阶消融；不增加V3/V4。源码/预测/选择hash在输出封存。独立review已复现预测、方向与选图；最终R2修复封存顺序，原R1保留，7个数值文件逐字节相同，不是新数据确认。",
+  "source_snapshot": "docs/source-snapshots/r18-dina-real-visual-pilot-20261010.txt",
+  "primary_report": {
+    "source_locator": "wiki-store/scripts/latent-reward-channels/reports/r18-dina-visual-20261010/TECHNICAL_REPORT.md",
+    "original_sha256": "1151b15ba14eae4487e5a01683d60a56848a7f8a402379d3e2c44d3e5e83724d",
+    "file": "docs/reports/r18-dina-real-visual-pilot-20261010-final.txt",
+    "sha256": "1151b15ba14eae4487e5a01683d60a56848a7f8a402379d3e2c44d3e5e83724d"
+  }
+}

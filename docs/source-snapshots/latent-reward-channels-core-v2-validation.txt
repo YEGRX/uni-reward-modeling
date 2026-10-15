@@ -1,0 +1,65 @@
+# Core v2 有限转移与完整MLE固定验证 Finite Transfer and Full MLE
+
+## 1. Date
+
+2026-10-09。承接[[latent-reward-channels-r36-structural-statistical-repair]]，不覆盖历史。ChatGPT维护理论，Codex仅固定独立验证。
+
+## 2. Purpose
+
+Research gap：T2/T4复核后有限风险转移与全半径条件是否得到正确的数值输入；相同条件样本和公开参数类下完整MLE与池化正值反馈（Pooled Positive Feedback, PPF）有何有限差异。不是新网络或真实视觉收益验证。
+
+## 3. Code Version / Commit
+
+原执行SHA `f8f9f99239f99c5174152925128dd5e23c042f236fc583a19ac5a4bb2e2e8686`，快照`executed-source.py`。review发现受限MLE资格默认传播缺口；384个实际gap全合格，本轮数值未受影响。仅资格标记修正版SHA `60583c929725a667bd1da2c0aeabef14ce124eb850ad8ca083751c1e194307c8`，未重跑拟合。无可用Git HEAD，不编造commit。
+
+## 4. Dataset / Input
+
+有限U±1、Z(-.8,-.4,.4,.8)，原始pstar(u)p(z|u)Q联合表；四(u,s)条件clean residual单元。Proof n1全256序列；baseline四格各64数学重复。模型类/参考同权限，不给数值矩、true参数、target prior或target labels。真实缓存仅引用已有资格，不新增审计/分箱/反推posterior。
+
+## 5. Parameters
+
+公开三参数盒±1/64、alpha.4/beta.6/T1；四合法输入。eta.1/.03/.01，theta/tau各±1/64/0轴导数；LR tau.002/1/64、n1/2。风险转移eta.1、theta=xi0、tau0/1/64、n1。Baseline theta=xi1/128、tau0/1/64、eta.1、n16/128，每格64、seed20261009；radius所有格固定.015。MLE零起点、L-BFGS-B、50步/ftol1e-14/gtol1e-9，gap≤1e-8，不重启。tau0受限MLE额外结构权限单列。
+
+## 6. Command
+
+本地单线程NumPy/SciPy/Matplotlib执行`r2/verify_core_v2.py`（原执行版本快照可核验）。Observed posterior来自原joint商；独立解析商法则导数对照B3/B4；pair风险原joint求和与条件KL双路径；MLE对各块聚合计数，最后用未聚合计数复核gradient/gap。
+
+## 7. Results
+
+| Formula / comparison | Predicted / observed / numerical error | Status |
+|---|---|---|
+| V2-14/16、B1/B2 | 四输入合法，pz最小.1875；mu=(.4+.96xi+.96tau u)s；参考不含参数，误差≤1.11e-16 | SUPPORTED_IN_SPECIFIED_MODEL |
+| V2-B7 | theta导数/eta²绝对值.05916145–.05922405 ≥.04；tau/eta .14789759–.14806020 ≥.09；缩放双路径误差≤3.17e-13 | SUPPORTED_IN_SPECIFIED_MODEL，仅18点 |
+| V2-C1/22 | 独立PMF得LR二阶乘积；误差≤1.11e-15；期望Fisher=n diag(160,64,64)，非样本Hessian | SUPPORTED_IN_SPECIFIED_MODEL |
+| V2-18/13 | n1全256样本adaptive=pool；四采样方法转移下界0，reference下界1.668899032e-9、risk1.570565607e-7；pool risk1.864524468e-7更差 | SUPPORTED_IN_SPECIFIED_MODEL；零界非安全证书 |
+| 主同权限n128/tau1/64 | adaptive1.573517544e-7、fullMLE2.198129748e-8；配对差+1.353704570e-7、SE5.365633086e-9 | MLE更好，保留强baseline优势 |
+| 必要控制 | 两个tau0固定格pool风险低于完整MLE，但reference更强；额外known-tau0 MLE单列。n16/tau1/64差仅约1SE；四格观察到pool/adaptive完全相同 | 不重复计方法胜利，不预设提分 |
+
+121核验行全达容差，不计作121独立研究实验。256 full/128 restricted MLE最大gap分别3.172612883e-9/2.356762533e-9，全部数值合格，268边界解保留。保存joint重算风险最大误差2.29e-16；配对均值/SE误差0。
+
+[一页主结论、证据附录及两张PNG/PDF图](../../scripts/latent-reward-channels/outputs/core-v2-validation-20261009/report.md)；[逐块风险](../../scripts/latent-reward-channels/outputs/core-v2-validation-20261009/baseline-draws.csv)；[MLE参数/gap](../../scripts/latent-reward-channels/outputs/core-v2-validation-20261009/MLE-solutions.csv)。
+
+## 8. Analysis
+
+相同数据/model-class权限下，完整MLE在偏离结构主格更强；两个精确结构固定格与tau方向估计噪声解释一致，但不证明一般渐近率。保守adaptive在这四格未启用阈值，不能称其适应机制已被识别。固定合法半径范围内n128两解析率表达完全重合；仅省略常数的理论示意，非实际NLL或全半径证明。
+
+## 9. Problems
+
+未发现完整假设下的理论数值反例需ChatGPT修订；源码受限MLE资格传播缺口已修正并保留原执行快照，无拟合重跑。没有数值不合格格，不制造失败。
+
+R3.6交付hash已核验，但新的theory-closure旧产物在限定目录未定位（MISSING_ASSET），不推测运行过或从未运行。真实单候选posterior、实际有效residual与合法同效用条件抽样合同仍缺；旧No-Go、真实A/B无优势、C旧gate未完成合格判别保持。
+
+## 10. Next Steps
+
+本轮执行任务完成。eta.1没有未知eta0(C0)证书；有限输入不能证明T2/T4一般minimax与ICML新颖性。理论修订/一般证明由ChatGPT维护，不自动补旧closure、扩大n或真实前向。
+
+新增测得wall **1.975608375秒**、CPU **1.683989000秒**；继承累计wall **259.936272416秒**。Proof4/baseline6/shared5及总15内，proof+baseline计旧C、shared计旧shared；保留R3.6保守扣账，不重置。0GPU/远端/付费/真实前向/特征/网络训练；64forward未执行。后续无服务器需求，未核查旧服务器状态。
+
+相关：[[latent-reward-channels]]；[[latent-reward-channels-r36-structural-statistical-repair]]；[[latent-reward-channels-r35-task-sensitive-validation]]。
+
+## 11. Sources
+
+Source: `raw/projects/latent-reward-channels/core-v2-validation-20261009/ICML_Manuscript_v2.md`。
+Source: `raw/projects/latent-reward-channels/core-v2-validation-20261009/Codex_Core_v2_Validation.md`。
+Source: `scripts/latent-reward-channels/outputs/core-v2-validation-20261009/`（配置、原joint/条件计数和导数、样本NPZ、逐块风险/资格gap、图与成本/失败/源码修复证据）。
+Source: `scripts/latent-reward-channels/outputs/r36-structural-statistical-repair-20261008/`（只读继承交付、成本和真实资格）。

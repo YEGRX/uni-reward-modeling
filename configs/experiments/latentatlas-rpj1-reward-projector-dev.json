@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-rpj1-reward-projector-dev",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Frozen HPDv3 TRAIN subdivision 与 official DEV。\n- 已封存的 SD / FLUX / DCAE representation cache。\n- 已封存的 authoritative 6144D text cache。\n- Native DEV reference 仅用于冻结的对照比较。\n- Official TEST orientation / forward / metrics：`0 / 0 / 0`。\n- Anchor target Reward-label access：`0`。",
+  "parameters_excerpt": "- Gate 1 methods: `DIRECT_SHARED` 与 `PROJECTOR_SHARED`。\n- Conditions: prompt-conditioned、latent-only、shallow diagnostic。\n- Seeds: 3。\n- Formal fits: `18 × 5,000 updates`。\n- Bootstrap: frozen DEV、20,000 replicates。\n- Gate 2: 只有 `gate2_authorized=true` 时才允许运行 leave-one-VAE-out source/target protocol。",
+  "code_identity_excerpt": "- Scientific branch: `codex/rpj1-reward-projector-dev`\n- Scientific commit: `1fcd46465a5925478e01b358da1296fdc2521094`\n- RRV1 source commit: `5658782959cd9e3ce27a0d5bbef74cdbae6f27f0`\n- PROJ0 source commit: `db85c5a29684c3294bcf8006d41c1b63e7767609`\n- Disk-only verifier repair commit: `65fcea0e6f5b8defe2bf146f67d2d471766d9de4`\n- Verifier repair只处理 JSON tuple/list 重放等价与跨 NumPy float32 reduction 的 `1e-7` 数值容差；没有模型 forward、训练、阈值、seed、cache 或科学结果修改。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-rpj1-reward-projector-dev.txt",
+  "primary_report": null
+}

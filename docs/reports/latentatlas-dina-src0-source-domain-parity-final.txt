@@ -1,0 +1,17 @@
+# DINA SRC0 源域统计回放
+
+- 判定：**QUALIFIED**
+- 完整行数：14400；关联组数：400。
+- Paper t=.4：10 个流准确率的均值 **0.744451**；严格比较，相等计 0。
+- Legacy t=.1：4 个原始分数先平均，准确率 **0.743924**；相等计 0.5。
+- Paper 准确率 q05/q95：[0.7359722222222222, 0.7527152777777777]。
+- Paper − chance：{'point': 0.24445138888888884, 'q05': 0.23597222222222225, 'q95': 0.2527152777777777, 'central90': [0.23597222222222225, 0.2527152777777777], 'one_sided95_lower': 0.23597222222222225, 'missing_replicates': 0}。
+- Paper − legacy 配对差：{'point': 0.0005277777777776826, 'q05': -0.0030000000000000027, 'q95': 0.0041250000000000505, 'central90': [-0.0030000000000000027, 0.0041250000000000505], 'one_sided95_lower': -0.0030000000000000027, 'missing_replicates': 0}。
+- 噪声流准确率均值 / SD / 范围：0.744451 / 0.001228 / 0.004931。
+- 控制检查：{'direction': True, 'noncollapse': True, 'pair_swap': True}。
+
+20,000 次共同关联组有放回抽样；按样本行数加权。q05/q95 为中央 90% 区间，q05 同时作为单侧 95% 下界。
+物理 A/B 偏好侧使用同一抽样；若某侧在任何重复中缺失，不删除该重复，方向门不通过。
+0.7504 参考及差距界限属于冻结的操作性准入门，不代表精确论文复现；本轮不是 fresh confirmation。
+离线回放核验归档 admission、transport 清单与已评分缓存之间的字节绑定，并重算统计；不重新观察 GPU forward，也不重验已移除的原图或模型权重。
+Source: evidence/admission.json; evidence/spool_manifest.json; evidence/spool_seal.json; evidence/src0-spool-provenance.json; evidence/src0-archive-registry.json; DINA_SRC0_EXPERIMENT_SPEC.json; contract-seal.json; rows.json; rowwise/*.json; scoring-parity.json

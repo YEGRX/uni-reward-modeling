@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-u5-proj0-frozen-b3-structural-projector",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- P4096 fold-0：train/validation/evaluation=`2868/408/820` matched identities。\n- Source views：SD 与 FLUX；target view：DCAE。\n- Source structural tokens：每个 source 为 `[64,128]`。\n- Target interface：冻结 B3 的 source-interface cutpoint 与 frozen downstream。\n- Normalization：train-only、per-view、per-channel。\n- Evaluation：820 identities，5,000 次 common-stream bootstrap，seed=`2026082502`，central 90% interval indices=`249/4749`。\n- 五个固定 training permutation nulls 与五个 evaluation pairing nulls。\n- 不读取 Reward、Reward Head、RGB、H/H-bar、private orientation、新 VAE 或网络。\n\n这里的 `Anchor` 指 same-identity cross-VAE registration / dense matched onboarding，不是早期 K64 RGB relative-anchor 坐标；因此不能称 unpaired、低成本 onboarding 或 unseen-VAE 实验。",
+  "parameters_excerpt": "- Fit arms：`P_SUP_SHALLOW`、`P_SUP_STRONG`、`P_ANCHOR_SHALLOW`、`P_ANCHOR_STRONG` 与 `P_ANCHOR_PERM_STRONG_01..05`，共 9 个。\n- 每 arm：12,000 updates；总计 108,000 updates。\n- Batch=`32`；AdamW；learning rate=`3e-4`；warmup=`500`；weight decay=`1e-4`；gradient clip=`1.0`。\n- Shallow：直接 Projector；Strong：2-block、4-head、`d_model=128`、FFN=`256`、dropout=`0.1`。\n- Runtime：Apple MPS、BF16、无 `torch.compile`、无 CPU fallback。\n- Registered structural gate：joint deficit upper `<0.05`；Anchor-vs-SUP upper `<0.10`；pairing/noncollapse/optimization gates 同时通过。",
+  "code_identity_excerpt": "- Branch：`codex/u5-proj0-frozen-b3-structural-projector`\n- Completed production commit：`6fb59415fd0add7cfc426d46134d9de8dacd9962`\n- Config SHA-256：`d35be14166035db5936d5d3c32a35814bece4355e8ebfa2203006b623cb088f1`\n- Design SHA-256：`137fef6400a8f40c11ee5510db2f2829aeae7e52ae39a22f70edd3cc361e637f`\n- Plan SHA-256：`a64d2b160c8f090df4af69e52d57277143fa4a475f4d687a09f412fef0853ef8`\n- Run identity：`U5PROJ0R2_DEV_REUSED_P4096_FROZEN_B3_PROJECTOR_ONLY_STRUCTURAL_INTERFACE_OPERATIONAL_REPAIR_REPLAY`\n- Evidence status：`development-only`、`adaptive-replay`、`operational-repair`、`reused-P4096`、`reward-free`、`known-VAE`、`single-fold`、`single-seed`、`frozen-backbone`、`projector-only`、`non-confirmatory`、`MPS-BF16-pilot`。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-u5-proj0-frozen-b3-structural-projector.txt",
+  "primary_report": null
+}

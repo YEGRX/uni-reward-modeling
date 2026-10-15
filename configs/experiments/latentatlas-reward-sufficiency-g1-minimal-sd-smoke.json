@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-reward-sufficiency-g1-minimal-sd-smoke",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Upstream authority: [[latentatlas-reward-data-preflight-g01]] 的权威 G0.1 run。\n- G0.1 artifact-inventory SHA-256: `1258096302a7da7147d159431b1eb53e8e141d39a1887b6847d7469c6775ef37`\n- G1 input-authority SHA-256: `7a4b08ec587f82f6f844a267af9f0ecb6aee641da91e5ae5acea44f3daf78842`\n- Smoke input manifest/archive SHA-256: `4524714684561f83255a4f7147e867f06a9ed0e2b316fefd67c7550292f5587e` / `7a1db7eab994152b515e0542909c5b7ffde5d1e611841f4fb9826931ca27ddd4`\n- Pairs: train/validation/test = `256/64/64`，合计 `384`。\n- Unique reward images: `713`；frozen Anchors: `64`。\n- Test set covers `25` image-connected components。",
+  "parameters_excerpt": "- VAE: `sd_vae_ft_mse`，revision `31f26fdeee1355a5c34592e401dd41e45d25a493`\n- Clean latent: posterior `mode()`；不应用生成管线 scaling/shift。\n- Preprocessing: `LATENTATLAS_RGB_V1`，RGB，`512×512`。\n- Anchor seed: `2026080901`；K=`64`。\n- Operator: `global_cosine`；relation tensor `[713,64]` float32。\n- Head: MLP `64→64→1` + GELU。\n- Optimizer: AdamW，learning rate `1e-3`，weight decay `1e-4`，batch size `256`。\n- Training seed: `2026081201`。\n- Max/selected epoch: `3/3`。\n- Scaler fit role: source train only。",
+  "code_identity_excerpt": "- Git commit: `7752985c4158b517285fa542accaaec12e2b1234`\n- Config SHA-256: `a7d2a0b6661db471d3c147526acf1668fd0c2ebe3b5d20bc578277c56300ceb7`\n- Run ID: `20260813T022942Z-7752985c-g1-minimal-sd-smoke`\n- Protocol: `G1_MINIMAL_SD_SMOKE_V1`\n- Scientific status: `engineering_only_non_formal`\n- Promotion/formal gate: `false / false`",
+  "source_snapshot": "docs/source-snapshots/latentatlas-reward-sufficiency-g1-minimal-sd-smoke.txt",
+  "primary_report": null
+}

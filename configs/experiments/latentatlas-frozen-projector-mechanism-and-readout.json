@@ -1,0 +1,20 @@
+{
+  "experiment_id": "latentatlas-frozen-projector-mechanism-and-readout",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "REUSE_INCONCLUSIVE",
+  "scope": "开发集1,008对 / 28组；DiNa四流；PickScore独立口径",
+  "scientific_conclusion": "统一DiNa REC/FUNC 72.793%/72.470%；PickScore REC/FUNC 64.58%/63.69%，复用均INCONCLUSIVE。",
+  "limitations": "PickScore是decoder→RGB路径。原B收尾exit1/cleanup NOT_PROVEN保留；后续CPU证据接受不改写原退出。",
+  "input_excerpt": "只使用旧Pilot已消费1008对、28完整关联组、252图像身份；A3/A4为事前固定32对子集。原图278条别名保留。单训练种子、单打乱对照，没有新增科学样本。\n\ncaption经明确amendment允许的一次metadata-only全源字节扫描提取，只物化白名单1008条pair_id/prompt。后续只读封存derived文件，未重新打开14400行来源、retired future12455或old TEST；不能宣称其余源文件字节零访问。",
+  "parameters_excerpt": "- A1四流严格判断后平均；平局计错，4032个pair-stream判断不视为独立样本。\n- 20,000次共同关联组bootstrap、中央90%区间；A0沿用2026091900，其余2026092401。\n- 原非劣下界严格大于−0.02、排序保真下界严格大于0.90；B保留多重比较修正。\n- 用户取消资源停止预算，账本持续累计且不退款；样本、arms、noise、指标、阈值和零训练不变。",
+  "code_identity_excerpt": "继承Pilot b24aef0，原训练检查点、模型及科学规则冻结。A-completion-r3与B-r4原始执行及失败记录保留。完成两次独立完整证据提取、两次远端数值回放、一次真实Mac portable CPU回放；最终六组比较零exact/float失败。两远端数值逐字节一致，本地最大浮点绝对差约1.46e−11，符合原对称1e−10规则。\n\n晚期修复只涉及容器兼容、证据恢复、真实六字段评分输入适配和两个A0继承来源字段。旧结果与旧失败包不覆盖，未重新评分。最终seal SHA：3da97b50394536f43deaf5807a9f6b504a2c5c731e78cb26fd53dcac52ce3b6b。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-frozen-projector-mechanism-and-readout.txt",
+  "primary_report": {
+    "source_locator": "LatentAtlas-runs/DINA_REG1_MECHANISM_AUDIT-20260924-R1/study-report.md",
+    "original_sha256": "8fcf3878702c3fbee97b0ebc1e4623f12697d6c54e6dc33bbcbfcc4e54f3b711",
+    "file": "docs/reports/latentatlas-frozen-projector-mechanism-and-readout-final.txt",
+    "sha256": "8fcf3878702c3fbee97b0ebc1e4623f12697d6c54e6dc33bbcbfcc4e54f3b711"
+  }
+}

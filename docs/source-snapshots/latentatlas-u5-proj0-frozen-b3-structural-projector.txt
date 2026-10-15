@@ -1,0 +1,164 @@
+# LatentAtlas U5-PROJ0-R2 Frozen-B3 Structural Projector
+
+## 1. Date
+
+2026-08-28
+
+## 2. Purpose
+
+在 `development-only / adaptive / reward-free / known-VAE` 条件下，检验是否必须先压缩出显式共享 `U`，还是可以让每个 source VAE 的独立 Projector 直接复原冻结 B3 的 source interfaces，再交给同一个 frozen downstream。
+
+实验比较两条训练路径：
+
+1. `P_SUP_*`：使用 target-side structural supervision 的上限参照；
+2. `P_ANCHOR_*`：只依赖正确的跨 VAE teacher registration，并与五个 training permutation nulls 比较。
+
+它承接 [[latentatlas-u5pb0-target-free-predictive-bottleneck]] 与 [[latentatlas-u5pb1-predictive-u-capacity-spatial-topology]]：PB1 的显式 compact `U` 尚未进入 B3 的 5% envelope，本实验改问“模块化 per-VAE Projector 是否可以直接接入 frozen B3 structural interface”。
+
+## 3. Code Version / Commit
+
+- Branch：`codex/u5-proj0-frozen-b3-structural-projector`
+- Completed production commit：`6fb59415fd0add7cfc426d46134d9de8dacd9962`
+- Config SHA-256：`d35be14166035db5936d5d3c32a35814bece4355e8ebfa2203006b623cb088f1`
+- Design SHA-256：`137fef6400a8f40c11ee5510db2f2829aeae7e52ae39a22f70edd3cc361e637f`
+- Plan SHA-256：`a64d2b160c8f090df4af69e52d57277143fa4a475f4d687a09f412fef0853ef8`
+- Run identity：`U5PROJ0R2_DEV_REUSED_P4096_FROZEN_B3_PROJECTOR_ONLY_STRUCTURAL_INTERFACE_OPERATIONAL_REPAIR_REPLAY`
+- Evidence status：`development-only`、`adaptive-replay`、`operational-repair`、`reused-P4096`、`reward-free`、`known-VAE`、`single-fold`、`single-seed`、`frozen-backbone`、`projector-only`、`non-confirmatory`、`MPS-BF16-pilot`。
+
+## 4. Dataset / Input
+
+- P4096 fold-0：train/validation/evaluation=`2868/408/820` matched identities。
+- Source views：SD 与 FLUX；target view：DCAE。
+- Source structural tokens：每个 source 为 `[64,128]`。
+- Target interface：冻结 B3 的 source-interface cutpoint 与 frozen downstream。
+- Normalization：train-only、per-view、per-channel。
+- Evaluation：820 identities，5,000 次 common-stream bootstrap，seed=`2026082502`，central 90% interval indices=`249/4749`。
+- 五个固定 training permutation nulls 与五个 evaluation pairing nulls。
+- 不读取 Reward、Reward Head、RGB、H/H-bar、private orientation、新 VAE 或网络。
+
+这里的 `Anchor` 指 same-identity cross-VAE registration / dense matched onboarding，不是早期 K64 RGB relative-anchor 坐标；因此不能称 unpaired、低成本 onboarding 或 unseen-VAE 实验。
+
+## 5. Parameters
+
+- Fit arms：`P_SUP_SHALLOW`、`P_SUP_STRONG`、`P_ANCHOR_SHALLOW`、`P_ANCHOR_STRONG` 与 `P_ANCHOR_PERM_STRONG_01..05`，共 9 个。
+- 每 arm：12,000 updates；总计 108,000 updates。
+- Batch=`32`；AdamW；learning rate=`3e-4`；warmup=`500`；weight decay=`1e-4`；gradient clip=`1.0`。
+- Shallow：直接 Projector；Strong：2-block、4-head、`d_model=128`、FFN=`256`、dropout=`0.1`。
+- Runtime：Apple MPS、BF16、无 `torch.compile`、无 CPU fallback。
+- Registered structural gate：joint deficit upper `<0.05`；Anchor-vs-SUP upper `<0.10`；pairing/noncollapse/optimization gates 同时通过。
+
+## 6. Command
+
+```text
+prepare
+-> MPS/BF16 preflight
+-> exact 200-update benchmark
+-> formalize
+-> 9 × 12,000-update training
+-> freeze-evaluation
+-> one production evaluation read
+-> finalize/result seal
+-> one strict forward-replay verifier
+-> disk-only completed verification
+```
+
+Benchmark projected registered training=`3046.72 s`，低于 7,200 s 上限；实际训练完整结束。全流程只用本机 MPS/CPU，没有使用租用 GPU。
+
+## 7. Results
+
+### Final decision
+
+```text
+VERIFIED
+ANCHOR_REGISTERED_PROJECTOR_STRUCTURALLY_SUFFICIENT
+SUP=shallow_strict
+ANCHOR=strict
+SOURCE_DEPENDENCE_ESTABLISHED
+TRAINING_PAIRING_SPECIFIC
+EXPLICIT_U_NOT_REQUIRED_FOR_KNOWN_VAE_FROZEN_B3_INTERFACE
+FRESH_AUTHORITY_REPLICATE_BEFORE_BROADER_CLAIMS
+```
+
+### Main structural metrics
+
+Original B3 validation replay normalized MSE=`0.2881973982`。
+
+| Arm | P/P MSE ↓ | joint deficit（90% CI） | Anchor-vs-SUP deficit（90% CI） | eval macro AUROC | noncollapse |
+|---|---:|---:|---:|---:|---|
+| P_SUP_SHALLOW | 0.288238 | -0.008839 `[-0.010056,-0.007642]` | N/A | 0.999461 | PASS |
+| P_SUP_STRONG | 0.344627 | 0.185067 `[0.182559,0.187500]` | N/A | 0.987654 | PASS |
+| P_ANCHOR_SHALLOW | 0.290836 | 0.000095 `[0.000083,0.000107]` | 0.009014 `[0.007792,0.010253]` | 0.999396 | PASS |
+| P_ANCHOR_STRONG | **0.290829** | **0.000070** `[0.000056,0.000084]` | **-0.156107** `[-0.157836,-0.154320]` | 0.999398 | PASS |
+
+`P_SUP_STRONG` 没有达到 strict joint gate，但 `P_SUP_SHALLOW` 达到；Anchor shallow/strong 均达到 strict structural gate。决策因此是 `SUP=shallow_strict` 与 `ANCHOR=strict`，不是“所有架构都 strict”。
+
+### Registration specificity
+
+- Training correct-vs-five-permutations：Anchor shallow macro gain=`2.659518 [2.627223,2.691399]`，worst gain=`1.384759 [1.358724,1.411403]`；Anchor strong macro=`2.659612 [2.627311,2.691499]`，worst=`1.384820 [1.358785,1.411451]`；两者 `passed=true`。
+- Evaluation correct-pairing：四个主 arms 全部 `passed=true`；Anchor shallow/strong macro gain=`3.631413/3.631942`，macro AUROC=`0.999396/0.999398`。
+- 四个主 arms 的 SD/FLUX projected outputs 全部 active fraction=`1.0`，effective rank=`47.99–73.65`，noncollapse 全通过。
+- Projector-vs-S64-W closure：Anchor shallow/strong=`0.999696/0.999778`，决策记录为 `PROJECTOR_INTERFACE_OUTPERFORMS_CURRENT_EXPLICIT_U`。
+
+### Integrity
+
+- Completed path count：`800`。
+- Inventory SHA-256：`7e35a4cc7dac7d6c7d3d14f913a19f0320aefaa0e0e54f023af053ab7f03e7cf`。
+- Result seal SHA-256：`0b264cec6064c202f1bba5803f5b7b2983499542bf467640b6919e44a8621c93`。
+- Strict verifier：`VERIFIED / strict-forward`，9 arms，17 questions，training performed=`false`，verifier replay read=`1`。
+- Authority counts：evaluation materialization=`1`、production read=`1`、strict verifier read=`1`、post-evaluation training=`0`。
+- Forbidden counters：Reward/Reward Head/RGB/network/H-or-Hbar/private-orientation/new-VAE 全部为 `0`。
+- Pre-run regression：U5=`200 passed`，PB1 compatibility=`169 passed`。
+
+## 8. Analysis
+
+本实验给出了当前 U 系列最强的 Projector-only 正证据：在已知 SD/FLUX、同一 P4096 fold、冻结 B3 cutpoint/downstream 的范围内，正确跨 VAE registration 学出的 per-VAE Projector 可以把两个 source interfaces 恢复到足以维持 B3 downstream structural behavior 的程度。它不仅接近 B3，而且同时满足 correct-over-five-training-permutations、correct input pairing、noncollapse 与 optimization gates，因此不能用“模型坍缩”或“随便配对也一样”解释。
+
+这也解释了 PB1 的一个关键分叉：当前显式 compact `U`（S64-W）不是唯一可行接口。对于 known-VAE frozen-B3 onboarding，可以让每个 VAE 用模块化 Projector 直接对齐目标接口，而不必先经过单个显式共享 `U`。这里的“explicit U not required”严格限定于该接口，不等于数学上证明 U 无用，更不等于 canonical U 不存在。
+
+不能外推的部分：
+
+- 没有 Reward 或 Reward Head，所以不证明学出的跨 VAE interface 能支持 Reward；
+- 没有 unseen VAE，所以不证明新 VAE onboarding；
+- 使用 reused-P4096 与同一 development authority，不是 fresh confirmation；
+- 是 single fold / single seed，不证明跨 seed/fold 稳定；
+- 使用 dense matched identities，不证明低 Anchor budget 或 unpaired registration；
+- 不证明 fresh distribution、canonical U 或跨 frozen downstream/head transfer。
+
+## 9. Problems
+
+1. 原始 attempt 在唯一 production evaluation read 后，private safetensors 的 `reference_mse_B3_ORIGINAL` 与 `mse_O_O` 共享 storage，序列化失败；该 attempt 永久分类为 `BLOCKED_EVALUATION_CONSUMED_INCOMPLETE`。
+2. R1 修复 storage alias 并完成 108,000 updates，但 production orchestration 仍用位置参数调用 keyword-only `assess_protocol_validity`，在所有 private arm materialization 后失败；R1 同样是 consumed-incomplete，不是科学负结果。
+3. R2 用真实 RED→GREEN 回归冻结 `config=` / `evaluation_read=` 关键字桥；原始与 R1 工程/正式树均完整归档到 `LatentAtlas-runs/`，没有覆盖、续跑或复用已消费 evaluation 权限。
+4. R2 从空目录重新执行所有 9 个 12k fits、唯一 evaluation 与唯一 strict replay，最终达到 `COMPLETED`。
+
+## 10. Next Steps
+
+注册建议是 `FRESH_AUTHORITY_REPLICATE_BEFORE_BROADER_CLAIMS`：先在独立 fresh authority 上原样复制已冻结的 Anchor Projector 协议，不再根据本次结果调 architecture、loss、seed 或 gate。只有 fresh structural replication 通过后，才适合另立 Reward-functional Projector 对比，检验 frozen Reward Head/Reward oracle 是否也能被保存。
+
+当前实验已经 hard stop；不在同一 P4096 authority 上继续扫 Projector、增加 permutation、改变 threshold 或把结果升级为 Reward/canonical-U 结论。
+
+## 11. Sources
+
+- Source: `source-workspace/.worktrees/u5-proj0-frozen-b3-structural-projector/runs/U5PROJ0R2_DEV_REUSED_P4096_FROZEN_B3_PROJECTOR_ONLY_STRUCTURAL_INTERFACE_OPERATIONAL_REPAIR_REPLAY/report.md`
+- Source: `source-workspace/.worktrees/u5-proj0-frozen-b3-structural-projector/runs/U5PROJ0R2_DEV_REUSED_P4096_FROZEN_B3_PROJECTOR_ONLY_STRUCTURAL_INTERFACE_OPERATIONAL_REPAIR_REPLAY/decision.json`
+- Source: `source-workspace/.worktrees/u5-proj0-frozen-b3-structural-projector/runs/U5PROJ0R2_DEV_REUSED_P4096_FROZEN_B3_PROJECTOR_ONLY_STRUCTURAL_INTERFACE_OPERATIONAL_REPAIR_REPLAY/evaluation.json`
+- Source: `source-workspace/.worktrees/u5-proj0-frozen-b3-structural-projector/runs/U5PROJ0R2_DEV_REUSED_P4096_FROZEN_B3_PROJECTOR_ONLY_STRUCTURAL_INTERFACE_OPERATIONAL_REPAIR_REPLAY/structural_prediction_summary.json`
+- Source: `source-workspace/.worktrees/u5-proj0-frozen-b3-structural-projector/runs/U5PROJ0R2_DEV_REUSED_P4096_FROZEN_B3_PROJECTOR_ONLY_STRUCTURAL_INTERFACE_OPERATIONAL_REPAIR_REPLAY/training_pairing_specificity.json`
+- Source: `source-workspace/.worktrees/u5-proj0-frozen-b3-structural-projector/runs/U5PROJ0R2_DEV_REUSED_P4096_FROZEN_B3_PROJECTOR_ONLY_STRUCTURAL_INTERFACE_OPERATIONAL_REPAIR_REPLAY/pairing_summary.json`
+- Source: `source-workspace/.worktrees/u5-proj0-frozen-b3-structural-projector/runs/U5PROJ0R2_DEV_REUSED_P4096_FROZEN_B3_PROJECTOR_ONLY_STRUCTURAL_INTERFACE_OPERATIONAL_REPAIR_REPLAY/noncollapse_summary.json`
+- Source: `source-workspace/.worktrees/u5-proj0-frozen-b3-structural-projector/runs/U5PROJ0R2_DEV_REUSED_P4096_FROZEN_B3_PROJECTOR_ONLY_STRUCTURAL_INTERFACE_OPERATIONAL_REPAIR_REPLAY/verifier_output.json`
+- Source: `source-workspace/.worktrees/u5-proj0-frozen-b3-structural-projector/runs/U5PROJ0R2_DEV_REUSED_P4096_FROZEN_B3_PROJECTOR_ONLY_STRUCTURAL_INTERFACE_OPERATIONAL_REPAIR_REPLAY/verifier_receipt.json`
+- Source: `source-workspace/.worktrees/u5-proj0-frozen-b3-structural-projector/runs/U5PROJ0R2_DEV_REUSED_P4096_FROZEN_B3_PROJECTOR_ONLY_STRUCTURAL_INTERFACE_OPERATIONAL_REPAIR_REPLAY/lifecycle/08-completed.json`
+- Source: `source-workspace/.worktrees/u5-proj0-frozen-b3-structural-projector/docs/superpowers/specs/2026-08-28-u5-proj0r2-operational-repair-replay-design.md`
+- Source: `LatentAtlas-runs/u5proj0-r1-formal-9443663-evaluation-consumed-incomplete-20260828/production_replay_read_receipt.json`
+
+### Related Pages
+
+- [[latentatlas]]
+- [[latentatlas-u5pb1-predictive-u-capacity-spatial-topology]]
+- [[latentatlas-u5pb0-target-free-predictive-bottleneck]]
+- [[latentatlas-u5pb1r1-residual-information-localization]]
+- [[projector]]
+- [[representation-alignment]]
+- [[latent-space]]
+- [[variational-autoencoder]]

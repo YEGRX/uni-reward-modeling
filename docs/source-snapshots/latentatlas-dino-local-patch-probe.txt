@@ -1,0 +1,131 @@
+# LatentAtlas DINO Local / Patch Semantic Probe
+
+## 1. Date
+
+2026-08-11
+
+## 2. Purpose
+
+在 [[latentatlas-semantic-appearance-intervention]] 表明 cross-VAE identity correspondence 对多种外观干预仍有韧性之后，Experiment F 检查 DINOv2-small 的局部 patch 表征是否比 global CLS 更接近三个 VAE 的 anchor-relative 结构。
+
+本实验不训练 projector、Reward Head、VAE 或偏好模型，只比较四种固定 probe：CLS、mean-patch、local-set（Chamfer-style）和 spatial-patch。
+
+## 3. Code Version / Commit
+
+- Branch: `codex/dino-local-patch-probe`
+- Exact formal commit: `66bf408dc63f410de76cb870c0d7691508ae4f45`
+- Config SHA-256: `41dc944a18c62aa50fb1a2c10841dc8ed80bfc8ed24cb99f9c59a2d8eb487b8b`
+- Formal run: `20260811T132128Z-66bf408-41dc944a-dino-local-patch`
+- Formal decision: **Partial Local Support**
+
+## 4. Dataset / Input
+
+- 复用 256 张固定并哈希审计的 RGB 图像。
+- 三组互斥 64-anchor banks；固定 64 queries。
+- 三种冻结 VAE：SD-VAE ft-MSE、FLUX.1-schnell VAE、DC-AE f32c32。
+- 冻结 DINOv2-small，固定 revision `ed25f3a31f01632728cabb09d1542f84ab7b0056`。
+- 三个 anchor seeds；global cosine 与 rank relation。
+- 相关页面：[[dino]]、[[vision-transformer]]、[[representation-alignment]]、[[latent-space]]。
+
+## 5. Parameters
+
+- Probes: `cls / mean_patch / local_set / spatial_patch`。
+- Neighbor overlap: `k=5/10`。
+- Formal column-null: 每个注册 cell 1,000 次。
+- Formal spatial permutation: 每个注册 cell 100 次。
+- CLS reproduction hard gate：逐图 feature cosine `≥0.999999`、paired ranks 精确一致、Spearman 差 `≤1e-6`。
+- Pearson 只作为支持证据，不是复现硬门槛。
+
+## 6. Command
+
+```bash
+python scripts/run_dino_patch_probe.py \
+  --config configs/dino-local-patch-f.json \
+  --dry-run --device cuda
+
+python scripts/run_dino_patch_probe.py \
+  --config configs/dino-local-patch-f.json \
+  --mode smoke --device cuda
+
+python scripts/run_dino_patch_probe.py \
+  --config configs/dino-local-patch-f.json \
+  --mode formal --device cuda
+```
+
+## 7. Results
+
+### Global-primary macro evidence
+
+| Probe | Pair-average R@1 | Geometry Spearman |
+| --- | ---: | ---: |
+| CLS | 0.061632 | 0.080457 |
+| Mean patch | 0.074653 | 0.074040 |
+| Local set | 0.084201 | 0.103893 |
+| Spatial patch | **0.099826** | 0.097906 |
+
+### 相对 CLS 的 paired improvement
+
+| Probe | Macro ΔR@1 | Seed SD | Macro ΔSpearman | Macro Δneighbor | Worst-VAE ΔSpearman |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Mean patch | +0.013021 | 0.022553 | -0.006417 | +0.024566 | -0.065481 |
+| Local set | +0.022569 | 0.019890 | **+0.023436** | +0.020747 | -0.026964 |
+| Spatial patch | **+0.038194** | 0.015697 | +0.017449 | **+0.027604** | -0.040818 |
+
+Spatial patch 的 R@1 从 CLS 的 `0.061632` 提高到 `0.099826`，绝对增加 `0.038194`；local-set 则给出最高的 geometry Spearman `0.103893`。
+
+### 稳定性和控制
+
+- Mean-patch geometry 是唯一 macro 为负的 probe/family cell。
+- Local-set 与 spatial-patch 的 retrieval、geometry、neighbor macro 均为正；VAE/seed 正向计数大部分达到 2/3 门槛。
+- 但每个 patch probe 的 worst-VAE geometry delta 都为负，说明 geometry improvement 不具有跨 VAE 普适性。
+- 方向差异明显：VAE→DINO 减 DINO→VAE 的 macro R@1 差为 local `+0.092014`、spatial `+0.098958`。
+- Spatial correct-minus-permuted macro R@1 effect 为 `+0.021467`，但最差经验 p-value 为 `1.0`；不能声称正确 patch index 在所有 cell 中都必要。
+- 最终预注册标签为 **Partial Local Support**，没有注册 winner。
+
+## 8. Analysis
+
+### 可以支持的结论
+
+局部/空间 DINO 表征确实比 CLS 提供了更多 aggregate correspondence 证据：spatial-patch 最有利于 identity retrieval 与 neighborhood，local-set 最有利于整体 geometry。
+
+这使项目从“外观鲁棒但语义未知”推进到“局部视觉表征具有部分解释力”。它说明继续研究 local semantic structure 是合理的，但证据仍不是 Strong。
+
+### 为什么只有 Partial
+
+强门槛要求同一个 probe 在 retrieval、geometry、neighbor、VAE、seed 和 direction consistency 上同时通过。虽然 local/spatial 的三个 macro family 均为正，worst-VAE geometry 仍为负，direction asymmetry 也很大；至少一个 direction-specific consistency 条件没有满足，因此不能命名 Strong winner。
+
+### 与 Experiment D / E1 的综合解释
+
+- [[latentatlas-shared-geometry-explanation]]：Pixel/Color 对原始 correspondence 有较强解释力。
+- [[latentatlas-semantic-appearance-intervention]]：主动改变多个外观因素后 identity correspondence 大部分保留。
+- Experiment F：local/spatial DINO 比 CLS 更能解释部分 aggregate correspondence，但跨 VAE、方向和空间控制不统一。
+
+最稳妥 framing 是：cross-VAE correspondence 同时含有外观、局部结构和可能的语义相关成分；当前没有单一表示或因素能够完整解释它。
+
+## 9. Problems
+
+1. 直接 CLI 入口最初缺少仓库根路径；增加真实 direct-entry test。
+2. CLS reproduction 最初混用了 Experiment D 的 CPU/float32 与新 CUDA/float64 数值路径；最终严格复用旧发布路径，不放宽 `1e-6` 门槛。
+3. Spatial control 最初重复计算 observed CUDA relation；最终复用已注册主 relation，只重新计算 permutations，并要求跨表精确一致。
+4. 三次 smoke 均 fail closed，正式 patch comparison/formal run 只在最终 smoke 完整通过后启动。
+5. 90MB 完整归档的 SSH 速率降至约 0.05 MB/s；删除本地未完成的 31MB 断点文件后，改传 448KB 紧凑审计包。它保留报告、CSV、null arrays、图表、环境、事件与哈希清单，只排除远端仍持久保存的四个 DINO feature-cache 文件。
+6. 本地紧凑包 SHA-256 为 `848e1d9a0d2c795cf433cb79915d9f502d4ccc7668c0a67cecf7e4c0e7bd50c2`；25 个已包含产物逐个哈希匹配，非 feature 正式 artifact audit 通过。
+
+## 10. Next Steps
+
+1. 与导师讨论：核心发现是“local/spatial aggregate improvement + architecture/direction heterogeneity”，而不是“统一语义空间”。
+2. 将 Experiment F 冻结为 geometry-explanation 阶段的终点。
+3. 若导师认可，另行预注册 **Minimal Reward-Sufficiency**：只检验已观测 correspondence 是否足以支持一个最小、受控的 reward discrimination task。
+4. 下一实验必须保留 CLS/local/spatial ablation、VAE family 分层、双方向报告和独立 held-out data/query replication。
+5. 在新设计获批前不启动 Reward Head、preference training 或 reward transfer。
+
+## 11. Sources
+
+- Source: `raw/experiments/latentatlas-dino-local-patch-probe-2026-08-11.md`
+- Source: `raw/experiments/latentatlas/experiment-f/formal-run/report.md`
+- Source: `raw/experiments/latentatlas/experiment-f/formal-run/artifact-sha256.txt`
+- Source: remote full run `/root/autodl-tmp/latentatlas-runs/20260811T132128Z-66bf408-41dc944a-dino-local-patch`
+- Source: remote archive `/root/autodl-tmp/experiment-f-formal-66bf408.tar.gz`
+- Source: `source-workspace/.worktrees/anchor-feasibility-pilot/reports/20260811T132128Z-66bf408-41dc944a-dino-local-patch/report.md`
+- Source: `source-workspace/.worktrees/anchor-feasibility-pilot/configs/dino-local-patch-f.json`
+- Related: [[latentatlas]]、[[latentatlas-shared-geometry-explanation]]、[[latentatlas-semantic-appearance-intervention]]、[[dino]]、[[representation-alignment]]。

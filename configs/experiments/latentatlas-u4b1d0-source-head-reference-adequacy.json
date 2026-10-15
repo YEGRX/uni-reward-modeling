@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-u4b1d0-source-head-reference-adequacy",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Cohort：已消费的 B1-284 SVG development cohort\n- Pair count：284\n- Image count：568\n- Authority status：`CONSUMED_FRESH_REUSED_AS_ADAPTIVE_DEVELOPMENT`\n- Source views：`H64`、`CONCAT_U128`、`RAW_SD64`、`RAW_FLUX256`、`RAW_CONCAT320`\n- Reward orientation、SD/FLUX token 与 provider manifest 均以冻结绝对路径和 SHA-256 绑定。\n- 本实验没有打开新的 fresh authority，也没有读取或评价 DCAE correct-vs-null。",
+  "parameters_excerpt": "- Stage A：zero-training source/head/reference factorial matrix\n- Normalization：historic 与 `svg_unlabeled`\n- Existing bridge/head：shared 与 task-aware 冻结组合\n- H aggregation：representation mean 与 score mean\n- Stage B：5-fold pair-disjoint direct linear source-capacity probes\n- Fold rule：`LEXICAL_UNORDERED_PAIR_ID_RANK_MOD_5`\n- Linear steps：200\n- Learning rate：0.05\n- Weight decay：0.001\n- Bootstrap replicates：20,000\n- Candidate gate：只有至少一个 direct-token ceiling 通过原 `SOURCE_H` absolute gate，才允许进入 Stage C 并冻结修复候选。",
+  "code_identity_excerpt": "- Branch：`codex/u4-b1d0-source-head-reference-adequacy`\n- Science commit：`681831d`\n- Completed-verifier hardening commit：`0c9c4a1`\n- Inventory SHA-256：`9076b6ca0dee1481c4dfe6c3dd6baf26621aaf17517a3c36f3c5e493aa8d7354`\n- Result seal SHA-256：`63904adf848a6544ad2cc1eb64f688b5493870e78b8e576cd85bb8fff603501b`\n- Run：`U4B1D0_DEV_SOURCE_HEAD_REFERENCE_ADEQUACY`\n- Classification：`SOURCE_LATENT_ADEQUACY_UNRESOLVED`\n- Reason：`NO_DIRECT_LINEAR_SOURCE_CEILING_PASSED`",
+  "source_snapshot": "docs/source-snapshots/latentatlas-u4b1d0-source-head-reference-adequacy.txt",
+  "primary_report": null
+}

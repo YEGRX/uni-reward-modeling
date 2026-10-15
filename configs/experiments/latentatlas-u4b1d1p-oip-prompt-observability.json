@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-u4b1d1p-oip-prompt-observability",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- OIP TRAIN pairs：`4,059`\n- OIP DEV pairs：`900`，覆盖 `561` 个 groups\n- 可绑定 prompt text：`7,459`\n- LOCKBOX orientation access：`0`\n- LOCKBOX label-blind prompt-text access：`2,500`\n\n这里必须区分两种访问：LOCKBOX 的偏好方向标签完全未打开，但为检查 prompt sidecar 的完整性，读取了 `2,500` 条不含方向标签的 prompt text。因而不能写成“LOCKBOX 完全零访问”，也不能把该 pilot 当作 lockbox confirmation。",
+  "parameters_excerpt": "- Prompt feature：signed SHA-256 word unigram / bigram / character 3–5 gram hashing，维度=`4,096`。\n- `H` feature：`H_FLUX - H_SD`，只用 TRAIN 统计量标准化。\n- Joint feature：`[standardized_delta_H; hashed_prompt]`。\n- Classifier：logistic regression，L2=`0.001`，max iterations=`400`。\n- Baseline：TRAIN-only generator prior。\n- 冻结比较：`H_ONLY`、`PROMPT_ONLY`、`JOINT`；没有 architecture/seed/feature sweep。",
+  "code_identity_excerpt": "- Implementation commit：`9924cee4486321f98fa2c49940c8e552ae877066`\n- Run：`U4B1D1P_DEV_OIP_PROMPT_OBSERVABILITY`\n- Strict classification：`NO_PROMPT_OR_H_OBSERVABILITY_SIGNAL`\n- Source reader candidate：`null`\n- Selection sweep count：`0`",
+  "source_snapshot": "docs/source-snapshots/latentatlas-u4b1d1p-oip-prompt-observability.txt",
+  "primary_report": null
+}

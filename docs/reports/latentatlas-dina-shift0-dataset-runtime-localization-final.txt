@@ -1,0 +1,21 @@
+# DiNa SHIFT0 数据集与运行协议诊断
+
+判定：SOURCE_TO_EXTERNAL_PREFERENCE_TRANSFER_FAILURE_SUPPORTED。完整 EXTERNAL2619；未读取 future12455 / old TEST。
+
+| Dataset | PAPER_T04 | LEGACY_U01_K4 |
+|---|---:|---:|
+| HPDv3 | 74.445139% | 74.392361% |
+| EXTERNAL | 51.386025% | 50.420008%（历史） |
+
+External paper central90：[0.49881360147665493, 0.5288880397401604]；paper−chance：{'point': 0.013860252004581852, 'q05': -0.0011863985233450587, 'q95': 0.028888039740160416, 'central90': [-0.0011863985233450587, 0.028888039740160416], 'one_sided95_lower': -0.0011863985233450587, 'missing_replicates': 0}。
+External paper−historical 配对差：{'point': 0.009660175639557012, 'q05': 0.0001907632450567076, 'q95': 0.01929710520294596, 'central90': [0.0001907632450567076, 0.01929710520294596], 'one_sided95_lower': 0.0001907632450567076, 'missing_replicates': 0}。
+
+使用 20,000 次共享关联组 bootstrap；q05/q95 为中央90%区间，q05也作单侧95%下界。
+主指标为十个流逐流严格正确率的均值；相等计0。历史legacy为四个原始分数先平均、相等计0.5。
+AUROC、margin SD、偏好方向和噪声流稳定性见同目录 JSON。
+原协议“明显高于”的绝对效应阈值未明确；材料性保留 unresolved，不事后补阈值。显著配对改善不自动升级为材料性结论。
+这不是严格2×2因果实验，不能推出标签错误。旧 DINA0 的冻结结果与 UNQUALIFIED 状态不变。
+SRC0 仅建立 source-domain qualification；本阶段诊断 dataset/task shift 与 runtime 差异。
+representation/interface registration 与 target Reward reuse 尚未测试；SHIFT0 外部表现不阻塞符合既定条件的 REG1。
+独立回放仅验证封存科学缓存和来源链并重算统计，不重新加载模型或原图，不重新观察 GPU forward。
+Sources: evidence/*; DINA_SHIFT0_EXPERIMENT_SPEC.json; contract-seal.json; rowwise/*.json; parity/*.json; progress.json; forward-ledger.json.

@@ -1,0 +1,20 @@
+{
+  "experiment_id": "latentatlas-dina-src0-source-domain-parity",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "QUALIFIED",
+  "scope": "14,400对 / 400组 / 10流",
+  "scientific_conclusion": "DiNa源域Accuracy 74.4451%；中央90% [73.5972%,75.2715%]。",
+  "limitations": "来源域操作性资格，不是精确论文复现或外部分布泛化。",
+  "input_excerpt": "完整 `MizzenAI/HPDv3@5ac4b5b5f2ef42c4613dec612473170b131552db/test.json`。\n\n- 原始文件 10,006,262 bytes，SHA256 `3e762a4025b1fc46d0a3c108f4c74da4d8257c2b8987bfce98aa9247c8956b69`，Git blob OID 同时验证。\n- 冻结合同并完成数据入口复审后，实际核对 **14,400 对偏好、4,133 个不同图像路径**，保留完整源行，不抽取有利子集。\n- 原始图像来自同一固定版本的 13 段归档，总计 139,119,843,682 bytes。逐段断点下载、长度与 SHA 校验，再提取所需原图。\n- 不同路径不等于不同图像字节；最终统计以图像字节身份或相同 prompt 的连通组进行 bootstrap。",
+  "parameters_excerpt": "主指标为 t=.4 的 10 个独立噪声流 Accuracy 均值；严格平局计 0。Legacy u=.1 的 4 次原始分数平均后再计算 Accuracy，平局计 0.5，仅作诊断。\n\n预处理明确选定 RGB、长边不超过 1024、两边向下对齐 16、LANCZOS、不裁剪、不 EXIF 转置，native VAE BF16。两种 runtime 使用同一图像的 canonical latent。种子公式、20k 共同关联组 bootstrap 与资格阈值均已在读取真实偏好行前冻结。\n\n冻结 spec SHA256：`8558cbfb69e0dca4794b53d7257257513381aeec30cca5a6077dba5273219a73`。",
+  "code_identity_excerpt": "独立工作区 `source-workspace/.worktrees/dina-source-shift-registration`，从旧科学 commit `00219a6` 建立。固定 DiNa code `5a5a025`、checkpoint `31d99dc`、SD3.5 `b940f67`（完整版本在冻结 spec）。新执行代码 commit `855d9e57f8aabecd80e5c625ada811ea5eba056e`。数据、评分、统计及集成终审的 Spec/Quality 均通过；本地与远端各180项 CPU 测试通过，远端1,555个代码文件和8份源输入逐文件 SHA 一致。测试成功不代表模型通过资格检验。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-dina-src0-source-domain-parity.txt",
+  "primary_report": {
+    "source_locator": "LatentAtlas-runs/DINA_SOURCE_SHIFT_REGISTRATION-20260915-R1/continuations/authorized-best-evidence-r1/verified-src0-results-20260918/DINA_SRC0_REPORT.md",
+    "original_sha256": "8ace389deff345a7de36945efb4d627f5fb2f0eeb23aad8572aa6a6ce8b3b428",
+    "file": "docs/reports/latentatlas-dina-src0-source-domain-parity-final.txt",
+    "sha256": "8ace389deff345a7de36945efb4d627f5fb2f0eeb23aad8572aa6a6ce8b3b428"
+  }
+}

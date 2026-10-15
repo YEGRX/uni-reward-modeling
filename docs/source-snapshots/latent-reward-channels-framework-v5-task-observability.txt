@@ -1,0 +1,51 @@
+# Framework v5 任务识别与有限数据证书 Task Observability
+
+## 1. Date
+
+2026-10-09。
+
+## 2. Purpose
+
+按冻结协议核对参数未识别时的部署任务可识别性、设计失配及有限计数置信区间；不修改A/C恢复算法。
+
+## 3. Code Version / Commit
+
+独立执行源SHA：`0bc9232754e9e9fa7695abeb4b791e267248123f30fc9005a3ea152a584e9dd5`。理论由ChatGPT维护；不伪造Git commit。详见protocol与来源成本。
+
+## 4. Dataset / Input
+
+N9–N10有限source，U±1/E三值。unknown-c/δ与旧known-c权限分开；真实缓存仅继承v4资格，不提取新观测。
+
+## 5. Parameters
+
+ρ=.8、α_source=.75；β_target=.6、T1、η=.3（未来.6）；probe b=.8/g=.3,.8；每设计总N256、每符号128；公开c∈[.35,.45]/δ∈[-.15,.15]；CI失效率.05。六真参数单元仅生成与评价可读。全部257计数精确求和，没有随机seed。
+
+## 6. Command
+
+单线程本地执行冻结独立数学验证；源读取、输出重画及保存核验路径在[完整报告](../../scripts/latent-reward-channels/outputs/framework-v5-task-observability-20261009/report.md)。零GPU/远端/真实前向/训练。
+
+## 7. Results
+
+- N18：matched当前任务相同但参数不同；g=.3未来η=.6 pair差.00235032720869。Fisher秩1，当前任务梯度在值域。
+- matched direct=MLE目标逐计数相同，只有一个身份。主格风险2.22278e-4高于nominal1.82141e-4；置信KL1.62790e-4。unmatched MLE集合中心1.73220e-4更好，保留。
+- 六格模型覆盖率≥.95，空集概率.005216–.025028；回退baseline不给证书。projection覆盖内伤害概率0，但正确baseline下期望风险2.0358246e-6、伤害概率.0347938。
+- N36合法同source，target边缘相同而pair胜率.6136304614/.6363565537不同。取消对称likelihood后N14资格ASSUMPTION_FAILED，不是N19反例。
+- 222主检查/91保存独立核验合格；N32标量求解误差3.92e-9<2e-8。新增wall1.954465秒，累计265.534167秒。
+
+## 8. Analysis
+
+研究增量是任务信息边界：当前目标可在参数不可分时识别，未来反馈不能复用；一般输出边缘不足以恢复posterior。只能SUPPORTED_IN_SPECIFIED_MODEL，不能写真实视觉收益、fresh确认、一般minimax证明或新颖性认证。
+
+baseline/metrics：同unknown-c权限的nominal、direct=matched MLE、unmatched MLE-fiber、置信KL/投影；full-target Bayes单列oracle。指标是raw-joint pair excess NLL、精确覆盖、空集与伤害概率。research gap：真实冻结probe合同、效用条件likelihood、残差/η和反馈law尚缺资格。
+
+## 9. Problems
+
+首次快照执行路径错误保留且计费，只改启动位置。研究者版503行/实验版92行把“不覆盖事件之内”误写“之外”；原件未改，最小k142证据交回ChatGPT。第86行非恶化应限confidence-projection，KL中心可在覆盖内伤害正确baseline。
+
+## 10. Next Steps
+
+理论修订交ChatGPT，仅纠正范围与覆盖措辞；不自动采集新数据或申请扩容。真实资产/条件权限缺口和历史No-Go保留。相关：[[latent-reward-channels]]、[[latent-reward-channels-paper-framework-v4-validation]]、[[latent-reward-channels-system-v3-validation]]、[[latent-reward-channels-core-v2-validation]]。
+
+## 11. Sources
+
+Source: `raw/projects/latent-reward-channels/framework-v5-task-observability-20261009/Paper_Theory_System_v5.md`；`raw/projects/latent-reward-channels/framework-v5-task-observability-20261009/Codex_Framework_v5_Validation.md`；[完整报告与底层表](../../scripts/latent-reward-channels/outputs/framework-v5-task-observability-20261009/report.md)；v4/v3只读资格链。

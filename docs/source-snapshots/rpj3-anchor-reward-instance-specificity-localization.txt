@@ -1,0 +1,118 @@
+# RPJ3 Anchor Reward Instance Specificity Localization
+
+## 1. Date
+
+2026-08-29
+
+## 2. Purpose
+
+在冻结 RPJ2 全部模型、Reward Reader、Projector、Anchor banks、teacher choices 与 registration checkpoints 的前提下，定位一个单一机制问题：Anchor 在 RPJ2 中恢复了 81%–95% supervised Reward adaptation 且 interface retrieval 为 100%，为什么旧 representation-specificity gate 仍然失败？
+
+本实验属于 `ADAPTIVE_FROZEN_MECHANISM_DIAGNOSTIC`，承接 [[rpj2-projector-noncollapse-anchor-mechanism]]，但不修改 RPJ1/RPJ2 的 frozen classification。
+
+## 3. Code Version / Commit
+
+- Branch：`codex/rpj3-anchor-reward-specificity-localization`
+- Scientific commit：`2bd47b28b2255ed25431b0caba1172c03a17bde0`
+- Finalizer / verifier commit：`61d78116ed73ba5db1c0a32426e281fa8381c90b`
+- Worktree：`source-workspace/.worktrees/rpj3-anchor-reward-specificity-localization`
+
+## 4. Dataset / Input
+
+- Frozen known-VAE pseudo-unseen official HPDv3 DEV。
+- 已在 RPJ2 消费过的 mechanism lockbox，仅作为 diagnostic replay surface，不重新称 fresh lockbox。
+- Frozen SD / FLUX / DCAE representation cache、authoritative text cache、RPJ2 Teacher/SUP/Anchor/NoReg checkpoints。
+- 新 null family：`GLOBAL_SD`、`PAIR_RO`、`PAIR_SP`、`PROMPT_RO`、nuisance-matched random orientation；每类 5 个预冻结 seeds。
+
+Authority / access：
+
+- official TEST orientation / forward / metrics：`0 / 0 / 0`
+- new training fits：`0`
+- network / RGB access：`0 / 0`
+
+## 5. Parameters
+
+- Primary instance-specificity null：`PAIR_RO`。
+- Supporting null：`GLOBAL_SD`。
+- Side-preservation diagnostic：`PAIR_SP`。
+- PROMPT_RO coverage floor：`500` rows；实际每 target `3,109/5,000`。
+- Nuisance-matched coverage：每 target `4,998/5,000`。
+- Statistics：`20,000` connected-group paired bootstrap，共同 indices。
+- Exact RPJ2 replay tolerance：`1e-5`，未放宽。
+- GPU 仅用于 frozen forward；分析、verifier、inventory、seal 和报告均在本地 disk-only 完成。
+
+## 6. Command
+
+正式 forward 使用 RPJ2 同一 frozen Reward margin primitive、CUDA BF16 autocast 与 batch 256；随后在本机依次运行统计分析、scientific verifier、report prepare、inventory/seal 与 completed replay。精确命令、日志和 recovery provenance 保存在 sealed run root。
+
+## 7. Results
+
+### Frozen headline
+
+`ORIGINAL_RPJ2_SPECIFICITY_GATE_CONFOUNDED_BY_SIDE_PRESERVATION`
+
+### 核心定位
+
+1. 旧 RPJ2 representation shuffle 被自动分类为 `PAIR_ORIENTATION_PRESERVING_NULL`：替换了完整 pair，但继续保持 preferred/rejected orientation。
+2. Identical-representation sanity 严格得到 margin=`0`、Accuracy=`0.5`、BT-NLL=`log(2)`。
+3. Teacher、SUP、Anchor 在新的 orientation-destroying primary `PAIR_RO` 下，SD/FLUX/DCAE 全部 `PASS`；Anchor 的 `GLOBAL_SD` 也为 3/3 `PASS`。
+4. `PAIR_SP` 相对 `PAIR_RO` 的 Anchor Accuracy 提升：SD=`+0.093067`、FLUX=`+0.102373`、DCAE=`+0.099547`；对应 NLL 改善=`+0.091812/+0.102672/+0.091977`，三 target 都检测到 preference-side distribution signal。
+5. PROMPT_RO 与 nuisance-matched controls 三 target 全部 `PASS`；Anchor↔SUP margin Pearson=`0.820165/0.889755/0.826121`，Spearman=`0.721828/0.835542/0.729904`。
+6. 三个 target 的 failure localization 均为 `RPJ2_FAILURE_LOCALIZED_TO_OLD_NULL_SEMANTICS`。
+
+| Target | Teacher PAIR_RO | SUP PAIR_RO | Anchor PAIR_RO | Anchor GLOBAL_SD | Localized bottleneck |
+|---|---|---|---|---|---|
+| SD | PASS | PASS | PASS | PASS | old null semantics |
+| FLUX | PASS | PASS | PASS | PASS | old null semantics |
+| DCAE | PASS | PASS | PASS | PASS | old null semantics |
+
+### Terminal verification
+
+- Exact RPJ2 replay：`PASS`。
+- CUDA 1024-row backend parity：三 target 与两 surfaces 全部 `max_abs=0 / sign=1 / Pearson=1`。
+- Scientific disk-only replay：`PASS`，mismatches=`0`。
+- Completed replay：`PASS`，inventory failures=`0`。
+- Inventory：`35` files，`63,730,438` bytes。
+- Spec SHA256：`b2360f1ffc98590ac7940da967c4eba7b26c95ab7dc5061148e9a5c926032f52`。
+- Null manifest SHA256：`f2305d458a5d19ffbb44b5445eaf5fd2c70b5f4d0d6a5ba369b2f086fc912528`。
+- Decision SHA256：`c7f9e2f95864f8a88d9b79f9ae34c23e1cc2511d091a358ea55908a8d7bb860e`。
+- Verifier receipt SHA256：`167a6d64a2ee18db05801ef6ef9e2f1904975531e34a3595077cd384e44a07be`。
+- Result seal SHA256：`575cbfedf814a8ec3535d88c093324feb8b4bea039a29dfc6eb9c798ff9eb353`，status=`SEALED`。
+
+## 8. Analysis
+
+RPJ3 支持这样的受限解释：在冻结 known-VAE pseudo-unseen development artifacts 上，Anchor Reward gain 确实依赖当前 image-specific representation；RPJ2 的 strict failure 主要来自旧 null 保留 preference orientation，因此它测到了 label-side / dataset-level structure，而不是纯粹破坏 instance identity。
+
+这不等于“回写 RPJ2 为 PASS”。RPJ2 的 sealed classification 必须原样保留，因为 RPJ3 是后续 adaptive diagnostic，并使用了已消费 surface。当前证据也不证明 fresh confirmation、真正 unseen VAE、universal onboarding 或部署可用。
+
+## 9. Problems
+
+- 初始 cached-embedding null 实现改变了 BF16 执行顺序，old-null replay 最大偏差 `0.002356`，超过冻结 `1e-5`，该 run 已 fail closed 保存。
+- 首个 raw-representation recovery wrapper 在 formal forward 前暴露 multi-family Teacher system 与 one-family input mismatch；没有产生 scientific output，独立保留。
+- 最终 recovery 只修正 scoring wrapper，使指定 teacher family 经同一 frozen margin primitive 与 BF16 context 评分；模型、weights、null manifest、thresholds、seeds 与 authority 均未变化。
+
+## 10. Next Steps
+
+冻结动作：`PROMOTE_TO_FRESH_AUTHORITY_AND_TRUE_UNSEEN_VAE`。
+
+下一实验不应继续训练更强 Projector、扩大 Anchor K 或在当前 DEV 上调参。应先冻结当前方法，再申请 genuinely fresh authority 与真正 unseen-VAE evaluation；只有 fresh gate 通过，才能把本次机制支持升级为确认性 onboarding 证据。
+
+## 11. Sources
+
+- `LatentAtlas-runs/rpj3-20260829-2bd47b2/RPJ3_FINAL_REPORT.md`
+- `LatentAtlas-runs/rpj3-20260829-2bd47b2/decision.json`
+- `LatentAtlas-runs/rpj3-20260829-2bd47b2/bootstrap_summary.json`
+- `LatentAtlas-runs/rpj3-20260829-2bd47b2/original_shuffle_semantics.json`
+- `LatentAtlas-runs/rpj3-20260829-2bd47b2/side_bias_analysis.json`
+- `LatentAtlas-runs/rpj3-20260829-2bd47b2/verifier_receipt.json`
+- `LatentAtlas-runs/rpj3-20260829-2bd47b2/result_seal.json`
+- `LatentAtlas-runs/rpj3-20260829-2bd47b2/RECOVERY_PROVENANCE.json`
+
+## Related Pages
+
+- [[latentatlas]]
+- [[rpj2-projector-noncollapse-anchor-mechanism]]
+- [[latentatlas-rpj1-reward-projector-dev]]
+- [[latentatlas-rrv1-frozen-latent-reward-readout]]
+- [[representation-alignment]]
+- [[projector]]

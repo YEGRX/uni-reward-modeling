@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latent-reward-channels-framework-v5-task-observability",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "theory_or_specified_model",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "N9–N10有限source，U±1/E三值。unknown-c/δ与旧known-c权限分开；真实缓存仅继承v4资格，不提取新观测。",
+  "parameters_excerpt": "ρ=.8、α_source=.75；β_target=.6、T1、η=.3（未来.6）；probe b=.8/g=.3,.8；每设计总N256、每符号128；公开c∈[.35,.45]/δ∈[-.15,.15]；CI失效率.05。六真参数单元仅生成与评价可读。全部257计数精确求和，没有随机seed。",
+  "code_identity_excerpt": "独立执行源SHA：`0bc9232754e9e9fa7695abeb4b791e267248123f30fc9005a3ea152a584e9dd5`。理论由ChatGPT维护；不伪造Git commit。详见protocol与来源成本。",
+  "source_snapshot": "docs/source-snapshots/latent-reward-channels-framework-v5-task-observability.txt",
+  "primary_report": null
+}

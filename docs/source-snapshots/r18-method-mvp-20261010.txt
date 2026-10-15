@@ -1,0 +1,73 @@
+# R18 方法实现与实际 MVP 验证
+
+## 1. Date
+
+2026-10-10。最终 **MIXED**；代码验证通过，真实AI **NOT_RUN**。
+
+## 2. Purpose
+
+将 [[r18-conditional-exponential-recovery]] 落实为运行方法，检验有限带噪评分能否改善条件指数积分后的偏好恢复、预算效率和决策。避免仅靠数学定理或代码能运行推断实际优势。
+
+## 3. Code Version / Commit
+
+项目当前原有内容未作为已提交Git历史管理，本轮新增独立r18模块，未覆盖旧实验。每次运行均保存实际源码/配置快照、SHA、raw数据和日志；后续修复另存。最终源码与各阶段来源见完整交付README及manifest，不能只用可变工作区回放旧EM。
+
+## 4. Dataset / Input
+
+参考law中8状态X=(U,V,W)，原稿witness及预定义高阶变化模型；binary/ternary两种有界随机评分，符合 |Z|≤.6、E[Z|X]=z、|z|≤a≤.25。四格按标签优先选择n个独立内容。数学模型随机采样是真实执行结果，但不是实际神经模型评分。
+
+真实资源另只读核验192图像与加噪D64缓存、PickScore/ImageReward/冻结head，缺对应clean U/grouping/reference及独立后验目标资格，未执行真实R18实验。
+
+## 5. Parameters
+
+R1：7模型×2噪声×n={64,256,1024}×K={1,2,4,8}×Nb={0,32768}，每格40独立重复，共13440库；主格高阶/binary/n1024/K4/Nb32768，在结果前指定。N=ceil(2n/.075)，L=N+Nb，Q=4nK。
+
+最终V2：4模型×2噪声×n={256,1024}×K={2,8}×Nb32768，每格40，共1280新库，seed_start302610100与全部R1种子无交集。旧V2全部1280 seed与R1重叠，保留但撤销独立确认身份。全部生成16000库，最终无重叠证据14720库。
+
+## 6. Command
+
+从 `scripts/latent-reward-channels` 运行：
+
+```sh
+OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 PYTHONPATH=src \
+  source-workspace/.venv/bin/python -m lrc.r18_run \
+  --config configs/r18_method_v1.yaml --run-dir outputs/r18-method-v1-replay-01
+```
+
+最终V2替换配置为 `configs/r18_method_v2_disjoint.yaml`。目录存在即拒绝覆盖。测试/历史归档回放/同观测强基线修复命令见 [README](../../scripts/latent-reward-channels/reports/r18-method-20261010/README.md)。
+
+## 7. Results
+
+主指标：真实反馈qY加权posterior KL。40seed主格均值：
+
+| 方法 | posterior KL |
+|---|---:|
+| 参考后验 | 5.79225e-5 |
+| 内容均值直接指数 | 3.88604e-5 |
+| 合格81点混合MLE | 3.59691e-5 |
+| 可见内容饱和估计 | 2.77141e-5 |
+| R18 V1 | 1.66164e-5 |
+
+V1−MLE配对差 −1.93527e-5，95% CI [−3.05453e-5,−8.16021e-6]；限定主格风险降低53.8%。移除高阶后风险回到参考后验，移除池化风险增加，支持核心机制。对强MLE的决策regret差CI跨零，未证明强基线下游收益。
+
+结构偏离witness t.08/n1024/K8时：V1 KL=2.46264e-4、完整函数族MLE=8.91549e-6。最终新seed同设置：V1=2.54003e-4、V2=3.14029e-5、可见内容=1.89462e-5、完整参数MLE=7.80651e-6；V2部分修复仍无通用优势。
+
+34项单元检查通过；三次主运行产物校验与归档源码抽样回放通过，最终1280库概率/likelihood逐库独立检查通过。合计123084800次模拟抽样、实测实验wall249.674秒，0GPU/真实评分/付费API；成本不含审阅/报告/打包。
+
+## 8. Analysis
+
+高阶乘积恢复非线性信息，公共均值池化在部分模型中减少方差。保守软阈值 h=.0579756 大于rho=.025，全部结构对比压零，偏离模型中明显引入偏差。有限公开函数族和可见重复内容使强基线可以跨内容学习；一般minimax困难类不保证逐模型优势。SUCCESS完整条件未满足，判MIXED。
+
+## 9. Problems
+
+旧R1 EM未获证书，强基线修复复用原观测另存；修复后54/6720 R1拟合及6/640最终V2拟合仍未决，不降容差。旧V2 likelihood诊断弃用、种子独立性撤回；新V2修复后重新确认。完整历史与负格保留。实际data contract/novelty尚未认证，Gaussian/连续效用/高维平滑等未测试。
+
+## 10. Next Steps
+
+Stop阈值搜索、GPU扩训与真实优势主张。Go仅限一个可提供客观clean目标、独立grouping与重复评分的真实内容合同，先对强基线检验直接恢复。当前只需CPU；租用服务器状态未核查，不需要保持GPU开机。
+
+## 11. Sources
+
+Source: `raw/experiments/latent-reward-channels/r18-method-20261010/`。
+Source: `scripts/latent-reward-channels/reports/r18-method-20261010/{MVP_EXPERIMENT_REPORT,IMPLEMENTATION_VERIFICATION,FAILURE_ANALYSIS,REAL_AI_VALIDATION,REVIEW_FINAL}.md`。
+Source: `scripts/latent-reward-channels/outputs/r18-method-v1-20261010-r1/`、`r18-baseline-repair-20261010-r1/`、`r18-visible-content-v1-20261010-r1/`、`r18-method-v2-disjoint-20261010-r1/`及保留的旧V2目录。

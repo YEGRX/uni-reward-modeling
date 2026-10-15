@@ -1,0 +1,20 @@
+{
+  "experiment_id": "r18-method-mvp-20261010",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "theory_or_specified_model",
+  "reported_status": "MIXED",
+  "scope": "14,720无重叠模拟库；真实AI NOT_RUN",
+  "scientific_conclusion": "规定模型主格V1相对合格混合MLE posterior KL下降53.8%；偏离模型中强MLE更好。",
+  "limitations": "这是模拟限定收益，不是视觉成功；旧V2种子独立性撤回、强基线未决格与负结果保留。",
+  "input_excerpt": "参考law中8状态X=(U,V,W)，原稿witness及预定义高阶变化模型；binary/ternary两种有界随机评分，符合 |Z|≤.6、E[Z|X]=z、|z|≤a≤.25。四格按标签优先选择n个独立内容。数学模型随机采样是真实执行结果，但不是实际神经模型评分。\n\n真实资源另只读核验192图像与加噪D64缓存、PickScore/ImageReward/冻结head，缺对应clean U/grouping/reference及独立后验目标资格，未执行真实R18实验。",
+  "parameters_excerpt": "R1：7模型×2噪声×n={64,256,1024}×K={1,2,4,8}×Nb={0,32768}，每格40独立重复，共13440库；主格高阶/binary/n1024/K4/Nb32768，在结果前指定。N=ceil(2n/.075)，L=N+Nb，Q=4nK。\n\n最终V2：4模型×2噪声×n={256,1024}×K={2,8}×Nb32768，每格40，共1280新库，seed_start302610100与全部R1种子无交集。旧V2全部1280 seed与R1重叠，保留但撤销独立确认身份。全部生成16000库，最终无重叠证据14720库。",
+  "code_identity_excerpt": "项目当前原有内容未作为已提交Git历史管理，本轮新增独立r18模块，未覆盖旧实验。每次运行均保存实际源码/配置快照、SHA、raw数据和日志；后续修复另存。最终源码与各阶段来源见完整交付README及manifest，不能只用可变工作区回放旧EM。",
+  "source_snapshot": "docs/source-snapshots/r18-method-mvp-20261010.txt",
+  "primary_report": {
+    "source_locator": "wiki-store/scripts/latent-reward-channels/reports/r18-method-20261010/MVP_EXPERIMENT_REPORT.md",
+    "original_sha256": "c646e9451c0275f857185c6d7f97f9394a62476ce818851a5b19712e63a79de0",
+    "file": "docs/reports/r18-method-mvp-20261010-final.txt",
+    "sha256": "c646e9451c0275f857185c6d7f97f9394a62476ce818851a5b19712e63a79de0"
+  }
+}

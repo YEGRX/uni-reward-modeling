@@ -1,0 +1,149 @@
+# LatentAtlas U4-B0 Fresh Functional Authority Gate
+
+## 1. Date
+
+- 2026-08-25
+
+## 2. Purpose
+
+U4-B0 的目标不是评估 Reward transfer，而是回答一个更早的门控问题：能否从公开、历史不重叠、方向完整的 fresh coherence 数据中，封存一套可供后续功能实验消费的 authority。
+
+本次链路为：
+
+```text
+Rapidata/svg-benchmark pinned snapshot
+→ FRA-SVG0 strict fresh pool
+→ U4-B0 label-blind selection + orientation seal
+→ B1 sample-sufficiency gate
+```
+
+## 3. Code Version / Commit
+
+- FRA-SVG0 production/verifier commit：`25be30466fe06bc9581392f52b907245d407942a`
+- FRA-SVG0 terminal seal：`b0d0a878f49219570db1bf5d1325c2146e8af668a9a40e1a98741613782ce923`
+- B0 V3 consumer compatibility commit：`fb887f9d91b0959ab9c0fba3ccdc75821fa3698f`
+- B0 formal production commit：`beb431f3453d4817412b469b9749ad073512a22d`
+- B0 result commit：`1df1b2bec072f75edb08fe9d1b27395850748058`
+- B1 compatibility/preformal HEAD：`deda48b4f7c234190fb4e1bd47c374d8484fe8d1`
+
+## 4. Dataset / Input
+
+- 数据集：`Rapidata/svg-benchmark`
+- 固定 revision：`bbb5fde7d01c82bad242fd555a9ed2a2fad38b06`
+- 本地 snapshot：80 files，`42,761,735,974` bytes，309,955 physical rows。
+- FRA-SVG0 完整分类：
+  - retained strict-fresh rows：284
+  - missing coherence question：120,141
+  - exact ties：4
+  - encoded self-pairs：143
+  - identical decoded RGB：758
+  - conflicting duplicate rows：80,964
+  - duplicate nonrepresentative rows：107,665
+- 对 G0.1、U4 P4096、U4 H1105 的历史 overlap 在全部登记维度上均为 0。
+
+## 5. Parameters
+
+- FRA strict-pool version：`STRICT_FRESH_POOL_V3`
+- B0 selection：对 strict-fresh public rows 做 label-blind 全选，按 `public_row_id` 字典序冻结。
+- B0 eligible authority：284 rows / 284 pairs / 568 images / 284 prompts。
+- 图结构：284 connected components；每对独立成分量。
+- B1 冻结 sample gate：
+  - `selected_pair_count >= 300`
+  - `unique_selected_image_count >= 300`
+
+## 6. Command
+
+正式链路均在 no-network、CPU-only 环境中运行：
+
+```bash
+scripts/run_fra_svg0_acquisition.py audit-and-seal ...
+scripts/verify_fra_svg0_authority.py ...
+scripts/build_u4b0_candidate_binding.py preflight ...
+scripts/run_u4b0_fresh_authority.py ...
+scripts/verify_u4b0_fresh_authority.py runs/U4B0_FRESH_FUNCTIONAL_AUTHORITY_GATE
+```
+
+B1 仅执行了 authority-free 本机 MPS smoke、label-blind provider 与 runtime evidence；sample gate 返回 blocker 后，没有创建正式 config、private compute root 或 formal run。
+
+该段记录原 confirmatory B1 的 preformal 状态。随后另行冻结并完成了独立命名的 [[latentatlas-u4b1-284-exploratory-fresh-functional-specificity]]；原 B1 仍未运行。
+
+## 7. Results
+
+### 7.1 FRA-SVG0
+
+- 独立 verifier verdict：`PASS`
+- candidate state：`FRA_SVG0_AUTHORITY_CANDIDATE_READY`
+- strict pool：284
+- historical overlap rows：0
+- 禁止访问计数：network、G0.1 forbidden columns、U4 forbidden artifacts、H1105 metrics 全为 0。
+
+### 7.2 U4-B0
+
+- 正式分类：`FRESH_FUNCTIONAL_AUTHORITY_CANDIDATE_SEALED`
+- independent verifier：`PASS`
+- completed paths：20/20
+- authority seal：`b7c1b94ca6b73e235bb3cfcad771c616aea811e42452ff498d429580f688f642`
+- inventory：`a40524e33d4630fab916609d5b80c6c3109fece01f80d04bae3137ceda4391d9`
+- 14 个登记 overlap dimensions 的 count 全为 0。
+- orientation materialization 恰好 1 次；selection、public candidate、historical registry 与 authority builder 也都满足冻结计数。
+- GPU、网络、Reward checkpoint、latent/model output、H1105 metric、row-level orientation persistence 等禁止计数全为 0。
+
+### 7.3 U4-B1 preformal gate
+
+- 本机 Apple MPS exact-model smoke：`PASS`
+- label-blind provider：284 pairs、568 unique images、284 components。
+- runtime evidence：`U4B1_LOCAL_MPS_RUNTIME_EVIDENCE_READY`
+- 最终 preformal status：`BLOCKED_INSUFFICIENT_FRESH_AUTHORITY`
+- 原因：pair count `284 < 300`；image count `568 >= 300` 已通过。
+- B1 formal config、infrastructure binding、formal root 与 private compute root 均未创建。
+
+## 8. Analysis
+
+### 8.1 结果证明了什么
+
+1. 已得到一套 revision-bound、方向完整、历史登记维度零重叠的 public fresh functional authority candidate。
+2. U4-B0 已把 284 条 eligible rows 的选择、coverage、orientation、provenance 与单次消费边界正式封存。
+3. 过去的 `NO_FRESH_CONFIRMATORY_AUTHORITY` 已被推进为“fresh authority 已存在，但当前 B1 样本门槛不足 16 pairs”。
+
+### 8.2 结果不证明什么
+
+- 不证明 frozen Reward Head 在 fresh 数据上有效。
+- 不证明 Reward transfer、canonical U、unseen-VAE onboarding 或跨分布泛化。
+- 不证明 284 pairs 统计上一定不足；它只是不满足预先冻结的 300-pair B1 门槛。
+- B1 的 blocker 是 preformal sample-sufficiency gate，不是模型负结果。
+
+## 9. Problems
+
+- FRA-SVG0 V1–V5 的失败尝试均保留未覆盖；V6 修复了 exact-SHA-bound legacy JSON 与独立 verifier 的兼容性，并补充拒绝 `1e999/-1e999` 溢出非有限数。
+- B0 初版 consumer 仍绑定 FRA terminal/receipt/strict-pool 的旧版本；已按正式 V6 更新到 `TERMINAL_V2 / RECEIPT_V2 / STRICT_FRESH_POOL_V3`，没有放宽 private/label access。
+- B1 不是工程失败：冻结门槛要求至少 300 pairs，当前仅 284。
+
+## 10. Next Steps
+
+当时有两条互斥路线：
+
+1. **Confirmatory-first**：新增至少 16 条、最好留有排除余量的独立 fresh eligible pairs，构造新的 union authority，使原 B1 的 300-pair gate 原样通过。
+2. **Speed-first diagnostic**：建立独立命名的 `B1-284` exploratory amendment，把 minimum pair count 冻结为 284；结果只能称 development diagnostic，不能冒充原 B1 confirmatory result。
+
+项目随后选择并单独冻结了第 2 条路线。B1-284 已得到 `INDETERMINATE / SOURCE_H_INADEQUATE`，详见 [[latentatlas-u4b1-284-exploratory-fresh-functional-specificity]]；该结果没有修改原 B1，也不能把 B0 SEALED 写成 Reward-transfer PASS。
+
+## 11. Sources
+
+- Source: `owner-home/Documents/LatentAtlas-fresh-authority/20260825-fra-svg0-local-v6/sealed-candidate/terminal-seal.json`
+- Source: `owner-home/Documents/LatentAtlas-fresh-authority/20260825-fra-svg0-local-v6/sealed-candidate/verifier-receipt.json`
+- Source: `source-workspace/.worktrees/u4-b0-fresh-functional-authority-gate/runs/U4B0_FRESH_FUNCTIONAL_AUTHORITY_GATE/report.md`
+- Source: `source-workspace/.worktrees/u4-b0-fresh-functional-authority-gate/runs/U4B0_FRESH_FUNCTIONAL_AUTHORITY_GATE/decision.json`
+- Source: `source-workspace/.worktrees/u4-b0-fresh-functional-authority-gate/runs/U4B0_FRESH_FUNCTIONAL_AUTHORITY_GATE/readiness_matrix.json`
+- Source: `source-workspace/.worktrees/u4-b0-fresh-functional-authority-gate/runs/U4B0_FRESH_FUNCTIONAL_AUTHORITY_GATE/access_manifest.json`
+- Source: `source-workspace/.worktrees/u4-b1-fresh-functional-specificity/docs/superpowers/specs/2026-08-25-u4-b1-fresh-functional-specificity-design.md`
+- Source: `owner-home/Documents/LatentAtlas-fresh-authority/20260825-u4b1-runtime-v1/mps-smoke-receipt.json`
+- Source: `owner-home/Documents/LatentAtlas-fresh-authority/20260825-u4b1-label-blind-provider-v1/provider-seal.json`
+
+## 12. Related Pages
+
+- [[latentatlas]]
+- [[latentatlas-fra0-public-fresh-coherence-authority-audit]]
+- [[latentatlas-fra0r-provenance-recovery]]
+- [[latentatlas-u4bd1-frozen-head-function-preservation]]
+- [[latentatlas-u4b1-284-exploratory-fresh-functional-specificity]]
+- [[latentatlas-u-series-comprehensive-report]]

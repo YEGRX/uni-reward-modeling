@@ -1,0 +1,95 @@
+# LatentAtlas DINA0 + DINA1：外部冻结 Reward 与功能注册预检
+
+## 1. Date
+
+2026-09-08。状态：**BLOCKED_ANCHOR_DISJOINTNESS_UNVERIFIED**；完成预检归档，科学执行尚未开始。
+
+## 2. Purpose
+
+[[latentatlas-rgen1-reward-external-generalization]]之后，改用外部成熟Frozen Latent Reward作为裁判，把“裁判本身是否可读偏好”和“不同VAE能否复用裁判”分开检验。DINA0先验证原生SD3.5→DiNa；只有通过才进入DINA1。
+
+DINA1比较同一小Projector的完整latent重建目标（REC）与冻结DiNa内部H4/H8/H12匹配目标（FUNC）。research gap是：复用Reward是否必须恢复完整reference latent coordinates，还是少量same-image anchors就能恢复所需function。
+
+不是新U、true-unseen、fresh preference confirmation或通用Reward结论。
+
+## 3. Code Version / Commit
+
+- branch：`codex/dina1-external-frozen-reward-functional-registration`。
+- predecessor：`e6e6cf33fca336a422e13ea316269f7e76821534`（RGEN1finalizer）。
+- preflight finalizer：`de971295f2cd4d9f674e9004ab9c531436d9e19f`；无DINA scientific commit。
+- worktree：`source-workspace/.worktrees/dina1-external-frozen-reward-functional-registration`；封存时CLEAN。
+- DiNa repo：`5a5a025e3ed090c86e96af0d924153569e2cace8`。
+- DiNa HF：`31d99dc51bf4c6fd46eb6a5ba0d352e36320cad9`。
+- SD3.5 base：`b940f670f0eda2d07fbb75229e779da1ad11eb80`。
+
+## 4. Dataset / Input
+
+计划仅用consumed DIAG643 strict rows和RPJ4-only EXTERNAL2619 strict rows。本轮两个surface的orientation访问都为0。future reserve12455 rows、oldofficialTEST仍禁止读取。
+
+已核实COCO val2017原始RGB两组64候选：文件SHA/尺寸/解码/FITVAL去重通过；没有preference labels。查询128个候选自身bytehash在全局图片目录中的路径，均不存在。但完整目录覆盖证明尚缺，因此这还不是已通过资格的Anchor bank。
+
+旧6632-image overlap证据不能证明与完整20818-row新authority不重叠。可接受U7已有raw-byte identity，不额外要求decoded-RGB；仍需完整namespace的coverage/nonmembership证明。不会临时读取future索引来补证。
+
+## 5. Parameters
+
+全部为用户协议/预检继承结论，**正式spec未冻结**。
+
+- source：SD/FLUX posterior mode、DCAE deterministic；teacherSD3.5 posterior stateless sample后(z−0.0609)×1.5305。
+- 官方model card文本长度256；u=0.1对应nearest sigma；K_noise=4，按image共享噪声，平均raw scores。
+- FUNC用empty prompt注册，最终评价用真实prompt；Projector不输入prompt；H4/H8/H12等权，不加入latent/score/preference loss。
+- RPJ2是token输出，不能直接复用为SD35 latent输出；采用用户已允许conv fallback。REC/FUNC同架构，SD/FLUX/DCAE分别38288/39056/40080参数。
+- 完整历史训练registry可继承AdamW、3e-4→3e-5、warmup500、effective batch32、12000updates、每500以AnchorVAL选checkpoint。架构fallback不自动改变optimizer。
+- 计划108fits（54REC+54FUNC），seeds20260827/28/29、5个permutation；本轮实际fit0。
+- metrics：Accuracy、PAIR_RO、direction、teacher margin agreement、functional similarity、q_MSE。20k common connected bootstrap，q.05/q.95是一侧95%界/中央90%区间。FUNC−REC Acc下界>-0.02；q_MSE>=1.25解释阈值。
+- resolution/preprocessing、permutation maps、完整cache/weightbindings与进一步统计操作定义待冻结。训练reference1024不是model card强制resize证据。
+
+## 6. Command
+
+磁盘预检核验入口：在上述worktree下设置`PYTHONPATH=src`，用`source-workspace/.venv/bin/python -m latentatlas.dina1_preflight`读取原始run目录。完整可复制命令见来源报告。它不执行模型、训练或科学bootstrap。
+
+## 7. Results
+
+| 检查 | 本轮结果 |
+|---|---|
+| 官方代码/config审计 | scoped22文件Gitblob与SHA核验通过，3版本已pin；模型权重未下载 |
+| 原始RGB候选 | 128当前payload核验通过；完整authority不重叠尚未证明 |
+| 合成测试/基线 | 51新预检测试+9继承authority测试=60PASS |
+| preflight磁盘核验 | PASS，77文件+4代码绑定；只验证预检记录 |
+| DINA0原生资格/DIAG/EXTERNALAcc | NOT_RUN |
+| SD/FLUX/DCAE REC/FUNC、null、bootstrap | NOT_RUN |
+| full reconstruction是否不必要 | 未评价，不能支持或否定 |
+
+访问：oldTEST/DIAG/EXTERNAL/futurerow/futureorientation/anchorpreflabel/projectortrainlabel/formalfit全0。RGB128；network45次逻辑操作含失败重试；DiNa model-repo card/config4次，weights0；modelforward0。
+
+## 8. Analysis
+
+这是一项数据准入证明缺口，不是DiNa失败，也不是FUNC失败。用户要求在第一次DINA0评分前把DINA1 spec及anchor manifests一起冻结，因此不能先看裁判表现再补证明。[[latentatlas]]与RGEN1历史证据不因本次预检改变。
+
+若将来FUNC Reward不劣于REC但q_MSE<1.25，只能说复用成功、重建必要性未定；不能把FUNC得分好直接当作full reconstruction unnecessary。REC只是同浅Projector的重建目标baseline，不是12-block Latent Bridge复现。
+
+## 9. Problems
+
+主阻塞：固定128byte identities与完整20818-row namespace之间缺可核验coverage/nonmembership。可补既有certificate、可验证集合承诺或不可变snapshot证据，不必重新提供原图，也不增加RGB_V1门槛。
+
+次要未完成项：本机无CUDA，正式MPS parity未建立；本地依赖与官方要求不同且缺peft等。没有模型weightloading/officialscore/LoRA/hiddenstate/gradientparity。不能标记READY_FOR_CUDA_EXECUTION。
+
+
+后续协议修订（2026-09-09）：[[latentatlas-dina0-r1-native-qualification]] 独立开展不需要Anchor的DINA0准备；旧本页BLOCKED及其seal不变。future confirmation资格退役的新政策只记入新run，读取仍为0。Source: `raw/experiments/latentatlas/dina0-r1-preparation-2026-09-09/DINA_PROTOCOL_AMENDMENT.md`。
+
+## 10. Next Steps
+
+先取得满足零future访问边界的既有覆盖/非成员证明，再完成完整科学spec、正式实现与FIT-only smoke。随后按DINA0 gate条件执行DINA1，不能自行改目标救结果。
+
+FUNC计划20736000个student conditions，必须实测CUDA吞吐再安排租用。估计条件时长0.1/0.5/1秒会对应24/120/240天，仅作为成本敏感性，不是速度预测。显存规划约24–48GiB的1024 FUNC microbatch1方案也未实测，不能保证4090适用。
+
+当前仅CPU/证据工作，无需租用GPU；远端开关状态未核实。相关：[[latentatlas]]、[[latentatlas-rgen1-reward-external-generalization]]、[[rpj4-true-unseen-sd35-anchor-confirmation]]、[[latentatlas-u7-reconstructed-anchor-onboarding]]。
+
+## 11. Sources
+
+- Source: `raw/experiments/latentatlas/dina1-preflight-2026-09-08/DINA_USER_PROTOCOL.md`。
+- Source: `raw/experiments/latentatlas/dina1-preflight-2026-09-08/DINA1_FINAL_REPORT.md`（完整20问、主表、hash附录）。
+- Source: `raw/experiments/latentatlas/dina1-preflight-2026-09-08/DINA_EXTERNAL_SOURCE_AUDIT.json`、`DINA_INFERENCE_SEMANTICS_AUDIT.json`。
+- Source: `raw/experiments/latentatlas/dina1-preflight-2026-09-08/DINA_ANCHOR_MANIFEST.json`、`dina1-anchor-preflight.md`、`dina1-preflight-independent-review.md`。
+- Source: `raw/experiments/latentatlas/dina1-preflight-2026-09-08/DINA1_PORT_PROVENANCE.json`、`dina1-port-preflight.md`。
+- Source: `raw/experiments/latentatlas/dina1-preflight-2026-09-08/DINA_AUTHORITY_LEDGER.json`、`audit.json`、`automatic_decision.json`。
+- Source: `raw/experiments/latentatlas/dina1-preflight-2026-09-08/preflight_verifier_receipt.json`、`preflight_seal.json`、`archive-index.json`、`delivery-manifest.md`。

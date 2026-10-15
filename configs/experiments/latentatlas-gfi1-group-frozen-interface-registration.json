@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-gfi1-group-frozen-interface-registration",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "计划使用 DIAG 643、EXTERNAL 2619；future reserve 12455 保持封闭。以上为协议规定规模，本轮没有读取其行或偏好方向。计划 Anchor 为 128 张有 caption、无偏好标签的原始 RGB，64 FIT + 64 VAL；尚未选择或准入，不能默认复用 DINA 候选。\n\n已读组内匿名稿正文 9 页、补充材料 7 页。全文 URL/代码发布表述、链接注释与内嵌附件检查均未找到组内仓库或权重入口。补充材料的公开 checkpoint 指 SD3.5 基础模型。只能确认当前稿件未提供入口，不能推断作者没有在其他地方开源。本轮未做外网检索。",
+  "parameters_excerpt": "协议计划静态 512、sigma=0、CFG=7，但 CFG 位置、VAE 编码/缩放及精确模型版本必须由组内代码确认。REC 计划覆盖 SD/FLUX/DCAE，FUNC 仅 FLUX；计划 54 REC + 18 FUNC fits，实际均为 0。FUNC 对齐冻结视觉功能状态，不使用偏好标签训练 Projector。\n\nBaseline 包括 NoReg、5 个固定置换、REC，以及可取得时的真实 Full Bridge EMA。指标（metrics）包括 Accuracy、NLL、PAIR_RO、Reward 非劣性和 latent MSE；全部 NOT_RUN，未产生本次科学数值。",
+  "code_identity_excerpt": "独立工作区：`source-workspace/.worktrees/gfi1-group-frozen-interface-registration`。\n分支：`codex/gfi1-group-frozen-interface-registration`；基础 RGEN1 commit：`e6e6cf33fca336a422e13ea316269f7e76821534`；来源预检文档 commit：`7c396cbed175c2805c4b2eb7e0c8c785d8e1573e`。没有 GFI 科学实现或训练 commit，正式实验规格尚未冻结。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-gfi1-group-frozen-interface-registration.txt",
+  "primary_report": null
+}

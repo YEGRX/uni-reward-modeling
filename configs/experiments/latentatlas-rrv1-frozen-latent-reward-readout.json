@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-rrv1-frozen-latent-reward-readout",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Dataset：`MizzenAI/HPDv3@5ac4b5b5f2ef42c4613dec612473170b131552db`。\n- TRAIN / DEV / TEST preference pairs：50,007 / 5,000 / 5,004。\n- Cached images：53,271。\n- Frozen representations：SD、FLUX、DCAE、S64-W。\n- Text cache：CLIP-L + CLIP-G + authoritative Google T5-XXL，10,922×6,144。\n- Formal readers：4 representations × 3 reader kinds × 3 seeds = 36 fits。",
+  "parameters_excerpt": "- 每个 formal fit：5,000 updates。\n- TEST evaluation：Apple MPS、BF16 autocast、batch size 256。\n- Bootstrap：20,000 次 connected-group bootstrap，共用冻结 indices。\n- TEST authority：原始 attempt 访问 1 次后 crash；recovery 访问 1 次并成功；总计 2 次，禁止第三次 replay。",
+  "code_identity_excerpt": "- Branch：`codex/rrv1-formal-test-recovery-r1`\n- Original formal fitting commit：`8c252b07314e1286d5119d3664888bace3f2435e`\n- Recovery evaluator commit：`5658782959cd9e3ce27a0d5bbef74cdbae6f27f0`\n- 唯一 production 修复：在 `evaluate.evaluate_margins` 的 MPS inference 路径加入与 `training._evaluate` 完全一致的 BF16 autocast context。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-rrv1-frozen-latent-reward-readout.txt",
+  "primary_report": null
+}

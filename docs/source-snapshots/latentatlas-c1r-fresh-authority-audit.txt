@@ -1,0 +1,90 @@
+# LatentAtlas C1-R Fresh-Authority Multi-Seed LOO Confirmation
+
+## 1. Date
+
+2026-08-18
+
+## 2. Purpose
+
+审计当前 Reward authority 是否包含从未参与 G0.1 train/validation/test、C0/C1 test、Anchor、architecture/hyperparameter selection 或人工调优的 fresh confirmatory preference pairs。只有存在有效且 image-disjoint 的新 authority，才允许执行三 seeds × 四 conditions 的 C1-R confirmation。
+
+## 3. Code Version / Commit
+
+- Audit base commit: `a6a734cdeefb12828a03f8439be7bb70cf5c5471`
+- Base branch: `codex/c1-mini-loo-shared-reader`
+- 本次只执行只读 authority audit；没有创建 C1-R code、config、checkpoint 或 run directory。
+- Device: 本地 CPU / 磁盘读取；不需要 GPU 或远程服务器。
+
+## 4. Dataset / Input
+
+- Current Reward dataset: `Rapidata/human-coherence-preferences-images`
+- Frozen revision: `72c0ebefc7ef3bebe22643fc709a6e94c22b5b02`
+- Official shards: `53/53`
+- Audited source rows: `63,748`
+- G0.1 pair manifest SHA-256: `23faea933a176eb3c3fd2b52d6006491b62b6ae3ae4d72b978e61803415e8acd`
+- G0.1 split manifest SHA-256: `83a96bcdeb2805e1743b4555c5a1366558612dc5033598c777295b3016ab64ea`
+- G0.1 official Parquet replay: `pass`
+
+## 5. Parameters
+
+Not applicable。Fresh-authority gate 在任何 model、seed、normalization、sampler 或 latent-cache evaluation 之前失败，因此没有启动 12 个训练 run，也没有打开任何新 preference orientation。
+
+## 6. Command
+
+使用只读 Python 审计 G0.1 的完整 `pair-manifest.jsonl`，逐行重算 status、orientation、image/prompt/pair/source-row 集合及其与已消费集合的交集；同时核对本地 dataset inventory、53 个 frozen Parquet shards 与正式 manifest SHA-256。
+
+## 7. Results
+
+```text
+status = NO_FRESH_CONFIRMATORY_AUTHORITY
+```
+
+| Source-row category | Rows | Valid `preferred_source_side` | Fresh image IDs |
+|---|---:|---:|---:|
+| G0.1 usable / already consumed | 56,074 | 56,074 | 0 |
+| Exact aggregate ties | 7,673 | 0 | 0 |
+| Aggregate/detailed mismatch | 1 | 0 | 0 |
+| **Total** | **63,748** | **56,074** | **0** |
+
+已消费 usable pairs 的 train/validation/test=`44,839/5,593/5,642`；unique images=`5,201/708/723`。整个 frozen snapshot 和 usable 集合都恰好包含同一组 `6,632` unique image IDs，因此：
+
+- `all_dataset_images - consumed_images = 0`；
+- `untouched image IDs=0`；
+- `eligible_oriented_not_usable = 0`；
+- 7,673 个 ties 的 orientation 全部为 `null`；
+- 唯一 mismatch row 15,579 的 G0.1 orientation 为 `null`，其两个 image IDs 和 prompt 也都已出现在 consumed usable authority 中，而且该异常已被先前人工审计。
+
+## 8. Analysis
+
+当前数据集不能在不复用既有测试信息的前提下支持独立 confirmatory C1-R。旧 test 重新随机划分、从 validation 切 test、换 seed 后继续使用旧 test，均不满足 fresh authority 定义；exact ties 也不能被重新解释成 preference labels。
+
+因此没有进入第二道 latent-cache coverage gate。C1-R 的 12 个 models、pretest seal、fresh label authority、paired component bootstrap 和 final decision 均未产生。C1-Mini 的 Case B 继续保持 **single-seed descriptive evidence**，不能升级为稳定的 unseen-VAE generalization failure conclusion。
+
+## 9. Problems
+
+- 当前本地只有这一份冻结 Reward-labeled dataset authority；没有另一份已授权的 untouched Reward dataset。
+- Snapshot 内所有 6,632 images 都已经进入 G0.1 usable graph；不存在可与原 train/validation/test image-disjoint 的候选。
+- 7,673 个未使用 rows 是 exact ties，不具有 binary preference orientation。
+- 唯一 vote-vector mismatch 已被 G0/G0.1 发现和人工解释，且不满足 authoritative label policy。
+
+## 10. Next Steps
+
+等待人工提供或批准新的 Reward authority。不得自动抓取新数据、改用旧 validation/test、重新划分旧 authority，或把 C1/C0 已消费 test 称为 fresh confirmation。新的 authority 需要先独立冻结 pair/image/prompt/source-row/component IDs 与 orientations，再审计三 VAE latent coverage。
+
+## 11. Sources
+
+- Source: `LatentAtlas-runs/20260813T004136Z-40a2a17-f84d373a-reward-data-preflight/pair-manifest.jsonl`
+- Source: `LatentAtlas-runs/20260813T004136Z-40a2a17-f84d373a-reward-data-preflight/dataset-manifest.json`
+- Source: `LatentAtlas-runs/20260813T004136Z-40a2a17-f84d373a-reward-data-preflight/split-manifest.json`
+- Source: `LatentAtlas-runs/20260813T004136Z-40a2a17-f84d373a-reward-data-preflight/source-vote-exclusions.jsonl`
+- Source: `LatentAtlas-runs/20260813T004136Z-40a2a17-f84d373a-reward-data-preflight/preflight.json`
+- Source: `owner-home/Documents/LatentAtlas-data/rapidata-human-coherence/data/`
+- Source: `owner-home/.codex/attachments/31183ae4-86d9-4c97-86d9-f4c682232a33/pasted-text.txt`
+
+## Related Pages
+
+- [[latentatlas]]
+- [[latentatlas-c1-mini-loo-shared-reader]]
+- [[latentatlas-c0-mini-v1-direct-shared-reader]]
+- [[latentatlas-reward-data-preflight-g01]]
+- [[latentatlas-reward-data-preflight-g0]]

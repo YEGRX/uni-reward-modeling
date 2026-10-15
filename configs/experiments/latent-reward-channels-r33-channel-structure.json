@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latent-reward-channels-r33-channel-structure",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "theory_or_specified_model",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "已知Gaussian和有限Markov通道；精确积分/枚举，不是图像训练。真实缓存仅只读原sampler endpoint、双VAE配对、D64字段与旧pair预测。两份原件只读归档；作者JSON/脚本未随件提供，未运行。",
+  "parameters_excerpt": "A：K4/m16主格，控制(4,1),(4,4),(16,1),(16,4),(16,16)，x=t=1、ridge=.125；B：单source/单U，sin clean map、t=.25、τ=(exp(.5)−1)/2+.05，x0/.5/1，cos留出见证；C：三状态Qs对角.7、增量Qs、prior比exp(.6u)，温度1，条件clean n4/16，TA2/TB0。无开放搜索。",
+  "code_identity_excerpt": "无可用Git HEAD；不编造commit。原执行SHA `c141a5d228819090259f8048c72e49947a17f19436fab6b88f62ffd3cdc07830`；最终资格修正SHA `da0c7292095ac597c5555d86904313a9f54add06a35d63ccf040e67694ecc553`。原执行模块与初始表保留，固定参数未改变。冻结protocol、短review、最终只读复核均有receipt。",
+  "source_snapshot": "docs/source-snapshots/latent-reward-channels-r33-channel-structure.txt",
+  "primary_report": null
+}

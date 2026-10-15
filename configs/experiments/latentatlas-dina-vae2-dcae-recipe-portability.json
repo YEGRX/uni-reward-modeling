@@ -1,0 +1,20 @@
+{
+  "experiment_id": "latentatlas-dina-vae2-dcae-recipe-portability",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "REGISTRATION_GAIN_NOT_NEAR_NATIVE",
+  "scope": "开发集1,008对 / 28组 / 4流；64 FIT+64 VAL",
+  "scientific_conclusion": "正确REC 64.162%，未训练43.06%，置换48.69%，Native72.817%。",
+  "limitations": "配准收益成立，不支持near-native。目标专属Projector有1000步训练，不是zero-shot。",
+  "input_excerpt": "固定64FIT/64VAL COCO anchors；HPDv3开发评价1008pairs/28完整关联组/4原噪声流。复用封存Native与FLUXREC，三新DC-AE臂共24192科学条件。目标偏好标签仅用于固定评价，不用于训练；禁用数据未新增消费。",
+  "parameters_excerpt": "两REC各1000更新，seed20260827；batch32；原12000步LR曲线前1000步。每500checkpoint按自身正确VALloss选点；正确选1000，置换选500。Projector32→64→64→16、40080参数，FP32 bilinear align_corners=False在卷积前对齐source网格。官方DC-AE FP32 tiled512/stride448，原RGB/rawlatent。",
+  "code_identity_excerpt": "HEAD `fa301d7`；远端不可变`code-full-4086931bfe1d`。完整spec SHA`d34942fc7635f2142c732d3c9ff921774ce9c9f4d8276d2986664429e873402f`。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-dina-vae2-dcae-recipe-portability.txt",
+  "primary_report": {
+    "source_locator": "LatentAtlas-runs/DINA_VAE2_DCAE_RECIPE_PORTABILITY_PILOT-20260924-R1/REPORT.md",
+    "original_sha256": "fd32a9b0a92b2aec1ec11f0ae1b6772a5ec7c351713f401556d395034a865caf",
+    "file": "docs/reports/latentatlas-dina-vae2-dcae-recipe-portability-final.txt",
+    "sha256": "fd32a9b0a92b2aec1ec11f0ae1b6772a5ec7c351713f401556d395034a865caf"
+  }
+}

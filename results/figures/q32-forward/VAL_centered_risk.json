@@ -1,0 +1,80 @@
+[
+  {
+    "method": "G",
+    "centered_risk": 0.0,
+    "ci_low": 0.0,
+    "ci_high": 0.0,
+    "relative_reduction": 1.0,
+    "raw_MSE": 0.0,
+    "common_offset_MSE": 0.0,
+    "pair_margin_MSE": 0.0,
+    "strict_G_agreement": 1.0,
+    "tie_rate": 0.010416666666666666,
+    "coordinate_MSE": 0.0
+  },
+  {
+    "method": "BASE",
+    "centered_risk": 1.677438735961914,
+    "ci_low": 1.0957088470458984,
+    "ci_high": 2.3041966915130607,
+    "relative_reduction": 0.0,
+    "raw_MSE": 17.11168670654297,
+    "common_offset_MSE": 15.434247970581055,
+    "pair_margin_MSE": 4.473169962565104,
+    "strict_G_agreement": 0.8368421052631579,
+    "tie_rate": 0.015625,
+    "coordinate_MSE": 0.21882710105273873
+  },
+  {
+    "method": "C32",
+    "centered_risk": 1.6963443756103516,
+    "ci_low": 1.1070308685302734,
+    "ci_high": 2.3275146484375,
+    "relative_reduction": -0.011270539569122384,
+    "raw_MSE": 17.836448669433594,
+    "common_offset_MSE": 16.140104293823242,
+    "pair_margin_MSE": 4.5235850016276045,
+    "strict_G_agreement": 0.8473684210526315,
+    "tie_rate": 0.010416666666666666,
+    "coordinate_MSE": 0.2183280298486352
+  },
+  {
+    "method": "A32",
+    "centered_risk": 1.5733051300048828,
+    "ci_low": 0.9856886386871339,
+    "ci_high": 2.2020721435546875,
+    "relative_reduction": 0.06207893243702678,
+    "raw_MSE": 8.708793640136719,
+    "common_offset_MSE": 7.135488510131836,
+    "pair_margin_MSE": 4.1954803466796875,
+    "strict_G_agreement": 0.8052631578947368,
+    "tie_rate": 0.015625,
+    "coordinate_MSE": 0.24251164577435702
+  },
+  {
+    "method": "Q32",
+    "centered_risk": 1.5200519561767578,
+    "ci_low": 0.9245510101318359,
+    "ci_high": 2.1941890716552734,
+    "relative_reduction": 0.09382565002882448,
+    "raw_MSE": 17.275230407714844,
+    "common_offset_MSE": 15.755178451538086,
+    "pair_margin_MSE": 4.0534718831380205,
+    "strict_G_agreement": 0.8210526315789474,
+    "tie_rate": 0.026041666666666664,
+    "coordinate_MSE": 0.2404744189698249
+  },
+  {
+    "method": "P32",
+    "centered_risk": 1.9667377471923828,
+    "ci_low": 1.2367344856262208,
+    "ci_high": 2.803651809692383,
+    "relative_reduction": -0.17246472555349235,
+    "raw_MSE": 21.09514617919922,
+    "common_offset_MSE": 19.128408432006836,
+    "pair_margin_MSE": 5.2446339925130205,
+    "strict_G_agreement": 0.8210526315789474,
+    "tie_rate": 0.020833333333333332,
+    "coordinate_MSE": 0.24094174825586379
+  }
+]

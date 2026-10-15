@@ -1,0 +1,15 @@
+{
+  "experiment_id": "rpj4-true-unseen-sd35-anchor-confirmation",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Target VAE：`stabilityai/stable-diffusion-3.5-medium`，只使用 VAE。\n- Fresh authority：`datapointai/text-2-image-dpo-human-preferences-full` 的 pinned snapshot。\n- Fresh rows：20,818；SOURCE_DEV 选中 4,164 rows，其中 3,429 个有向 non-ties，735 ties 排除。\n- Reconstructed anchors：128 张；由冻结 DCAE latent 经冻结 decoder 重建为 clamped FP16 RGB，再由 SD、FLUX、DCAE 与 SD3.5 对同一像素重新编码。\n- Source latent/text caches、reconstructed-target cache 与 fresh-source cache 均在 authority 前封存，并通过 disk-only verifier。\n\nAuthority ledger：\n\n- target training Reward-label access：`0`\n- target training preference orientation access：`0`\n- fresh SOURCE_DEV orientation access：`1`\n- fresh LOCKBOX orientation access：`0`\n- old official TEST access：`0`",
+  "parameters_excerpt": "- Target registration：3 seeds ×（1 correct + 5 permutations）=`18` arms。\n- 每个 target fit：12,000 updates。\n- Seeds：`20260827/20260828/20260829`。\n- Anchor budget：`64+64`。\n- Fresh controls：better-than-chance、`PAIR_RO`、`GLOBAL_SD`、wrong prompt、direction balance、three-seed robustness。\n- Statistics：20,000 common connected-group bootstrap，seed=`20260829046`。\n- Frozen order：`SOURCE_DEV qualified → pre-lockbox freeze → exactly-once LOCKBOX`。",
+  "code_identity_excerpt": "- Branch：`codex/rpj4-true-unseen-sd35-anchor-confirmation`\n- Scientific commit：`7c7b04bc15746a4bac221d765a8cbfa44e5fffb0`\n- Worktree：`source-workspace/.worktrees/rpj4-true-unseen-sd35-anchor-confirmation`\n- Run：`LatentAtlas-runs/rpj4-20260829-1825aa7`\n- Evidence class：`TRUE_UNSEEN_ONBOARDING_ON_RECONSTRUCTED_ANCHORS`\n- Claim ceiling：`RECONSTRUCTED_ANCHOR_ONBOARDING_ONLY`",
+  "source_snapshot": "docs/source-snapshots/rpj4-true-unseen-sd35-anchor-confirmation.txt",
+  "primary_report": null
+}

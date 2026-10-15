@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-g2-reward-stratified-anchor",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Preference source：G0.1 cache-covered induced graph，共 `999` usable pairs、`713` images。\n- Split counts：train / validation / test=`605 / 168 / 226`。\n- Anchor selection 只接收 `605` 条 train edges；validation/test labels 不进入 BT fitting、stratification 或 selection。\n- Train BT graph：`481` images、`149` components；不同 component 的 utility 不做绝对值比较。\n- 三 VAE verified clean-latent cache 均覆盖 713 张 reward images；relation output shape 均为 `[713,64]`。\n- RGB availability 使用 sealed label-free bundle，并用 canonical decoded-RGB SHA-256 验证，而不是 encoded file hash。\n\n### Reward-Stratified bank\n\n- component 内使用 tie-aware average rank percentile：`(average_rank-0.5)/n`；`<1/3` 为 Low，`>2/3` 为 High，其余为 Mid。\n- 两个 zero-variance BT components 的候选全部进入 Mid，不人为制造高低排序。\n- 64 个 typed quota slots 与 eligible components 做固定种子的 maximum bipartite matching。\n- 最终配额：Low/Mid/High=`16/32/16`。\n- 64 anchors 来自 64 个不同 preference components，达到可行的最大 component coverage=`64`。",
+  "parameters_excerpt": "- Relation operator：`global_cosine`，不增加额外 normalization。\n- `K=64`，`k=10`；不调 K/k，不换 operator，不 reroll。\n- 每个 VAE 在自己的 `[713,64]` relation space 中找 top-10 neighbors。\n- RewardGap、same-component matched Random、1000 次 bootstrap、`Spearman(C,-RewardGap)` 完全复用 G2-v0。\n- Reward axis：`mean(similarity to High)-mean(similarity to Low)`；不训练模型。",
+  "code_identity_excerpt": "- Protocol: `G2_REWARD_STRATIFIED_ANCHOR_V0`\n- Branch: `codex/g2-reward-stratified-anchor-v0`\n- Formal-run code commit: `b8723fd78092d95079111ddf855aa238ee9b2abd`\n- Result commits: `04c94b6`（JSON/CSV/report）与 `e55edc6`（verified relation tensor）\n- Anchor / Random / bootstrap seed: `20260814`\n- Random-64 frozen anchor seed: `2026080901`\n- Baseline verification: Random-64 的 groups、Spearman、decision、comparison 与 G2-v0 `summary.json` 精确一致。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-g2-reward-stratified-anchor.txt",
+  "primary_report": null
+}

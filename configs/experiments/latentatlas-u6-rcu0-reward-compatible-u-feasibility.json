@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-u6-rcu0-reward-compatible-u-feasibility",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Sealed RRV1 TRAIN/DEV latent cache：SD、FLUX、DCAE。\n- TRAIN/DEV-only authoritative text cache：CLIP-L + CLIP-G + Google T5-XXL，6,144-D。\n- Native reference：RRV1 在 TEST 前由 DEV BT-NLL 选择的 DCAE prompt reader。\n- TRAIN/DEV、TRAIN/hidden-TEST、DEV/hidden-TEST 的 row/image/pair overlap 均为 0。\n- 发现 1 条 TRAIN/hidden-TEST prompt 文本重复；只记录文本重复，没有读取对应 TEST preference orientation。",
+  "parameters_excerpt": "- Arms：A=`DIRECT_SHARED_MIN`；B=两层 self-attention capacity control；C=两层 cross-attention RCU + BT；D=同一 RCU + BT + `0.1` same-image cross-VAE score consistency。\n- Reader kinds × seeds：4 arms × 3 reader kinds × 3 seeds = 36 fits。\n- 每个 fit：5,000 updates，CUDA RTX 4090。\n- Bootstrap：20,000 次 common connected-group resampling。\n- Primary：D=`RCU_BT_SCORECONS`。\n- 单视图约束：每次 forward 只接收一个 VAE latent；三视图只在 TRAIN objective 层组合标量分数，无 VAE-ID embedding、无 pointwise U equality。",
+  "code_identity_excerpt": "- Branch：`codex/u6-rcu0-reward-compatible-u-dev`\n- Code commit：`eec68a096a5a4e3bd9eea2ceee8be692287b7dbd`\n- Experiment spec SHA256：`6290cd261859fa9114a4fba524253f423fda100dafae6f05b26f8f9e2d9d5e0f`\n- Formal registry SHA256：`ca89e95dd7ad347157fff302d85ca504a807b029495363de2abb57a9cad2c1c6`",
+  "source_snapshot": "docs/source-snapshots/latentatlas-u6-rcu0-reward-compatible-u-feasibility.txt",
+  "primary_report": null
+}

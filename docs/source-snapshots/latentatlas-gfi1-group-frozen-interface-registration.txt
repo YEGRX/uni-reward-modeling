@@ -1,0 +1,62 @@
+# GFI0 + GFI1 组内冻结 Critic 与少量 Anchor 功能注册
+
+## 1. Date
+
+2026-09-08 的历史协议与来源预检记录。2026-09-14 后续已收到正式补充代码和 Full Bridge 权重，详见 [[latentatlas-glc0-group-latent-critic-native-qualification]]；仍缺正式 Critic checkpoint。以下旧矩阵/材料状态仅描述当时阶段，本轮以新 GLC0 + GFI1-R1 协议为准。
+
+## 2. Purpose
+
+先检验组内冻结潜空间裁判（Frozen Latent Critic）能否在当前外部偏好数据上成立，再检验少量无偏好标签的 Anchor 能否支持跨 VAE Reward 复用。研究缺口（research gap）是：坐标重建与 Reward 功能恢复是否必须同步改善。该问题尚未得到本次实验结果。
+
+## 3. Code Version / Commit
+
+独立工作区：`source-workspace/.worktrees/gfi1-group-frozen-interface-registration`。
+分支：`codex/gfi1-group-frozen-interface-registration`；基础 RGEN1 commit：`e6e6cf33fca336a422e13ea316269f7e76821534`；来源预检文档 commit：`7c396cbed175c2805c4b2eb7e0c8c785d8e1573e`。没有 GFI 科学实现或训练 commit，正式实验规格尚未冻结。
+
+## 4. Dataset / Input
+
+计划使用 DIAG 643、EXTERNAL 2619；future reserve 12455 保持封闭。以上为协议规定规模，本轮没有读取其行或偏好方向。计划 Anchor 为 128 张有 caption、无偏好标签的原始 RGB，64 FIT + 64 VAL；尚未选择或准入，不能默认复用 DINA 候选。
+
+已读组内匿名稿正文 9 页、补充材料 7 页。全文 URL/代码发布表述、链接注释与内嵌附件检查均未找到组内仓库或权重入口。补充材料的公开 checkpoint 指 SD3.5 基础模型。只能确认当前稿件未提供入口，不能推断作者没有在其他地方开源。本轮未做外网检索。
+
+## 5. Parameters
+
+协议计划静态 512、sigma=0、CFG=7，但 CFG 位置、VAE 编码/缩放及精确模型版本必须由组内代码确认。REC 计划覆盖 SD/FLUX/DCAE，FUNC 仅 FLUX；计划 54 REC + 18 FUNC fits，实际均为 0。FUNC 对齐冻结视觉功能状态，不使用偏好标签训练 Projector。
+
+Baseline 包括 NoReg、5 个固定置换、REC，以及可取得时的真实 Full Bridge EMA。指标（metrics）包括 Accuracy、NLL、PAIR_RO、Reward 非劣性和 latent MSE；全部 NOT_RUN，未产生本次科学数值。
+
+## 6. Command
+
+当前仅完成文档、来源与哈希检查。继承的 RGEN1 authority 基线测试通过 9 项，不代表组内 Critic parity 通过。精确代码与权重缺失，不提供可执行的 GFI 训练命令；不得自行实现近似裁判替代。
+
+## 7. Results
+
+用户协议 §8 的来源准入门槛触发。代码仓库/冻结代码包、训练后的 Critic checkpoint 均未取得；用户确认不在本地，并表示会向组内索取。
+
+GFI0、REC、FUNC、bootstrap 和全部科学结论均 NOT_RUN。来源预检 receipt 为 PASS，仅验证 38 个文件、论文源文件摘要与停止原因，不是科学 verifier 或结果重放。归档包含源目录的 40 个文件及一份归档索引。
+
+本轮偏好行/方向、future、old TEST、Anchor 偏好标签、实验 RGB、模型 forward、正式 fits、网络访问均为 0。没有访问模型权重；PDF 渲染属于文档核查。
+
+## 8. Analysis
+
+未取得指定裁判是材料缺失，不是 Critic 资格失败，也不能支持或否定少量 Anchor 的功能注册。历史 RRV1 自训 reader 与论文 SD3.5 block 18 Critic 不同，不可代用。[[latentatlas-rgen1-reward-external-generalization]] 的封存结论不因本次预检改变；[[latentatlas-dina1-external-frozen-reward-functional-registration]] 保持原阻塞状态。
+
+## 9. Problems
+
+需要组内提供仓库链接与 commit（或冻结代码包）、Critic checkpoint（含 Wt/Wv/gamma 或 omega_align），以及对应推理配置。FLUX→SD3.5 Full Bridge EMA 权重与训练 manifest 若可提供，作为真实 baseline；仅该 baseline 缺失本身不阻塞 GFI1。
+
+## 10. Next Steps
+
+收到材料后核对来源、权重摘要和推理语义，再完成数据准入与规格冻结，才进入 GFI0。可能改进（possible improvement）目前只保留协议中的功能对齐比较，不据未运行的结果新增方法或 sweep。
+
+当前无需 GPU 或服务器；远端运行状态未核实。进入实际 GPU 阶段前再提醒开机。
+
+相关项目：[[latentatlas]]。
+
+## 11. Sources
+
+- Source: `raw/experiments/latentatlas/gfi1-source-preflight-2026-09-08/GFI_USER_PROTOCOL.md`。
+- Source: `raw/experiments/latentatlas/gfi1-source-preflight-2026-09-08/GFI1_FINAL_REPORT.md`：完整 20 问、来源和停止边界。
+- Source: `raw/experiments/latentatlas/gfi1-source-preflight-2026-09-08/source-audit/release-link-audit.json`、`GFI_GROUP_SOURCE_AUDIT.json`。
+- Source: `raw/experiments/latentatlas/gfi1-source-preflight-2026-09-08/GFI_AUTHORITY_LEDGER.json`、`preflight_verifier_receipt.json`、`archive-index.json`。
+- Source: `owner-home/Zotero/storage/N7BZ637R/AAAI_2027_Final.pdf`；`owner-home/Zotero/storage/6DXWRNS7/AAAI_2027_Supplementary.pdf`。匿名稿仅作本地核查，无外传。

@@ -1,0 +1,13 @@
+{
+  "case_policy_unchanged": true,
+  "images": 8,
+  "png_hashes_verified": 8,
+  "rgb_pixel_hashes_verified": 8,
+  "case_rows_bound_to_saved_choices": 8,
+  "rendered_overview_and_individual_panels": 5,
+  "new_images_generated": 0,
+  "new_labels_or_scores": 0,
+  "gpu_calls": 0,
+  "original_images_cropped": false,
+  "original_source_files_modified": false
+}

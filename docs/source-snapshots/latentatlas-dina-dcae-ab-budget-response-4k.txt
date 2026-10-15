@@ -1,0 +1,123 @@
+# DC-AE A–B 固定日程训练预算响应预实验
+
+## 1. Date
+
+2026-09-29 最终：**固定科学输出已补充核验并封存，原评价时间守护仍为失败/不确定**。A/B各从1000续到2000步，Reward-blind门控在评分前封存 `STOP_AT_2K`，无2001+。r4b完成1008对、16128本次条件；原worker返回0，但固定时长guard记录`clean=false`、外层exit1、账本`uncertain`。补充的远端两次独立CPU回放、本地CPU回放和最终封存均通过；此证明仅适用于逐行完整科学输出，不把原失败改写为clean。详细结论见 [最终报告](LatentAtlas-runs/DINA_DCAE_AB_BUDGET_RESPONSE_4K-20260927-R1/FINAL_REPORT.md)。Source: `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/final-complete-time-uncertain-20260929T0350/`。
+
+## 2. Purpose
+
+在旧四格实验A=P0/T0、B=P0/T1各自1000步完整状态上继续同一原12000步学习率日程，先统一到2000步。用预先冻结的全VAL自身目标坐标loss门决定是否把两臂都继续到4000步。随后在固定1008对、28关联组、4流上评价选定终点。不能把阶段门控解释为数学收敛证明。
+
+## 3. Code Version / Commit
+
+正式 r2 不可变代码 `006343b`，完整 spec SHA `449fab1f4846f52f6d4e888ff9c027369dd09173161264e2e7bde3fd749d1bae`；旧A/B与四格封存代码只读。
+
+## 4. Dataset / Input
+
+旧64 FIT/64 VAL Anchor，T0/T1与共同W0；旧A、B、Native、G逐行分数现已通过远端CPU对旧F1最终封存链和1008行来源身份核验，可作为新评分入口的参照；新A/B评分入口尚未运行。旧A/B各自1000步checkpoint由原不可变`verify_fit`在远端CPU独立通过；三份1K loss CSV逐字段与原封存状态一致。128对stream0探针按身份哈希冻结，但门控seal之前不得评分。
+
+## 5. Parameters and Gate
+
+A自身目标用VAL_T0，B用VAL_T1。在1000、1250、1500、1750、2000步离线做FIT/VAL×T0/T1全Anchor诊断；若任一臂同时满足1000→2000相对下降≥3%与1500→2000相对下降≥1%，两臂都继续到4000。否则两臂都停止在2000。决策必须在读取任何新增Reward结果前封存。阈值不根据结果更改。
+
+## 6. Current Progress / Results
+
+2026-09-29 最终：A1000→A2000 Accuracy 64.162%→65.179%（+1.017 pp，5%–95%共同组区间[+0.422,+1.612] pp）；B1000→B2000 64.435%→64.856%（+0.422 pp，区间[−0.099,+0.942] pp）。B2000−A2000为−0.322 pp，未支持T1行为优势；Native为72.817%，两臂仍差7.639和7.961 pp。A自身目标VAL loss降0.781%，B降1.663%，尾段各0.174%和0.562%，均不满足预注册3%/1%双阈值。20k共同组bootstrap，两独立远端CPU结果逐文件一致，本地portable CPU最大数值差6.66×10⁻¹⁶；独立最终seal读回通过。原r4b时长guard超86400秒（实际100033.196秒）而`clean=false`、外层exit1、账本`uncertain`仍保留；不能称原评价流程clean成功。Source: `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/final-complete-time-uncertain-20260929T0350/`。
+
+2026-09-28 22:25：外部运行守护计时器由约4719秒剩余重设为约86400秒。独立远端CPU复核显示仍是原r4b worker PID537、原timeout PID535、全局GPU锁仍持有，冻结spec/inventory SHA未变；全局科学账本14143（含旧r3失败182），872/1008对持久行。此操作只避免工程超时，不是评价完成，也不用于读取中间Accuracy。远端收据SHA `1096ed43aa49c2220c77722dd935e0db8e1ac7d8999a2ddacf71b5482baada6a`。Source: `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/r4b-watchdog-extended-20260928T2225/`。
+
+2026-09-28 00:54：同一r4b受锁进程通过实际legacy+t04、七状态和PID绑定的独立只读核验，parity SHA `e5046cbacca68666e47306d08744adc3f676356c193be35a7746cbe68d85ed1b`。当时全局科学账本229次，其中旧r3失败182次、本次r4b新增47次；已有2个持久pair行。仅证明评分已开始，不构成1008对完成或Accuracy结果。父控制的最终seal入口修正了“用仅适用于评分前账本的训练准入函数核评分后账本”问题，生产冻结代码和当前进程未改，后续四个父控制在远端CPU仅通过AST预检，尚未执行完整核验。Source: `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/r4b-current-parity-scoring-20260928T0054/`。
+
+2026-09-28 00:45：r3工程失败已由独立远端CPU核验并封存。首个r4发布仅在CPU交接校验处失败，未启动GPU，也完整保留；修订r4b冻结spec SHA `1853720e755d11927f88e90c8eb361231684363827190d32aae611afc3275eba`，124项远端A/B CPU测试、独立发布核验和只追加一次的资源授权账本回放均通过。唯一r4b持久评价任务现正运行，科学全局账本182（均来自失败r3），本次完整评分尚未形成。工程修复只将每条件检查改为轻量身份/版本检查，仍在每对结果发布前及终态重哈希七组模型；不能把进程存在视为评分成功。Source: `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/r3-failure-r4b-started-20260928T0042/`。
+
+2026-09-27 22:41：两臂终点均2000，盲门控 `STOP_AT_2K`；训练 r2 原guard超时且清理不确定，两次独立远端CPU核验仅支持已记录的科学终点。隔离旧wrapper后，r3单独评价代码/spec冻结、GPU时长授权追加一次，唯一评价任务已运行但新科学评分仍0；不得称整轮完成。新评价须自身真实parity/七状态并完成固定16128条件、两远端回放、本地portable回放和最终封存。Source: `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/r2-stop-timeout-r3-evaluation-started-20260927T2241/`。
+
+2026-09-27 21:52 现场：A已完成阶段一2000步，B至少已完成至1500步且账本为648次新增已应用更新；两臂共同门控尚未发布。为后续独立评价修复了CPU回放目录与核验目录不一致的问题：远端先见1项预期失败，修复后115项A/B测试通过，代码提交`b344282`。这是待冻结的评价工程准备，不是新Reward评分或训练完成。Source: `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/formal-r2-b648-r3-replay-20260927T2152/`。
+
+2026-09-27 21:05 现场：唯一 r2 训练进程在全局GPU锁下，耐久账本 A=830/B=0 个实际应用更新；A1250、1500、1750 检查点收据已写出。Reward 新评分0，盲门控尚未发生。外层流程保持暂停，以免训练结束后自动使用旧 6 小时解释启动评价。独立 r3 评价代码已准备并通过 114 项远端 A/B CPU 回归，但尚未冻结或运行；只有原 r2 训练清洁退出并由旧代码独立核验后，才能追加一次 GPU 时间授权并发布新评价。下文开发过程记录是历史快照，其中“训练0/未冻结”的措辞不代表当前状态。Source: `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/formal-r2-a830-r3-prep-20260927T2105/`。
+
+当前已有起点来源、CSV来源、探针身份、门控规则、续训/恢复组件和独立新run资源账本的工程证据。技术r1工程失败已保留且按预算收取1200秒；独立根因复现后r2真实CUDA恢复资格已退出0并经独立远端CPU核验：新进程legacy+t04、七模型状态、A/B各自5对2+3完全一致。唯一FIT-only测速已exit0且经独立远端CPU核验：A/B各20次预热、50次有效batch32测量，同一来源日程；A平均0.6135秒/更新、B平均0.5823秒/更新，峰值GPU allocated 16.84GB，无OOM。累计GPU收费2629.998秒（含首失败不退款），技术DiNa69、技术更新A86/B80；正式续训与Reward评分仍为0。阶段一受锁运行入口已接入当前进程legacy+t04、七状态与耐久更新计数回调，远端CPU 74项相关回归通过，但未获得真实CUDA生产准入，也未冻结完整spec。测速不含正式全Anchor诊断、检查点、评价和回放。Reward-blind门控封存、阶段一正式计数回调与阶段二GO资格组件已通过远端CPU回归；阶段二完整A/B组件套件70项通过。新run已加入只读选点组件：STOP只能选择A/B同为2000，GO只能选择A/B同为4000，且都须重放完整检查点链和已封存门控；远端CPU相关88项回归通过。继承的F1评分入口绑定B/C/D和旧预算，不能直接替代本轮A/B评分。现已另写固定A/B选定终点评分组件，要求封存旧四臂来源、16128新增条件和每次前向计数；修订后8项远端CPU重点测试通过，但生产caller、真实CUDA评分及回放尚未完成；独立逐行核验及20k共同组bootstrap统计组件已通过8项远端CPU重点测试，使用的新增臂分数为合成测试数据。旧F1参照逐行复用组件已核验1008行且5项远端CPU重点测试通过；仍未产生任何真实2K决策、正式续训更新、Reward评分或统计结果。旧四格A/B Accuracy约64.16%/64.43%只是历史背景，不能作为本轮结果。
+
+## 7. Problems and Fixes
+
+原训练入口限制到1000步；新run独立扩展采样器和学习率取值范围，不改旧封存代码。阶段一全Anchor诊断、续训更新入口、追加式检查点/恢复链已实现；连同原适配器和纯门控组件此前15项远端CPU测试通过；另有恢复组件18项及新资源账本/进程守护12项远端CPU测试通过。新run Reward/backbone 计数适配器连同旧封装回归共41项远端CPU测试通过，实际模型调用尚未运行。账本已在代码层限制2K门控前Reward和2001+更新，但只在私有CPU测试锁下验证守护逻辑，尚无生产GPU进程、真实恢复一致性或预算准入。阶段一检查点API仍拒绝2500步及以后；阶段二使用独立的GO绑定与追加式状态链，避免决策封存前误入Phase II。正式更新在两个250步检查点之间若进程失败，现账本的已应用计数与回滚到旧检查点之间存在恢复冲突；新账本/检查点恢复桥已实现显式保留失败费用与被放弃更新的证明链，并通过远端CPU组件测试；实际CUDA失败重启与生产入口尚未核验。
+
+阶段化资源核算又发现：既有技术DiNa已用69/128，每个新GPU进程必须真实准入23。GO路径若把阶段一、阶段二、评价分成三个进程，将达138并越过上限；当前设计为同一训练进程完成两臂2K、独立CPU复核并封存Reward-blind门控、若GO则继续两臂4K，最后另开默认backend评价进程，理想无故障总计115。阶段一双臂共用进程的有界入口已提交并在远端CPU重点测试4项通过；该入口本身仍会在门控前退出，**禁止当作完整正式链启动**。阶段二全状态的追加式发布、独立逐文件回放及GO资格约束的训练内核已通过远端CPU组件测试。同一训练会话内的双臂2K、独立CPU门控封存和条件性双臂4K调用链现已接线，远端CPU相关84项回归通过；尚无不可变完整发布、真实CUDA续训、评价或最终回放，正式更新与新增Reward评分仍为0。一次额外新进程会超过理想路径剩余13个技术条件，必须按固定预算停下处理。
+
+当前进程受锁评估会话与生产worker已接线，远端CPU相关9项测试通过；实际新进程CUDA评分、不可变完整发布、独立双回放仍未发生，正式训练/新Reward均为0。证据：`raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/evaluation-worker-component-20260927T1910/SELECTED_EVALUATION_WORKER_REMOTE_CPU_TEST.json`。
+
+## 8. Next Steps
+
+本轮已完成报告、本地CPU回放和补充证据封存；不自动启动下一实验。若研究4K、8K或目标/空间机制，应另行预注册新实验。下一阶段不需要GPU；远端GPU机器可关闭（最后一次独立远端读回时本实验无GPU进程且共享锁空闲，关机前仍应确认其他对话的任务）。
+
+## 9. Related Pages
+
+[[latentatlas-dina-dcae-target-spatial-factorial]] · [[latentatlas-dina-vae2-dcae-recipe-portability]] · [[latentatlas-dina-dcae-roundtrip-gap-localization]]
+
+## 10. Sources
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/preimplementation-gate-frozen-20260927T102657/USER_AUTHORITY.md`
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/preimplementation-gate-frozen-20260927T102657/USER_AUTHORITY_ADDENDUM_R1.md`
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/preimplementation-gate-frozen-20260927T102657/STARTING_STATE_READONLY_AUDIT.json`
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/preimplementation-gate-frozen-20260927T102657/SEALED_ORIGIN_INDEPENDENT_VERIFICATION.json`
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/preimplementation-gate-frozen-20260927T102657/USER_SUPPLIED_1K_LOSS_CSV_AUDIT.json`
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/preimplementation-gate-frozen-20260927T102657/PHASE1_COORDINATE_GATE_SPEC_RECEIPT.json`
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/preimplementation-gate-frozen-20260927T102657/PROBE_128_PAIR_MANIFEST_RECEIPT.json`
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/preimplementation-gate-frozen-20260927T102657/latest-status.json`
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/phase1-kernel-component-20260927T1045/PHASE1_COMPONENT_REMOTE_CPU_TEST.json`
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/phase1-kernel-grid-guard-20260927T1047/PHASE1_COMPONENT_REMOTE_CPU_TEST.json`
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/resume-budget-components-20260927T1138/TECHNICAL_RESUME_WORKER_REMOTE_CPU_TEST.json`
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/resume-budget-components-20260927T1138/BUDGET_LEDGER_REMOTE_CPU_TEST.json`
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/resume-budget-components-20260927T1138/latest-status.json`
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/budget-guard-component-20260927T1150/BUDGET_GUARD_REMOTE_CPU_TEST.json`
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/forward-budget-component-20260927T1223/AB4K_FORWARD_BUDGET_REMOTE_CPU_TEST.json`
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/phase1-recovery-component-20260927T1226/PHASE1_RECOVERY_REMOTE_CPU_TEST.json`
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/technical-qualification-started-20260927T1351/`：不可变技术部署、首失败保留、单次启动与CPU预检；不代表CUDA准入完成。
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/technical-r1-failure-r2-started-20260927T1416/`：r1工程失败与完整收费、独立根因证明、43项远端CPU复核、r2新不可变部署和单次启动；r2 CUDA结论待核。
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/technical-r2-verified-benchmark-started-20260927T1444/`：r2真实CUDA恢复及独立CPU核验通过；benchmark单次启动，仅工程阶段。
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/benchmark-verified-20260927T1500/`：真实FIT-only测速与独立远端CPU全部输出核验；不是正式训练。
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/decision-and-formal-bridge-components-20260927T1528/`：门控封存与正式计数回调的有界远端CPU证据，尚非生产准入。
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/phase2-go-authority-component-20260927T1615/`：GO资格与2001+计数回调的远端CPU证据；非正式训练。
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/phase1-guarded-caller-component-20260927T1631/`：阶段一受锁调用接线的远端CPU证据；正式训练0。
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/single-session-budget-20260927T1635/`：双臂共用准入的远端CPU重点测试和GO/评价固定技术额度设计；尚非完整生产链。
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/phase2-fullstate-component-20260927T1641/`：阶段二全状态内存校验的远端CPU 75项回归；非发布、训练或科学结果。
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/phase2-storage-runner-component-20260927T1715/`：阶段二完整状态追加式发布、独立核验与GO约束内核的远端CPU 78项回归；非正式续训结果。
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/gate-single-session-component-20260927T1735/`：独立CPU门控与单一受锁训练会话的远端CPU 84项回归；非真实CUDA或科学结果。
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/selected-endpoint-component-20260927T1743/`：选定终点与STOP防阶段二残留的远端CPU 88项回归；非实际评价。
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/old-f1-row-reuse-component-20260927T1810/`：旧F1封存链、1008行身份与参照矩阵复用组件的远端CPU证据；非新评分。
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/old-f1-model-pins-20260927T1815/`：旧A/B1000检查点SHA与四臂逐行复用的最终组件回执；新Reward仍为0。
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/selected-ab-score-component-20260927T1825/`：选定A/B终点16128条件评分组件与旧四臂复用的远端CPU小型证据；非生产评分。
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/gate-bound-score-component-20260927T1835/`：盲门控/冻结spec绑定、失败前向标记与只读资源账本核验；正式训练和Reward仍为0。
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/score-verifier-statistics-components-20260927T1840/`：旧参照与新臂逐行独立核验、20k共同组bootstrap组件的远端CPU证据；不代表真实评分结果。
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/direct-ab-agreement-component-20260927T1845/`：旧1K与选定终点A/B直接排序符号一致率组件证据；真实评分尚未开始。
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/formal-r2-a830-r3-prep-20260927T2105/`
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/r3-failure-r4b-started-20260928T0042/`：r3工程失败、用户资源授权、r4首次未完成发布、r4b冻结/独立CPU核验/单次启动的小型证据。
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/r4b-watchdog-extended-20260928T2225/`：外部守护延时远端回执、独立远端CPU读回、用户资源授权及控制源码；未含完整评价结果。
+
+- `raw/experiments/latentatlas/dina-dcae-ab-budget-response-2026-09-27/final-complete-time-uncertain-20260929T0350/`：最终报告、两次远端回放的独立证明、本地CPU回放、学习曲线、最终seal和独立读回。

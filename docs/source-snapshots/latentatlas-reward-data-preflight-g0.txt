@@ -1,0 +1,134 @@
+# LatentAtlas Experiment G0 Reward Data Preflight
+
+## 1. Date
+
+2026-08-12
+
+## 2. Purpose
+
+在任何 Reward Head 或跨 VAE reward transfer 训练前，对公开真人图像偏好数据执行 CPU-only、fail-closed 的数据预检。核心问题是：数据来源、真人标签、图像字节、去重、image/prompt-disjoint split 和冻结 Anchor Banks 是否足以支持后续 [[latentatlas]] Experiment G1。
+
+本阶段只审计数据，不检验 reward sufficiency，也不产生训练结果。
+
+## 3. Code Version / Commit
+
+- Branch: `codex/dino-local-patch-probe`
+- Formal commit: `9be99bbe3520302bc60a25893790b7b4fb5337a1`
+- Formal run: `20260812T092053Z-9be99bb-74689888-reward-data-preflight`
+- Formal status: **Fail**
+
+## 4. Dataset / Input
+
+- Dataset: `Rapidata/human-coherence-preferences-images`
+- Frozen revision: `72c0ebefc7ef3bebe22643fc709a6e94c22b5b02`
+- 53/53 Parquet shards
+- 17,836,409,651 compressed bytes
+- 63,748 pair rows
+- Official task: two-image human preference for visual coherence, naturalness, and fewer visible generation glitches
+- Prompt visibility in the annotation interface remains uncertain
+
+下载后逐分片验证了官方 LFS SHA-256。非正式 sample 覆盖 53/53 shards、每 shard 128 行，共 6,784 行，所有 sample schema/image/coverage checks 通过。
+
+## 5. Parameters
+
+- Label rule frozen before full execution: aggregate `votes_image1/votes_image2` defines orientation; non-empty `detailed_results` must parse and its observed count must match the aggregate total.
+- Any malformed or inconsistent formal source row is fatal and cannot enter a passing split.
+- Exact ties are retained for audit but excluded from primary Bradley–Terry training.
+- Full mode requires clean Git state, exact dataset revision, decoded-content identity, prompt/content-disjoint split, and frozen Anchor overlap checks.
+
+## 6. Command
+
+本机 CPU full 使用固定 revision、完整本地数据和复制后逐哈希验证的 Anchor evidence：
+
+```bash
+.venv/bin/python scripts/run_reward_data_preflight.py \
+  --config configs/reward-data-preflight-g0.json \
+  --mode full \
+  --expected-revision 72c0ebefc7ef3bebe22643fc709a6e94c22b5b02 \
+  --dataset-root owner-home/Documents/LatentAtlas-data/rapidata-human-coherence \
+  --run-root owner-home/Documents/LatentAtlas-runs \
+  --anchor-budget-run owner-home/Documents/LatentAtlas-anchor-copy/extracted/anchor-budget \
+  --anchor-source-root owner-home/Documents/LatentAtlas-anchor-copy/extracted/anchor-source \
+  --anchor-image-root owner-home/Documents/LatentAtlas-anchor-copy/extracted/anchor-images
+```
+
+服务器仅用于短时复制 256 张 Anchor source images；没有执行 GPU 计算。
+
+## 7. Results
+
+### Formal gate
+
+| Field | Result |
+| --- | --- |
+| Status | **Fail** |
+| Failed stage | `rows` |
+| Source row | `15,579` |
+| Shard / local row | `train-00012-of-00053.parquet` / `1,143` |
+| Aggregate counts | `(26, 26)` |
+| Detailed counts | `(0, 26)` |
+| Error | `formal detailed vote count mismatch with aggregate votes` |
+| G1 decision | **May not begin** |
+| Elapsed before fail | 约 20 秒 |
+
+该行的 26 个 detailed votes 全部唯一映射到 image 2，而 aggregate columns 把它记录为 26/26 tie。
+
+### Full-dataset read-only semantics audit
+
+| Check | Result |
+| --- | ---: |
+| Rows parsed | 63,748 |
+| Individual detailed votes | 1,144,093 |
+| Aggregate/detailed exact agreement | 63,747 |
+| Mismatch rows | **1** |
+| Unknown/ambiguous vote target | 0 |
+| Repeated ordered/unordered pair | 0 |
+| Unique image paths | 6,632 |
+
+这说明失败不是普遍字段误解，而是冻结 revision 中唯一一条可定位的数据不一致。
+
+## 8. Analysis
+
+### 这个 Fail 说明什么
+
+G0 证明了当前冻结数据版本不能在既定的零容忍数据完整性协议下直接授权 G1。Fail 是审计系统正常工作：它阻止一条 aggregate 与逐票记录冲突的样本静默进入训练和评估。
+
+### 这个 Fail 不说明什么
+
+- 不说明 anchor-relative representation 没有 reward information。
+- 不说明 Reward Head 训练失败，因为训练根本没有开始。
+- 不说明跨 VAE reward transfer 不可行。
+- 不说明整个 Rapidata 数据集不可用；63,747/63,748 行在该 invariant 上一致。
+- 不允许把唯一异常静默删除后继续，因为那会违反冻结 protocol。
+
+### 标签语义证据
+
+官方 pinned card 明确数据是 human coherence votes，但未精确定义 aggregate columns 与 `detailed_results` 的内部路径别名。对官方 artifact 的全量只读审计显示：除唯一异常外，aggregate left/right counts 与逐票 left/right counts 完全一致；所有逐票目标都能唯一映射到 pair 两侧。因此最可信解释是 pair-local vote counts，而不是 image-global score/rank。
+
+## 9. Problems
+
+1. 官方数据卡缺少可选 `annotations_creators` 字段；preflight 最初错误强制该字段。已改为固定 revision README bytes + vote schema 的多证据、可离线重算 provenance。
+2. Sample 最初只审计第一个 shard；已改成每 shard 最多 128 行并独立验证 coverage/indices/event。
+3. 历史 Anchor artifacts 使用服务器绝对路径且没有后来新增的 inventory；已复制约 43 MB 原始证据，在不改 frozen bytes 的前提下实现本地 source/image 双根审计。
+4. Formal full 在 row 15,579 正确 fail-closed，因此没有生成 split、Anchor audit 或 terminal pass seal。
+5. 运行后代码审查另发现历史 Anchor inventory completion、旧单根路径兼容和 early-resume identity 仍有待专项加固。它们没有影响本次在 rows stage 已确定的 Fail，但任何未来重跑都应先关闭这些工程问题。
+
+## 10. Next Steps
+
+当前必须先与导师/用户确认新的数据裁决，不能直接启动 G1。可讨论的三个选项：
+
+1. **保持冻结 Fail**：把 G0 作为数据质量发现，暂不继续 G1。
+2. **修订 protocol 后排除唯一异常行**：预先公开 row 15,579 的排除规则，重新版本化设计和配置，再从头运行 G0。
+3. **修订 label source 为 detailed votes**：所有 63,748 行都从逐票记录重算左右 counts，aggregate 只做交叉检查；唯一冲突仍必须显式标记/排除或采用预先批准的优先级规则。
+
+选项 2/3 都是新的实验协议，需要新的设计审查和明确批准，不能作为本次 Fail 的“修复后续跑”。
+
+若决定重跑，推荐优先讨论选项 2：制定与具体赢家无关的通用 QC 规则，排除所有 aggregate/detailed mismatch，并把排除数、source index、artifact hash 写入正式产物。这比整体更换标签来源改动更小；但它仍然改变了此前“任一不一致即全局 Fail”的冻结裁决。
+
+## 11. Sources
+
+- Source: `raw/experiments/latentatlas-experiment-g0-reward-data-preflight-2026-08-12.md`
+- Source: `LatentAtlas-runs/20260812T092053Z-9be99bb-74689888-reward-data-preflight/preflight.json`
+- Source: `LatentAtlas-runs/20260812T092053Z-9be99bb-74689888-reward-data-preflight/data-preflight.md`
+- Source: `LatentAtlas-runs/20260812T092053Z-9be99bb-74689888-reward-data-preflight/events.jsonl`
+- Source: `source-workspace/.worktrees/anchor-feasibility-pilot/.superpowers/sdd/2026-08-11-experiment-g0-reward-data-preflight/rapidata-vote-semantics-report.md`
+- Related: [[latentatlas]]、[[latentatlas-dino-local-patch-probe]]、[[representation-alignment]]

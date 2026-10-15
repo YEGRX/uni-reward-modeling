@@ -1,0 +1,96 @@
+# HPSv3 冻结 FLUX / Cosmos 接口复用：最终报告
+
+HPSv3 的原图 Accuracy 为76.091%，SD3.5 解码参考为75.298%，参考资格通过。冻结 FLUX 接口为73.413%（保持程度未决）；Cosmos 为74.702%（保持程度未决）。Cosmos 相对未训练、置换控制的 Accuracy 差分别为+27.877pp和+26.190pp，配对区间见下表。FLUX 未训练对照因协议不兼容缺席。
+
+新增训练0；复用已验收的756份Cosmos投影和1008份条件解码结果。本次新机方案A执行4次同机FIT、504次参考评分和1008次条件评分。解码、HPS持锁阶段分别耗时3135.1秒、1654.4秒。整轮为 CORE_COMPLETE_WITH_CONTROL_GAP。证据限于已消费的1008对/28组及共同decoder+Q+HPS链，不证明新数据泛化或多个latent-native Reward通用复用。
+
+## 六臂主结果
+
+| 输入路径 | Accuracy | 相对N差值及中央90%区间（pp） | N排序一致率 | margin RMSE | 未校正 / 调整后状态 |
+|---|---:|---:|---:|---:|---|
+| O_ORIGINAL | 76.091% | +0.794 [-1.091, +2.778] | 90.079% | 1.043016 | 原图参照 |
+| N_SD35_REFERENCE | 75.298% | +0.000 [+0.000, +0.000] | 100.000% | 0.000000 | 参考资格通过 |
+| F_REC | 73.413% | -1.885 [-3.869, +0.198] | 86.210% | 1.239572 | 保持程度未决 / 调整后未确立 |
+| C_REC | 74.702% | -0.595 [-2.183, +0.992] | 87.698% | 0.914063 | 保持程度未决 / 调整后未确立 |
+| F_NOREG | — | — | — | — | NOT_AVAILABLE_PROTOCOL_INCOMPATIBLE |
+| C_NOREG | 46.825% | -28.472 [-32.143, -24.702] | 49.306% | 3.052934 | 次要控制 |
+| C_REC_PERM1 | 48.512% | -26.786 [-32.242, -21.230] | 49.405% | 3.245530 | 次要控制 |
+
+Accuracy 的 tie 计0；排序一致率以 N 非tie对为分母，新路径tie计0.5。28个关联组共同重采样20000次，seed2026092703。中央90%区间同时提供单侧95%下界。原始mu用于比较，第二分量仅保留作诊断，没有校准分数或假造DiNa四流。
+
+## 主判据和对照差分
+
+| 接口 | Accuracy差 q05 | 排序一致率 q05 | Bonferroni q0.0125：Accuracy差 / 一致率 |
+|---|---:|---:|---:|
+| C_REC | -2.183pp | 85.813% | -2.778pp / 85.119% |
+| F_REC | -3.869pp | 83.929% | -4.663pp / 83.036% |
+
+复用门槛保持原定义：Accuracy差下界 > −2pp 且排序一致率下界 > 90%；四项主检验另报 Bonferroni 下界。差值上界 < −2pp 才称明确损失；其他情况为未决，不以点估计接近就宣布等价。
+
+| 次要比较 | Accuracy差，中央90%区间（pp） | N一致率差，中央90%区间（pp） |
+|---|---:|---:|
+| C_REC_minus_C_NOREG | +27.877 [+24.405, +31.250] | +38.393 [+34.524, +42.361] |
+| C_REC_minus_C_REC_PERM1 | +26.190 [+21.131, +31.349] | +38.294 [+33.631, +43.254] |
+
+原图−N的配对结果在主表。Cosmos对照只提供次要解释，不产生额外主判据。F_NOREG 依用户评分前选项A修订保持缺席，不能据此证明FLUX训练必要性。
+
+## 失败原因与恢复边界
+
+原加载器只核验了checkpoint的736个持久状态，遗漏了不写入state_dict的位置编码RoPE状态。meta构造和to_empty使这些buffer失去官方初值；普通tensor属性还保留了错误别名。旧“736键一致”和包装调用一致因而不足以证明HPS语义正确。旧O/N科学解释已撤回，原文件和seal保留。
+
+修复保留官方初始化的30个非持久buffer并恢复29个tensor别名。旧机加载恢复时两个独立实例的官方/修复模型、输入与logits精确一致；旧机修复后的504条O/N曾经独立验收，保留为历史有效结果。本次方案A在新机重新评分同一504个输入，作为当前比较的参考；四条件臂沿用同一修复加载器，并在评分前再次把实时buffer/alias逐值摘要对照独立官方实例；没有为提升分数更换模型、修改图像或重新训练接口。
+
+本次续接中，首次条件解码启动误用了HPS专用环境：peft0.10与diffusers0.36要求冲突，加载前exit1，新decoder调用0。原失败日志与账本保留，随后仅将运行环境改回此前验证过的base环境，并用新的执行编号r2完成原解码任务。科学源码、模型、数据与除执行编号外的配置不变；没有重做756个Projector输出。
+
+## 新电脑隔离迁移
+
+按用户授权，当前六臂1512次HPS评分在新电脑CHINAMI-KV69DG6（<private-tailnet-host>）的独立WSL LatentAtlas-HPSv3-20261002内执行。原Windows、Ubuntu、Conda、驱动与共享设置保持原样。此前Projector756和Q1008是旧机已验收输出，迁移后按原字节校验复用。O/N504在新机重评；旧机O/N分数单独保留，不用于当前六臂主比较。
+
+新机沿用原科学源码、模型、依赖和累计账本；单独保存实际主机、GPU、Python及系统信息。原跨设备1e-3门槛失败，永久保留，具体GPU内核/驱动原因未确立。用户明确选择本次方案A后，追加冻结同机协议：官方构造与修复构造在两个独立进程中各2次固定旧FIT，736状态/30个非持久buffer/29个别名与输入exact、各自重复exact，同机按原atol=rtol=1e-3验收。新机O/N504重新通过原科学门槛后才执行条件1008。迁移中断、原FIT和诊断失败均保留，没有改写成通过。
+
+方案A官方与修复构造的实际最大logit绝对差为0；各自重复完全一致，路径间按原1e-3容差验收。
+
+专用WSL在方案A执行前自动安装了系统安全更新，Python仍为3.10.12，构建由2025-02-04变为2026-08-31；模型Python依赖版本和显卡驱动未变。首次CPU预检因这一差异失败，原回执保留。方案A另行冻结实际系统文件和运行环境，并在该环境完成同机资格、参考和条件评分；未回滚系统补丁，也未修改原Windows、原Ubuntu或共享设置。完整原因记录在package/option-A/runtime-drift-cause.json。
+
+条件HPS首次执行在首条输入校验中、首个forward/debit前退出：官方BatchFeature为Mapping但不是普通dict，张量齐全却被旧校验误拒绝，条件forward和debit均为0。原失败耗时228.40622318099486秒及全部日志保留。追加r2只将校验视图浅转dict，逐键保留同一tensor对象；实际reward仍直接调用原官方实现。同机FIT4次及参考504条未重算；模型、输入、精度、科学判据不变。真实四臂processor CPU回归、独立代码审查、恢复合同与真实退出证据见package/option-A-recovery；最终读回见FINAL_VERIFICATION.json和各replay目录。
+
+## 成本与执行完整性
+
+累计账本计费 14805.532 秒，包含历史失败的4500秒不确定扣减；这不是纯GPU kernel耗时。原时间、调用、磁盘停止上限依据用户原始授权以append-only事件取消，旧消耗没有退款或重置。当前有效六臂1512个图文分数；累计science_hps=2520，其中旧失效504条与旧机修复504条仅作为历史保留，当前比较只用新机1512条。science_decoder=1260，science_projector=756；技术调用另列账本。
+
+| 条件臂 | decoder实际forward秒 | HPS实际forward秒 | 既有Projector调用（A不新增） |
+|---|---:|---:|---:|
+| F_REC | 85.387 | 44.086 | 0 |
+| C_REC | 82.736 | 49.948 | 252 |
+| C_NOREG | 82.804 | 44.926 | 252 |
+| C_REC_PERM1 | 82.934 | 43.101 | 252 |
+
+表中Projector调用和decoder耗时属于已完成并复用的上游阶段；方案A新增Projector/decoder调用均为0。forward计时包含同步和对应调用路径；持锁总耗时还包括加载、验证和写盘，不将两者混称。训练更新0，原REC checkpoint保持不变；Cosmos置换组选点为500、正确组为1000。共享GPU锁在模型构造前取得，旧机Projector与Q两阶段已验收；新机同机FIT、参考和条件HPS评分均由真实OS wait和独立CPU验收确认退出。
+
+## 独立回放和资料位置
+
+两次独立远端CPU和最终本地portable CPU复核已完成。全部比较的最大绝对差为 0，预声明atol=rtol=1e-10，分类一致。完整输入包根SHA为 `fe4f23ab0ebf5d415f7c38231d4608a466706782cd7faa46683f20f5edade50e`。CPU回放证明来源与统计可追踪；前向语义仍由官方来源、实际CUDA parity及运行时状态证明支撑。
+
+完整原始图文分数、1008行物理A/B逐对结果、bootstrap数组和8个预先固定案例均在本目录；模型、latent与全部PNG保留远端，精确路径和SHA见package中的inventories。没有重开14400源、future12455、External或old TEST；caption仅用已派生1008行文件，历史metadata-only字节扫描记录保留。
+
+## 跨读出描述性比较
+
+| 读出 | 已有来源与限制 |
+|---|---|
+| DiNa | 旧FLUX-REC 72.793%、Cosmos-REC 72.619%；同一批开发对，原四流口径。Cosmos原预实验支持注册容忍标准下近原生复用。不同读出不拼接成一个主终点。 |
+| PickScore | 旧FLUX REC/FUNC复用分类均为INCONCLUSIVE；原B-r4收尾exit1与cleanup NOT_PROVEN保留，后来CPU恢复不改写其退出状态；Cosmos未在该旧轮评价。 |
+| HPSv3 | 本表使用修复后官方一致实现。经统一SD3.5 decoder和8-bit Q评分；结论限于对应接口的冻结管线。 |
+
+所有数据都是已消费开发评价，不是新的盲测；上游预训练是否含评价图片未知。不能归纳为普适U、reward-agnostic，或“多个latent-native Reward无解码复用”。有限但低分的输出按科学结果保留，未按结果修复或调参。
+
+## 来源
+
+- `package/continuation/HPSV3_EXPERIMENT_SPEC.json`：原方法及有来源的续接修订。
+- `package/option-A/official/result.json`、`qualify-acceptance.json`：本次独立同机官方对照；旧官方记录另存reference。
+- `package/proofs/`：三阶段真实退出后的独立验收；`package/scores/`：1008新raw分数。
+- `package/reference/`：完整旧失效历史及已验收修复O/N包，保留原seal。
+- `package/ledger/events.jsonl`：未重置累计账本。
+- `FINAL_VERIFICATION.json`、`local-replay/receipt.json`：三方回放。
+- `evidence/prior-unseen-encoder-REPORT.md`、`prior-cross-readout-matrix.json`：只作为旧读出的描述来源，旧HPS行已由本报告取代。
+
+本轮到此结束，不自动执行下一实验。

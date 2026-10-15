@@ -1,0 +1,62 @@
+# ABC R3.3 通道结构固定验证 Channel Structure Validation
+
+## 1. Date
+
+2026-10-08；研究者/实验规格日期2026-10-07，承接[[latent-reward-channels-r32-fixed-validation]]。
+
+## 2. Purpose
+
+ChatGPT维护理论；本轮仅独立验证已批准的E-A33/B33/C33及负对照。Research gap：解析任务矩、合法单输出概率接口和先验一致posterior能否被诚实区分，不扩大网络或研究平台。
+
+## 3. Code Version / Commit
+
+无可用Git HEAD；不编造commit。原执行SHA `c141a5d228819090259f8048c72e49947a17f19436fab6b88f62ffd3cdc07830`；最终资格修正SHA `da0c7292095ac597c5555d86904313a9f54add06a35d63ccf040e67694ecc553`。原执行模块与初始表保留，固定参数未改变。冻结protocol、短review、最终只读复核均有receipt。
+
+## 4. Dataset / Input
+
+已知Gaussian和有限Markov通道；精确积分/枚举，不是图像训练。真实缓存仅只读原sampler endpoint、双VAE配对、D64字段与旧pair预测。两份原件只读归档；作者JSON/脚本未随件提供，未运行。
+
+## 5. Parameters
+
+A：K4/m16主格，控制(4,1),(4,4),(16,1),(16,4),(16,16)，x=t=1、ridge=.125；B：单source/单U，sin clean map、t=.25、τ=(exp(.5)−1)/2+.05，x0/.5/1，cos留出见证；C：三状态Qs对角.7、增量Qs、prior比exp(.6u)，温度1，条件clean n4/16，TA2/TB0。无开放搜索。
+
+## 6. Command
+
+沿用现有单线程Python/NumPy/SciPy/Matplotlib，禁用CUDA执行固定模块`r2/verify_r33_channel_structure.py`。A observed用均值/方差/独立部署积分，B用Y×η生成U，C从原始联合表和不同U|T/S|T multinomial枚举随机比值。所有计算入口、stdout/stderr与收据保存在输出目录，复跑不自动成为新证据或预算授权。
+
+## 7. Results
+
+| 线 | 主观察和强baseline | 状态 |
+|---|---|---|
+| A | integrated .1028717970914 vs cap .2334684014897、baseline .265625、full-model oracle .0588235294118；m1 integrated .5553633217993劣于最优baseline .5 | SUPPORTED_IN_SPECIFIED_MODEL |
+| B | 单输出矩核同时匹配均值/二阶，确定性均值已正确；x1 cos见证偏+.0392225272351，不能称完整Gaussian通道匹配；负v格拒绝 | SUPPORTED_IN_SPECIFIED_MODEL；负方差ASSUMPTION_FAILED |
+| C | naive tower坐标偏.0484962634822，weighted误差1.67e−16；n4 integrated NLL .6786183672 vs anchor .7086054847，但冻结reference .6738749403更强、Bayes .6729629599最强 | SUPPORTED_IN_SPECIFIED_MODEL |
+
+171行公式/机制核验达到冻结容差，不是171独立实验；672单侧计数、47268双侧组合概率合法。所有观测从实际积分/枚举取得，未直接填作者数值。没找到满足给定假设且精度可靠的理论反例。
+
+[完整联合报告、预测/observed、假设、误差与4组PNG/PDF图](../../scripts/latent-reward-channels/outputs/r33-channel-structure-20261008/report.md)。[实际成本账本](../../scripts/latent-reward-channels/outputs/r33-channel-structure-20261008/source-and-cost.json)。
+
+## 8. Analysis
+
+A消去的是Hessian估计随机性，仍支付G估计与ridge代价；B两个任务矩可达不等于全law可达，scalar均值不需要额外随机性；C prior shift须改变一致性回归测度，有限随机分母仍有偏差，有限n结果不替代渐近定理。全部模型为formula-style/known-channel oracle stress test，未超越真实视觉baseline。
+
+## 9. Problems
+
+A有6个初始GH/Laguerre有理积分不达门槛，保留失败并用同一函数自适应恢复；没有改ridge/目标/容差。复核修正协方差资格阈值叠加，实际特征值均正，主结果不变；补三点目标差与w=1 weighted退化，不重跑完整实验。
+
+Raw endpoint及dual-VAE latents确实存在；A缺的是预定raw线性残差/联合矩/冻结证书，不能把非线性D64当原始Gaussian。B全位置clean对应/covariance/域未获证书；C缺单候选π、utility likelihood与prior-only shift证据，旧监督/训练预算不匹配。资产缺口不自动触发新前向。
+
+本轮新增wall4.314242秒、已计时CPU3.474176秒；累计wall249.503519秒，不重置旧预算。启动CPU未测部分明示，微型计时/数值失败恢复/后处理/最终核验计入。0GPU、远端、付费、新图像、新特征或真实head拟合。
+
+## 10. Next Steps
+
+理论修订/推广继续由ChatGPT维护，本轮无满足完整假设的公式反例需修订。原64次新前向未授权未执行；不自动采购观测、不扩模型。旧No-Go、A/B真实无新方法优势、C旧gate机制未完成均保留。本轮后续无需GPU或远端，未检查旧服务器计费状态。
+
+相关：[[latent-reward-channels]]；[[latent-reward-channels-r32-fixed-validation]]；[[latent-reward-channels-r31-task-boundaries]]。
+
+## 11. Sources
+
+Source: `raw/projects/latent-reward-channels/r33-channel-structure-20261008/ABC_R3_3_Theory_Researcher.md`。
+Source: `raw/projects/latent-reward-channels/r33-channel-structure-20261008/ABC_R3_3_Experiments_Codex.md`。
+Source: `scripts/latent-reward-channels/outputs/r33-channel-structure-20261008/`（冻结配置、逐状态表、失败、图、核验与成本）。
+Source: `scripts/latent-reward-channels/outputs/r32-fixed-validation-20261007/`（承接报告/账本）；实际cache路径与SHA见protocol及cache-qualification。

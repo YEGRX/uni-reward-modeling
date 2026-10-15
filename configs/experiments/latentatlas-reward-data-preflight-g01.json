@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-reward-data-preflight-g01",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Dataset: `Rapidata/human-coherence-preferences-images`\n- Frozen revision: `72c0ebefc7ef3bebe22643fc709a6e94c22b5b02`\n- Official Parquet shards: `53/53`\n- Rows: `63,748`\n- Unique decoded images: `6,632`\n- Unique normalized prompts: `282`\n- Task evidence: genuine human two-image coherence preference；公开 card 说明参与者比较两张图，但**未说明标注者是否看到 text prompt**。\n- License recorded by the frozen card contract: `cdla-permissive-2.0`",
+  "parameters_excerpt": "- Label authority: aggregate vote vector\n- Detailed votes: integrity witness only，不能覆盖正式标签\n- Tie policy: `exclude_exact_ties`\n- Mismatch policy: `exclude_resolved_vector_mismatch`\n- Maximum mismatches: `1`\n- Maximum mismatch rate: `0.0001`\n- Identity: `LATENTATLAS_RGB_V1`\n- Split seed: `2026081101`\n- Target split: train/validation/test = `0.8 / 0.1 / 0.1`\n- Anchor seeds: `2026080901 / 2026080902 / 2026080903`",
+  "code_identity_excerpt": "- Git commit: `40a2a175785f2a96a0c63e0771b115e5860b062f`\n- Config SHA-256: `f84d373a63d07d2a4e1b15e4d7d6d5c548af060577a4eaca2175563f8f7fcd5d`\n- Formal full run: `20260813T004136Z-40a2a17-f84d373a-reward-data-preflight`\n- Precursor sample: `20260813T003553Z-40a2a17-f84d373a-reward-data-preflight`\n- Frozen G0 predecessor: `20260812T092053Z-9be99bb-74689888-reward-data-preflight`",
+  "source_snapshot": "docs/source-snapshots/latentatlas-reward-data-preflight-g01.txt",
+  "primary_report": null
+}

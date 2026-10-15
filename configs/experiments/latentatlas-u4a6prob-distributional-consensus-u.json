@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-u4a6prob-distributional-consensus-u",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- 冻结 P4096 fold 0：3,276 fit identities、820 evaluation identities。\n- 输入为三 VAE paired representations；correct 与固定 null/control 共享注册 stream bindings。\n- Flow shuffled control 只打乱 condition，保留 base noise 与 target，以检验真正的 condition dependence。\n- 不访问 H1105、Reward、validation/test、fresh authority、网络或 CUDA。",
+  "parameters_excerpt": "- Point：deterministic reference system。\n- Gaussian：共享 context `16→128→64`，diagonal Gaussian head；总参数 `18,752`，sigma 范围 `[0.05, 2]`。\n- Flow：单一共享 core，context-conditioned velocity；总参数 `85,184`，16 samples、16-step midpoint solver；target 是三个 learned view contexts 的随机 mixture 加 `0.10 ε`，不是固定 `U_BAR`。\n- Primary metrics：cNRMSE、R@1、MRR、energy score、calibration error。",
+  "code_identity_excerpt": "- Common frozen base：`2ed98d379c2b7134385f44faee6cbe87e12764f7`。\n- Production commit：`bffdeb4c668dd7760db70d83f30281182ceb7675`。\n- Result commit：`7ca799ed6a0034005b14ce5c097039b3856fe242`。\n- Branch/worktree 隔离保留；未合并到 `main`。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-u4a6prob-distributional-consensus-u.txt",
+  "primary_report": null
+}

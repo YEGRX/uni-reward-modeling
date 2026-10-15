@@ -2,19 +2,22 @@
 
 ## High Priority
 
-- [ ] reproduce baseline
-- [ ] implement core method
-
----
+- [x] 按仓库模板填写首页、状态卡、逐次实验日志与配置摘要。
+- [x] 归档87条相关记录；17项主要实验附最终报告，区分理论/模型记录。
+- [x] 保留原Q32 FD失败与后来MAIN8退化；包含不利对照和未决区间。
+- [x] 提供结果JSON、现有效果图、来源SHA清单和可运行CPU结果表核对入口。
+- [ ] 给原始包指定实验室可访问的长期存储地址，确认模型/数据的再分发许可。
+- [ ] 独立确认主要科学主张；文档与文件完整性核对不替代它。
 
 ## Medium Priority
 
-- [ ] run ablation study
-- [ ] add visualization
-
----
+- [ ] 逐项将70条历史wiki快照升级为原始工件核验记录；当前明确标记未重审。
+- [ ] 整理完整生产caller、环境锁定与依赖工件，而不是将配置摘要冒充可执行配置。
+- [ ] 在另行授权协议中评价预算/信息匹配的简单baseline和机制干预。
 
 ## Low Priority
 
-- [ ] refactor code
-- [ ] optimize memory usage
+- [ ] 在已确认的数据许可范围内补齐视觉案例和可分享demo。
+- [ ] 完善论文相关工作与逐项claim-to-evidence映射。
+
+上述待办不是新实验授权。停止的冻结候选线保持停止；不存在因整理文档而新增的GPU任务。

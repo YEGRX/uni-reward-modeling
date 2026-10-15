@@ -1,0 +1,54 @@
+# LatentAtlas Q32 R1.1 最终报告
+
+**本次按预先固定协议实际执行，结论是 LOCAL_METHOD_NUMERICALLY_UNQUALIFIED：E1固定差分资格失败，E2和MAIN8未执行。** 已交付全部实际产生的原始数值、独立CPU验收、私有portable回放、图表和停止依据。交付完成不意味着科学门槛通过，也不声称E2完成。
+
+## 1. 授权与范围
+
+执行用户指定zip中R1.1两份文档与run_config的MICRO_THEN_MAIN8。固定S2562000、原T1/W0、DiNa/PAPER_T04；C32/A32/Q32/P32各32维仅一次。未开展完整E3、EP或4K续训，未新增Anchor或大模型训练。原机用户开机后恢复读取，使用新独立run目录；原研究为只读来源。
+
+## 2. 阶段验收
+
+| 阶段 | 实际执行 | 结论 |
+|---|---|---|
+| M0 | 原33项参考一致性、22项独立有限检查；3张数学图 | 有限实现通过；不是视觉证据 |
+| E0 | 原56组504图/2016对/8064流观测的误差分解与固定MAIN8旧参考；独立CPU/portable各42项 | 历史数值已核；非新方法结果 |
+| 输入/方法封存 | 392份S256合法预测、FIT/VAL caption与身份、T1/W0充分量、24面板/固定noise；12项CPU边界、独审与第二CPU全源码合同读回 | 正式生产闭包通过 |
+| E1 | 技术8次；FIT256次分数与128次J；四小解；Q32重评128次；FD32次 | 求解及FIT LinErr通过，**FD失败并停止** |
+| E2 | 无VAL前向/梯度、无VAL六路径成绩 | NOT_RUN_FD_UNQUALIFIED |
+| MAIN8 | 原固定8组72图/288对/4流的N/G/BASE历史缓存核验；无C32/A32/Q32新评分 | NOT_RUN_FD_UNQUALIFIED |
+| CPU终止验收 | 独立远端11类证据检查、不同求解算法；本地485文件/23比较 | 停止结果已独立接受 |
+
+E0旧数值：E[(BASE−G margin)²]=0.943527202147899，E[(G−N margin)²]=0.06364659244291178，交叉项2Euv=0.017293848037961797，总误差1.0244676426287727。G正确BASE错误652次，反向282次（pair-stream，不是独立图像）。含交叉项的分解不支持把G−N直接叫不可达噪声下界。
+
+固定MAIN8历史N/G Accuracy均73.9583%，BASE70.4861%；完整组bootstrap普通95%区间分别[69.8785,77.3438]%、[69.4444,77.6910]%、[66.7535,73.7847]%。N/G q05(Accuracy−0.5)为0.20659722/0.203125，两项旧数值资格通过。新增FD资格失败仍禁止进入MAIN8。
+
+真实来源闭包已补齐：独立读取全部2016历史行与portable数值exact，并核固定MAIN8的6912条完整原请求（288对×3臂×2侧×4流）及prompt/noise/receipt/source/clean绑定；详见 `evidence/live-reference-bind-r2.json`。历史CPU阶段报告中“来源缺口”是当时快照，现不再是阻塞原因。原MAIN8评估只持久化text-condition hashes，未持久化可复用text embeddings；即使另行考虑续实验，也不能未经授权重编码整份MAIN8。本轮停止的直接原因是FD失败。
+
+## 3. 当前研究结论与限制
+
+FD ratio=1.086510519748584，原限0.20；FIT LinErr=0.12015720026795061，原限0.25。14/16固定差分为0，AD非零；这与BF16小步长平台相容，不能唯一证明驱动/内核原因。原协议§9.3要求停止，无阈值、步长、rank、半径或checkpoint调整。
+
+真实FIT BASE风险1.5396022796630857，Q32为1.180440902709961；Q32线性预测1.1816028649797057。**这是训练条件内诊断，未证实泛化或相对A32/C32优势。** C32/A32/P32没有真实FIT评分，图上明确只画线性预测。E2的bootstrap区间、排序一致率、coordinate MSE与MAIN8真实方法效应均未计算，不应填0、不应拿数学例/历史缓存替代。
+
+数学例仍只支持给定有限模型中的目标差别；本次真实读出局部数值资格未满足。这既不证明Q32理论一般失败，也不支持论文中的真实视觉收益主张。U_necessity=NOT_TESTED，novelty=NOT_ESTABLISHED，fresh=false。
+
+## 4. 可读结果与原始数值
+
+- [MICRO_REPORT](MICRO_REPORT.md)：实际FIT表、四解证书、FD停止与成本。
+- [FIT实测及预测CSV](audit/E1_FIT_BASELINE_AND_LINEAR_PREDICTION.csv)、[FD逐项CSV](audit/E1_FD_RAW_TABLE.csv)、[未执行E2状态表](audit/E2_STAGE_STATUS.csv)。
+- [FIT诊断图](figures/04_real_fit_risk_diagnostic.png)、[FD诊断图](figures/05_real_fd_vs_autodiff.png)、[冻结系数图](figures/06_frozen_affine_coefficients.png)。
+- [数学小例pair图](math/01_offset_example_pair.png)、[有限前沿图](math/02_frontier_example.png)、[E0历史误差图](figures/01_old_margin_profile_margin_mse.png)。数学/旧缓存图与实测图分开。
+- [原始实测ZIP](MICRO_RAW_NUMERICAL_STOP_R1.zip)：485份已验原始文件（另有DELIVERY_MANIFEST），包含生产代码、原输入合同、逐调用账本、每条件分数/J、四解/谱、FD、完整性与OSwait、独立CPU接受。
+- [最终资源计数](audit/FINAL_COMPUTE_LEDGER_R1.json)、[固定行动门控](audit/FINAL_ACTION_GATE_R1.json)、[私有portable接受](audit/PORTABLE_MICRO_VERIFICATION_R1.json)。
+
+原始ZIP SHA256=698d0b7b65c7528e1a2397146be1f4d3435d5927a65ae50f548f9c9487e4fc5f；生产合同SHA=524e3be395edf98be8fa46928869b1a5bf84cb69316c1a4a6d0f0dd1c02d0d16。原始账本tip=02249dd30b892e1a23ef7a307443fa0e23988ade68cd0eec5241015045d2ba47，所有早期失败保留，未退款/reset。原S256checkpoint SHA=185c045bea7b448643a0fa2309a27cc0d76f2baa75b768fa14188d99920fe425。
+
+## 5. 最终边界
+
+本次共424次DiNa前向、128次输入反向、4次小参数拟合，三个原文本编码器各19次；新增大模型更新、VAE和Projector forward均0。生产已真实结束且锁已释放，后续不需要GPU。不要结束其他任务或关闭全局WSL。
+
+不再自动续算E2或MAIN8。不为通过改变数据/模型/数值协议；若将来要研究BF16可微响应与真实差分不一致，需要另行定义明确的新数值实验，原失败结果继续保存。
+
+## 6. Sources
+
+原执行包两份Markdown、run_config.json、RUN_SPEC.json；`MICRO_REPORT.md`第7节列出的实际原始证据；`audit/INDEPENDENT_CPU_VERIFICATION.json`与原CPU阶段不可变归档；`evidence/live-reference-bind-r2.json`；`audit/PORTABLE_MICRO_VERIFICATION_R1.json`。

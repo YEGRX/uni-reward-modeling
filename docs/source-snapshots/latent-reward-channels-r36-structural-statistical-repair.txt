@@ -1,0 +1,67 @@
+# ABC R3.6 结构统计修复固定验证 Structural Statistical Repair
+
+## 1. Date
+
+2026-10-08；承接[[latent-reward-channels-r35-task-sensitive-validation]]，不覆盖历史。
+
+## 2. Purpose
+
+Research gap：公共一阶残差结构能否在同样本上消除普通CR2的低阶估计噪声；真正已知矩如何改变正值积分信息权限；小额零probe能否改变任务不可识别性而保持同总预算。ChatGPT维护理论，Codex独立验证固定预测，不新增理论、网络或参数搜索。
+
+## 3. Code Version / Commit
+
+无可用Git HEAD，不编造commit。最小验证模块SHA `7991fb70df49c77c9068c5833be9408ceee17a364c698e461d6b2b37382be1a1`。冻结配置、一次短设计review、只读实现核对与最终独立保存结果复核保留。作者脚本未执行。
+
+## 4. Dataset / Input
+
+R3.5原六条件单元NPZ，n16/n128各2048块seed350109，完整复用而不重新采样。另新增已批准四Z未知形状有限模型、偶阶正值积分状态与完整二项计数。均为finite/formula-style或数学MC；真实缓存资格只读继承，不能称视觉收益、fresh确认或ICML新颖性。
+
+## 5. Parameters
+
+A/AC：原六单元n16/128，eta.3/.6；n1完整64序列、eta.1/.03/.01。C：Z(-.8,-.4,.4,.8)，theta.06，alpha.4/beta.6，四单元n16/128、eta.6/.3，2048块seed360209；theta0正确baseline与.05u结构扰动各单格。M：r2/4、a.1/.4、theta.2，单样本枚举；下界输入r1/2/4、n16/128、a.3。B：Delta.12/.03，N192/384，上界选择n0=10/18/4/6，同总N对照。
+
+## 6. Command
+
+本地既有单线程NumPy/SciPy/Matplotlib、CUDA禁用，执行`r2/verify_r36_structural.py`。Original joint展开pair NLL与条件Bernoulli KL交叉核验；B完整三维二项计数，方差公式单独核对。最终保存结果验证没有重新跑探针。
+
+## 7. Results
+
+| Probe | Prediction / observed / strong baseline | Status |
+|---|---|---|
+| E-AC36 | 原n16/eta.6：sampleCR2 .0001393903506、SR2 .000002275525474、prior .00003332609271；配对SR2−CR2=-.0001371148251，SE3.15242e-6。约束CR2=SR2只记一个身份；knownCR2/fullBayes更强 | SUPPORTED_IN_SPECIFIED_MODEL |
+| E-A36 | A36-4系数.0842208705944392独立核对；n1 eta.01普通CR2 KL/eta²=.08424699099，SR2=.0000003368853690；有限余项单列 | SUPPORTED_IN_SPECIFIED_MODEL；非一般渐近证明 |
+| E-C36 | 未知形状主n16/eta.6：PCV2.106467051e-6 vs同信息SR2 2.161225486e-6，配对差-5.47584e-8、SE1.78693e-8；eta.3差未超约1.3SE。不给theta/target prior | SUPPORTED_IN_SPECIFIED_MODEL；很小数学MC信号 |
+| C controls | theta0 reference风险0，PCV2.214432612e-6更差；错误结构SR2/PCV约1.40/1.42e-5，劣于reference1.03e-5和raw3.49e-6；正确新均值PCV是额外权限 | 正确baseline支持；旧公共均值ASSUMPTION_FAILED，不是定理反例 |
+| E-M36 | 精确已知矩的四格积分正值/无偏与方差界核验通过；同批经验均值PCV=rawMGF=1.1817618415159772；下界只检查指定输入 | SUPPORTED_IN_SPECIFIED_MODEL；不等于posterior无偏或独立minimax证明 |
+| E-B36 | N192/Delta.12小额零probe .001293206612优均匀三probe .001575549183但逊两probe .001216597132；弱Delta.03 null .00008998712685最好。零probe区分旧不可识别对 | SUPPORTED_IN_SPECIFIED_MODEL；不等于完整内容核恢复 |
+
+226核验行均达冻结容差，不计作226独立研究实验。保存posterior从原joint重算risk最大误差2.22e-16，raw矩/配对均值SE复核误差0；原始近零oracle负值保留。
+
+[单份完整报告、三张PNG/PDF图与底层CSV/NPZ](../../scripts/latent-reward-channels/outputs/r36-structural-statistical-repair-20261008/report.md)；[实际成本](../../scripts/latent-reward-channels/outputs/r36-structural-statistical-repair-20261008/source-and-cost.json)。
+
+## 8. Analysis
+
+普通样本CR2的失败不是本模型所有校正都不可行：同数据保持公共结构可消除一阶噪声。但同结构CR2与SR2等价，不能重复算创新优势。已知数值矩、已知结构、经验矩三种权限分开；PCV的正值积分无截断地板不代表每个n每个参数都优于结构CR2。B新增probe改变识别合同，与有限预算是否提分分开。
+
+知识仍围绕noisy latent reward反馈后的效用差、任务作用与偏好概率，不是高维clean分布恢复。历史真实A/B无优势、C旧gate未完成合格机制验证、旧No-Go不变。
+
+## 9. Problems
+
+实验运行无失败。最终读取checks.csv的大字段触发CSV默认131072限制；保留解析失败记录，调读取器限制后只复核保存结果，不重跑。失败耗时未单独测得，保守扣wall/CPU各1秒，不冒称实测。
+
+真实A raw endpoint可观测但公共条件结构未获证书（OBSERVABLE_BUT_UNCERTIFIED）；C缺单候选posterior/合法条件矩与target prior（MISSING_ASSET），旧训练合同另ASSUMPTION_FAILED；B缺同核probe计数合同（MISSING_ASSET）。D64不是原始Gaussian线性坐标，唯一reward/任意bins不是同效用条件样本，不从pair概率反推posterior。
+
+## 10. Next Steps
+
+本轮未发现满足完整假设的数值反例要求ChatGPT修订；预定错误结构和正确baseline保留。理论泛化、证明与新颖性仍由ChatGPT维护。最关键缺证是实际reward residual的合法公共一阶结构或解析条件矩资格，不自动获取或申请更大实验。可选AC36-4下界补充、B36-6/7渐近实验未执行。
+
+测得新增wall **3.440691332秒**；加未计时解析失败的保守1秒，扣账 **4.440691332秒**，继承累计 **257.960664041秒**。各阶段3/8/6/8和总25秒内；旧预算未重置。0GPU/远端/付费/新真实图像特征/head训练，64前向未授权未执行。后续CPU或无服务器，未核查旧服务器状态。
+
+相关：[[latent-reward-channels]]；[[latent-reward-channels-r35-task-sensitive-validation]]；[[latent-reward-channels-r34-feedback-task-channel]]。
+
+## 11. Sources
+
+Source: `raw/projects/latent-reward-channels/r36-structural-statistical-repair-20261008/ABC_R3_6_Theory_Researcher.md`。
+Source: `raw/projects/latent-reward-channels/r36-structural-statistical-repair-20261008/ABC_R3_6_Experiments_Codex.md`。
+Source: `scripts/latent-reward-channels/outputs/r36-structural-statistical-repair-20261008/`（protocol/review、原样本复用回执、原joint/逐块posterior/risk与raw矩、计数表、图、失败恢复和账本）。
+Source: `scripts/latent-reward-channels/outputs/r35-task-sensitive-validation-20261008/`（只读继承报告、六条件样本与历史精度/资格/成本）。

@@ -1,0 +1,1168 @@
+{
+  "status": "VAL_COMPLETE_STATISTICS_CPU",
+  "methods": {
+    "G": {
+      "centered_risk": 0.0,
+      "risk_CI95": [
+        0.0,
+        0.0
+      ],
+      "risk_per_panel": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "raw_score_MSE": 0.0,
+      "common_offset_MSE": 0.0,
+      "pair_margin_MSE": 0.0,
+      "strict_G_agreement": 1.0,
+      "strict_G_agreement_CI95": [
+        1.0,
+        1.0
+      ],
+      "strict_same_count": 190,
+      "reference_nontie_count": 190,
+      "student_tie_rate": 0.010416666666666666,
+      "counts_per_panel": [
+        {
+          "reference_nontie": 23,
+          "reference_tie": 1,
+          "strict_same": 23,
+          "reverse": 0,
+          "student_tie": 1,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 23,
+          "reference_tie": 1,
+          "strict_same": 23,
+          "reverse": 0,
+          "student_tie": 1,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 24,
+          "reverse": 0,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 24,
+          "reverse": 0,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 24,
+          "reverse": 0,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 24,
+          "reverse": 0,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 24,
+          "reverse": 0,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 24,
+          "reverse": 0,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        }
+      ],
+      "coordinate_MSE": 0.0,
+      "relative_risk_reduction_vs_BASE": 1.0,
+      "relative_reduction_CI95": [
+        1.0,
+        1.0
+      ],
+      "paired_risk_reduction_vs_BASE_CI95": [
+        1.0957088470458984,
+        2.3041966915130607
+      ]
+    },
+    "BASE": {
+      "centered_risk": 1.677438735961914,
+      "risk_CI95": [
+        1.0957088470458984,
+        2.3041966915130607
+      ],
+      "risk_per_panel": [
+        2.87225341796875,
+        0.43182373046875,
+        1.3282470703125,
+        2.2640380859375,
+        3.055206298828125,
+        1.3304901123046875,
+        0.9696044921875,
+        1.1678466796875
+      ],
+      "raw_score_MSE": 17.11168670654297,
+      "common_offset_MSE": 15.434247970581055,
+      "pair_margin_MSE": 4.473169962565104,
+      "strict_G_agreement": 0.8368421052631579,
+      "strict_G_agreement_CI95": [
+        0.7936507936507936,
+        0.8900523560209425
+      ],
+      "strict_same_count": 159,
+      "reference_nontie_count": 190,
+      "student_tie_rate": 0.015625,
+      "counts_per_panel": [
+        {
+          "reference_nontie": 23,
+          "reference_tie": 1,
+          "strict_same": 17,
+          "reverse": 6,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 23,
+          "reference_tie": 1,
+          "strict_same": 19,
+          "reverse": 4,
+          "student_tie": 1,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 20,
+          "reverse": 2,
+          "student_tie": 2,
+          "student_tie_on_reference_nontie": 2
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 20,
+          "reverse": 4,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 20,
+          "reverse": 4,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 20,
+          "reverse": 4,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 24,
+          "reverse": 0,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 19,
+          "reverse": 5,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        }
+      ],
+      "coordinate_MSE": 0.21882710105273873,
+      "relative_risk_reduction_vs_BASE": 0.0,
+      "relative_reduction_CI95": [
+        0.0,
+        0.0
+      ],
+      "paired_risk_reduction_vs_BASE_CI95": [
+        0.0,
+        0.0
+      ]
+    },
+    "C32": {
+      "centered_risk": 1.6963443756103516,
+      "risk_CI95": [
+        1.1070308685302734,
+        2.3275146484375
+      ],
+      "risk_per_panel": [
+        2.75653076171875,
+        0.38543701171875,
+        1.3223876953125,
+        2.32806396484375,
+        3.157318115234375,
+        1.3963470458984375,
+        1.0250244140625,
+        1.19964599609375
+      ],
+      "raw_score_MSE": 17.836448669433594,
+      "common_offset_MSE": 16.140104293823242,
+      "pair_margin_MSE": 4.5235850016276045,
+      "strict_G_agreement": 0.8473684210526315,
+      "strict_G_agreement_CI95": [
+        0.798941798941799,
+        0.9010416666666666
+      ],
+      "strict_same_count": 161,
+      "reference_nontie_count": 190,
+      "student_tie_rate": 0.010416666666666666,
+      "counts_per_panel": [
+        {
+          "reference_nontie": 23,
+          "reference_tie": 1,
+          "strict_same": 17,
+          "reverse": 6,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 23,
+          "reference_tie": 1,
+          "strict_same": 19,
+          "reverse": 4,
+          "student_tie": 1,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 22,
+          "reverse": 1,
+          "student_tie": 1,
+          "student_tie_on_reference_nontie": 1
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 20,
+          "reverse": 4,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 20,
+          "reverse": 4,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 20,
+          "reverse": 4,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 24,
+          "reverse": 0,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 19,
+          "reverse": 5,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        }
+      ],
+      "coordinate_MSE": 0.2183280298486352,
+      "relative_risk_reduction_vs_BASE": -0.011270539569122384,
+      "relative_reduction_CI95": [
+        -0.03519007704772514,
+        0.01799085506397713
+      ],
+      "paired_risk_reduction_vs_BASE_CI95": [
+        -0.06151599884033203,
+        0.030084228515624867
+      ]
+    },
+    "A32": {
+      "centered_risk": 1.5733051300048828,
+      "risk_CI95": [
+        0.9856886386871339,
+        2.2020721435546875
+      ],
+      "risk_per_panel": [
+        3.18634033203125,
+        0.27435302734375,
+        1.5904541015625,
+        1.98468017578125,
+        2.441802978515625,
+        1.2730560302734375,
+        0.64105224609375,
+        1.1947021484375
+      ],
+      "raw_score_MSE": 8.708793640136719,
+      "common_offset_MSE": 7.135488510131836,
+      "pair_margin_MSE": 4.1954803466796875,
+      "strict_G_agreement": 0.8052631578947368,
+      "strict_G_agreement_CI95": [
+        0.7301587301587301,
+        0.8795811518324608
+      ],
+      "strict_same_count": 153,
+      "reference_nontie_count": 190,
+      "student_tie_rate": 0.015625,
+      "counts_per_panel": [
+        {
+          "reference_nontie": 23,
+          "reference_tie": 1,
+          "strict_same": 16,
+          "reverse": 7,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 23,
+          "reference_tie": 1,
+          "strict_same": 20,
+          "reverse": 1,
+          "student_tie": 2,
+          "student_tie_on_reference_nontie": 2
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 15,
+          "reverse": 9,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 20,
+          "reverse": 4,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 20,
+          "reverse": 4,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 20,
+          "reverse": 4,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 24,
+          "reverse": 0,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 18,
+          "reverse": 5,
+          "student_tie": 1,
+          "student_tie_on_reference_nontie": 1
+        }
+      ],
+      "coordinate_MSE": 0.24251164577435702,
+      "relative_risk_reduction_vs_BASE": 0.06207893243702678,
+      "relative_reduction_CI95": [
+        -0.05657198082702264,
+        0.17846587962144822
+      ],
+      "paired_risk_reduction_vs_BASE_CI95": [
+        -0.09439849853515625,
+        0.30625572204589807
+      ]
+    },
+    "Q32": {
+      "centered_risk": 1.5200519561767578,
+      "risk_CI95": [
+        0.9245510101318359,
+        2.1941890716552734
+      ],
+      "risk_per_panel": [
+        2.43963623046875,
+        0.44891357421875,
+        1.23797607421875,
+        2.0914306640625,
+        3.239898681640625,
+        0.7736053466796875,
+        0.57879638671875,
+        1.35015869140625
+      ],
+      "raw_score_MSE": 17.275230407714844,
+      "common_offset_MSE": 15.755178451538086,
+      "pair_margin_MSE": 4.0534718831380205,
+      "strict_G_agreement": 0.8210526315789474,
+      "strict_G_agreement_CI95": [
+        0.7754010695187166,
+        0.8842256820060609
+      ],
+      "strict_same_count": 156,
+      "reference_nontie_count": 190,
+      "student_tie_rate": 0.026041666666666664,
+      "counts_per_panel": [
+        {
+          "reference_nontie": 23,
+          "reference_tie": 1,
+          "strict_same": 17,
+          "reverse": 6,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 23,
+          "reference_tie": 1,
+          "strict_same": 17,
+          "reverse": 4,
+          "student_tie": 2,
+          "student_tie_on_reference_nontie": 2
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 20,
+          "reverse": 2,
+          "student_tie": 2,
+          "student_tie_on_reference_nontie": 2
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 20,
+          "reverse": 4,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 20,
+          "reverse": 4,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 20,
+          "reverse": 4,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 24,
+          "reverse": 0,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 18,
+          "reverse": 5,
+          "student_tie": 1,
+          "student_tie_on_reference_nontie": 1
+        }
+      ],
+      "coordinate_MSE": 0.2404744189698249,
+      "relative_risk_reduction_vs_BASE": 0.09382565002882448,
+      "relative_reduction_CI95": [
+        -0.012221273078677264,
+        0.22493643541731798
+      ],
+      "paired_risk_reduction_vs_BASE_CI95": [
+        -0.0203704833984375,
+        0.33892059326171875
+      ]
+    },
+    "P32": {
+      "centered_risk": 1.9667377471923828,
+      "risk_CI95": [
+        1.2367344856262208,
+        2.803651809692383
+      ],
+      "risk_per_panel": [
+        2.19573974609375,
+        0.58099365234375,
+        1.41815185546875,
+        3.546630859375,
+        3.911285400390625,
+        1.3390960693359375,
+        1.7840576171875,
+        0.95794677734375
+      ],
+      "raw_score_MSE": 21.09514617919922,
+      "common_offset_MSE": 19.128408432006836,
+      "pair_margin_MSE": 5.2446339925130205,
+      "strict_G_agreement": 0.8210526315789474,
+      "strict_G_agreement_CI95": [
+        0.776595744680851,
+        0.8795811518324608
+      ],
+      "strict_same_count": 156,
+      "reference_nontie_count": 190,
+      "student_tie_rate": 0.020833333333333332,
+      "counts_per_panel": [
+        {
+          "reference_nontie": 23,
+          "reference_tie": 1,
+          "strict_same": 17,
+          "reverse": 6,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 23,
+          "reference_tie": 1,
+          "strict_same": 17,
+          "reverse": 6,
+          "student_tie": 1,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 19,
+          "reverse": 2,
+          "student_tie": 3,
+          "student_tie_on_reference_nontie": 3
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 20,
+          "reverse": 4,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 20,
+          "reverse": 4,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 20,
+          "reverse": 4,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 24,
+          "reverse": 0,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        },
+        {
+          "reference_nontie": 24,
+          "reference_tie": 0,
+          "strict_same": 19,
+          "reverse": 5,
+          "student_tie": 0,
+          "student_tie_on_reference_nontie": 0
+        }
+      ],
+      "coordinate_MSE": 0.24094174825586379,
+      "relative_risk_reduction_vs_BASE": -0.17246472555349235,
+      "relative_reduction_CI95": [
+        -0.4270645896760277,
+        0.07101448092560403
+      ],
+      "paired_risk_reduction_vs_BASE_CI95": [
+        -0.71807861328125,
+        0.1243993759155265
+      ]
+    }
+  },
+  "Q_comparisons": {
+    "A32": {
+      "Q32_minus_method_risk": -0.053253173828125,
+      "CI95": [
+        -0.357818603515625,
+        0.2657623291015625
+      ],
+      "multiplicity_adjusted": false
+    },
+    "C32": {
+      "Q32_minus_method_risk": -0.17629241943359375,
+      "CI95": [
+        -0.3603973388671875,
+        -0.0053863525390625
+      ],
+      "multiplicity_adjusted": false
+    },
+    "P32": {
+      "Q32_minus_method_risk": -0.446685791015625,
+      "CI95": [
+        -0.8780059814453125,
+        -0.03273773193359375
+      ],
+      "multiplicity_adjusted": false
+    }
+  },
+  "actual_response_ledger": {
+    "G": {
+      "E": 1.677438735961914,
+      "Gamma": 1.677438735961914,
+      "minus2Gamma": -3.354877471923828,
+      "risk_difference": -1.677438735961914,
+      "per_panel": [
+        {
+          "panel_id": "bf8580e99e7e96e9df28710975e6a91623963444bee89ad90f35300190034ed3",
+          "E": 2.87225341796875,
+          "Gamma": 2.87225341796875,
+          "minus2Gamma": -5.7445068359375,
+          "risk_difference": -2.87225341796875,
+          "common_offset_MSE": 0.0
+        },
+        {
+          "panel_id": "4cf6c8dde59b2a9ac3f903a7ecb7e5ead9c6ee653199e68c080fcb431c62885f",
+          "E": 0.43182373046875,
+          "Gamma": 0.43182373046875,
+          "minus2Gamma": -0.8636474609375,
+          "risk_difference": -0.43182373046875,
+          "common_offset_MSE": 0.0
+        },
+        {
+          "panel_id": "b7a8ac9fc509fe79d87533b88b1629631dfcbf7decda96d81e8fb759df10f0e2",
+          "E": 1.3282470703125,
+          "Gamma": 1.3282470703125,
+          "minus2Gamma": -2.656494140625,
+          "risk_difference": -1.3282470703125,
+          "common_offset_MSE": 0.0
+        },
+        {
+          "panel_id": "50c73e3df96f750b3c8e7b7d242c86691c6ea2baa77fc597f3bc4c4c6118e846",
+          "E": 2.2640380859375,
+          "Gamma": 2.2640380859375,
+          "minus2Gamma": -4.528076171875,
+          "risk_difference": -2.2640380859375,
+          "common_offset_MSE": 0.0
+        },
+        {
+          "panel_id": "f4a9fba929aaa387e36cea06baa938482c619fa09aeb6f6f6801b2cb9f73953a",
+          "E": 3.055206298828125,
+          "Gamma": 3.055206298828125,
+          "minus2Gamma": -6.11041259765625,
+          "risk_difference": -3.055206298828125,
+          "common_offset_MSE": 0.0
+        },
+        {
+          "panel_id": "2b413af4be5cc75b963f711e7dc4a0ed181004c6f1ef66bebc35908c487450d7",
+          "E": 1.3304901123046875,
+          "Gamma": 1.3304901123046875,
+          "minus2Gamma": -2.660980224609375,
+          "risk_difference": -1.3304901123046875,
+          "common_offset_MSE": 0.0
+        },
+        {
+          "panel_id": "29af83df5b36fcec3d43243426cf8c5df144eaf46bd303649491c7a129093862",
+          "E": 0.9696044921875,
+          "Gamma": 0.9696044921875,
+          "minus2Gamma": -1.939208984375,
+          "risk_difference": -0.9696044921875,
+          "common_offset_MSE": 0.0
+        },
+        {
+          "panel_id": "1ea6527b0bcb00d396064484c790292d158b57fca78f0fd95878c328b6877d6f",
+          "E": 1.1678466796875,
+          "Gamma": 1.1678466796875,
+          "minus2Gamma": -2.335693359375,
+          "risk_difference": -1.1678466796875,
+          "common_offset_MSE": 0.0
+        }
+      ],
+      "interpretation": "POSTHOC_EXACT_OUTPUT_ACCOUNTING_NOT_PREDICTIVE_CERTIFICATE"
+    },
+    "BASE": {
+      "E": 0.0,
+      "Gamma": 0.0,
+      "minus2Gamma": -0.0,
+      "risk_difference": 0.0,
+      "per_panel": [
+        {
+          "panel_id": "bf8580e99e7e96e9df28710975e6a91623963444bee89ad90f35300190034ed3",
+          "E": 0.0,
+          "Gamma": -0.0,
+          "minus2Gamma": 0.0,
+          "risk_difference": 0.0,
+          "common_offset_MSE": 4.44342041015625
+        },
+        {
+          "panel_id": "4cf6c8dde59b2a9ac3f903a7ecb7e5ead9c6ee653199e68c080fcb431c62885f",
+          "E": 0.0,
+          "Gamma": -0.0,
+          "minus2Gamma": 0.0,
+          "risk_difference": 0.0,
+          "common_offset_MSE": 22.57135009765625
+        },
+        {
+          "panel_id": "b7a8ac9fc509fe79d87533b88b1629631dfcbf7decda96d81e8fb759df10f0e2",
+          "E": 0.0,
+          "Gamma": -0.0,
+          "minus2Gamma": 0.0,
+          "risk_difference": 0.0,
+          "common_offset_MSE": 15.8406982421875
+        },
+        {
+          "panel_id": "50c73e3df96f750b3c8e7b7d242c86691c6ea2baa77fc597f3bc4c4c6118e846",
+          "E": 0.0,
+          "Gamma": -0.0,
+          "minus2Gamma": 0.0,
+          "risk_difference": 0.0,
+          "common_offset_MSE": 6.1842041015625
+        },
+        {
+          "panel_id": "f4a9fba929aaa387e36cea06baa938482c619fa09aeb6f6f6801b2cb9f73953a",
+          "E": 0.0,
+          "Gamma": -0.0,
+          "minus2Gamma": 0.0,
+          "risk_difference": 0.0,
+          "common_offset_MSE": 13.749114990234375
+        },
+        {
+          "panel_id": "2b413af4be5cc75b963f711e7dc4a0ed181004c6f1ef66bebc35908c487450d7",
+          "E": 0.0,
+          "Gamma": -0.0,
+          "minus2Gamma": 0.0,
+          "risk_difference": 0.0,
+          "common_offset_MSE": 20.720108032226562
+        },
+        {
+          "panel_id": "29af83df5b36fcec3d43243426cf8c5df144eaf46bd303649491c7a129093862",
+          "E": 0.0,
+          "Gamma": -0.0,
+          "minus2Gamma": 0.0,
+          "risk_difference": 0.0,
+          "common_offset_MSE": 19.5889892578125
+        },
+        {
+          "panel_id": "1ea6527b0bcb00d396064484c790292d158b57fca78f0fd95878c328b6877d6f",
+          "E": 0.0,
+          "Gamma": -0.0,
+          "minus2Gamma": 0.0,
+          "risk_difference": 0.0,
+          "common_offset_MSE": 20.3760986328125
+        }
+      ],
+      "interpretation": "POSTHOC_EXACT_OUTPUT_ACCOUNTING_NOT_PREDICTIVE_CERTIFICATE"
+    },
+    "C32": {
+      "E": 0.005645751953125,
+      "Gamma": -0.00662994384765625,
+      "minus2Gamma": 0.0132598876953125,
+      "risk_difference": 0.0189056396484375,
+      "per_panel": [
+        {
+          "panel_id": "bf8580e99e7e96e9df28710975e6a91623963444bee89ad90f35300190034ed3",
+          "E": 0.003662109375,
+          "Gamma": 0.0596923828125,
+          "minus2Gamma": -0.119384765625,
+          "risk_difference": -0.11572265625,
+          "common_offset_MSE": 4.88336181640625
+        },
+        {
+          "panel_id": "4cf6c8dde59b2a9ac3f903a7ecb7e5ead9c6ee653199e68c080fcb431c62885f",
+          "E": 0.004150390625,
+          "Gamma": 0.0252685546875,
+          "minus2Gamma": -0.050537109375,
+          "risk_difference": -0.04638671875,
+          "common_offset_MSE": 23.69195556640625
+        },
+        {
+          "panel_id": "b7a8ac9fc509fe79d87533b88b1629631dfcbf7decda96d81e8fb759df10f0e2",
+          "E": 0.0081787109375,
+          "Gamma": 0.00701904296875,
+          "minus2Gamma": -0.0140380859375,
+          "risk_difference": -0.005859375,
+          "common_offset_MSE": 16.7889404296875
+        },
+        {
+          "panel_id": "50c73e3df96f750b3c8e7b7d242c86691c6ea2baa77fc597f3bc4c4c6118e846",
+          "E": 0.00238037109375,
+          "Gamma": -0.03082275390625,
+          "minus2Gamma": 0.0616455078125,
+          "risk_difference": 0.06402587890625,
+          "common_offset_MSE": 6.35968017578125
+        },
+        {
+          "panel_id": "f4a9fba929aaa387e36cea06baa938482c619fa09aeb6f6f6801b2cb9f73953a",
+          "E": 0.00457763671875,
+          "Gamma": -0.04876708984375,
+          "minus2Gamma": 0.0975341796875,
+          "risk_difference": 0.10211181640625,
+          "common_offset_MSE": 14.363555908203125
+        },
+        {
+          "panel_id": "2b413af4be5cc75b963f711e7dc4a0ed181004c6f1ef66bebc35908c487450d7",
+          "E": 0.00860595703125,
+          "Gamma": -0.02862548828125,
+          "minus2Gamma": 0.0572509765625,
+          "risk_difference": 0.06585693359375,
+          "common_offset_MSE": 21.266067504882812
+        },
+        {
+          "panel_id": "29af83df5b36fcec3d43243426cf8c5df144eaf46bd303649491c7a129093862",
+          "E": 0.007568359375,
+          "Gamma": -0.02392578125,
+          "minus2Gamma": 0.0478515625,
+          "risk_difference": 0.055419921875,
+          "common_offset_MSE": 20.2113037109375
+        },
+        {
+          "panel_id": "1ea6527b0bcb00d396064484c790292d158b57fca78f0fd95878c328b6877d6f",
+          "E": 0.00604248046875,
+          "Gamma": -0.01287841796875,
+          "minus2Gamma": 0.0257568359375,
+          "risk_difference": 0.03179931640625,
+          "common_offset_MSE": 21.55596923828125
+        }
+      ],
+      "interpretation": "POSTHOC_EXACT_OUTPUT_ACCOUNTING_NOT_PREDICTIVE_CERTIFICATE"
+    },
+    "A32": {
+      "E": 0.1401519775390625,
+      "Gamma": 0.12214279174804688,
+      "minus2Gamma": -0.24428558349609375,
+      "risk_difference": -0.10413360595703125,
+      "per_panel": [
+        {
+          "panel_id": "bf8580e99e7e96e9df28710975e6a91623963444bee89ad90f35300190034ed3",
+          "E": 0.3883056640625,
+          "Gamma": 0.037109375,
+          "minus2Gamma": -0.07421875,
+          "risk_difference": 0.3140869140625,
+          "common_offset_MSE": 1.50872802734375
+        },
+        {
+          "panel_id": "4cf6c8dde59b2a9ac3f903a7ecb7e5ead9c6ee653199e68c080fcb431c62885f",
+          "E": 0.0634765625,
+          "Gamma": 0.1104736328125,
+          "minus2Gamma": -0.220947265625,
+          "risk_difference": -0.157470703125,
+          "common_offset_MSE": 12.25518798828125
+        },
+        {
+          "panel_id": "b7a8ac9fc509fe79d87533b88b1629631dfcbf7decda96d81e8fb759df10f0e2",
+          "E": 0.145751953125,
+          "Gamma": -0.0582275390625,
+          "minus2Gamma": 0.116455078125,
+          "risk_difference": 0.26220703125,
+          "common_offset_MSE": 7.0828857421875
+        },
+        {
+          "panel_id": "50c73e3df96f750b3c8e7b7d242c86691c6ea2baa77fc597f3bc4c4c6118e846",
+          "E": 0.05596923828125,
+          "Gamma": 0.16766357421875,
+          "minus2Gamma": -0.3353271484375,
+          "risk_difference": -0.27935791015625,
+          "common_offset_MSE": 2.63958740234375
+        },
+        {
+          "panel_id": "f4a9fba929aaa387e36cea06baa938482c619fa09aeb6f6f6801b2cb9f73953a",
+          "E": 0.20465087890625,
+          "Gamma": 0.409027099609375,
+          "minus2Gamma": -0.81805419921875,
+          "risk_difference": -0.6134033203125,
+          "common_offset_MSE": 5.322967529296875
+        },
+        {
+          "panel_id": "2b413af4be5cc75b963f711e7dc4a0ed181004c6f1ef66bebc35908c487450d7",
+          "E": 0.08343505859375,
+          "Gamma": 0.0704345703125,
+          "minus2Gamma": -0.140869140625,
+          "risk_difference": -0.05743408203125,
+          "common_offset_MSE": 11.023147583007812
+        },
+        {
+          "panel_id": "29af83df5b36fcec3d43243426cf8c5df144eaf46bd303649491c7a129093862",
+          "E": 0.13519287109375,
+          "Gamma": 0.23187255859375,
+          "minus2Gamma": -0.4637451171875,
+          "risk_difference": -0.32855224609375,
+          "common_offset_MSE": 8.14532470703125
+        },
+        {
+          "panel_id": "1ea6527b0bcb00d396064484c790292d158b57fca78f0fd95878c328b6877d6f",
+          "E": 0.04443359375,
+          "Gamma": 0.0087890625,
+          "minus2Gamma": -0.017578125,
+          "risk_difference": 0.02685546875,
+          "common_offset_MSE": 9.1060791015625
+        }
+      ],
+      "interpretation": "POSTHOC_EXACT_OUTPUT_ACCOUNTING_NOT_PREDICTIVE_CERTIFICATE"
+    },
+    "Q32": {
+      "E": 0.0503082275390625,
+      "Gamma": 0.10384750366210938,
+      "minus2Gamma": -0.20769500732421875,
+      "risk_difference": -0.15738677978515625,
+      "per_panel": [
+        {
+          "panel_id": "bf8580e99e7e96e9df28710975e6a91623963444bee89ad90f35300190034ed3",
+          "E": 0.05517578125,
+          "Gamma": 0.243896484375,
+          "minus2Gamma": -0.48779296875,
+          "risk_difference": -0.4326171875,
+          "common_offset_MSE": 6.02642822265625
+        },
+        {
+          "panel_id": "4cf6c8dde59b2a9ac3f903a7ecb7e5ead9c6ee653199e68c080fcb431c62885f",
+          "E": 0.024658203125,
+          "Gamma": 0.0037841796875,
+          "minus2Gamma": -0.007568359375,
+          "risk_difference": 0.01708984375,
+          "common_offset_MSE": 25.87847900390625
+        },
+        {
+          "panel_id": "b7a8ac9fc509fe79d87533b88b1629631dfcbf7decda96d81e8fb759df10f0e2",
+          "E": 0.01947021484375,
+          "Gamma": 0.05487060546875,
+          "minus2Gamma": -0.1097412109375,
+          "risk_difference": -0.09027099609375,
+          "common_offset_MSE": 16.74420166015625
+        },
+        {
+          "panel_id": "50c73e3df96f750b3c8e7b7d242c86691c6ea2baa77fc597f3bc4c4c6118e846",
+          "E": 0.0367431640625,
+          "Gamma": 0.10467529296875,
+          "minus2Gamma": -0.2093505859375,
+          "risk_difference": -0.172607421875,
+          "common_offset_MSE": 7.3553466796875
+        },
+        {
+          "panel_id": "f4a9fba929aaa387e36cea06baa938482c619fa09aeb6f6f6801b2cb9f73953a",
+          "E": 0.021240234375,
+          "Gamma": -0.08172607421875,
+          "minus2Gamma": 0.1634521484375,
+          "risk_difference": 0.1846923828125,
+          "common_offset_MSE": 14.334442138671875
+        },
+        {
+          "panel_id": "2b413af4be5cc75b963f711e7dc4a0ed181004c6f1ef66bebc35908c487450d7",
+          "E": 0.10748291015625,
+          "Gamma": 0.332183837890625,
+          "minus2Gamma": -0.66436767578125,
+          "risk_difference": -0.556884765625,
+          "common_offset_MSE": 19.764785766601562
+        },
+        {
+          "panel_id": "29af83df5b36fcec3d43243426cf8c5df144eaf46bd303649491c7a129093862",
+          "E": 0.09271240234375,
+          "Gamma": 0.24176025390625,
+          "minus2Gamma": -0.4835205078125,
+          "risk_difference": -0.39080810546875,
+          "common_offset_MSE": 17.14947509765625
+        },
+        {
+          "panel_id": "1ea6527b0bcb00d396064484c790292d158b57fca78f0fd95878c328b6877d6f",
+          "E": 0.04498291015625,
+          "Gamma": -0.06866455078125,
+          "minus2Gamma": 0.1373291015625,
+          "risk_difference": 0.18231201171875,
+          "common_offset_MSE": 18.78826904296875
+        }
+      ],
+      "interpretation": "POSTHOC_EXACT_OUTPUT_ACCOUNTING_NOT_PREDICTIVE_CERTIFICATE"
+    },
+    "P32": {
+      "E": 0.1675872802734375,
+      "Gamma": -0.060855865478515625,
+      "minus2Gamma": 0.12171173095703125,
+      "risk_difference": 0.28929901123046875,
+      "per_panel": [
+        {
+          "panel_id": "bf8580e99e7e96e9df28710975e6a91623963444bee89ad90f35300190034ed3",
+          "E": 0.191650390625,
+          "Gamma": 0.43408203125,
+          "minus2Gamma": -0.8681640625,
+          "risk_difference": -0.676513671875,
+          "common_offset_MSE": 5.64532470703125
+        },
+        {
+          "panel_id": "4cf6c8dde59b2a9ac3f903a7ecb7e5ead9c6ee653199e68c080fcb431c62885f",
+          "E": 0.141357421875,
+          "Gamma": -0.00390625,
+          "minus2Gamma": 0.0078125,
+          "risk_difference": 0.149169921875,
+          "common_offset_MSE": 27.62237548828125
+        },
+        {
+          "panel_id": "b7a8ac9fc509fe79d87533b88b1629631dfcbf7decda96d81e8fb759df10f0e2",
+          "E": 0.00872802734375,
+          "Gamma": -0.04058837890625,
+          "minus2Gamma": 0.0811767578125,
+          "risk_difference": 0.08990478515625,
+          "common_offset_MSE": 23.14801025390625
+        },
+        {
+          "panel_id": "50c73e3df96f750b3c8e7b7d242c86691c6ea2baa77fc597f3bc4c4c6118e846",
+          "E": 0.2200927734375,
+          "Gamma": -0.53125,
+          "minus2Gamma": 1.0625,
+          "risk_difference": 1.2825927734375,
+          "common_offset_MSE": 9.732177734375
+        },
+        {
+          "panel_id": "f4a9fba929aaa387e36cea06baa938482c619fa09aeb6f6f6801b2cb9f73953a",
+          "E": 0.178955078125,
+          "Gamma": -0.33856201171875,
+          "minus2Gamma": 0.6771240234375,
+          "risk_difference": 0.8560791015625,
+          "common_offset_MSE": 17.513153076171875
+        },
+        {
+          "panel_id": "2b413af4be5cc75b963f711e7dc4a0ed181004c6f1ef66bebc35908c487450d7",
+          "E": 0.3453369140625,
+          "Gamma": 0.168365478515625,
+          "minus2Gamma": -0.33673095703125,
+          "risk_difference": 0.00860595703125,
+          "common_offset_MSE": 22.818435668945312
+        },
+        {
+          "panel_id": "29af83df5b36fcec3d43243426cf8c5df144eaf46bd303649491c7a129093862",
+          "E": 0.2236328125,
+          "Gamma": -0.29541015625,
+          "minus2Gamma": 0.5908203125,
+          "risk_difference": 0.814453125,
+          "common_offset_MSE": 21.8565673828125
+        },
+        {
+          "panel_id": "1ea6527b0bcb00d396064484c790292d158b57fca78f0fd95878c328b6877d6f",
+          "E": 0.03094482421875,
+          "Gamma": 0.12042236328125,
+          "minus2Gamma": -0.2408447265625,
+          "risk_difference": -0.20989990234375,
+          "common_offset_MSE": 24.69122314453125
+        }
+      ],
+      "interpretation": "POSTHOC_EXACT_OUTPUT_ACCOUNTING_NOT_PREDICTIVE_CERTIFICATE"
+    }
+  },
+  "action_gate": {
+    "name": "FORWARD_AUDIT_ACTION_GATE_R1",
+    "pass": true,
+    "checks": {
+      "complete_valid_frozen_outputs": true,
+      "Q32_actual_relative_gain_at_least_1pct": true,
+      "paired_q95_difference_negative": true,
+      "actual_VAL64_coordinate_protection": true,
+      "MAIN8_reference_qualified": true,
+      "MAIN8_runtime_comparable": true
+    },
+    "relative_gain": 0.09382565002882448,
+    "paired_q95_difference": -0.006467056274414101,
+    "coordinate_ratio": 1.0989243005685527,
+    "historical_derivative_qualification": "FAILED_PRESERVED",
+    "derivative_qualification_required": false,
+    "alternate_winner_selected": false
+  },
+  "bootstrap": {
+    "seed": 2026100904,
+    "replicates": 20000,
+    "order": [
+      7,
+      6,
+      5,
+      1,
+      3,
+      2,
+      0,
+      4
+    ],
+    "quantile_method": "linear",
+    "complete_panel_duplicate_draws_preserved": true
+  },
+  "new_Jacobian": null,
+  "human_Accuracy": null,
+  "reference_qualification": {
+    "pass": true,
+    "methods": {
+      "N_NATIVE": {
+        "Accuracy": 0.7395833333333333,
+        "q05_Accuracy_minus_half": 0.2065972222222222,
+        "qualified": true
+      },
+      "G_T1": {
+        "Accuracy": 0.7395833333333333,
+        "q05_Accuracy_minus_half": 0.203125,
+        "qualified": true
+      }
+    },
+    "groups": [
+      "component-52ef581f7f19fb4e12d880b2b8e017c9cee1a850d03d23ee87e29bad72b5877a",
+      "component-695344fd87b95fba0da08de8c09f3a1a6d1926b28b11296f67de157f77b0718c",
+      "component-a0e8a1274f77101ba9e899ac3536884bc7799235901628a299295f4b50a59de7",
+      "component-ac8ebb86ff2c28225d9edc73dddbb331cffb39e657dc969b4f3eccd34735c15a",
+      "component-ae70035ea27a9cd81350783c4b8c8a19eb9314a3820fac2fcc346b6282fb5e71",
+      "component-c7cc94ebee3f94ef0c642ee23c271e8a326b3b7a0511bc7e4ac40ca37867cde8",
+      "component-de6df71cb7ebe6564a89dc4e1f982f6093873949235e81d35d5e1058bd0db76f",
+      "component-e6b3c9e0267a3e4051ea7a0465cd9133f992c88088415637ef7e0d4eff0917c8"
+    ],
+    "new_reference_calls": 0
+  },
+  "counts": {
+    "technical_dina": 8,
+    "backbone": 776,
+    "new_text_prompt": 8,
+    "text_encoder": 8,
+    "text_encoder_2": 8,
+    "text_encoder_3": 8,
+    "VAL_dina": 768
+  },
+  "spec_sha256": "50c65b50145a6c0aee0c6f41a005f6bdc343077bd4c04d5811492721d992a076",
+  "coordinate_images": 64
+}

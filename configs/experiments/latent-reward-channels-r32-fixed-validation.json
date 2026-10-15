@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latent-reward-channels-r32-fixed-validation",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "theory_or_specified_model",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "指定有限模型精确枚举/求积；只读现有真实缓存和R3.1已保存合法baseline。旧val/OOD不选模、不作fresh确认。原件保存在raw，不修改。",
+  "parameters_excerpt": "A：p=.75仅供评价，a=.8，m32，K64主比较/K16控制，δ=.05；B：α=.4、β=.2、v=.25、source m1、ell2主比较，ell1/4、scalar及high-info控制；C：knots(−1,0,1)、Q对角.7/非对角.15，单候选指数posterior，λ=g/H，固定曲率格、强全T scalar-BT、同λ线性混合与2/4箱控制。无开放搜索。",
+  "code_identity_excerpt": "没有可用Git HEAD，不编造commit。执行代码SHA256：`994a7650d7d10b9798b03f15cd090c2d2e3bd86eff4ccda8a21ef7c5e3781d4b`；冻结配置与原件SHA见protocol.json。一次执行前短review及一次只读科学复核均有回执。",
+  "source_snapshot": "docs/source-snapshots/latent-reward-channels-r32-fixed-validation.txt",
+  "primary_report": null
+}

@@ -1,0 +1,124 @@
+# DC-AE 评价域 T1 坐标与既有排序诊断 R3
+
+## A. 完成与证据状态
+
+`DINA_DCAE_STRONG_BRIDGE_EVAL_DOMAIN_T1_LOCALIZATION_R3`；证据级别 `ADAPTIVE_DEVELOPMENT_FROZEN_COORDINATE_DIAGNOSTIC`。
+
+**COMPLETE_VERIFIED**：固定252图、1008对、28组全部完成；独立远端CPU张量/统计核验及本地portable数值回放真实通过。复用旧B2000/S2000、既有T1和FIT/VAL2000记录；本轮新增冻结Projector有效前向504、技术前向8，训练/VAE/Reward/Accuracy新增均0。
+
+R1误读记录、旧B guard不确定性、R3初次准入失败与第一次恢复中断全部保留。来源层确有授权已消费DEV标签字段解析，分析输入无人工偏好字段；不宣称历史零标签访问或全程reward-blind。
+
+## B. 主数值与分类
+
+尚未建立 S 在评价域具有更低平均 T1 坐标误差的证据。点估计为轻微恶化，但区间同时允许改善与恶化，不能称两者相同或已经证明恶化。
+
+| 主指标 | 实际值 |
+|---|---:|
+| B2000 EVAL normalized MSE | 0.309153732710651 |
+| S2000 EVAL normalized MSE | 0.310404429212213 |
+| 绝对差 B−S | -0.001250696501562 |
+| 相对下降 1−S/B | -0.404555% |
+| 中央95%区间（主） | [-2.731897%, 1.993552%] |
+| 中央90%区间（辅助） | [-2.379180%, 1.619271%] |
+
+主分类：`EVAL_T1_CHANGE_INCONCLUSIVE`。绝对差95%区间`[-0.008380385520794108, 0.006156661615721766]`，90%区间`[-0.007359631415752169, 0.00501157953921292]`。逐图改善比例51.984127%（131/252），差值中位数0.001485913992。`material_point=False`、`material_lower_bound=False`，10%仅描述尺度；没有zero-baseline bootstrap复制。
+
+## C. FIT／VAL／EVAL对照
+
+| 域 | 唯一图像数 | B normalized MSE | S normalized MSE | 绝对差 B−S | 相对下降 |
+|---|---:|---:|---:|---:|---:|
+| FIT | 64 | 0.281846319442 | 0.180594336824 | 0.101251982618 | 35.924536% |
+| VAL | 64 | 0.283369923709 | 0.272624603938 | 0.010745319771 | 3.791976% |
+| EVAL | 252 | 0.309153732711 | 0.310404429212 | -0.001250696502 | -0.404555% |
+
+三域使用逐图等权、原FIT-only T0方差W0和继承的normalized REC。FIT/VAL从旧2000步完整精度逐图值复用，未改用S1250；旧训练backend可能不同于当前评价默认backend，因此不把所有域间差异归因于数据分布。EVAL为当前实际CUDA BF16 clean输出与FP32 loss，float64聚合；没有按像素、pair重复次数或四流重复加权。
+
+## D. 直接解释
+
+1. **评价域是否更低？** 本轮主分类为变化未决，尚未建立下降。95%区间允许约2.7319%误差增加到1.9936%误差下降，而非等效结论。
+2. **FIT收益如何传递？** FIT下降35.9245%、VAL下降3.7920%，EVAL点估计下降−0.4046%。本轮没有显示FIT的大幅均方误差改善同等传递到评价总体；不能用它量化“保留了多少潜空间信息”。
+3. **旧行为增益意味着什么？** 前序封存Accuracy从64.85615079%至68.42757937%（+3.5714个百分点），Native agreement从77.76944236%至83.93348337%（+6.1640个百分点），联合增益成立、near-native不成立。这些是已核字节与前序provenance的历史结果，未重算Accuracy。行为确有评价收益，不能说S只改善了训练Anchor；平均T1 MSE也未在本比较中提供清楚的行为改善对应量。
+4. **哪些机制仍未知？** 没有操纵Anchor数量/分布、目标函数或误差方向，不能直接宣布Anchor不足或objective mismatch，也不能断言增加Anchor就会解决。容量、结构归纳偏置、优化、数据覆盖、目标随机性等仍可共同影响。
+5. **既有排序关联？** G可得=True，Native可得=True。G的dE/dD Pearson为0.004634、Spearman为0.039630；Native对应−0.003491/0.036074，均接近零，未给出强共同变化的描述性迹象，不等于证明独立。G排序反向→同向366次、同向→反向107次，说明已有排序变化不能简单用pair平均坐标误差改善排序来解释。以下为固定物理A−B margins与坐标变化的描述量，不是人类“错→对”，也不是因果证明。
+6. **U必要性？** `U_necessity=NOT_TESTED`；`remaining_cause=UNRESOLVED`。无U对照，未建立所有非U方法的上限。
+
+## 旧排序描述关联
+
+G不可得原因：`None`。G若可得，已逐项核同T1缓存、prompt、四流noise、PAPER_T04、旧spec/parity及score对应；Native仅作为T0次级参考。每pair dE为两侧坐标loss差的平均，dD为相对参考的四流绝对margin距离下降。无回归器、阈值搜索、pair-iid p值或新Reward调用。
+
+### G：同一T1的历史评分
+
+描述性 Pearson=0.004633617，Spearman=0.039630033。四象限/零值计数：`{"++": 334, "+-": 155, "-+": 341, "--": 172, "both_zero": 0, "zero_dD": 6, "zero_dE": 0}`。严格非平局参考分母4003，不是旧agreement的固定分母。
+
+B→S模型排序转移（非人类正确/错误）：
+
+| 转移 | 条件数 |
+|---|---:|
+| opposite_sign -> opposite_sign | 462 |
+| opposite_sign -> prediction_tie | 39 |
+| opposite_sign -> same_sign | 366 |
+| prediction_tie -> opposite_sign | 18 |
+| prediction_tie -> prediction_tie | 6 |
+| prediction_tie -> same_sign | 33 |
+| reference_tie -> reference_tie | 29 |
+| same_sign -> opposite_sign | 107 |
+| same_sign -> prediction_tie | 29 |
+| same_sign -> same_sign | 2943 |
+### Native：T0次级参考
+
+描述性 Pearson=-0.003491307，Spearman=0.036073521。四象限/零值计数：`{"++": 336, "+-": 154, "-+": 325, "--": 187, "both_zero": 0, "zero_dD": 6, "zero_dE": 0}`。严格非平局参考分母3999，不是旧agreement的固定分母。
+
+B→S模型排序转移（非人类正确/错误）：
+
+| 转移 | 条件数 |
+|---|---:|
+| opposite_sign -> opposite_sign | 470 |
+| opposite_sign -> prediction_tie | 39 |
+| opposite_sign -> same_sign | 352 |
+| prediction_tie -> opposite_sign | 14 |
+| prediction_tie -> prediction_tie | 6 |
+| prediction_tie -> same_sign | 36 |
+| reference_tie -> reference_tie | 33 |
+| same_sign -> opposite_sign | 123 |
+| same_sign -> prediction_tie | 26 |
+| same_sign -> same_sign | 2933 |
+
+## 数学与输入合同
+
+B40,080参数、S889,424参数，原checkpoint严格加载。`.eval()`、`requires_grad_(False)`、`inference_mode()`；不构造optimizer。原bilinear resize、align_corners=False、默认评价backend、FP32参数/source与CUDA BF16 autocast。输出为DiNa加噪前clean张量；T1来自原posterior sample缓存，既有 `(sample−0.0609)×1.5305` 已在缓存里，不重复scale。
+
+主loss：`mean_FP32((pred.float()-T1.float())**2 / W0.variance.clamp_min(1e-6)[None,:,None,None])`，W0[16]来自原FIT-only T0像素方差；全B,C,H,W有效，无额外padding剔除。逐图raw MSE、cosine、shape、有效元素、mask/input/target/output hash、通道FP64充分量均在COORDINATE_IMAGE_ROWS中。cosine零范数为null，不影响MSE。
+
+同一request key绑定checkpoint/input/view/运行合同；504有效唯一请求，每个只保存一个有效输出。前次中断的7个输出文件及绑定先核验、再复用；其进程没有终态hash，不能改称clean。新497进程前后B/S模型hash一致；全部504张量另经CPU复核，技术测试仅原rec_loss与同一输出显式公式对照，不虚构独立旧预测复现。
+
+Bootstrap：PCG64(2026100101)，28组完整ID字典序，20,000×28有放回索引，重复组按次数贡献图像，B/S共用索引，float64聚合、linear分位数。95%下界>0才支持下降，上界<0才支持增加，否则未决；90%仅辅助。索引SHA `2ddb8846af1db313f41e96ffdc85cc3e7ef0d7113f85b0ecbdfb318d23b3b65f`。
+
+## 访问、失败与计算账本
+
+来源读取固定1008对旧文件及已消费DEV的来源/旧分数；本轮G条件文件读取8064条。真实路径与SHA在SOURCE_MANIFEST及原、新ACCESS_AND_COMPUTE_LEDGER；历史R1访问范围unknown。人工标签用于训练/选点/主分析字段/新Accuracy均0。便携包只包含净化身份、模型margin、数值与来源标识，没有逐行人工偏好或human correct。
+
+初次8技术后准入拒绝；恢复1落盘7输出后进程消失，无exit/settlement，最可能因普通后台启动未持久化，确切终止原因未知。用户2026-10-02解除资源与工程恢复次数限制后，使用独立completion-r2与Windows持久任务，仅补497，真实exit0、GPU锁释放、技术新增0。原code/spec和BLOCKED封存不覆盖。恢复1的旧timer展示与实际值差异保留在原报告。
+
+有效正式前向504；正式预扣505，其中1次中断请求是否实际前向未知，因此实际次数区间504–505；不能把不确定项写成0。技术前向8。失败尝试的8技术与8正式预扣是这些总数的子集，不重复相加。已验证有效输出重复计算0，恢复复用B4/S3。
+
+本次成功GPU占用152.988858秒；初次实测5.285628秒；中断阶段实测未知、保守上界188.103764秒。累计保守上界346.378250秒，历史计费不退款。报告时R3目录实际数据201712994字节。上述均记录实际成本，资源已不设上限。没有购买资源或下载大模型。
+
+## 独立核验与实际命令
+
+独立CPU实现不调用主aggregate，重新组装图像/group、检查20k索引、重复组、聚合、区间与分类；同时逐预测/T1张量检查和通道充分量核验。统计容差atol=rtol=1e-10；loss容差atol1e-6、rtol1e-5，不临时放宽。
+
+远端命令：`/opt/latentatlas/venv/bin/python -B /opt/latentatlas/dina-dcae-eval-domain-t1-localization-20261001-r3/completion-r2/code/verify.py /opt/latentatlas/dina-dcae-eval-domain-t1-localization-20261001-r3/completion-r2`；exit0，最大统计差0，最大张量loss差1.19209289551e-07。旧margin关联另有独立纯数值实现，回执 optional_verification_receipt。
+
+实际本地命令：`owner-home/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 -B LatentAtlas-runs/DINA_DCAE_STRONG_BRIDGE_EVAL_DOMAIN_T1_LOCALIZATION-20261001-R3/verified-portable-completion-r2/code/verify.py LatentAtlas-runs/DINA_DCAE_STRONG_BRIDGE_EVAL_DOMAIN_T1_LOCALIZATION-20261001-R3/verified-portable-completion-r2 --portable`；exit0，最大统计差0，充分量reduction差5.6018675032e-08。这是实际便携数值回放，不是额外独立GPU/teacher重现；包不含完整预测/T1。
+
+## 限制与停止
+
+单训练seed、固定Anchor draw、252图/28组、已消费且经历适应性选择的开发集、仅两个既定结构、同一teacher样本合同；bootstrap不涵盖训练seed/Anchor draw/encoder总体随机性。无新增配对null、绝对可达误差未知、无新Reward评价。旧B guard不确定及7输出来自未clean退出进程的边界保留，不用新的完整复核抹去历史工程事实。
+
+唯一后续建议（不执行）：在独立固定评价集上，只操纵Anchor覆盖并保持其余训练和评价合同一致，检验数据覆盖对坐标泛化的贡献；本结果本身不能保证增加Anchor有效。
+
+## 工件与信任根
+
+本地完成目录：`LatentAtlas-runs/DINA_DCAE_STRONG_BRIDGE_EVAL_DOMAIN_T1_LOCALIZATION-20261001-R3/verified-portable-completion-r2`。远端：`/opt/latentatlas/dina-dcae-eval-domain-t1-localization-20261001-r3/completion-r2`。
+
+原spec SHA `495a37ec56f747436b678bf914d8af13f0291aa5b7cf3bc110e0f19c75cc4180`；资源授权SHA `9169fe832f2a2ae4f185da559c73a953b6aa08683d1537d648b60da90da60fc6`；旧BLOCKED seal `a473903ae6b7e8e1f4add4030085e2fc17958495e0d15faab7089ccdd0854da7` 保留。最终 `result_seal.json` 绑定科学inventory、独立回执、portable清单和本地回放回执、最终报告与自动判定；`readback_receipt.json`记录实际回读。统计输入和报告无循环hash。

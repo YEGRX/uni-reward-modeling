@@ -1,0 +1,92 @@
+# DINA0-R1 外部 DiNa 原生裁判资格检验
+
+## 1. Date
+
+2026-09-14 已完成评分、回传、独立重放与归档。**工程核验 PASS，科学资格 UNQUALIFIED**。最终分类：`DINA_NATIVE_REWARD_UNQUALIFIED_ON_REGISTERED_DEV_AUTHORITY`。DINA1 不启动，当前无需 GPU 或服务器。
+
+## 2. Purpose
+
+独立检验外部冻结 DiNa 经自身 SD3.5 VAE 原生路径，是否能在已消费开发偏好数据上提供可泛化的 Reward 信号。研究缺口（research gap）是区分裁判自身资格与跨 VAE 接口恢复；本阶段无需 Anchor。
+
+## 3. Code Version / Commit
+
+固定 commit：`00219a6afa7837d2ce84629c659dc919c0544572`。
+官方 DiNa 源码：`5a5a025e3ed090c86e96af0d924153569e2cace8`；checkpoint：`31d99dc51bf4c6fd46eb6a5ba0d352e36320cad9`；SD3.5：`b940f670f0eda2d07fbb75229e779da1ad11eb80`。
+Windows RTX4090D + Ubuntu WSL，Python3.10.12、torch2.6.0+cu124。Mac 独立重放使用封存代码归档、Python3.10.20、numpy1.26.4。
+
+## 4. Dataset / Input
+
+DIAG643行、EXTERNAL2619行，6524张准入 RGB，均为历史已消费 development authority。future12455行仍为 `RETIRED_UNVERIFIED_FOR_FUTURE_CONFIRMATION`，行/方向零读取；old TEST 零读取。本结果不是 fresh confirmation。
+
+## 5. Parameters
+
+RGB 原尺寸，无 resize/crop/pad；official SD3.5 VAE posterior sample → `(z−0.0609)×1.5305` → frozen DiNa。每图固定 canonical latent；u=.1、K_noise=4、prompt length256，算术平均 raw scores。20,000 次共享 connected-group bootstrap，固定 seed20260829036。q05 是单侧95%下界；q05/q95 是中央90%区间。
+
+Baseline/controls：PAIR_RO、GLOBAL_SD、Wrong Prompt。主指标（metrics）：EXTERNAL Accuracy−chance下界>0、相对五个PAIR_RO均值的gain下界>0，以及方向、pair-swap和noncollapse；DIAG point Accuracy>.5与注册方向一致性。没有事后调参或构造概率型指标。
+
+## 6. Command
+
+评分：封存代码 `scripts/run_dina0_native.py --run <run> --device cuda:0`。
+独立重放：封存代码 `latentatlas.dina0_execution.replay(<local-run>)`，仅从磁盘重算统计并核对全部封存摘要。
+完整结果：`LatentAtlas-runs/DINA0_DEV_EXTERNAL_DINA_NATIVE_QUALIFICATION_R1-20260909/continuations/windows-device-staging-20260912-r1/sealed-result-windows-20260914-r1/science-windows-20260913-r1`。
+传输与独立核验回执：`LatentAtlas-runs/DINA0_DEV_EXTERNAL_DINA_NATIVE_QUALIFICATION_R1-20260909/continuations/windows-device-staging-20260912-r1/sealed-result-windows-20260914-r1`。
+
+## 7. Results
+
+| 指标 | DIAG | EXTERNAL（主判定） |
+|---|---:|---:|
+| Native Accuracy | 54.666% | 50.420% |
+| 中央90%区间 | 51.477%–57.854% | 48.815%–51.989% |
+| Accuracy−chance 单侧95%下界 | +1.477个百分点 | −1.185个百分点 |
+| PAIR_RO均值 Accuracy | 50.295% | 48.931% |
+| Native−PAIR_RO gain下界 | +0.902个百分点 | −0.256个百分点 |
+| Raw-margin AUROC（诊断） | 0.5474 | 0.5140 |
+
+EXTERNAL两项主要下界与方向检查失败；pair-swap、noncollapse与DIAG point Accuracy通过。自动字段 `diag_direction_consistent` 实际要求两个surface的A/B点准确率全部>.5，因EXTERNAL A侧49.220%而失败；DIAG自身A/B点准确率56.306%/52.903%均>.5。不可仅按字段名误读。
+
+全部103986评分组合、415944科学Reward前向、6524 VAE编码完成，fits=0。完整回传110542文件、952722437字节，SHA256全部匹配；Mac独立20k重放PASS、指标/判定完全相同；全部3262行、52192个条件与score缓存精确对应。
+
+Source: `raw/experiments/latentatlas/dina0-r1-final-2026-09-14/DINA0_metrics.json`、`DINA0_automatic_decision.json`、`transfer-verification.json`、`independent-replay-verification.json`、`independent-cache-verification.json`。
+
+## 8. Analysis
+
+2026-09-15解释补充：本封存结果在当前研究中定位为 **external/OOD diagnostic**。约50%仅描述既定外部数据及runtime，不能直接与论文HPDv3数字比较，也不能据此判定DiNa本身无效。之前缺少的是source-domain sanity/parity check，外部实验并非无价值。原数值、自动UNQUALIFIED及旧DINA1停止记录保持，不回写旧seal。新SRC0/SHIFT0/REG1将分别回答源域资格、dataset/task shift、representation/interface registration和target Reward reuse；见 [[latentatlas-dina-src0-source-domain-parity]]。
+
+Source: `raw/experiments/latentatlas/dina-src0-best-evidence-2026-09-15/research-intent-clarification.md`。
+
+当前固定DiNa原生路径未在注册外部开发数据上证明满足冻结裁判资格。DIAG有限信号不足以支持外部资格；这不等于所有DiNa用途无效，也不否定整个LatentAtlas。PAIR_RO外部区间48.218%–49.642%，不能声称该对照回到chance。Wrong Prompt等诊断不替代主门槛。
+
+新的协议修订解除DINA0与Anchor证明的耦合。旧DINA1-R1和GFI预检仍作为历史独立记录保留。完整解释见 `raw/experiments/latentatlas/dina0-r1-final-2026-09-14/dina0-final-report-zh.md`。
+
+## Possible Conflict / 待确认冲突
+
+旧DINA1-R1要求future12455行全局未消费与完整Anchor disjointness；后续用户修订将未来confirmation资格退役，但保留零读取。旧Source：`raw/experiments/latentatlas/dina1-preflight-2026-09-08/DINA_USER_PROTOCOL.md`；新Source：`raw/experiments/latentatlas/dina0-r1-preparation-2026-09-09/DINA_PROTOCOL_AMENDMENT.md`。这是后续授权覆盖，不回写旧seal。
+
+## 9. Problems
+
+旧云服务器停止可用，完整结果未知且未继承。新Windows从头准备：6734文件双重SHA核验、63项CPU回归和10项真实CUDA parity通过。依赖下载曾出现不完整文件与索引暂态缺项，固定文件URL/SHA后完成，未放宽校验。
+
+9月13日早间设备离线，恢复后旧科学进程已停止；16,461 scores、1,286 latents完整校验后，以同一冻结spec恢复，累计计数未清零。中途其他SSH短暂超时后均确认原进程继续，未盲目重启。早间中断的实际原因未确定。
+
+合成parity前向与历史网络请求没有全链路精确计数，不报告为零；科学前向计数已完整验证。旧ledger部分描述文本来自启动快照，阶段判断以封存结果及动态计数为准。
+
+历史过程与源路径保存在 `raw/experiments/latentatlas/dina0-r1-final-2026-09-14/experiment-before-final.md`，原始证据目录 `raw/experiments/latentatlas/dina0-r1-windows-device-staging-2026-09-12/`，未删除或覆盖。
+
+## 10. Next Steps
+
+2026-09-15 用户新方向：继续使用DiNa，独立调查数据集/推理契约。见 [[latentatlas-dina-dataset-runtime-diagnostic]]。这是新诊断，不改变本页封存结论；HPDv3源域评分尚未完成。
+
+按协议停止本次DINA0路线，不创建DINA1-R2，不进行u/K/分辨率或模型capacity搜索。可能改进（possible improvement）仅为未来另行注册的任务/数据分布机制诊断；当前结果不能确定失败原因。未来确认需真正fresh external human-preference authority。
+
+完整结果与缓存均已在本地，无需保持GPU或远程电脑运行。定时检查在最终交付时停用。旧云电源状态未核实。
+
+相关：[[latentatlas]]、[[latentatlas-rgen1-reward-external-generalization]]、[[latentatlas-dina1-external-frozen-reward-functional-registration]]、[[latentatlas-gfi1-group-frozen-interface-registration]]。
+
+## 11. Sources
+
+- `raw/experiments/latentatlas/dina0-r1-final-2026-09-14/dina0-final-report-zh.md`：中文最终报告。
+- `raw/experiments/latentatlas/dina0-r1-final-2026-09-14/DINA0_metrics.json`、`DINA0_automatic_decision.json`：统计与科学判定。
+- `raw/experiments/latentatlas/dina0-r1-final-2026-09-14/transfer-verification.json`、`independent-replay-verification.json`、`independent-cache-verification.json`：本地独立核验。
+- `raw/experiments/latentatlas/dina0-r1-final-2026-09-14/result_seal.json`、`inventory.json`、`DINA0_EXPERIMENT_SPEC.json`：封存与输入绑定。
+- `raw/experiments/latentatlas/dina0-r1-final-2026-09-14/full-result-location.json`：完整结果与全量缓存位置。
+- `raw/experiments/latentatlas/dina0-r1-final-2026-09-14/experiment-before-final.md`：历史阶段、原始来源与故障处理索引。

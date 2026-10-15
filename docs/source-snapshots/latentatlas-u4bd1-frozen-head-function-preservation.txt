@@ -1,0 +1,178 @@
+# LatentAtlas U4-BD1 冻结 Reward Head 函数保持诊断
+
+## 1. Date
+
+- 正式运行与结果归档日期：2026-08-25
+- Run identity：`U4BD1_DEV_FROZEN_HEAD_FUNCTION_PRESERVATION`
+- 执行环境：CPU-only
+- 实验性质：development-only、adaptive、non-confirmatory
+
+## 2. Purpose
+
+U4-BD1 检查的是：已有 F（flat affine）与 N（invariant nonlinear）映射能否在历史 V708 cohort 上，保持一个**精确冻结的 U0 Reward Head** 的输出数值与排序。
+
+冻结 source reference 为：
+
+\[
+s_{ref}=R_{U0}\left(\frac{B_{sd}(\operatorname{normalize}_{sd}(z_{sd}))+B_{flux}(\operatorname{normalize}_{flux}(z_{flux}))}{2}\right)
+\]
+
+实验比较 correct mapping 与五个 permutation null、matched no-fit initial-state control、constant-reference control。它没有训练或微调 Reward Head，也没有打开任何新的 Reward labels、preferences、margins、orientations 或 prompt text。
+
+## 3. Code Version / Commit
+
+- Production commit：`ab45951a43325943ec7fdf4f2b2326d539c41dd8`
+- Disk verifier replay/classification fix：`b6d13f8d7936a7f935a1ba68d60e58d402b0fbc4`
+- Postformal checkout-sensitive test fix：`0341c82b3748fa4fc798fa744561c62b943b4a5b`
+- Result commit：`703fdd04ed873815c49d250a0cf39a86611d4274`
+- Config SHA-256：`426bc73c31f7546a47ca6b216f54ee266daa96fef71ff8842d21afaf9a91264c`
+- Frozen design SHA-256：`41d49500a1e1686e95b30ac787680e445fed4afc2b95d1121dab293a924addaf`
+- Frozen implementation plan SHA-256：`452675658b16e9a8c49511c646e604b12a7bb719f79adb3f2e7fc8c49618c63b`
+
+## 4. Dataset / Input
+
+- Cohort：历史已暴露的 V708 validation cohort，共 `708` 个 identity。
+- Cohort 状态：`fresh=false`，`historically_exposed=true`。
+- Ordered identity commitment：`525b4521049856de12249b80d5d7e62428f1592adbe157721a1d0401a4a05bf6`。
+- 没有重开 H1105 或 P4096，也没有访问 test data 或 fresh authority。
+- 冻结 Reward Head architecture：`Linear(64,64) -> GELU -> Dropout(0.1) -> Linear(64,1)`，共 `4,225` parameters。
+- Reward Head file SHA-256：`f8096c49afcec03d7f80228d82c925710931f805d53d5c057882ffb6c1e032cb`。
+- Reward Head state SHA-256：`b45076296c57cd720c784c548cab99f4d1fad70f1e44150fdc05377da417c3ea`。
+- Head 以 CPU `float32`、`eval`、frozen、dropout disabled 方式执行；指标聚合使用 `float64`。
+
+## 5. Parameters
+
+- Mapping registry：
+  - F：correct + 5 null，共 6 个 seedless flat-affine terminal mappings。
+  - N：correct + 5 null，每个 3 seeds，共 18 个 nonlinear terminal mappings。
+  - 合计 24 个 terminal mappings，另含 1 个 F zero no-fit control 与 3 个 N initial-state no-fit controls。
+  - Model registry 共 `32` 项；U4-BD1 内 mapping training steps=`0`。
+- N seeds：`20260823`、`20260824`、`20260825`。
+- Value error：`sqrt(mean((s_a-s_ref)^2)) / sigma_ref`。
+- Order error：相对固定 full-cohort midrank 的 normalized rank RMSE。
+- Bootstrap：`20,000` replicates，seed=`2026082501`，common stream；固定 `sigma_ref` 与 ranks。
+- Registered lower bound：5% quantile，zero-based index=`999`；所有门均要求 point gap 与 lower bound 严格大于 `0`。
+- Source reference diagnostics：sample count=`708`、distinct count=`708`、mean=`-0.16689435635182986`、population std=`0.26224103657160375`、`source_self_exact_zero=true`、`adequate=true`。
+
+## 6. Command
+
+正式 CPU-only runner 的冻结调用形式：
+
+```bash
+cd source-workspace/.worktrees/u4-bd1-frozen-head-function-preservation
+env CUDA_VISIBLE_DEVICES='' PYTHONPATH=src \
+  source-workspace/.venv/bin/python \
+  scripts/run_u4bd1_function_preservation.py \
+  --config configs/u4bd1-dev-frozen-head-function-preservation.json \
+  --production-commit ab45951a43325943ec7fdf4f2b2326d539c41dd8
+```
+
+结果树的只读 disk verifier：
+
+```bash
+cd source-workspace/.worktrees/u4-bd1-frozen-head-function-preservation
+source-workspace/.venv/bin/python \
+  scripts/verify_u4bd1_function_preservation.py \
+  --run-dir runs/U4BD1_DEV_FROZEN_HEAD_FUNCTION_PRESERVATION
+```
+
+Post-result regression evidence：focused suite=`394 passed`；full suite=`2791 passed`。
+
+## 7. Results
+
+### 7.1 Frozen classification
+
+最终分类：
+
+`INVARIANT_NONLINEAR_REGISTERED_FROZEN_HEAD_FUNCTION_SPECIFICITY_ONLY`
+
+这里的 gap 为 control error 减 correct error；因此正值表示 correct mapping 更接近冻结 reference。注册判定同时要求 point gap 与 5% lower bound 严格为正。
+
+| Family | Control | Metric | Point gap | 5% lower bound | Gate |
+|---|---|---:|---:|---:|---|
+| F | five nulls | value | `0.41899547090574396` | `0.3660657145383268` | Pass |
+| F | five nulls | order | `0.10034689861135915` | `0.07734053897234483` | Pass |
+| F | no-fit | value | `0.4691349667414384` | `0.41716154264805416` | Pass |
+| F | no-fit | order | `-0.020128259498308487` | `-0.03478756075486916` | Fail |
+| F | constant | value | `-0.0614016701443858` | `-0.1108815811505659` | Fail |
+| F | constant | order | `-0.020128259498308487` | `-0.03478756075486916` | Fail |
+| N | five nulls | value | `0.8479262515099083` | `0.7868014274287389` | Pass |
+| N | five nulls | order | `0.1782910147902455` | `0.15954709674630776` | Pass |
+| N | no-fit | value | `0.6624385023127112` | `0.5979867512647268` | Pass |
+| N | no-fit | order | `0.16029716936567615` | `0.14375979370833492` | Pass |
+| N | constant | value | `0.2521483307214618` | `0.19078648241910612` | Pass |
+| N | constant | order | `0.060655069159577885` | `0.04678434523264616` | Pass |
+
+### 7.2 Family-level conclusion
+
+- **N registered pass**：N 对 five nulls、matched no-fit initial states 和 constant reference 的 value/order point gaps 与 lower bounds 全部为正。
+- **F registered fail**：F 虽对 five nulls 方向正确，且 no-fit value 通过，但 constant-control 的 value/order 均失败，no-fit order 也失败。因此 F 不能获得 registered frozen-head function-specificity 结论。
+- 两族均有 `point_directional=true`，但只有 N 的 `registered_pass=true`。
+
+### 7.3 Seal and verifier evidence
+
+- Attempt receipt SHA-256：`a32bbfd81c31106cd280aa53adfb127fee8fde9728151147fed1cade1ee61a10`。
+- Result seal SHA-256：`4ce23943e1befeac2700af4ab4f39fe4f501a2b1f4261775b0a71aaf99df772b`。
+- Inventory file SHA-256：`55f027ae9c900f0197cb023747daed47eb8cbf002b1201bf970f6c5414166e3e`。
+- `result_seal.json` 封存 18 个 artifacts；其后生成 self-excluding `inventory.json`，共记录 19 个 entries；正式根共 20 个 top-level paths。
+- Audit status=`COMPLETED`，`attempt_consumed=true`，四项 validity gates 全部为 `true`。
+- Disk-only verifier version=`U4BD1_COMPLETED_TREE_VERIFIER_V1`；它重算 aggregate arithmetic、gate、classification、seal 与 inventory，且不重开 per-identity forward values。
+- Head/source/mapping parameter digests 前后完全一致，`parameter_digests_unchanged=true`。
+- Reward labels/orientations/preferences/margins、head training/calibration/fine-tuning、mapping fit、H1105/P4096、test data、fresh authority、network、GPU/CUDA/MPS、original images、per-identity persistence 与 post-V708 adaptation 等 forbidden counters 全部为 `0`。
+- 持久化产物只有 aggregate diagnostics；没有 per-ID scores、bootstrap contributions 或新 checkpoint。
+
+## 8. Analysis
+
+### 8.1 这项结果证明什么
+
+在**同一个精确冻结的 U0 Reward Head**与**历史 V708 identities**上，N mapping family 对注册的 null、no-fit 和 constant controls 都表现出稳健的 value/order function preservation。相对 U4-A4 的 correspondence-specificity，U4-BD1 进一步表明 N 的正确映射不仅对应 identity pairing，还能较好保存这一特定冻结 head 的函数行为。
+
+### 8.2 这项结果不证明什么
+
+- 不证明该 Reward Head 的输出是正确的人类 Reward，也不证明 Reward accuracy 或 reward sufficiency。
+- 不使用任何新 Reward labels，因此不是 fresh Reward confirmation。
+- V708 是历史已暴露 cohort，因此不是 fresh holdout、cross-distribution 或 unseen-identity generalization。
+- 只绑定一个 exact frozen head，因此不是跨 Reward Head transfer，更不是 canonical/universal U。
+- 不检验 unseen-VAE transfer、低成本 onboarding、唯一坐标系或 downstream policy usefulness。
+- N pass 不能推广成 F pass；F 明确未通过 constant control 与 no-fit order gate。
+
+## 9. Problems
+
+- 初版 completed-tree verifier 对 resolved calibration binding 的 replay/classification 有缺口；commit `b6d13f8` 修复后，disk-only recomputation 得到当前 N-only frozen classification。
+- 正式根合法存在后，preformal tests 中仅断言 `FORMAL_ROOT` 不存在的 checkout-sensitive assertion 会误报；commit `0341c82` 改为 collection-time byte/inventory snapshot，要求正式树逐字节保持不变。
+- F 的主要科学 blocker 不是 null comparison，而是 constant control；其 value/order point 与 lower gaps 均为负，且 no-fit order 同样为负。
+
+## 10. Next Steps
+
+1. 将本结果作为 exact-head、historic-cohort 的 bounded diagnostic 保留，不在同一 V708 authority 上追加 architecture/seed/control sweep。
+2. 若要检验 Reward transfer，必须先冻结新的独立 functional authority 与新 Reward Head/任务契约，不能复用本结果替代 fresh confirmation。
+3. 若以后进入 unseen-VAE onboarding，应另行预注册新 VAE、身份隔离、模型绑定、controls 与 terminal seal；不得把 N 在 V708 的通过直接推广过去。
+4. 当前归档与后续讨论不需要 GPU 或远程服务器。
+
+## 11. Sources
+
+### Related Pages
+
+- [[latentatlas]]
+- [[latentatlas-u4a4-reward-free-p4096-crossfit-correspondence-specificity]]
+- [[latentatlas-u-series-comprehensive-report]]
+- [[representation-alignment]]
+- [[latent-space]]
+
+### Source Files
+
+- Source root: `source-workspace/.worktrees/u4-bd1-frozen-head-function-preservation/runs/U4BD1_DEV_FROZEN_HEAD_FUNCTION_PRESERVATION/`
+- Source: `source-workspace/.worktrees/u4-bd1-frozen-head-function-preservation/runs/U4BD1_DEV_FROZEN_HEAD_FUNCTION_PRESERVATION/report.md`
+- Source: `source-workspace/.worktrees/u4-bd1-frozen-head-function-preservation/runs/U4BD1_DEV_FROZEN_HEAD_FUNCTION_PRESERVATION/config.json`
+- Source: `source-workspace/.worktrees/u4-bd1-frozen-head-function-preservation/runs/U4BD1_DEV_FROZEN_HEAD_FUNCTION_PRESERVATION/function_reference_diagnostics.json`
+- Source: `source-workspace/.worktrees/u4-bd1-frozen-head-function-preservation/runs/U4BD1_DEV_FROZEN_HEAD_FUNCTION_PRESERVATION/evaluation_summary.csv`
+- Source: `source-workspace/.worktrees/u4-bd1-frozen-head-function-preservation/runs/U4BD1_DEV_FROZEN_HEAD_FUNCTION_PRESERVATION/robustness_summary.json`
+- Source: `source-workspace/.worktrees/u4-bd1-frozen-head-function-preservation/runs/U4BD1_DEV_FROZEN_HEAD_FUNCTION_PRESERVATION/decision.json`
+- Source: `source-workspace/.worktrees/u4-bd1-frozen-head-function-preservation/runs/U4BD1_DEV_FROZEN_HEAD_FUNCTION_PRESERVATION/head_binding.json`
+- Source: `source-workspace/.worktrees/u4-bd1-frozen-head-function-preservation/runs/U4BD1_DEV_FROZEN_HEAD_FUNCTION_PRESERVATION/mapping_registry.json`
+- Source: `source-workspace/.worktrees/u4-bd1-frozen-head-function-preservation/runs/U4BD1_DEV_FROZEN_HEAD_FUNCTION_PRESERVATION/access_manifest.json`
+- Source: `source-workspace/.worktrees/u4-bd1-frozen-head-function-preservation/runs/U4BD1_DEV_FROZEN_HEAD_FUNCTION_PRESERVATION/audit.json`
+- Source: `source-workspace/.worktrees/u4-bd1-frozen-head-function-preservation/runs/U4BD1_DEV_FROZEN_HEAD_FUNCTION_PRESERVATION/attempt_receipt.json`
+- Source: `source-workspace/.worktrees/u4-bd1-frozen-head-function-preservation/runs/U4BD1_DEV_FROZEN_HEAD_FUNCTION_PRESERVATION/result_seal.json`
+- Source: `source-workspace/.worktrees/u4-bd1-frozen-head-function-preservation/runs/U4BD1_DEV_FROZEN_HEAD_FUNCTION_PRESERVATION/inventory.json`
+- Source: `source-workspace/.worktrees/u4-bd1-frozen-head-function-preservation/runs/U4BD1_DEV_FROZEN_HEAD_FUNCTION_PRESERVATION/provenance.json`

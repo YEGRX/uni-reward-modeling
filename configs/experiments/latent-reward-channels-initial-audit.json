@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latent-reward-channels-initial-audit",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "theory_or_specified_model",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "CPU可解Gaussian/离散prior。真实D2：固定32/8/8 prompts×4 seeds、192张512图；test为完整留出背景/风景家族。A/B1使用sampler endpoint；B2用同PNG的两个VAE posterior.mode，scale .13025/.18215。A/C冻结D64特征，train K16、val/test K64。PickScore训练集标准化，ImageReward独立评价。",
+  "parameters_excerpt": "GPU4小时、下载30GB、缓存10GB。实际native steps49/169/354对应t=.049730705629/.249279815403/1.000731599625；step0约.000850745不是零。B1 MC32，B2 M1/M4；C2五训练seeds、共享anchor网格、最多50epochs/patience5。B2两noisy方法各2000真实更新，val选中100/500不能取代真实成本。",
+  "code_identity_excerpt": "工作区无HEAD；采用隔离项目、逐文件SHA和bundle。核心r11锁32文件SHA未变化。GPU实际执行r9/r10，离线头r11；独立后处理另存脚本与hash，不回写原指标。",
+  "source_snapshot": "docs/source-snapshots/latent-reward-channels-initial-audit.txt",
+  "primary_report": null
+}

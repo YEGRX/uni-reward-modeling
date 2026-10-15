@@ -1,0 +1,20 @@
+{
+  "experiment_id": "latentatlas-dina-dcae-target-spatial-factorial",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "JOINT_GAIN_NOT_ESTABLISHED",
+  "scope": "开发集1,008对 / 28组 / 4流",
+  "scientific_conclusion": "A/B/C/D Accuracy64.16/64.43/62.82/63.59%；B/C/D未确立Accuracy与排序的联合改善。",
+  "limitations": "固定四格控制，单seed；坐标与行为端点分开，不挑较好checkpoint。",
+  "input_excerpt": "旧 A、128 Anchor、1008 对评价行与 28 个关联组均有只读来源核验。B/C/D 各 1000 步终点经独立远端 CPU 验证。新评分 24,192 科学条件、115 技术条件；未读取 retired future、old TEST 或 External。",
+  "parameters_excerpt": "| Arm | 目标/接口 | Accuracy | Native 排序一致率 |\n|---|---|---:|---:|\n| A | T0/P0 | 64.16% | 77.28% |\n| B | T1/P0 | 64.43% | 76.91% |\n| C | T0/P1 | 62.82% | 77.73% |\n| D | T1/P1 | 63.59% | 78.22% |\n| G | round-trip 参照 | 72.54% | 97.47% |\n| Native | 原生 | 72.82% | 100% |\n\nB−A Accuracy +0.27 个百分点，中央90%区间 [−0.25, +0.77]；C−A −1.34 [−2.63, −0.02]；D−A −0.57 [−1.81, +0.74]。D−C +0.77 [ +0.20, +1.31]，交互 +0.50 [−0.17, +1.17]。三新臂均未通过同时提升 Accuracy 与 Native 排序的一致性判据，亦未通过近 Native 保真判据；相对 Native 的 Accuracy 损失超过 2pp 有预声明探索性证据。完整对比、12端点调整下界、坐标指标、八个 F0 预选案例和成本见最终报告。",
+  "code_identity_excerpt": "独立 worktree `codex/dina-dcae-target-spatial-factorial`。F0 SHA `23c8c7d807c87dc6f3eb95e1d71dfbf35259f22bae712c18ec45b86b8277a541`；F1 SHA `17f0911dba737dbe020dc9c5160a1d0389ec71f9bcd9e8eb5281cefe8878366a`；不可变完整代码快照 `code-full-23649b415e34`。P0 40,080 参数，P1 39,672 参数。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-dina-dcae-target-spatial-factorial.txt",
+  "primary_report": {
+    "source_locator": "wiki-store/raw/experiments/latentatlas/dina-dcae-target-spatial-factorial-2026-09-26/verified-complete-20260927-r1/FINAL_REPORT.md",
+    "original_sha256": "06312ce52db97f10ba921f15d0c69c3bf047333487ad796dedc88b1e4da13baf",
+    "file": "docs/reports/latentatlas-dina-dcae-target-spatial-factorial-final.txt",
+    "sha256": "06312ce52db97f10ba921f15d0c69c3bf047333487ad796dedc88b1e4da13baf"
+  }
+}

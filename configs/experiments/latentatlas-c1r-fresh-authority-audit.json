@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-c1r-fresh-authority-audit",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Current Reward dataset: `Rapidata/human-coherence-preferences-images`\n- Frozen revision: `72c0ebefc7ef3bebe22643fc709a6e94c22b5b02`\n- Official shards: `53/53`\n- Audited source rows: `63,748`\n- G0.1 pair manifest SHA-256: `23faea933a176eb3c3fd2b52d6006491b62b6ae3ae4d72b978e61803415e8acd`\n- G0.1 split manifest SHA-256: `83a96bcdeb2805e1743b4555c5a1366558612dc5033598c777295b3016ab64ea`\n- G0.1 official Parquet replay: `pass`",
+  "parameters_excerpt": "Not applicable。Fresh-authority gate 在任何 model、seed、normalization、sampler 或 latent-cache evaluation 之前失败，因此没有启动 12 个训练 run，也没有打开任何新 preference orientation。",
+  "code_identity_excerpt": "- Audit base commit: `a6a734cdeefb12828a03f8439be7bb70cf5c5471`\n- Base branch: `codex/c1-mini-loo-shared-reader`\n- 本次只执行只读 authority audit；没有创建 C1-R code、config、checkpoint 或 run directory。\n- Device: 本地 CPU / 磁盘读取；不需要 GPU 或远程服务器。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-c1r-fresh-authority-audit.txt",
+  "primary_report": null
+}

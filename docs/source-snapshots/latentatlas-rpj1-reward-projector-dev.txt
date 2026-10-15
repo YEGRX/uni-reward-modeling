@@ -1,0 +1,122 @@
+# LatentAtlas RPJ1 Reward Projector Development Experiment
+
+## 1. Date
+
+- 2026-08-29
+
+## 2. Purpose
+
+RPJ1 检验两件事：
+
+1. 在 SD、FLUX、DCAE 三个已知 VAE 上，per-VAE shallow Reward Projector 能否支持一套共享 Reward Reader（one shared Reward model）。
+2. 只有 Gate 1 合格时，才继续检验 reward-free Anchor registration 能否把冻结的 source Reward system 注册到留出的 target VAE。
+
+本实验是 [[latentatlas]] 的 TRAIN/DEV-only development evidence，不使用 official TEST。
+
+## 3. Code Version / Commit
+
+- Scientific branch: `codex/rpj1-reward-projector-dev`
+- Scientific commit: `1fcd46465a5925478e01b358da1296fdc2521094`
+- RRV1 source commit: `5658782959cd9e3ce27a0d5bbef74cdbae6f27f0`
+- PROJ0 source commit: `db85c5a29684c3294bcf8006d41c1b63e7767609`
+- Disk-only verifier repair commit: `65fcea0e6f5b8defe2bf146f67d2d471766d9de4`
+- Verifier repair只处理 JSON tuple/list 重放等价与跨 NumPy float32 reduction 的 `1e-7` 数值容差；没有模型 forward、训练、阈值、seed、cache 或科学结果修改。
+
+## 4. Dataset / Input
+
+- Frozen HPDv3 TRAIN subdivision 与 official DEV。
+- 已封存的 SD / FLUX / DCAE representation cache。
+- 已封存的 authoritative 6144D text cache。
+- Native DEV reference 仅用于冻结的对照比较。
+- Official TEST orientation / forward / metrics：`0 / 0 / 0`。
+- Anchor target Reward-label access：`0`。
+
+## 5. Parameters
+
+- Gate 1 methods: `DIRECT_SHARED` 与 `PROJECTOR_SHARED`。
+- Conditions: prompt-conditioned、latent-only、shallow diagnostic。
+- Seeds: 3。
+- Formal fits: `18 × 5,000 updates`。
+- Bootstrap: frozen DEV、20,000 replicates。
+- Gate 2: 只有 `gate2_authorized=true` 时才允许运行 leave-one-VAE-out source/target protocol。
+
+## 6. Command
+
+正式流程按以下顺序执行：
+
+1. CUDA smoke；
+2. Gate 1 的 18 个 formal fits；
+3. 一次冻结 DEV evaluation 与 20k bootstrap；
+4. Gate 1 自动分类；
+5. 仅在授权时执行 Gate 2；
+6. 本地 disk-only scientific replay；
+7. 生成 inventory 与 result seal。
+
+精确命令、路径与参数见最终报告和 run root 中的 receipts/manifests。
+
+## 7. Results
+
+| Method | Macro Acc | BT-NLL | SD Acc | FLUX Acc | DCAE Acc |
+|---|---:|---:|---:|---:|---:|
+| DIRECT_SHARED | 0.627267 | 0.623737 | 0.613000 | 0.626000 | 0.642800 |
+| PROJECTOR_SHARED | 0.630333 | 0.619715 | 0.609600 | 0.641200 | 0.640200 |
+
+Gate 1 controls：
+
+- Representation specificity: `PASS`
+- Prompt over latent-only: `FAIL`
+- Wrong-prompt specificity: `PASS`
+- Direction balance: `PASS`
+- Three-seed robustness: `PASS`
+- Projector noncollapse: `FAIL`
+- Incremental-value interpretation: `ONE_SHARED_REWARD_SUPPORTED_BUT_PROJECTOR_NOT_NECESSARY`
+
+最终分类：
+
+- Gate 1: `GATE1_PROJECTOR_SHARED_REWARD_NOT_SUPPORTED`
+- Gate 2: `GATE2_NOT_RUN_SOURCE_REWARD_SYSTEM_UNQUALIFIED`
+- Recommendation: `STOP_REWARD_PROJECTOR_GATE2_ON_THIS_AUTHORITY_AND_DIAGNOSE_GATE1_FAILURE`
+
+Verifier 与封存：
+
+- Disk-only scientific verifier: `PASS`
+- Verifier receipt SHA256: `eb681a18f548aad5700238e1c7955be138ca78d714ef4c1d956d7ae90e133d1f`
+- Result seal: `COMPLETED`
+- Result seal SHA256: `bab045dd5a7e035df52a87b39764481747c8c8dc0f8ff935356659972387401b`
+
+## 8. Analysis
+
+这个结果支持“已知三类 VAE 的冻结 latent 中存在可由一套直接共享 Reward Reader 读取的开发性信号”，但不支持“当前 shallow Projector 是必要且合格的共享 Reward 接口”。虽然 Projector 的宏观 Accuracy/BT-NLL 点估计略优于 Direct，共享 Projector 没有通过 prompt incremental 和 noncollapse 两个资格门槛，因此不能把微小点估计优势归因成 Projector 的有效增益。
+
+Gate 2 被预注册条件正确阻断。因此，本实验没有检验 Anchor 是否能实现 reward-free target registration，也没有产生 unseen-VAE、zero-shot 或 canonical-U 证据。
+
+## 9. Problems
+
+首次本地 disk-only replay 暴露两个 verifier-only 兼容性问题：
+
+1. NumPy `2.4.6` 与远端 scientific NumPy `2.2.6` 的 float32 reduction 相差约 `5.96e-8`，原容差 `1e-10` 过严；
+2. dataclass tuple 经 JSON 序列化后成为 list，原 verifier 把语义相同的有序序列判为不同。
+
+独立 verifier repair 以测试驱动方式修复；`3` 个 focused tests 与 `16` 个相邻 RPJ1 tests 通过，并保留对 `1e-4` 科学漂移的拒绝。修复不改变任何科学产物。
+
+## 10. Next Steps
+
+先做 Gate 1 failure localization：确定 noncollapse 失败来自 Projector parameterization、normalization、shared-reader shortcut，还是 prompt 与 latent 的增量信息不足。不得在同一 development authority 上通过改阈值或反复选择来“救活” Gate 1；若提出新 Projector，应冻结新协议并使用新的验证边界。
+
+## 11. Sources
+
+- Source: `owner-home/.codex/attachments/a2a2b437-d406-4e6f-a853-859235aef113/pasted-text.txt`
+- Source: `source-workspace/.worktrees/rpj1-reward-projector-dev/docs/superpowers/specs/2026-08-29-rpj1-reward-projector-two-gate-design.md`
+- Source: `LatentAtlas-runs/rpj1-20260829-1fcd464/RPJ1_FINAL_DEV_REPORT.md`
+- Source: `LatentAtlas-runs/rpj1-20260829-1fcd464/decision.json`
+- Source: `LatentAtlas-runs/rpj1-20260829-1fcd464/bootstrap_summary.json`
+- Source: `LatentAtlas-runs/rpj1-20260829-1fcd464/verifier_receipt.json`
+- Source: `LatentAtlas-runs/rpj1-20260829-1fcd464/result_seal.json`
+- Source: `LatentAtlas-runs/rpj1-20260829-1fcd464/RPJ1_VERIFIER_REPLAY_PROTOCOL_AMENDMENT_R1.json`
+
+## Related Pages
+
+- [[latentatlas]]
+- [[latentatlas-rrv1-frozen-latent-reward-readout]]
+- [[latentatlas-u5-proj0-frozen-b3-structural-projector]]
+- [[latentatlas-u6-rcu0-reward-compatible-u-feasibility]]

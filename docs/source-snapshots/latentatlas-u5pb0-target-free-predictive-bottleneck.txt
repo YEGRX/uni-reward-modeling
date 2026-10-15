@@ -1,0 +1,192 @@
+# LatentAtlas U5-PB0 Target-Free Predictive Bottleneck
+
+## 1. Date
+
+2026-08-26
+
+## 2. Purpose
+
+在复用 P4096、known-VAE、reward-free 的 development protocol 中，检验：
+
+1. SD+FLUX product space 是否能无 target Reward label 地预测 DCAE latent；
+2. 预测能力是否依赖正确 identity pairing；
+3. direct predictor 的信息能否压缩进固定 `U[16,128]` bottleneck；
+4. bottleneck 失败时能否区分 optimization failure、collapse 与 compactness failure。
+
+该实验承接 [[latentatlas-u4a4-reward-free-p4096-crossfit-correspondence-specificity]] 与 [[latentatlas-cvjdd0-cross-vae-joint-denoising-anomaly]]。它不使用早期 K64 RGB Anchor bank、relative-Anchor coordinates、H、Reward Head、RGB 或 fresh authority，但使用 P4096 中同 identity 的 SD/FLUX/DCAE matched latent correspondence，不能称为 unpaired 或广义的 anchor-free learning。
+
+## 3. Code Version / Commit
+
+- Branch：`codex/u5-pb0-mps-fallback`
+- CUDA production predecessor：`01bbca405290ac7b2e6c707410e622566bfc49c6`
+- MPS formal production commit：`3a696a9a8dc981460bd0921792ed65597b427c74`
+- Postformal verifier repair：`b277541`
+- Complete result/checkpoint commit：`b1353b94f783d505d9d63097d0330c60e8697d22`
+- Config SHA-256：`f2c5998a7d614cc77c2e7d18ebdbe31e75e01d4c01b9883d954800ab29b1d019`
+- MPS amendment SHA-256：`29c094bd3697b4e38938ba9a2687cb5e33aa10a8345a359122725cf702ea926f`
+- Run identity：`U5PB0_DEV_REUSED_P4096_TARGET_FREE_PREDICTIVE_BOTTLENECK_MPS_BF16_FALLBACK_PILOT`
+- Evidence status：development-only、adaptive、reused-P4096、reward-free、non-confirmatory、known-VAE、single-fold、single-seed、MPS-BF16-fallback-pilot。
+
+## 4. Dataset / Input
+
+- Authority：P4096 development authority，fold 0。
+- Train / validation / evaluation：`2868 / 408 / 820` identities。
+- Source：SD `[4,64,64]` + FLUX `[16,64,64]`。
+- Target：DCAE `[32,16,16]`。
+- `target-free` 仅指 DCAE 内容不进入 forward input；DCAE latent 仍作为监督 loss target，因此不是无监督学习。
+- Train-only per-view/per-channel normalization。
+- Five deterministic pairing nulls。
+- Identity-grouped common-stream bootstrap：5,000 replicates，seed=`2026082502`。
+- Reward、Reward Head、orientation、H/H-bar、V708、G0.1 validation/test、NF mapping、RGB、network access counters 全部为 0。
+
+## 5. Parameters
+
+| Model | Role | Parameters |
+|---|---|---:|
+| B0 | fit-only target mean | 0 |
+| B3 | direct SD+FLUX product-space predictor | 728,576 |
+| M1 | predictive `U[16,128]` bottleneck | 730,624 |
+
+共同训练配置：seed=`20260826`、AdamW、lr=`3e-4`、minimum lr=`3e-5`、betas=`0.9/0.95`、weight decay=`1e-4`、warmup=`500`、batch=`32`、每个执行模型 `12,000` updates、validation every `500`、gradient clip=`1.0`、BF16。
+
+Gate A 要求 B3 EV point 与 lower 同时大于 0。Gate A 通过后必须运行 M1。Compact gate 为：
+
+\[
+D_U=(L_{M1}-L_{B3})/L_{B3},\qquad \operatorname{upper}(D_U)<0.05.
+\]
+
+## 6. Command
+
+正式生命周期：
+
+```text
+durable attempt receipt
+-> train/validation transport
+-> MPS BF16 benchmark
+-> B3 12k training
+-> fit seal
+-> one-time evaluation open
+-> B3 evaluation + Gate A
+-> mandatory M1 12k training/evaluation
+-> terminal package + result seal
+-> disk-local completed-tree verifier
+```
+
+实际 runtime：Apple MPS、PyTorch `2.13.0`、BF16。Benchmark=`52.316 updates/s`，peak allocated/driver memory=`1.108/1.263 GB`。
+
+原 CUDA attempt 因 AutoDL 余额 `¥1.28 < ¥2.18` 在 benchmark/训练/evaluation 前 operationally blocked；它不是科学负结果，也未被 MPS fallback 覆盖。报告完成时两台 RTX 4090 均再次确认“已关机”。
+
+## 7. Results
+
+### 7.1 Final decision
+
+```text
+PRODUCT_SPACE_PREDICTIVE_ONLY
+```
+
+冻结的唯一下一步：
+
+```text
+保留 direct product-space model
+```
+
+### 7.2 Main metrics
+
+| Condition | MSE | NRMSE | EV point | EV 95% interval | Cosine | R@1 | MRR |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| B0 | 0.987446 | 0.995209 | 0.000000 | — | 0.137448 | 0.001220 | 0.008887 |
+| B3 correct | 0.290828 | 0.540102 | 0.705474 | [0.702260, 0.708736] | 0.841990 | 1.000000 | 1.000000 |
+| M1 correct | 0.724445 | 0.852433 | 0.266344 | [0.259180, 0.274046] | 0.523081 | 0.958537 | 0.975122 |
+
+B3：
+
+- Gate A=`PASS`。
+- Worst null=`flux_wrong`，MSE=`0.632146`。
+- Worst-pairing-gain=`1.173605 [1.150261,1.197748]`。
+- Macro balanced AUROC=`0.999399 [0.999024,0.999707]`。
+- Correct prediction 对全部五个 null 具有强 pairing specificity。
+
+M1：
+
+- EV lower >0，pairing gate=`PASS`，U noncollapse=`PASS`。
+- Worst-pairing-gain=`0.320901 [0.309006,0.333060]`。
+- Macro balanced AUROC=`0.907900 [0.899212,0.916659]`。
+- Compact deficit=`1.490972 [1.467986,1.514329]`，远高于注册上限 `0.05`，因此 compact gate=`FAIL`。
+
+### 7.3 U diagnostics
+
+- feature variance=`0.491862`
+- active fraction=`1.0`
+- effective rank=`19.768419`
+- sample-mean variance=`0.058206`
+- permuted-U change=`0.530834 [0.525292,0.536638]`
+- prediction change=`0.567797 [0.553596,0.582024]`
+- constant-U advantage=`0.278044 [0.270869,0.285714]`
+
+这些指标排除简单 collapse/complete-ignore，但不能把当前 U 升级为 canonical 或 universal U。
+
+逐样本 change/advantage 区间由本地 5,000 次 bootstrap 重算；feature variance、active fraction、effective rank 与 sample-mean variance 是 MPS worker-attested aggregates，因没有持久化逐样本 U tensor 而未从 raw U 独立重建。五个 permutation 是冻结 comparative controls，不是 permutation-test p-value。
+
+### 7.4 Integrity
+
+- Completed verifier：`VERIFIED`
+- Registered path count：26
+- Inventory SHA-256：`3009c7b48b4d2f8799c6d17d36722d06f92e95982bd04d48ff09701c422038c3`
+- Result seal SHA-256：`9e906076dfc15ba852db09332523f294bded7241838debcc1dc19cb1b8bd66ff`
+- B3 selected checkpoint：`ae4b275b9f6dd1925ae802d3b5c7dbbfaef7304a2cfaea4f0a4b5da86ca8f03b`
+- M1 selected checkpoint：`af2e25ae197f3d5b5ac975a06757d2cc596e60c1760c5b1026e1e0e9051779b2`
+- Focused/adjacent regression after verifier repair：`173 passed`。
+
+## 8. Analysis
+
+### 8.1 证明了什么
+
+1. 在当前 reused-P4096、known-VAE development scope 内，SD+FLUX product space 含有强 target-free DCAE predictive information。
+2. 该信息依赖正确 cross-VAE identity pairing，而不是只依赖 marginal mean。
+3. M1 的 U 不是简单坍缩或完全被 decoder 忽略。
+4. 在相近参数量、同训练预算与当前 `16×128` 参数化下，M1 没有在 5% 非劣范围内保留 B3 的预测质量。
+
+### 8.2 不证明什么
+
+- 不证明 universal/canonical U 不存在。
+- 不否定所有 bottleneck architecture、capacity、loss 或 optimization。
+- 不证明 Reward transfer、Reward sufficiency、fresh replication、unseen-VAE onboarding 或 cross-distribution generalization。
+- 不构成 Anchor onboarding evidence；本实验没有使用早期 K64 RGB Anchor bank/relative-Anchor coordinates，但使用了 dense matched identities，不能外推到低成本或 unpaired onboarding。
+- 不证明 Apple MPS 与未完成的 CUDA attempt 数值等价。
+- 不解决 [[latentatlas-u4b1-284-exploratory-fresh-functional-specificity]] 的 `SOURCE_H_INADEQUATE`。
+
+## 9. Problems
+
+1. AutoDL 余额不足使原 CUDA attempt 在科学计算前停止；因此新建独立 MPS fallback，而不是覆盖原 attempt。
+2. Terminal seal 后，旧 completed verifier 将持久化 EV replicates 直接取第 `124/4874` 个位置；builder 则先对 `MSE/B0` ratio 取对应 order statistics，再用 `EV=1-ratio` 变换。有限样本产生一个秩的差异，触发 `decision precedence mismatch`。
+3. Commit `b277541` 以失败测试先行，让 verifier 镜像 builder。没有改动 config、数据、checkpoint、metrics、decision、seal、inventory 或 classification；真实 sealed tree 随后通过 verifier。
+
+## 10. Next Steps
+
+唯一冻结动作是：**保留 direct product-space model**。停止把本次 M1 当作已通过的 compact predictive-U；本页面不自动授权其他 target direction、seed、fold、Reward、fresh 或 architecture rescue 实验。
+
+## 11. Sources
+
+- Source: `source-workspace/.worktrees/u5-pb0-mps-fallback/docs/superpowers/reports/2026-08-26-u5-pb0-mps-bf16-fallback-complete-report.md`
+- Source: `source-workspace/.worktrees/u5-pb0-mps-fallback/runs/U5PB0_DEV_REUSED_P4096_TARGET_FREE_PREDICTIVE_BOTTLENECK_MPS_BF16_FALLBACK_PILOT/report.md`
+- Source: `source-workspace/.worktrees/u5-pb0-mps-fallback/runs/U5PB0_DEV_REUSED_P4096_TARGET_FREE_PREDICTIVE_BOTTLENECK_MPS_BF16_FALLBACK_PILOT/decision.json`
+- Source: `source-workspace/.worktrees/u5-pb0-mps-fallback/runs/U5PB0_DEV_REUSED_P4096_TARGET_FREE_PREDICTIVE_BOTTLENECK_MPS_BF16_FALLBACK_PILOT/evaluation_summary.json`
+- Source: `source-workspace/.worktrees/u5-pb0-mps-fallback/runs/U5PB0_DEV_REUSED_P4096_TARGET_FREE_PREDICTIVE_BOTTLENECK_MPS_BF16_FALLBACK_PILOT/bootstrap_summary.json`
+- Source: `source-workspace/.worktrees/u5-pb0-mps-fallback/runs/U5PB0_DEV_REUSED_P4096_TARGET_FREE_PREDICTIVE_BOTTLENECK_MPS_BF16_FALLBACK_PILOT/u_diagnostics.json`
+- Source: `source-workspace/.worktrees/u5-pb0-mps-fallback/runs/U5PB0_DEV_REUSED_P4096_TARGET_FREE_PREDICTIVE_BOTTLENECK_MPS_BF16_FALLBACK_PILOT/training_certificates.json`
+- Source: `source-workspace/.worktrees/u5-pb0-mps-fallback/runs/U5PB0_DEV_REUSED_P4096_TARGET_FREE_PREDICTIVE_BOTTLENECK_MPS_BF16_FALLBACK_PILOT/inventory.json`
+- Source: `source-workspace/.worktrees/u5-pb0-mps-fallback/configs/u5pb0-dev-reused-p4096-target-free-predictive-bottleneck-mps-fallback.json`
+- Source: `LatentAtlas-runs/u5pb0-mps-fallback-stage-3a696a9-f2c5998a/accelerator/b3-evaluation.json`
+- Source: `LatentAtlas-runs/u5pb0-mps-fallback-stage-3a696a9-f2c5998a/accelerator/m1-evaluation.json`
+
+## Related Pages
+
+- [[latentatlas]]
+- [[latentatlas-u5pb1-predictive-u-capacity-spatial-topology]]
+- [[latentatlas-u-series-comprehensive-report]]
+- [[latentatlas-u4a4-reward-free-p4096-crossfit-correspondence-specificity]]
+- [[latentatlas-u4b1-284-exploratory-fresh-functional-specificity]]
+- [[latentatlas-cvjdd0-cross-vae-joint-denoising-anomaly]]
+- [[representation-alignment]]
+- [[latent-space]]
+- [[variational-autoencoder]]

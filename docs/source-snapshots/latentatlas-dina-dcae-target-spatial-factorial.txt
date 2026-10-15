@@ -1,0 +1,52 @@
+# DC-AE 训练目标 × 空间接口四格预实验
+
+## 1. Date
+
+2026-09-26 至 2026-09-27。状态：**VERIFIED_COMPLETE；科学联合改善未确立**。最终报告：`raw/experiments/latentatlas/dina-dcae-target-spatial-factorial-2026-09-26/verified-complete-20260927-r1/FINAL_REPORT.md`。
+
+## 2. Purpose
+
+在固定 64 FIT / 64 VAL、1008 对 / 28 组、四流和 1000 步预算下，分开比较教师目标 T0/T1 与空间接口 P0/P1。A=P0T0 精确复用旧封存终点；B=P0T1、C=P1T0、D=P1T1 新训练。零目标偏好标签。
+
+## 3. Code Version / Commit
+
+独立 worktree `codex/dina-dcae-target-spatial-factorial`。F0 SHA `23c8c7d807c87dc6f3eb95e1d71dfbf35259f22bae712c18ec45b86b8277a541`；F1 SHA `17f0911dba737dbe020dc9c5160a1d0389ec71f9bcd9e8eb5281cefe8878366a`；不可变完整代码快照 `code-full-23649b415e34`。P0 40,080 参数，P1 39,672 参数。
+
+## 4. Dataset / Input
+
+旧 A、128 Anchor、1008 对评价行与 28 个关联组均有只读来源核验。B/C/D 各 1000 步终点经独立远端 CPU 验证。新评分 24,192 科学条件、115 技术条件；未读取 retired future、old TEST 或 External。
+
+## 5. Results
+
+| Arm | 目标/接口 | Accuracy | Native 排序一致率 |
+|---|---|---:|---:|
+| A | T0/P0 | 64.16% | 77.28% |
+| B | T1/P0 | 64.43% | 76.91% |
+| C | T0/P1 | 62.82% | 77.73% |
+| D | T1/P1 | 63.59% | 78.22% |
+| G | round-trip 参照 | 72.54% | 97.47% |
+| Native | 原生 | 72.82% | 100% |
+
+B−A Accuracy +0.27 个百分点，中央90%区间 [−0.25, +0.77]；C−A −1.34 [−2.63, −0.02]；D−A −0.57 [−1.81, +0.74]。D−C +0.77 [ +0.20, +1.31]，交互 +0.50 [−0.17, +1.17]。三新臂均未通过同时提升 Accuracy 与 Native 排序的一致性判据，亦未通过近 Native 保真判据；相对 Native 的 Accuracy 损失超过 2pp 有预声明探索性证据。完整对比、12端点调整下界、坐标指标、八个 F0 预选案例和成本见最终报告。
+
+## 6. Analysis
+
+T1 目标降低了 B/D 到 T1 的坐标误差，但未稳定转化为任务行为。仅一个训练 seed、固定 1000 步、同一开发样本，bootstrap 不能覆盖训练随机性。历史评价图像中 96/252 张经过尺寸恢复，空间亚组相关不能当作单算子因果证据。结果只支持这个固定预算下的比较，不证明信息论上限或长训练收益。唯一建议的后续工作是预注册 A–B 训练时长对照；**未启动**。
+
+## 7. Verification and Cost
+
+B/C/D 训练、当前 DiNa parity 与七模型状态、完整评分、两次独立远端 CPU 回放、本地授权纯 CPU 回放全部核验。双远端 replay 输出逐文件一致；本地 7 输出最大绝对差 `6.661338147750939e-16`（容差 1e-10），分类一致。最终封存 SHA `4470d4c7891e6df006f5b1ac70c12789fde8642a3f3ac269a6c404abd2c8c0bc`，另有独立远端读回。GPU 累计扣费 20697.93 / 21600 秒。T1 教师准备、训练、部署推理与固定评分成本在报告中分开；部署单次延迟未独立实测。
+
+## 8. Problems and Fixes
+
+T1 r1 在生成目标前把文件 SHA 与内存状态 SHA 混用，失败现场保留；r2 仅工程核验修正，旧来源不改。最终封存首次因报告中使用 Unicode 减号而不含控制器要求的 ASCII `B-A/C-A/D-A` 停在发布前；旧报告和失败回执保留，修正表述后完成封存。控制链路曾有 SSH 超时，未据此重复运行 GPU 任务。旧 A 与 SRC0 等历史实验均未重跑。
+
+## 9. Related Pages
+
+[[latentatlas-dina-dcae-roundtrip-gap-localization]]、[[latentatlas-dina-vae2-dcae-recipe-portability]]、[[latentatlas-dina-reg1-functional-registration]]。
+
+## 10. Sources
+
+- `raw/experiments/latentatlas/dina-dcae-target-spatial-factorial-2026-09-26/verified-complete-20260927-r1/FINAL_REPORT.md`
+- 同目录 `FINAL_SEAL_R1.json`、`FINAL_SEAL_INDEPENDENT_READBACK_R1.json`、`PORTABLE_LOCAL_REPLAY_VERIFICATION_R1.json`、`PORTABLE_REMOTE_FETCH_R1.json`、`F0_FREEZE_RECEIPT.json`。
+- 远端全量证据：`/opt/latentatlas/dina-dcae-target-spatial-factorial-20260926-r1/run/`，分析逐行证据、B/C/D checkpoints 与 final inventory 均有 SHA 绑定。

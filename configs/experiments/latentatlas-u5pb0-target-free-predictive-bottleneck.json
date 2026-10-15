@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-u5pb0-target-free-predictive-bottleneck",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Authority：P4096 development authority，fold 0。\n- Train / validation / evaluation：`2868 / 408 / 820` identities。\n- Source：SD `[4,64,64]` + FLUX `[16,64,64]`。\n- Target：DCAE `[32,16,16]`。\n- `target-free` 仅指 DCAE 内容不进入 forward input；DCAE latent 仍作为监督 loss target，因此不是无监督学习。\n- Train-only per-view/per-channel normalization。\n- Five deterministic pairing nulls。\n- Identity-grouped common-stream bootstrap：5,000 replicates，seed=`2026082502`。\n- Reward、Reward Head、orientation、H/H-bar、V708、G0.1 validation/test、NF mapping、RGB、network access counters 全部为 0。",
+  "parameters_excerpt": "| Model | Role | Parameters |\n|---|---|---:|\n| B0 | fit-only target mean | 0 |\n| B3 | direct SD+FLUX product-space predictor | 728,576 |\n| M1 | predictive `U[16,128]` bottleneck | 730,624 |\n\n共同训练配置：seed=`20260826`、AdamW、lr=`3e-4`、minimum lr=`3e-5`、betas=`0.9/0.95`、weight decay=`1e-4`、warmup=`500`、batch=`32`、每个执行模型 `12,000` updates、validation every `500`、gradient clip=`1.0`、BF16。\n\nGate A 要求 B3 EV point 与 lower 同时大于 0。Gate A 通过后必须运行 M1。Compact gate 为：\n\n\\[\nD_U=(L_{M1}-L_{B3})/L_{B3},\\qquad \\operatorname{upper}(D_U)<0.05.\n\\]",
+  "code_identity_excerpt": "- Branch：`codex/u5-pb0-mps-fallback`\n- CUDA production predecessor：`01bbca405290ac7b2e6c707410e622566bfc49c6`\n- MPS formal production commit：`3a696a9a8dc981460bd0921792ed65597b427c74`\n- Postformal verifier repair：`b277541`\n- Complete result/checkpoint commit：`b1353b94f783d505d9d63097d0330c60e8697d22`\n- Config SHA-256：`f2c5998a7d614cc77c2e7d18ebdbe31e75e01d4c01b9883d954800ab29b1d019`\n- MPS amendment SHA-256：`29c094bd3697b4e38938ba9a2687cb5e33aa10a8345a359122725cf702ea926f`\n- Run identity：`U5PB0_DEV_REUSED_P4096_TARGET_FREE_PREDICTIVE_BOTTLENECK_MPS_BF16_FALLBACK_PILOT`\n- Evidence status：development-only、adaptive、reused-P4096、reward-free、non-confirmatory、known-VAE、single-fold、single-seed、MPS-BF16-fallback-pilot。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-u5pb0-target-free-predictive-bottleneck.txt",
+  "primary_report": null
+}

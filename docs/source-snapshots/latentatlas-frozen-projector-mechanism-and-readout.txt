@@ -1,0 +1,112 @@
+# 冻结 Projector 机制审计与第二评分函数复用
+
+> 最终验收：2026-09-25 16:46 北京时间。冻结Projector A/B已完整复核并封存；REC/FUNC的PickScore复用均为INCONCLUSIVE，六组比较通过。原B收尾exit1保留，科学证据经独立恢复核验；不启动新实验。
+
+[阅读中文最终报告](LatentAtlas-runs/DINA_REG1_MECHANISM_AUDIT-20260924-R1/study-report.md)；[完整封存与验证](LatentAtlas-runs/DINA_REG1_MECHANISM_AUDIT-20260924-R1/final-delivery-r1/files/evidence/whole-recovered-final-release-r1/RESULT_SEAL.json)。
+
+## 1. Date
+
+2026-09-24至25，研究与最后本地portable CPU回放、交付已完成。
+
+## 2. Purpose
+
+阶段A审计总体准确率相近是否掩盖逐样本判断、坐标表示和DiNa内部功能差异；阶段B测试同一冻结Projector经SD3.5 decoder接入固定PickScore。研究缺口（research gap）是任务兼容是否延伸到一个新的读取函数，而非寻找新的通用架构。新增训练0。
+
+## 3. Code Version / Commit
+
+继承Pilot b24aef0，原训练检查点、模型及科学规则冻结。A-completion-r3与B-r4原始执行及失败记录保留。完成两次独立完整证据提取、两次远端数值回放、一次真实Mac portable CPU回放；最终六组比较零exact/float失败。两远端数值逐字节一致，本地最大浮点绝对差约1.46e−11，符合原对称1e−10规则。
+
+晚期修复只涉及容器兼容、证据恢复、真实六字段评分输入适配和两个A0继承来源字段。旧结果与旧失败包不覆盖，未重新评分。最终seal SHA：3da97b50394536f43deaf5807a9f6b504a2c5c731e78cb26fd53dcac52ce3b6b。
+
+## 4. Dataset / Input
+
+只使用旧Pilot已消费1008对、28完整关联组、252图像身份；A3/A4为事前固定32对子集。原图278条别名保留。单训练种子、单打乱对照，没有新增科学样本。
+
+caption经明确amendment允许的一次metadata-only全源字节扫描提取，只物化白名单1008条pair_id/prompt。后续只读封存derived文件，未重新打开14400行来源、retired future12455或old TEST；不能宣称其余源文件字节零访问。
+
+## 5. Parameters
+
+- A1四流严格判断后平均；平局计错，4032个pair-stream判断不视为独立样本。
+- 20,000次共同关联组bootstrap、中央90%区间；A0沿用2026091900，其余2026092401。
+- 原非劣下界严格大于−0.02、排序保真下界严格大于0.90；B保留多重比较修正。
+- 用户取消资源停止预算，账本持续累计且不退款；样本、arms、noise、指标、阈值和零训练不变。
+
+## 6. Command
+
+运行根：LatentAtlas-runs/DINA_REG1_MECHANISM_AUDIT-20260924-R1。最终数值与源码包：final-portable-r2/package；实际本地回放：final-portable-r2/whole-numeric-local-r2；最终395文件交付：final-delivery-r1/files。完整执行命令、真实OS等待回执及源身份见这些包内清单。本页不授权重跑。
+
+## 7. Results
+
+| 指标 | REC | FUNC |
+|---|---:|---:|
+| DiNa Accuracy（统一四流口径） | 72.79% | 72.47% |
+| 到Native坐标MSE | 0.06295 | 0.10236 |
+| DiNa Native排序一致率 | 91.69% | 87.41% |
+| PickScore Accuracy | 64.58% | 63.69% |
+| 相对PickScore Native差 | −2.18百分点 | −3.08百分点 |
+| PickScore复用分类 | INCONCLUSIVE | INCONCLUSIVE |
+
+REC↔FUNC直接MSE0.04100、cosine0.987672、排序一致率90.96% [89.32%,92.52%]。FUNC/REC平均坐标MSE比1.6261 [1.5751,1.6785]。DiNa FUNC−REC准确率差−0.322百分点 [−2.009,1.389]，未通过原非劣门槛，不能确认FUNC更优。REC−Native通过本轮探索性非劣门槛，但两方法Native排序保真门槛均未通过。
+
+PickScore Native基线66.77% [63.79%,69.74%]，开发范围资格通过。REC/FUNC未同时满足准确率非劣和排序保真，修正后也未通过；这不是已确认超过2百分点的效用退化。NOREG与置换对照约53.47%/53.37%，原分类为检测到效用退化。
+
+A4等幅诊断中FUNC方向的绝对分数扰动较小，但margin与排序翻转未显示同样明确的优势；没有预先冻结跨端点综合门槛，联合机制结论保持未决。
+
+## 8. Analysis
+
+总体准确率相近掩盖了部分表示与逐样本判断差异。FUNC坐标误差更大，并不自动说明功能保持；该证据未通过本轮行为保持门槛。单项显著分数扰动不等于因果机制成立。
+
+B只证明测试了decoder-mediated RGB/PickScore路径，不能扩展到latent-native Reward、任意新评分函数、真正unseen VAE或普适U；预训练重叠未知。探索性开发样本不等于fresh confirmation。
+
+后续投入建议：保留REC为务实基线，FUNC需另行证明增益；现有证据不足以支持直接追加原16组长训练。此建议不构成显著优越性或精确成本收益排名。
+
+## 9. Problems
+
+原B-r4全部科学产物产生后因退出次序失败，exit1/FAILED、缺execution-return/END、cleanup NOT_PROVEN原样保留。后续恢复只核验既有字节与来源，两个独立远端reader、两次远端数值和本地portable全部通过，没有重新评分。后续seal完成不改写原进程状态。
+
+末次模型状态/像素诊断仍依赖原生产者记录，CPU未重新加载模型证明；历史Pilot训练秒数与缓存命中总次数UNKNOWN。原自动报告中的封存前/pending属于先前发布时点；其后的独立RESULT_SEAL证明最终验收。
+
+A0发现旧Pilot表格混用两种Accuracy口径，已明确勘误并统一新报告，旧报告及seal不改写。
+
+## 10. Next Steps
+
+本轮实验结束，不启动下一实验或旧16组。整理和验收已交付，每小时定时检查已删除；已向共享任务仅通报资源可用，不授权其他任务自行恢复。其他任务仍须遵守其用户的明确开始指令和共享锁。
+
+## 11. Sources
+
+- `raw/experiments/latentatlas/frozen-projector-audit-2026-09-24/final-study-verified-20260925T164659+0800`：最终中文报告、seal、验证、六比较、真实本地回放、资源账本和完整报告证据tar；原模型/latent/embedding不回传。
+- `LatentAtlas-runs/DINA_REG1_MECHANISM_AUDIT-20260924-R1/study-report.md`：四主表、六个问题、解释及限制的简明中文报告。
+- `LatentAtlas-runs/DINA_REG1_MECHANISM_AUDIT-20260924-R1/final-delivery-r1/files/report/REPORT_TABLES_AND_CASES.json`：完整四主表和八个预冻结案例，每项保留来源指针。
+- [[latentatlas-dina-reg1-functional-registration]]：旧Pilot上下文；[[latentatlas-dina-shift0-dataset-runtime-localization]]：source与外部迁移背景；[[latentatlas]]：项目。
+
+### 历史归档来源（只表示对应时点，最新状态以上文为准）
+
+- `raw/experiments/latentatlas/frozen-projector-audit-2026-09-24/replay-controls-ready-20260925T044504Z`：12:38现场、控制13项/16项与定向测试、独立审查和源部署回执。
+
+- `raw/experiments/latentatlas/frozen-projector-audit-2026-09-24/replay-integration-20260925T033154Z`：最新现场、原源身份预检、角色映射/固定比较/补充统计及控制修复回执与独审。
+
+- `raw/experiments/latentatlas/frozen-projector-audit-2026-09-24/cpu-efficiency-review-20260924T232143+0800`：CPU开销审查/独审、未执行的只读测量控制和连接失败证据。
+
+- `raw/experiments/latentatlas/frozen-projector-audit-2026-09-24/recovery-budget-stop-20260924T223101+0800`：恢复停止12份小证据、独立账本/冻结预测验证及CPU组件审查。
+
+- `raw/experiments/latentatlas/frozen-projector-audit-2026-09-24/recovery-published-started-20260924T220633+0800`：恢复合同、实际一次发布、独立CPU验证和新进程启动回执。
+
+- `raw/experiments/latentatlas/frozen-projector-audit-2026-09-24/recovery-budget-qualified-20260924T212643+0800`：预算组件测试/复审、实际旧账本只读证明及授权范围。
+
+- `raw/experiments/latentatlas/frozen-projector-audit-2026-09-24/recovery-authorized-20260924T205541+0800`：用户单次恢复批准原文、预算范围和更新记录。
+
+- `raw/experiments/latentatlas/frozen-projector-audit-2026-09-24/b-private-preflight-20260924T201848+0800`：私有门控接线独审、远端合成容量测算与每小时调度记录。
+
+- `raw/experiments/latentatlas/frozen-projector-audit-2026-09-24/b-transcript-qualified-20260924T200456+0800`：B0跨记录关联组件的测试、独立复审及明确限制。
+
+- `raw/experiments/latentatlas/frozen-projector-audit-2026-09-24/cpu-review-closure-20260924T194547+0800`：A/B纯组件独审闭合与未执行恢复设计，仍无新科学评分。
+
+- `raw/experiments/latentatlas/frozen-projector-audit-2026-09-24/a-runtime-container-failure-20260924T193536+0800`：实际失败、独立账本重放、窄修复CPU回执及预算决定草案，未获恢复授权。
+
+- `raw/experiments/latentatlas/frozen-projector-audit-2026-09-24/a-production-started-20260924T191235+0800`：主A独立审查、真实CPU部署/预检、持久任务启动和初始化现场；尚无本轮科学结论。
+
+- `raw/experiments/latentatlas/frozen-projector-audit-2026-09-24/caller-components-reviewed-20260924T181208+0800`：本轮组件修复与独立审查、实际调度器CPU类型核验和未执行边界。
+
+- `raw/experiments/latentatlas/frozen-projector-audit-2026-09-24/initial-authority-and-a0/`：授权、访问修订、A0观察副本和独立审查；观察副本不冒充逐字节回传原件。
+- 新工作区 `.superpowers/sdd/2026-09-24-frozen-projector-audit/`：组件审查和状态。
+- `LatentAtlas-runs/DINA_REG1_PILOT-20260920-R1/portable-local-verification.json`：历史Pilot完成证据。

@@ -1,46 +1,60 @@
-name: your_project_name
-
-owner: YourName
-
-start_date: YYYY-MM-DD
-
-stage: idea
-# idea / baseline / improving / writing / finished
+name: LatentAtlas
+owner: YEGRX
+start_date: 2026-08-08  # 当前归档中最早实验记录日期
+stage: writing
 
 topic:
-  - topic_1
-  - topic_2
+  - cross-encoder functional recovery
+  - frozen latent reward modeling
+  - limited paired examples
 
 goal: >
-  One sentence describing the goal of this project.
+  研究少量配对样本学习的接口能否恢复冻结奖励读出的跨编码器功能，
+  区分坐标恢复、实际偏好效用与独立确认。
 
 baseline:
-  name: BaselineMethodName
-  reproduced: false
+  name: DiNa native/source-domain operational qualification; N/G/BASE matched-panel references
+  reproduced: true
+  qualification_scope: 来源域操作性资格和各固定面板参考资格，不等同于精确论文复现
 
 novelty: >
-  One sentence describing the core novelty.
+  有限任务信息下的跨编码器功能恢复是拟研究问题；
+  方法新颖性、机制因果性和预算匹配优势尚未完整确立。
 
 dataset:
-  - Dataset1
-  - Dataset2
+  - SRC0 source-domain panel (14400 pairs; historical reported aggregate only)
+  - DEV28 interface panel (1008 pairs; 28 groups)
+  - NEW_EVAL56 (2016 pairs; 56 groups; source pool previously consumed)
+  - Frozen MAIN8 (288 pairs; 8 groups; 4 pair-specific noise streams)
 
 metric:
-  - Metric1
-  - Metric2
+  - human preference Accuracy
+  - reference ranking agreement
+  - normalized coordinate MSE
+  - reward margin MSE
+  - paired group bootstrap intervals
 
 best_result:
-  method: ours_v1
-  Metric1: ~
+  method: Cosmos REC fixed recipe
+  panel: DEV28; target-specific 1000-step registration
+  Accuracy: 0.726190
+  Native_Accuracy: 0.728175
+  interpretation: 原注册容忍标准下近原生复用，不是跨面板最佳模型或独立总体确认
 
 risk:
-  - risk_1
-  - risk_2
+  - Q32原导数资格失败，后续新协议MAIN8教师误差退化；不恢复停止研究线
+  - 多数视觉面板已用于开发，不能当作独立测试
+  - HPSv3与PickScore经过decoder，不等同于潜空间直接读取
+  - 同信息量与预算匹配的简单baseline、独立确认和机制干预仍有缺口
+  - 70条历史记录仅归档wiki来源，未在本次重新审计原始工件
+  - R18规定模型MIXED；真实缓存选图NO_GAIN，独立确认B未运行
+  - 完整模型数据包与生产执行代码未全部入仓
 
 next_milestone: >
-  Describe the next concrete milestone.
+  补齐外部工件共享位置与复现许可；为后续机制和方法主张建立
+  预算匹配baseline及独立验证合同。本次仅整理已有实验。
 
 paper_target:
-  - CVPR 2027
+  - ICML (目标定位，年份与投稿状态未在本次确认)
 
-last_update: YYYY-MM-DD
+last_update: 2026-10-10

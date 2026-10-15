@@ -1,0 +1,194 @@
+# LatentAtlas｜同源 Anchor 64→256、固定2000更新实验最终报告
+
+日期：2026-10-03（北京时间）  
+实验身份：`DINA_DCAE_STRONG_ANCHOR64_VS256_FIXED2K_NEWGROUPS_PILOT_R1`  
+证据级别：`ADAPTIVE_DEVELOPMENT_CONTROLLED_ANCHOR_BUDGET_PILOT`  
+科学代码：`963c6d5bd23b90a87d9606b167568063d5a28e33` / `code-formal-r3`；独立CPU核验恢复：`code-completion-r2`。
+
+## 1. 首页结论：固定预算的本次同源扩充建立了三项共同收益
+
+1. 新增192张来自原Anchor同一COCO val2017来源；FIT256包含原FIT64，原VAL64不变。新评价为56个完整connected groups、504张唯一图、2016对，和已消费的旧adapter开发28组互斥。但其父pool曾被source qualification消费，标记为`SOURCE_QUALIFICATION_CONSUMED_ADAPTER_GROUPS_DISJOINT`，不称全局fresh或独立确认集。
+2. S256与S64使用同一原始step0初态、889424参数Strong结构、冻结T1/W0及原2000步AdamW/LR合同。S256从step0训练，不从S64续训。两者更新预算均2000，总抽样64000；本次256支持的冻结抽样每张实际250次。训练支持和每图曝光不同，不能声称逐图minibatch、FLOPs或运行时间完全匹配。
+3. NEW_EVAL平均T1归一化MSE：S64为0.296255050，S256为0.210020939；相对误差下降29.1081%，普通95%区间[27.0068, 31.2981]%，三主端点调整区间[26.5616, 31.7796]%。
+4. 同一新集合的偏好准确率由68.5392%提高至69.9529%，增加+1.4137个百分点，普通95%区间[0.6200, 2.2321]、调整区间[0.4588, 2.4058]个百分点；对G teacher的排序一致率由85.8771%提高至88.6930%，增加+2.8158个百分点，普通95%区间[1.6083, 4.0172]、调整区间[1.3389, 4.2801]个百分点。N/G参考资格均通过。
+5. 坐标、准确率、G排序保真三个端点均为`IMPROVEMENT_SUPPORTED`；总体分类为`ANCHOR_EXPANSION_JOINT_GAIN_SUPPORTED`。`joint_behavior_gain=true`，`all_three_gain=true`。预声明的`EXPLORATORY_NEAR_NATIVE=false`；`U_necessity=NOT_TESTED`。
+6. 结果支持这一个同源扩充实例在固定2000更新预算下有益，训练数据支持是影响当前接口效果的因素。不能据此证明Anchor是唯一瓶颈、更多数据必然成功、MSE无效或FUNC/U必需；抽样实例、每图曝光和优化作用仍未单独分离。
+7. 新增正式训练仅S256一臂2000更新；新缓存696图；正式DiNa科学评分64512次，接受64512个唯一请求，失败或未提交科学调用为0。含失败缓存的GPU锁占用合计83933.793641秒；其中训练11523.850806秒，评价70819.727091秒。CPU首轮审计失败15.317994秒后，显式修正独立核验的辅助cosine精度，第二轮146.298178秒通过；没有重训或重评。GPU锁时间包含加载、I/O和清理，不是纯kernel时间或账单时长。
+
+远端原始工件核验、独立统计实现和授权本地portable回放均已实际通过。报告不通过改写失败记录构造“全程无故障”；最终发布的非循环封存和独立回读由第9节所列证书绑定。
+
+## 2. 同一NEW_EVAL上的四条固定路径
+
+表中准确率区间为普通95%，单位%。坐标损失逐图等权；准确率按每对的四流严格判定后平均。分数平局记准确率0；agreement使用共同参考非平局mask，学生平局记0.5。64512个条件不是64512个独立统计样本。
+
+| 路径 | 平均T1 normalized MSE | Accuracy | Accuracy普通95%区间（%） | Agreement with G |
+|---|---:|---:|---:|---:|
+| N_NATIVE：真实SD3.5 T0 | 本协议未计算 | 74.0451% | [71.1434, 76.8849] | 未汇总此比较 |
+| G_T1：冻结T1 teacher | 0（target自比较定义值） | 74.5412% | [71.7014, 77.3810] | 100%（共同G非平局mask上的定义值） |
+| S64：原64张Strong | 0.296255050 | 68.5392% | [65.7366, 71.2922] | 85.8771% |
+| S256：新增256张Strong | 0.210020939 | 69.9529% | [67.0387, 72.8423] | 88.6930% |
+
+S64的坐标均值普通95%区间为[0.281543552, 0.311036130]，S256为[0.197229905, 0.222564472]。绝对损失下降0.086234111，普通95%区间[0.079215576, 0.093757143]。G的坐标0和自一致率100%只是自比较定义，不伪称额外计算了N与T1坐标误差或N/G交叉一致率。
+
+| 主要效应 | 点估计 | 普通95%区间 | 三端点调整区间 | 判定 |
+|---|---:|---:|---:|---|
+| T1相对误差下降 r | 29.1081 % | [27.0068, 31.2981] | [26.5616, 31.7796] | 改善成立 |
+| 偏好准确率增量 dAcc | 1.4137 百分点 | [0.6200, 2.2321] | [0.4588, 2.4058] | 改善成立 |
+| G排序一致率增量 dAgreeG | 2.8158 百分点 | [1.6083, 4.0172] | [1.3389, 4.2801] | 改善成立 |
+
+r的区间单位为%，两项行为增量的区间单位为百分点。三项调整下界均大于0，因此联合收益成立；各端点未定义复制数均为0。描述性的10%误差下降尺度没有用于停机、选点或替代上述判据。
+
+参考资格按20,000次共同组bootstrap分别检验：N的q05(Accuracy−0.5)=0.216269841，G为0.221602183，均大于0。实际G非平局分母为8026，Native为8017；重采样时重新计算分母，没有沿用旧集合分母。
+
+固定次级描述：
+
+| 指标 | S64 | S256 |
+|---|---:|---:|
+| Agreement with G（普通95%，%） | 85.8771%；[84.2131, 87.4082] | 88.6930%；[86.9099, 90.3870] |
+| Agreement with Native（普通95%，%） | 85.9985%；[84.2983, 87.6246] | 88.7240%；[86.8976, 90.4513] |
+| 对G margin MAE | 0.900442180 | 0.749518618 |
+| 对G margin RMSE | 1.156745895 | 0.971353284 |
+| 相对Native的Accuracy deficit | 5.5060个百分点 | 4.0923个百分点 |
+| 对G排序由失配转为匹配的比例 | — | 4.6848% |
+| 对G排序由匹配转为失配的比例 | — | 1.8689% |
+| 对Native排序由失配转为匹配的比例 | — | 4.6339% |
+| 对Native排序由匹配转为失配的比例 | — | 1.9084% |
+
+探索性near-native未成立：q05(Acc_S256−Acc_N)=-5.2703个百分点，没有高于−2个百分点；q05(Agreement(S256,N))=87.2025%，没有高于90%。该探索项未纳入三主端点调整，不能覆盖主比较，也不能作为论文确认结论。
+
+## 3. 共同坐标面板与固定学习轨迹
+
+| 面板 | 图数 | S64 normalized MSE | S256 normalized MSE | 相对下降 | 解释 |
+|---|---:|---:|---:|---:|---|
+| COMMON_FIT64 | 64 | 0.180591547 | 0.210713387 | -16.6795% | 双方训练图；S256每图曝光更少 |
+| EXTRA192 | 192 | 0.285589950 | 0.209594042 | +26.6101% | 仅S256训练图，不能作共同验证 |
+| ALL_FIT256 | 256 | 0.259340349 | 0.209873879 | +19.0740% | 共同面板，但训练曝光不同 |
+| VAL64 | 64 | 0.272625991 | 0.218827105 | +19.7336% | 原共同验证面板 |
+| NEW_EVAL | 504 | 0.296255050 | 0.210020939 | +29.1081% | 新adapter组，主泛化比较 |
+
+COMMON_FIT64上的损失更高，与固定64000次抽样分散到256张图的设计并存；它没有抹去共同VAL64及NEW_EVAL上的改善。EXTRA192对S256是训练集，其改善不能单独作为泛化证据。主比较使用统一终点评价流程的824图记录，不把训练诊断与评价流程的细小数值差异用于选择checkpoint。
+
+下表仅记录S256训练期诊断，不用于停止或选点；终点事先固定2000。
+
+| 更新 | COMMON_FIT64 | EXTRA192 | ALL_FIT256 | VAL64 |
+|---:|---:|---:|---:|---:|
+| 0 | 3.463207 | 3.521802 | 3.507153 | 3.489485 |
+| 250 | 0.336503 | 0.329354 | 0.331141 | 0.316231 |
+| 500 | 0.292935 | 0.287876 | 0.289141 | 0.279374 |
+| 750 | 0.268258 | 0.264381 | 0.265350 | 0.260001 |
+| 1000 | 0.251077 | 0.248222 | 0.248935 | 0.247861 |
+| 1250 | 0.237200 | 0.235122 | 0.235642 | 0.236841 |
+| 1500 | 0.227519 | 0.225759 | 0.226199 | 0.231144 |
+| 1750 | 0.217839 | 0.216916 | 0.217147 | 0.224224 |
+| 2000 | 0.210713 | 0.209593 | 0.209873 | 0.218827 |
+
+9个完整checkpoint包含model、AdamW、scheduler、sampler、CPU/CUDA RNG、global step；2000个有效更新及64000次实际输入索引已逐项核验。逐图normalized/raw MSE、cosine、shape、有效元素数及张量hash在`COORDINATE_IMAGE_ROWS.json`和原子预测工件中。每组指标、坐标—margin变化散点数值分别保存在`BOOTSTRAP_STATISTICS.json`、`GROUP_SCATTER_VALUES.json`，只作描述，不扫描阈值、选组或拟合新Reward。
+
+## 4. 来源、匹配合同与标签边界
+
+本轮预先固定的新评价组排序键为`SHA256("DCAE_A64_A256_EVAL_V1|2026100201|" + group_id)`；新增Anchor排序键为`SHA256("DCAE_A64_A256_EXTRA_V1|2026100202|" + source_image_id)`，hash平局分别按完整ID字典序处理。训练seed=20260827沿用原合同，bootstrap seed=2026100203是本轮预声明设计。FIT256顺序保留原FIT64在前，再追加EXTRA192；总onboarding为256 FIT＋64 VAL，新评价图像另算。
+
+新增Anchor来自已恢复的COCO val2017原来源：父pool5000图、25014条caption，原256开发抽样和64 FIT/64 VAL身份已恢复。EXTRA192按冻结身份规则选取，排除旧开发身份以及全部HPD物理/RGB重合；FIT256嵌套原FIT64，VAL64不变。
+
+新评价仍来自原固定HPDv3父来源资格pool，原始400组/3600图已被来源资格流程消费。排除旧adapter开发28组后，从372个候选组按预先固定的hash规则选56组；各组9图、36对。没有读取External、新lockbox或按新模型成绩挑组。上游预训练重叠未知。输入冻结与零Reward时的pre-evaluation封存先于本轮科学评分；全项目历史上确有metadata、标签及旧分数访问，不能声称项目级“零标签访问”。本轮adapter训练和超参数/模型/数据选择的标签使用为0，最终固定评价和私有portable包含获授权的偏好标签。
+
+模型匹配：32→64 stem、12个64通道双3×3残差块、64→16 tail，共889424参数；原W0/T1、初始化、AdamW betas=(0.9,0.95)、eps=1e-8、weight decay=1e-4、梯度裁剪、batch32及原精度合同均沿用。原scheduler horizon=12000，匹配前2000步实际LR数组，没有改成horizon=2000，也没有warm restart。S256实际每图250次曝光；训练支持不同，不能声称S64/S256逐图索引完全相同。不同尺寸导致的FLOPs/耗时差异没有被实验消除。
+
+四臂使用共同图像/视图/pair/prompt、固定PAPER_T04（sigma=0.4）、四流noise、DiNa checkpoint、输出cutpoint和默认backend。当前评价进程legacy+t04与七模型状态及两Strong终点完整性均核验，S64未重训。所有64512个原子评分请求均有唯一request key、对应真实扣费和物理标签映射；没有跨合同缓存拼接或按分数择优保留，本次新前向64512、复用0。
+
+## 5. 统计方法与结论适用范围
+
+FIT256扩充、56组新评价、固定抽样种子、三个主效应及其区间与判据是本协议预先提出并冻结的设计，随后才产生本轮观测结果，不是从旧实验结果中追认的既有事实。
+
+共同bootstrap单位为56个完整connected groups，按group_id字典序，NumPy Generator(PCG64(2026100203))，20,000次有放回抽取56组。重复组按重数保留内部图像/pair/stream；四臂及所有端点共用同一索引。使用float64聚合、linear quantile；坐标逐图等权，准确率按冻结pair/stream合同，agreement按每次重采样的共同参考非平局分母计算ratio。
+
+三个“越大越好”主效应为r=1−L256/L64、dAcc、dAgreeG。报告普通中央95%区间；分类按Bonferroni-style双侧区间[1/120,119/120]。调整仅覆盖这三个效应，不覆盖所有历史、资格或次级检验。零baseline或零参考分母不得加epsilon、丢复制；本次没有这些未定义情况。
+
+科学结论限定于单初态/训练seed、一个嵌套新增Anchor draw、固定2000更新与64000总抽样预算。评价组对旧adapter开发互斥，但同源且已被source qualification消费；未知上游预训练重叠，没有新随机配对控制、full-data baseline或完整预算曲线。本轮没有估计理论样本复杂度，没有证明Anchor是唯一瓶颈、参数无关或任意encoder普适，也没有检验U必要性。训练数据支持、每图曝光、优化及残余坐标误差的行为读取作用仍不能完全分离。
+
+唯一下一步建议（未执行）：预注册一次独立的新增Anchor抽样复现实验，保持当前结构、T1、loss和固定2000更新合同，检验这次三项收益对Anchor抽样的稳健性。本轮到此停止，不追加臂、seed、步数、FUNC、U或下一实验。
+
+## 6. 资源、失败与恢复账本
+
+| 阶段/attempt | 实际终态 | 时间口径与数值 | 结果 |
+|---|---|---:|---|
+| cache-r1 | exit1 / clean=false | 40.970678 秒GPU锁占用 | 失败技术调用保留，未完成新缓存 |
+| cache-r2 | exit0 / clean=true | 1549.245065 秒GPU锁占用 | 696张新缓存完整通过 |
+| training-r1 | exit0 / clean=true | 11523.850806 秒GPU锁占用 | 唯一S256，2000更新/64000抽样 |
+| evaluation-r1 | exit0 / clean=true | 70819.727091 秒GPU锁占用 | 四臂64512条件，824图坐标 |
+| cpu-completion-r1 | exit1 | 15.317994 秒CPU阶段墙钟时间 | 辅助cosine核验失败，原现场保留 |
+| cpu-completion-r2 | exit0 | 146.298178 秒CPU阶段墙钟时间 | 完整工件核验、主统计及独立复算通过 |
+
+GPU锁占用合计83933.793641秒，包含失败cache-r1，保留原收费，未把锁占用当纯kernel时间。training-r1另有1515.109300秒等待资源锁，没有计入上述GPU锁占用。评价PyTorch peak allocated为17030104576 bytes；该allocator指标不等于整机显存占用。CPU阶段墙钟由开始回执到退出文件mtime计算，不是CPU利用率、累计CPU时间或账单。GPU阶段已结束；本实验不再需要GPU。
+
+实际调用账本：缓存DC-AE encode/decode与SD3.5 encode各696次；技术DC-AE encode/decode与SD3.5 encode各5次（包含失败cache-r1各1次）；DiNa技术22/64、technical backbone23、technical VAE encoder3；训练更新2000、训练microbatch Projector64000、训练诊断Projector2880；终点坐标Projector1648；科学DiNa64512；text condition encode尝试1982。没有新真实数据技术训练，没有额外正式训练/评分失败收费。租用单价和实际账单未提供，不捏造货币费用；当前磁盘物理占用未重新测量。
+
+工程事件原样保留：
+
+- cache-r1发生固定技术T1元素容差失败，guard clean=false/exit1，40.970678秒。原失败样本张量未留下，精确数值根因没有被追认；后续精确输入链修复及cache-r2独立核验通过，没有事后放宽容差。
+- 早期训练发布R1在执行前发生模板解析失败，R2在正式release前发现W0字段契约遗漏；旧目录和证据保留，真正正式发布为code-formal-r3。原W0不重新估计。
+- 收尾父控发现历史PID480被系统其他程序复用，改为结合干净退出证书与run绑定命令行判断存活；6个远端CPU用例通过。没有停止无关程序、改科学代码或重复评分。
+- cpu-r1在第48个预测的辅助cosine重算上失败：CPU float32向量范数累加导致cosine偏差9.834766e-6。原GPU值0.9649769067764282，CPU float32值0.9649867415428162，CPU float64独立值0.9649768834209255。后者偏差2.335550e-8，在原atol=1e-6/rtol=1e-5内。normalized/raw MSE正常。
+- 显式CPU release r2只把独立audit中两条flatten向量转为double后计算cosine；原模型/输出/主MSE/评分/统计/不同实现复算代码及容差不变。69项CPU检查通过；完整824图×2臂张量核验最终最大绝对差为2.04043260066e-07。该工程修复在首次统计结论产生前完成，不重新计算或选择GPU分数。
+- CPU恢复准备时曾因源release不含test文件而停止，随后显式附上原14个回归模块；另一次父控readback文本转义失败发生在任务创建前。两份失败回执保留，CPU正式恢复只有cpu-r2。旧cpu-r1 exit1不改写为exit0，历史旧实验guard不确定也不由本轮“洗白”。
+
+最终封存的原本地控制连接达到300秒后超时，远端原进程继续完成逐文件封存；未重复运行seal。原`FINAL_SEAL_R2.json`保留控制超时，`FINAL_SEAL_R2_RECOVERED.json`只读回收既有远端seal，随后`FINAL_READBACK_R2.json`实际独立核对全部inventory。该控制连接事件没有新增训练、评分或统计回放。上表CPU时间仅对应两次统计/工件核验任务；最终逐文件封存和独立回读另有CPU与存储I/O开销，未完整单独计量，不能把146.298178秒视为全部收尾耗时。
+
+## 7. 独立复算与证据边界
+
+1. 原训练CPU证明核对9个完整状态及2000逐步schedule/debit链；这是评价前Reward0的历史证明，后续评分追加账本不要求它的历史ledger SHA与当前相同。
+2. cpu-r2从原子预测张量、指标、完整64512逐请求分数、物理标签、组身份、parity/七状态、终点模型、实际退出及完整账本核验，不凭主summary字段接受结果。最终评分原始clean exit为true，失败/未提交科学条件0。
+3. 主统计与另一独立CPU实现使用不同聚合实现；后者不导入主统计，从原始坐标、分数、标签和bootstrap重数复算三个主端点、参考资格、分母、分类及探索项。远端38个数值比较最大差1.11022302463e-16，atol=rtol=1e-10，精确身份/count/hash通过。
+4. 授权本地portable实际运行通过，2016对/504图/56组/20,000复制，最大差1.11022302463e-16；使用同一独立实现。portable只重现冻结数值统计，不独立证明GPU前向执行或teacher语义；这些依赖绑定的远端执行证据。固定次级描述依冻结主统计输出，未假称每个次级量都另有不同实现核验。
+
+`EXECUTION_VERIFICATION.json`内`independent_statistics=PENDING`是先产生的执行证明快照，不被事后改写；已完成的独立统计由`INDEPENDENT_REMOTE_STATISTICS.json`、`REMOTE_COMPLETION.json`和本地回放回执另行证明。
+
+## 8. 旧集合背景，不能替代本轮对照
+
+| 历史模型 | 参数 | 旧252图/1008对/28组Accuracy | 旧Native agreement |
+|---|---:|---:|---:|
+| 旧小P0 B2000 | 40080 | 约64.8562% | 约77.7694% |
+| 旧Strong S2000（本轮S64来源） | 889424 | 约68.4276% | 约83.9335% |
+
+该表仅引用`USER_AUTHORITY.md`中已完成历史报告作为背景，本轮未重训这些模型或重跑整个历史研究。不得用本轮S256准确率减旧68.4276%替代新集合S256−S64比较。历史R3对旧EVAL的坐标改善未决，也不与本轮不同问题、不同集合上的联合收益混同。
+
+## 9. 工件、信任根与复现入口
+
+本地根R：`LatentAtlas-runs/DINA_DCAE_STRONG_ANCHOR64_VS256_FIXED2K_NEWGROUPS-20261002-R1`。远端根RR：`/opt/latentatlas/dina-dcae-strong-anchor64-vs256-fixed2k-newgroups-20261002-r1`。
+
+| 绑定对象 | SHA256 |
+|---|---|
+| 科学spec | 327becacc6d5239414d1765391d3c580f3eb56925d5878e8486360891907e26e |
+| 训练release | 87cfdc9055af6c093025f7e04b35b559e6998ccd7ed3749ba4c184ae607d3cc2 |
+| 原step0模型状态 | 570bd66b3503253ced52004ce75a3f609c5a17b282817dad2b74af3d4af81546 |
+| S64完整checkpoint | bb5f0ea90ae615deabaa9bf61e42ec95967f51bd9c75cbbcbcb27292e5f27a3d |
+| S256完整checkpoint | 185c045bea7b448643a0fa2309a27cc0d76f2baa75b768fa14188d99920fe425 |
+| 训练独立证明 | f7e1896b5c23e718cac18e618180a06a0e5d91b0c80ac3ea78705a0cfe4038ed |
+| pre-evaluation | 8ec78110a825655d89eba552270dc8c06769f6ba2e1eee8826afd08abe3fc37e |
+| 科学评价release | d398d902355a2bc26b6a15c01feed9a0f8f467a4cec87b567b61a7ac6ea8a5e0 |
+| 评价summary | 0189712430973aa0d74b794340906e097af30fcd9a97ba466e82cf1e2aceb8ab |
+| CPU恢复release | 57e537f5cb2393e414bf3b34cc5d268240378616c56b8bfab351ccd7131d6734 |
+| 最终科学账本 | c2b047518a8b904e6fff04435210ac9d5d10fdf30e270be01b43790f7c665e0b |
+| REMOTE_COMPLETION | a2b83747dde1c28bacdfd9626357c4f3ee58251d812c1dc4e2223669c287fc09 |
+| portable manifest | f57f950bfa62c402868457d6035ab2fab108f1086691864d8fc74e2e59c8109b |
+| 最终资源与来源回执 | d635d463165bc7dfb5d11d53888c27b114937b48bba466d3982945324784a1ec |
+
+主结果文件位于R/verified-remote-results：`BOOTSTRAP_STATISTICS.json`、`AUTOMATIC_DECISION.json`、`COORDINATE_PANELS.json`、`COORDINATE_IMAGE_ROWS.json`、`GROUP_SCATTER_VALUES.json`、`TRAINING_REGISTRY_AND_CURVE.json`、`ACCESS_AND_COMPUTE_LEDGER.json`、`EXECUTION_VERIFICATION.json`、`INDEPENDENT_REMOTE_STATISTICS.json`。对应远端原件位于RR/completion-attempts/cpu-r2。
+
+输入与完整大工件保留在远端RR/inputs、run/checkpoints、run/predictions、run/scores，原子receipt绑定payload；SOURCE_MANIFEST、Anchor/EVAL seals、W0、采样与LR数组、标签权限/身份和历史消费审计均进入最终inventory。R/evidence保留控制器回执和本地CPU过程，wiki raw源只追加。
+
+私有portable位于R/portable-r2，包含七个白名单文件及`PORTABLE_MANIFEST.json`；含获授权评价标签，不公开分享。实际通过的本地命令已逐字记录于`evidence/LOCAL_PORTABLE_PROCESS_R2.json`。再次人工回放时必须选择新的输出文件名，不能覆盖原验收回执：
+
+```sh
+owner-home/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 \
+  "LatentAtlas-runs/DINA_DCAE_STRONG_ANCHOR64_VS256_FIXED2K_NEWGROUPS-20261002-R1/portable-r2/independent.py" \
+  --bundle "LatentAtlas-runs/DINA_DCAE_STRONG_ANCHOR64_VS256_FIXED2K_NEWGROUPS-20261002-R1/portable-r2" \
+  --manifest-sha256 f57f950bfa62c402868457d6035ab2fab108f1086691864d8fc74e2e59c8109b \
+  --output /tmp/anchor256-manual-replay-new-receipt.json
+```
+
+科学工件的完整非循环封存位于RR/final-r2/`INVENTORY.json`→`VERIFICATION_RECEIPT.json`→`RESULT_SEAL.json`，其全部条目已由`READBACK_RECEIPT.json`独立回读。本地实际回执为`evidence/FINAL_SEAL_R2_RECOVERED.json`、`FINAL_READBACK_R2.json`，原控制超时另留`FINAL_SEAL_R2.json`。
+
+本报告的文档修订仅补齐已冻结的精确抽样键和上述控制超时说明，未改任何结果、科学合同或统计判据；原报告字节保留在RR/final-r2/local-evidence/FINAL_REPORT.md及本地`evidence/FINAL_REPORT_ORIGINAL_SEALED_R2.md`。新文档根RR/final-report-r3/`RESULT_SEAL.json`绑定原科学seal、完整回读及本版报告，再由独立`READBACK_RECEIPT.json`核验；本地对应`FINAL_REPORT_DOCUMENT_SEAL_R3.json`和`FINAL_REPORT_DOCUMENT_READBACK_R3.json`。两个根只向前引用，不把报告自身最终hash反写进自身；最终文档发布以实际`PASS_FINAL_REPORT_DOCUMENT_READBACK`为准。
+
+Sources：`USER_AUTHORITY.md`；`REPORT_SOURCE_MAP.md`；R/verified-remote-results各已核验文件；`evidence/FINAL_RESOURCE_AND_PROVENANCE_R2.json`、`CPU_R1_METRIC_DIAGNOSTIC_R1.json`、`REMOTE_COMPLETION_READY_R2.json`、`REMOTE_COMPLETION_READBACK_R2B.json`、`PORTABLE_FETCH_R2.json`、`LOCAL_PORTABLE_REPLAY_R2.json`、`LOCAL_PORTABLE_PROCESS_R2.json`；RR/inputs/production-r1/SOURCE_MANIFEST.json及其绑定来源审计。

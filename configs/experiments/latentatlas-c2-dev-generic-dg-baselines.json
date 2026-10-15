@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-c2-dev-generic-dg-baselines",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- 只使用 G0.1 TRAIN=`44,839` pairs / `5,201` images 和 VALIDATION=`5,593` pairs / `708` images。\n- 三个 VAE family：SD、FLUX、DC-AE。\n- 每个 LOO run 使用两个 source family 的 TRAIN labels/gradients 与 source VALIDATION NLL 选择 checkpoint；held-out target 只用 5,201 个 TRAIN-image tokens 拟合固定 scalar normalization。\n- C2 没有 test label authority、test evaluator 或 test token view；authority audit 中 `test_orientation_access_count=0`、`test_metric_api_instantiated=false`。\n- 九个 checkpoint 与全部 projection 先封存并验证，之后才一次性读取 validation orientation；`target_dev_labels_open_count=1`。",
+  "parameters_excerpt": "- Methods：ERM、REx（`beta=10.0`）、GroupDRO（`eta=0.1`，initial `q=[0.5,0.5]`）。\n- Master seed：`20260818`；其他 seed 仅是确定性 domain-separated 子流，不是额外实验 seed。\n- Optimizer：AdamW，`lr=1e-3`，`weight_decay=1e-4`。\n- `batch_size=256`，`max_epochs=30`，`patience=5`，`dropout=0.1`。\n- 每 epoch 每个 source 精确消费 `44,839` pairs，共 `351` balanced cycles。\n- Checkpoint selection：unweighted macro source validation BT-NLL。\n- Formal execution：CPU-only；不需要 GPU 或远程服务器。",
+  "code_identity_excerpt": "- Branch：`codex/c1-mini-loo-shared-reader`\n- Formal execution code commit：`ca6e825cfa9941de481c6fbc794efb4988b70ce6`\n- Result commit：`b4b8f9c5ceb6ae804f3ed7ac8d21eae8db155040`\n- Architecture：`C0_DIRECT_REWARD_READER_V1`\n- Parameter count：`9,473`",
+  "source_snapshot": "docs/source-snapshots/latentatlas-c2-dev-generic-dg-baselines.txt",
+  "primary_report": null
+}

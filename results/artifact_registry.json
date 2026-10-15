@@ -1,0 +1,22 @@
+[
+  {
+    "id": "q32-forward-raw",
+    "filename": "FROZEN_CANDIDATE_FORWARD_AUDIT_RAW_R1.zip",
+    "bytes": 90851723,
+    "sha256": "bc8fabf4214cd7d1145df380cd43413ce9feb760248c8241c28b26d093f91b96",
+    "file_count": 7949,
+    "locator": "wiki-store/raw/experiments/latentatlas/frozen-candidate-forward-audit-2026-10-09/val-main8-complete-r1/FROZEN_CANDIDATE_FORWARD_AUDIT_RAW_R1.zip",
+    "git_included": false,
+    "access": "Contact YEGRX for existing local artifact; no shared download URL assigned",
+    "scope": "Raw score/statistics/code replay; excludes original model weights and latents"
+  },
+  {
+    "id": "q32-original-stop",
+    "filename": "MICRO_RAW_NUMERICAL_STOP_R1.zip",
+    "sha256": "698d0b7b65c7528e1a2397146be1f4d3435d5927a65ae50f548f9c9487e4fc5f",
+    "locator": "wiki-store/raw/experiments/latentatlas/dcae-q32-lowcost-main8-2026-10-09/real-e1-numerical-stop-r1/MICRO_RAW_NUMERICAL_STOP_R1.zip",
+    "git_included": false,
+    "access": "Contact YEGRX",
+    "scope": "Original FD stop remains unchanged"
+  }
+]

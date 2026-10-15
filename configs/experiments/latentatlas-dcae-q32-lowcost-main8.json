@@ -1,0 +1,20 @@
+{
+  "experiment_id": "latentatlas-dcae-q32-lowcost-main8",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "LOCAL_METHOD_NUMERICALLY_UNQUALIFIED",
+  "scope": "固定S2562000、T1/W0、32维；MICRO原协议",
+  "scientific_conclusion": "FD ratio1.0865105197485838>0.20失败；FIT LinErr0.12015720026795061<0.25不覆盖FD失败。",
+  "limitations": "原E2/MAIN8未运行；416科学、8技术、128次输入反向为该旧轮实际成本。保存四候选不是效用通过。",
+  "input_excerpt": "原56组504图/2016对/4流历史缓存。固定hash MAIN8=8完整组、72图/288对；其6912条原请求的完整source/prompt/noise/receipt绑定已远端核。原FIT256、VAL64互斥；392份S256预测绑定，最小官方caption ID、T1/W0充分量和24面板已封存。实际任务FIT=64图、16面板×2流，共128条件。",
+  "parameters_excerpt": "四个候选C32/A32/Q32/P32各32维、每个只求解一次。V=0.020987387803285677，gamma=5.803008138546198e-08。仿射FP32后回原BF16入口；原noise/reader precision保持。没有新增Anchor、Projector/VAE forward、大模型更新、换checkpoint、调半径或重选组。",
+  "code_identity_excerpt": "原S256工作树HEAD `963c6d5`，只读复用；新实验独立运行目录。正式生产合同SHA `524e3be395edf98be8fa46928869b1a5bf84cb69316c1a4a6d0f0dd1c02d0d16`。正式源码、298个继承源码逐文件pins、独立审查、CPU边界测试与第二CPU读回封存。数值r2修复C32不可辨认秩的误准入，保留r1与失败；科学阈值未改。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-dcae-q32-lowcost-main8.txt",
+  "primary_report": {
+    "source_locator": "wiki-store/raw/experiments/latentatlas/dcae-q32-lowcost-main8-2026-10-09/real-e1-numerical-stop-r1/FINAL_REPORT.md",
+    "original_sha256": "a2141a15f628271eae88f696dbb58a9adf102238c5a9d5ea8138acab2256bc5e",
+    "file": "docs/reports/latentatlas-dcae-q32-lowcost-main8-final.txt",
+    "sha256": "a2141a15f628271eae88f696dbb58a9adf102238c5a9d5ea8138acab2256bc5e"
+  }
+}

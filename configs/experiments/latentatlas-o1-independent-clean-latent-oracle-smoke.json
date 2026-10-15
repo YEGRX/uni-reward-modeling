@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-o1-independent-clean-latent-oracle-smoke",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Dataset authority: Rapidata human coherence pairwise preference 的冻结 G0.1 artifacts。\n- Cache-covered subset: `999` usable pairs、`713` reward images。\n- Pair counts: train/validation/test = `605 / 168 / 226`。\n- Unique image counts: train/validation/test = `481 / 114 / 118`。\n- train/validation/test image intersections: 全部为 `0`。\n- SD latent shape: `[4,64,64]`；feature dimension `12`。\n- FLUX latent shape: `[16,64,64]`；feature dimension `48`。\n- DC-AE latent shape: `[32,16,16]`；feature dimension `96`。\n- Missing latents: `0`。\n- Test-label authority: 六次训练全部完成后 one-shot 打开，`open_count=1`。\n\n每个 latent 在 FP32 下计算 channel-wise mean、population std（`correction=0`）和 RMS，并按该顺序拼接。每个 VAE 的 normalization 只用 481 张 unique train images 独立拟合。",
+  "parameters_excerpt": "```text\nreader = Linear(3C,128) -> GELU -> Dropout(0.1) -> Linear(128,1)\nloss = Bradley-Terry NLL\nepochs = 10\nbatch_size = 32\nlr = 1e-3\nweight_decay = 1e-4\nseed = 20260814\npatience = 3\noptimizer = AdamW\n```\n\n三个 real-label readers 完全独立；每个 VAE 另运行一次 train-label permutation control。Validation BT-NLL 是唯一 early-stopping criterion；恢复 best state 后才计算 test metrics。",
+  "code_identity_excerpt": "- Git commit: `8c9211fe9e2db0a483d45b7a3aaeb877392f91b0`\n- Branch: `codex/o1-independent-clean-latent-oracle-smoke`\n- Runner: `source-workspace/.worktrees/o1-independent-clean-latent-oracle-smoke/scripts/run_o1_independent_oracle.py`\n- Config: `source-workspace/.worktrees/o1-independent-clean-latent-oracle-smoke/configs/o1-independent-clean-latent-oracle-smoke.json`\n- Split SHA-256: `83a96bcdeb2805e1743b4555c5a1366558612dc5033598c777295b3016ab64ea`",
+  "source_snapshot": "docs/source-snapshots/latentatlas-o1-independent-clean-latent-oracle-smoke.txt",
+  "primary_report": null
+}

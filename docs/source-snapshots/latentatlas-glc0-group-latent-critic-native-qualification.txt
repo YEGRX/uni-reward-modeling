@@ -1,0 +1,56 @@
+# GLC0 组内 Latent Critic 原生资格：前置审计
+
+## 1. Date
+
+2026-09-14。`BLOCKED_GROUP_LATENT_CRITIC_CHECKPOINT_UNAVAILABLE`。
+
+## 2. Purpose
+
+先验证组内冻结 Critic 的原生偏好能力，再有条件研究少量同图注册能否复用 Reward；research gap 是完整 latent 坐标重建是否为功能复用的必要条件。
+
+## 3. Code Version / Commit
+
+用户上传 AAAI_2027_Supplementary_Code.zip，SHA256 `7ab469f435d7b10b505e8cb5ad41003bf73e94ee862859679ff625b4743a713e`；90 个原始文件已逐个登记。没有科学实现 commit，GLC0 spec 仅为尚未准入的 preflight 草案。历史 GFI worktree 未改。
+
+## 4. Dataset / Input
+
+实际只读取包内 64 对 latent 测试数组；source/DIAG/EXTERNAL 偏好行、old TEST、future reserve、RGB 均 0。没有打开旧 TEST 或 future 来做身份检查。
+
+## 5. Parameters
+
+Bridge 为 16→64→16、12 residual blocks、1,482,640 params，CPU float32。GLC0 计划512、sigma0、CFG7；Critic runtime 需正式 checkpoint provenance。未来 GFI1 是 FLUX-only、64 FIT+64 VAL、16 fits，尚未创建。
+
+## 6. Command
+
+原包 `latent_bridge/scripts/evaluate_bridge.py` 使用 fx-to-v3_ema 权重和两份 test 数组，device cpu。准确命令见 released-evaluator-receipt.json；未运行 Critic evaluator。
+
+## 7. Results
+
+2026-09-14 扩大复核：微信原包与上传副本 SHA 完全一致；7 个权重内部均为 Bridge，未包含 Critic 的两层投影或 logit_scale。Documents/Downloads/Desktop/缓存/附件文件名检索及5,628个模型参数头检查未找到匹配 Critic；GPU 电脑 SSH 超时，远端未核查。材料阻塞维持，不能解释成模型失败。
+
+全部 11 个 released checksums 及用户指定三个 hash 匹配。Bridge structural parity PASS：L1=0.06243270，RMSE=0.08111874，shape64×16×32×32，独立 finite 检查通过。冻结 Critic checkpoint 未找到，因此 source parity/qualification/REC/FUNC 全部 NOT_RUN。
+
+## 8. Analysis
+
+这是材料阻塞，不是模型科学失败。Bridge baseline 可加载，不代表 Reward 可用。DINA0 的既有 negative 不改写；当前不支持两种 Critic 均不合格的说法。
+
+## 9. Problems
+
+主代码 VAE sample×scale、Bridge raw sample、RBF mode 后减 shift 再缩放存在不同语义。Supplement 的完整测试集表述与脚本 has_label 过滤需原始 manifest 解释。源码 train1/train3 命名与正式权重未绑定；evaluator 可接受缺失投影权重的行为必须在准入时排除。
+
+## 10. Next Steps
+
+2026-09-15 用户决定后续采用DiNa；正式组内Critic缺失仍是本页历史状态，但不再阻塞DiNa路线。参见 [[latentatlas-dina-dataset-runtime-diagnostic]]，不声称两者架构/权重等价。
+
+向作者索取 checkpoint-final 完整目录、训练/评估 provenance、source test revision/manifest 和 latent semantics 确认；收到后继续同一 GLC0。当前不需要 GPU，远端电源未核实。possible improvement 只保留协议的 REC/FUNC 对照，禁止用替代权重或 sweep 绕过门槛。
+
+相关：[[latentatlas]]、[[latentatlas-gfi1-group-frozen-interface-registration]]、[[latentatlas-dina0-r1-native-qualification]]。
+
+## 11. Sources
+
+- Source: `raw/experiments/latentatlas/glc0-r1-checkpoint-expanded-search-2026-09-14/expanded-search-report-zh.md` 和该目录的逐项检索记录。
+
+- Source: `raw/experiments/latentatlas/glc0-r1-predecessor-audit-2026-09-14/execution-protocol.txt`。
+- Source: `raw/experiments/latentatlas/glc0-r1-predecessor-audit-2026-09-14/GLC0_FINAL_REPORT.md`，含二十问和来源边界。
+- Source: `raw/experiments/latentatlas/glc0-r1-predecessor-audit-2026-09-14/PREDECESSOR_CODE_PACKAGE_INVENTORY.json`。
+- Source: `raw/experiments/latentatlas/glc0-r1-predecessor-audit-2026-09-14/FULL_BRIDGE_RELEASE_PARITY.json`、`GROUP_CRITIC_CHECKPOINT_AUDIT.json`、`GROUP_LATENT_SEMANTICS_AUDIT.json`。

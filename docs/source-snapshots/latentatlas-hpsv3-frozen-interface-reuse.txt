@@ -1,0 +1,77 @@
+# HPSv3 冻结接口复用与加载恢复
+
+## 1. Date
+
+2026-09-27立项；2026-10-02修复HPS加载及完成Projector/Q；2026-10-03按用户新机方案A完成统一评分，2026-10-03 17:30封存。
+
+## 2. Purpose
+
+检验冻结FLUX/Cosmos REC经共同SD3.5 decoder、量化Q和HPSv3后能否保留参考效用。已按用户续接授权完成原范围，结果为`CORE_COMPLETE_WITH_CONTROL_GAP`。
+
+## 3. Code Version / Commit
+
+HPS加载修复`56c1211`；条件续接`df9b13c`。官方revision `bd0c5fcb5f587617b0169c07222ab78d01e2f3c2`。含选项A的科学合同在评分前冻结，续接spec SHA `95f793f8f15a95774571e9d74bd4b3ed34ce4ace0c135345ecd33060ee713fb2`。解码r2仅恢复原base运行环境和执行编号，科学源码不变。
+
+## 4. Dataset / Input
+
+固定已消费1008对/28关联组/252图，不是新held-out。O/N在新机重新评分原504个输入并验收；旧机504个修复分数保留为历史，不混入当前主比较；FLUX复用252份旧clean缓存；三Cosmos臂生成756份clean后共同解码。caption只读derived1008；未重新打开14400/future12455/External/oldTEST。历史metadata-only全源字节扫描及仅白名单物化的事实保留。
+
+## 5. Parameters
+
+零训练；原BF16/batch1、FP32 head、SD3.5 VAE及Q不变。完整组bootstrap 20000次，seed2026092703。N资格：q05(Accuracy−0.5)>0。复用要求Accuracy差下界>−2pp且N排序一致率下界>90%；四项主检验另报Bonferroni。F_NOREG按评分前选项A协议不兼容缺席。
+
+## 6. Command
+
+后续正确HPS使用入口与官方调用见 `raw/experiments/latentatlas/hpsv3-frozen-interface-reuse-2026-09-27/six-arm-option-a-complete-20261003/final-delivery-r1/HPS_USAGE.md`；本轮三个GPU启动器是一次性入口，禁止直接重启。纯CPU复核入口为 `raw/experiments/latentatlas/hpsv3-frozen-interface-reuse-2026-09-27/six-arm-option-a-complete-20261003/final-delivery-r1/package/portable_six_arm.py`，必须提供封存输入根SHA。解码用原base环境，HPS用官方pin的专属overlay，不混用二者。
+
+## 7. Results
+
+| 臂 | Accuracy | 相对N的Accuracy差及中央90%区间（pp） | N排序一致率 |
+|---|---:|---:|---:|
+| 原图O | 76.091% | +0.794 [-1.091,+2.778] | 90.079% |
+| SD3.5参考N | 75.298% | +0.000 [+0.000,+0.000] | 100.000% |
+| FLUX REC | 73.413% | -1.885 [-3.869,+0.198] | 86.210% |
+| Cosmos REC | 74.702% | -0.595 [-2.183,+0.992] | 87.698% |
+| Cosmos未训练 | 46.825% | -28.472 [-32.143,-24.702] | 49.306% |
+| Cosmos置换 | 48.512% | -26.786 [-32.242,-21.230] | 49.405% |
+| F_NOREG | 协议不兼容缺席 | 不适用 | 不适用 |
+
+FLUX主判据`RETENTION_INCONCLUSIVE`，调整后`NOT_ESTABLISHED`；Cosmos为`RETENTION_INCONCLUSIVE`，调整后`NOT_ESTABLISHED`。Cosmos相对未训练和置换控制Accuracy差分别+27.877pp、+26.190pp，配对区间见完整报告。
+
+两独立远端CPU与最终本地portable三方通过，逐项容差atol=rtol=1e-10，最大绝对差0。有效1512个图文分数；旧失效504条及旧机修复504条仅作历史，当前六臂1512条统一来自新机。result seal `5ea594750540d7f3bb4c0f72e2fc53ec544b243f5fb42695ff83b1fdb2d1a048`。
+
+## 8. Analysis
+
+Baseline为正确HPS加载的O及Native解码N；metrics包括Accuracy、组区间、排序一致率、margin RMSE与描述性相关。原始完整结果和八个事前固定案例均封存。判据按注册阈值执行，点估计接近不能替代非劣效和排序门槛。
+
+研究缺口（research gap）：当前证据仅限已消费开发数据和decoder-mediated HPS管线；不能说明新样本泛化、FLUX训练必要性、普适U或多个latent-native Reward复用。可能改进（possible improvement）是未来独立预注册数据与多seed检验，但本轮不自动启动。
+
+## 9. Problems
+
+旧meta/to_empty/state_dict漏恢复RoPE非持久buffer及普通tensor别名，旧736键parity不足。旧O52.28%/N51.39%及参考不合格解释撤回；旧文件、seal和失败均保留。修复检查30buffer、29alias，独立官方实例的状态、输入和logits精确一致；没有训练或挑结果修复。
+
+续接Q首次错误使用HPS依赖环境，模型构造前exit1，新decoder调用0。恢复只改回base环境及执行身份r2，原科学配置不变，未重算Projector。累计计费14805.532秒含历史4500秒不确定扣减及后续实际失败耗时，未退款或重置；资源停止上限已按原human授权append-only实际取消。有效阶段真实exit0/进程消失并独立验收。
+
+新电脑隔离迁移：最终1512次HPS在<private-tailnet-host>的独立WSL LatentAtlas-HPSv3-20261002执行，原Windows/Ubuntu/Conda保持不动。此前Projector756、Q1008继承旧机已验收来源，均未重算。原跨机门槛失败保留，原因未具体定位。用户明确A后冻结追加协议：新机官方/修复各2次固定FIT同机资格，通过后重评O/N504，原N科学门槛合格才执行条件1008，实际OS wait与独立验收完整保存。完整字节清单、实际运行环境与资格见 `raw/experiments/latentatlas/hpsv3-frozen-interface-reuse-2026-09-27/six-arm-option-a-complete-20261003/final-delivery-r1/NEW_HOST_MIGRATION_AUDIT.json` 及package/new-host。迁移中断的原始回执保留在 `LatentAtlas-runs/HPSV3_FROZEN_FLUX_COSMOS_INTERFACE_REUSE-20260927-R1/new-host-migration-20261002/`，包括 `accelerated-r3-terminal-diagnosis.json`、`source-gzip-failure-r3.json` 和 `isolated-prior-shutdown-journal-r1.json`。
+
+专用WSL的自动安全更新曾改变Python 3.10.12的构建及部分系统包，原CPU预检失败保留。方案A冻结当前系统文件和实际环境后完成同机资格与全部1512次评分；模型Python依赖版本及GPU驱动未变，没有回滚补丁或修改原Windows和共享设置。实际与历史环境分别保存在迁移审计中。
+
+条件HPS原r1因误拒绝官方BatchFeature容器在首条forward前退出，新增conditional debit0；失败228.40622318099486秒保留。追加r2仅兼容验证容器，所有tensor对象不变，reward仍原样官方调用；没有重复同机FIT和O/N504。真实CPU四臂回归、独立审查及恢复合同见package/option-A-recovery。
+
+最终交付曾因控制通道大响应超时而退出，本地回放尚未开始；远端原操作实际成功，随后仅压缩传输既有响应，并执行首次本地回放。未重算科学评分或远端回放，完整传输/原失败/独审/实际退出证明见最终交付的 `transport-recovery/`。
+
+## 10. Next Steps
+
+本轮完成，不启动下一实验。正确HPS入口已可按使用指南复用；最终报告明确两接口的具体结论与限制。续接自动检查hpsv3已在父协调方最终读回后实际删除；删除回执见同次归档的 `AUTOMATION_DELETION.json`。相关：[[latentatlas]]、[[latentatlas-current-evidence-map]]。
+
+## 11. Sources
+
+- `raw/experiments/latentatlas/hpsv3-frozen-interface-reuse-2026-09-27/six-arm-option-a-complete-20261003/final-delivery-r1/FINAL_REPORT.md`
+- `raw/experiments/latentatlas/hpsv3-frozen-interface-reuse-2026-09-27/six-arm-option-a-complete-20261003/final-delivery-r1/RESULTS.json`、`AUTOMATIC_DECISION.json`、`CONTROL_COMPARISONS.json`。
+- `raw/experiments/latentatlas/hpsv3-frozen-interface-reuse-2026-09-27/six-arm-option-a-complete-20261003/final-delivery-r1/FINAL_VERIFICATION.json`、`result_seal.json`、`package/ledger/events.jsonl`。
+- `raw/experiments/latentatlas/hpsv3-frozen-interface-reuse-2026-09-27/six-arm-option-a-complete-20261003/final-delivery-r1/HPS_USAGE.md`、`package/q-recovery/diagnosis.json`。
+- `raw/experiments/latentatlas/hpsv3-frozen-interface-reuse-2026-09-27/six-arm-option-a-complete-20261003/RAW_ARCHIVE_VERIFICATION.json`。
+- 原恢复与官方parity：`raw/experiments/latentatlas/hpsv3-frozen-interface-reuse-2026-09-27/recovery-verified-20261002/`。
+- 原失效历史：`raw/experiments/latentatlas/hpsv3-frozen-interface-reuse-2026-09-27/final-reference-unqualified-20260930T194341/`，原样保留。
+
+- 最终父方读回与自动化删除：`raw/experiments/latentatlas/hpsv3-frozen-interface-reuse-2026-09-27/six-arm-option-a-complete-20261003/PARENT_FINAL_READBACK.json`；`raw/experiments/latentatlas/hpsv3-frozen-interface-reuse-2026-09-27/six-arm-option-a-complete-20261003/AUTOMATION_DELETION.json`。

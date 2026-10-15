@@ -1,0 +1,20 @@
+{
+  "experiment_id": "latentatlas-dina-shift0-dataset-runtime-localization",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "SOURCE_TO_EXTERNAL_PREFERENCE_TRANSFER_FAILURE_SUPPORTED",
+  "scope": "2,619外部对 / PAPER_T04",
+  "scientific_conclusion": "外部Accuracy 51.3860%；中央90% [49.8814%,52.8888%]。",
+  "limitations": "保留外部迁移失败；不据此判定标签错误或所有DiNa无效。",
+  "input_excerpt": "仅旧DINA0 sealed surfaces/external/rows.json：2619行、5238图像身份；远端逐文件验证全部2,242,589,552字节，长度和SHA一致。未读取retired future12455或old TEST。",
+  "parameters_excerpt": "沿用SRC0 RGB与缩放、BF16 native VAE单次posterior sample、t=.4映射、10噪声流、先逐流计算Accuracy再求均值。完整新臂计划52380次Reward前向；历史legacy结果从原封存缓存读取，不重新拟合。\n\n20,000次相同关联组抽样，seed2026091501；共同图像字节、完全相同prompt及既有group关联取传递闭包。q05/q95为中央90%区间，q05也是单侧95%下界。历史preferred/other恢复为物理A/B后，与新臂做同行配对比较。",
+  "code_identity_excerpt": "专用实现commit `79570593a6cee98fa897f49b327d1e4557c4d3d2`；原SRC0科学代码 `855d9e57f8aabecd80e5c625ada811ea5eba056e` 的全部Python文件逐文件比较无改动。新增独立external authority、paper-only执行与磁盘统计入口，不套用HPDv3来源清单。\n\n冻结SHIFT0 spec SHA：`aab846223293b9399501f1ab066068d7c0045cc397983c0dc780c259a3dbe444`；identity `DINA_SHIFT0_DATASET_RUNTIME_LOCALIZATION_R1`。规格在任何新SHIFT0分数前封存。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-dina-shift0-dataset-runtime-localization.txt",
+  "primary_report": {
+    "source_locator": "LatentAtlas-runs/DINA_SOURCE_SHIFT_REGISTRATION-20260915-R1/continuations/authorized-best-evidence-r1/verified-shift0-results-20260918/DINA_SHIFT0_REPORT.md",
+    "original_sha256": "c0ad9660e3270138210127f7f92330d2ff9fb5f624ddb637609313d2b74be64f",
+    "file": "docs/reports/latentatlas-dina-shift0-dataset-runtime-localization-final.txt",
+    "sha256": "c0ad9660e3270138210127f7f92330d2ff9fb5f624ddb637609313d2b74be64f"
+  }
+}

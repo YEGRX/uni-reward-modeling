@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-g2-minimal-reward-local-geometry",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Preference authority: [[latentatlas-reward-data-preflight-g01]] 的 `pair-manifest.jsonl`。\n- 只保留两个 endpoint 都在三 VAE relation cache 的 usable comparisons：`999` pairs、`713` unique images。\n- Split counts: train / validation / test = `605 / 168 / 226`。\n- 三 VAE 对同一 `713` 张图完整覆盖；`missing_images=[]`。\n- Clean latent shapes：SD `[4,64,64]`，FLUX `[16,64,64]`，DC-AE `[32,16,16]`。\n- Relation shapes：三者均为 `[713,64]`。\n- Frozen RGB Anchor Bank：seed `2026080901`，`64` anchors。\n- Relation operator：`global_cosine`。\n\n### Preference graph audit\n\nRewardGap 只用 train labels 拟合：\n\n- `605` train edges，`481` nodes；\n- `149` connected components；\n- largest component size=`11`；\n- median component size=`2`；\n- row-weighted isolated-pair fraction=`0.127273`；\n- 因存在多个大于 2 的连通分量，且绝大多数 comparison rows 不属于 isolated-pair component，RewardGap gate 判定为 identifiable。\n\n其中两个三图 component 构成严格循环偏好，每张图恰好一胜一负；BT 最优 utility 方差为 0。按 \\((q-\\mu)/(\\sigma+\\epsilon)\\) 的协议，这两个 component 的标准化 utility 记为 0，并在 audit 中显式记录，未制造任意排序。",
+  "parameters_excerpt": "- Neighborhood：每个 VAE 自己的 relation space 内做 query-query cosine。\n- `k=10`，不调参。\n- Directed consensus：`C(i,j)∈{0,1,2,3}`。\n- Random：从同 train component、`C=0` 的 directed pairs 无放回抽样，数量严格匹配 `C≥2`。\n- Random / bootstrap seed：`20260814`。\n- BT：每个 train component 独立 scalar utility，L2=`1e-4`；不训练 encoder。\n- RewardGap：同 component 内 `|q̃_i-q̃_j|`。\n- Bootstrap：pair-row bootstrap，`1000` resamples，95% percentile CI。",
+  "code_identity_excerpt": "- Protocol: `G2_MINIMAL_REWARD_LOCAL_GEOMETRY_V0`\n- Code commit: `40f7f4d007cf497a690570fab722a45c6d09571b`\n- Branch: `codex/g2-minimal-reward-local-geometry`\n- Data split hash: `83a96bcdeb2805e1743b4555c5a1366558612dc5033598c777295b3016ab64ea`\n- Anchor bank hash: `12adfcee003b40442a5bcaf6a50c66fb80220236ccbb26e65daaf7dd038c672f`\n- Regression verification: `1603 passed in 482.77s`",
+  "source_snapshot": "docs/source-snapshots/latentatlas-g2-minimal-reward-local-geometry.txt",
+  "primary_report": null
+}

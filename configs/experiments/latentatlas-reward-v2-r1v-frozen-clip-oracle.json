@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-reward-v2-r1v-frozen-clip-oracle",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- OIP TRAIN/DEV/LOCKBOX pairs：`4,059 / 900 / 2,500`。\n- DEV：900 pairs，561 connected groups；统计使用 common group bootstrap。\n- TRAIN/DEV RGB images：`8,118 / 1,800`；CLIP prompt rows：`4,059 / 900`。\n- LOCKBOX image/pair cache：`0 / 0`。\n- LOCKBOX orientation/RGB/embedding/prompt access：全部为 `0`。\n- Public registry rows read：`7,459`。\n- H、U、native VAE latents、Bridge、DCAE、Projector 均未访问；R2/R2P 未执行。",
+  "parameters_excerpt": "- Backbone：`openai/clip-vit-large-patch14`。\n- Exact revision：`32bd64288804d66eefd0ccbe215aa642df71cc41`。\n- `model.safetensors` SHA-256：`a2bf730a0c7debf160f7a6b50b3aaf3703e7e88ac73de7a314903141db026dcb`。\n- Backbone：local-only、offline、`eval()`、全部参数 `requires_grad=false`。\n- Embedding：Apple MPS、float32、768 维、L2 normalized；fitting：CPU float64。\n- Candidates：C0 generator prior、C1-HASH historical prompt-only replay、C1-VLM text-only、C2-VLM RGB-only、M1-VLM RGB×prompt diagonal。\n- 训练：TRAIN-only，3 次 fit，all-zero initialization，L2=`1e-3`，`L-BFGS-B maxiter=400`；没有 DEV selection 或 sweep。\n- Controls：5 个 within-generator image nulls、5 个 wrong-prompt nulls。\n- Statistics：20,000 次 common group bootstrap；报告 90%/95% intervals、replicate-wise worst null 与两个 preference directions。",
+  "code_identity_excerpt": "- 最终隔离分支：`codex/reward-v2-r1v-semantic-correction`\n- 科学执行 commit：`a6956aa02dc5f69b06b8a03c4594756d67541dae`\n- 首个结果 commit：`d9ef9d240112752b7d1bd000ec6cf924f9f2f1a5`\n- semantics fix commit：`d3d3b01f8c5698880dd84fa13bad49dd2baf6a9e`\n- 最终 corrected-result commit：`8370a2b472bf8f91c744647a83cfe3911de76172`\n- 最终 result seal SHA-256：`90a65f9a0df2c754373bd0cf1f2958bef3857faaa223cee2bd384b7c15357f43`\n- Final inventory SHA-256：`54d58e97926e99dfdcfd62f9e3a51f05d233a0018dbe25dd098fdc8c6dbeee07`\n- Verifier receipt SHA-256：`84fa4c7a96f4795274c38148331ccf40dac202d01da3dceb45f8d30e49edb572`\n- Corrected completed-tree canonical SHA-256：`2670e11a4420c9c62bee49f3dc0f6eb63a9ddec4100617f28b9ea6e0f332e448`\n- Completed verifier：`PASS`，read-only replay，`fit_calls=0`\n\n首个 `d9ef9d2` bundle 把非 Class A 结果错误写为 `oracle_type=VLM_ORACLE`，与冻结协议“只有 Full Class A 才能使用该值”矛盾。原 bundle 保持 byte-for-byte 不变，但已被 append-only semantic erratum 取代，不是最终可消费结果。successor 只把该字段修正为 `NO_QUALIFIED_ORACLE`，重新生成其派生 seal/verifier/report/inventory；32 个科学成员逐字节不变，且 `fit_calls/dev_evaluation_calls/model_or_data_loader_calls=0/0/0`。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-reward-v2-r1v-frozen-clip-oracle.txt",
+  "primary_report": null
+}

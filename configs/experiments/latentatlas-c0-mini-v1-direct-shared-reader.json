@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-c0-mini-v1-direct-shared-reader",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- 冻结数据来自 [[latentatlas-reward-data-preflight-g01]]：`56,074` usable preference pairs、`6,632` reward images。\n- Train/validation/test pairs=`44,839 / 5,593 / 5,642`；unique images=`5,201 / 708 / 723`。\n- Image、pair、prompt、source-row 均跨 split disjoint；split SHA-256=`83a96bcdeb2805e1743b4555c5a1366558612dc5033598c777295b3016ab64ea`。\n- SD/FLUX/DC-AE latent shape=`[4,64,64] / [16,64,64] / [32,16,16]`；三份正式 cache 均覆盖全部 reward images，另有的 `192` 个 Anchor rows 全部排除。\n- 每个 channel 独立做 `AdaptiveAvgPool2d((4,4))` 的整数分块等价实现，再 flatten 为 16 维 token；因此三个 VAE 的统一接口分别为 `4/16/32 × 16` tokens。\n- 每个 VAE 只用 5,201 张 unique train images 的全部 pooled values 拟合一个固定 population scalar mean/std；validation/test 不参与。SD/FLUX/DC-AE mean=`0.372937/-0.145613/-0.417926`，std=`3.461009/2.136468/2.210025`。",
+  "parameters_excerpt": "```text\nper-channel token:\nLinear(16,64) -> GELU -> Linear(64,64) -> GELU\nchannel-token mean pooling\nLinear(64,64) -> GELU -> Dropout(0.1) -> Linear(64,1)\n\nparameter_count = 9,473\nloss = Bradley-Terry NLL\noptimizer = AdamW\nlr = 1e-3\nweight_decay = 1e-4\nbatch_size = 256\nmax_epochs = 30\npatience = 5\nseed = 20260817\n```\n\n三个 Independent run 分别按对应 VAE validation BT-NLL 选 checkpoint；Shared run 每个 optimization cycle 对三个 domain 的 mean loss 再取算术平均，并只按三域 Macro Validation NLL 选 checkpoint。每个 shared epoch 对每个 domain 精确消费 `44,839` pairs，一共 `526` cycles，其中 `387×256 + 139×255` samples。",
+  "code_identity_excerpt": "- Production code commit: `2821ce18b5465b471754798a14c61bd53b8731bb`\n- Result commit: `1e5eabd`\n- Branch: `codex/c0-mini-v1-direct-shared-reader`\n- Config: `source-workspace/.worktrees/o1-v1-lightweight-spatial-oracle/configs/c0-mini-v1-direct-shared-reader.json`\n- Runner: `source-workspace/.worktrees/o1-v1-lightweight-spatial-oracle/scripts/run_c0_shared_reader.py`\n- Production device: CPU；不需要 GPU 服务器。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-c0-mini-v1-direct-shared-reader.txt",
+  "primary_report": null
+}

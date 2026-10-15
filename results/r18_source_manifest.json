@@ -1,0 +1,86 @@
+[
+  {
+    "source_locator": "wiki-store/scripts/latent-reward-channels/outputs/r18-dina-visual-20261010-r2/summary.json",
+    "file": "results/evidence/r18-visual/summary.json",
+    "bytes": 2086,
+    "sha256": "d37631cfc32a06606ff95a60b940115fe0e23b426c422f4b22ce2d2fdd0c7b50",
+    "transformation": "none"
+  },
+  {
+    "source_locator": "wiki-store/scripts/latent-reward-channels/outputs/r18-dina-visual-20261010-r2/effects.json",
+    "file": "results/evidence/r18-visual/effects.json",
+    "bytes": 57539,
+    "sha256": "423d87c1650d14e9c338212a902ebe6e5cbc9d040531439518ecfbe39025a092",
+    "transformation": "none"
+  },
+  {
+    "source_locator": "wiki-store/scripts/latent-reward-channels/outputs/r18-dina-visual-20261010-r2/costs.json",
+    "file": "results/evidence/r18-visual/costs.json",
+    "bytes": 2167,
+    "sha256": "155aba3fe21e537d805c05987bd2e6ba04f79b885b71eaa34bcecc1e7aebd2dd",
+    "transformation": "none"
+  },
+  {
+    "source_locator": "wiki-store/scripts/latent-reward-channels/outputs/r18-dina-visual-20261010-r2/group-metrics.csv",
+    "file": "results/evidence/r18-visual/group-metrics.csv",
+    "bytes": 211582,
+    "sha256": "62f6748e89723b3ab2b0d315090af43c134c78ed1a647328ba94dbad378c1816",
+    "transformation": "none"
+  },
+  {
+    "source_locator": "wiki-store/scripts/latent-reward-channels/outputs/r18-dina-visual-20261010-r2/probability-metrics.csv",
+    "file": "results/evidence/r18-visual/probability-metrics.csv",
+    "bytes": 1841,
+    "sha256": "1fa2bcef9bd873fe8f0d1ce5d56c57474e7bde9b652f764bc52aab1bd173ca11",
+    "transformation": "none"
+  },
+  {
+    "source_locator": "wiki-store/scripts/latent-reward-channels/reports/r18-dina-visual-20261010/PHOTO_VERIFICATION.json",
+    "file": "results/evidence/r18-visual/PHOTO_VERIFICATION.json",
+    "bytes": 357,
+    "sha256": "af767a153bbd93e28956faf4b9c176b1666590b65f069482d1b3b1274c807211",
+    "transformation": "none"
+  },
+  {
+    "source_locator": "wiki-store/scripts/latent-reward-channels/reports/r18-method-20261010/final-result-summary.json",
+    "file": "results/evidence/r18-mvp/final-result-summary.json",
+    "bytes": 844,
+    "sha256": "a2820ed83570be846e8c6f50b0c2a6c3724160a629d9bb9bfa545c8945767126",
+    "transformation": "none"
+  },
+  {
+    "source_locator": "wiki-store/scripts/latent-reward-channels/reports/r18-dina-visual-20261010/figures/paired-selection.png",
+    "file": "results/figures/r18-visual/paired-selection.png",
+    "bytes": 43900,
+    "sha256": "a541b862530188b2f91e1852de12ffabad8f8dd111e5cc6bdaf56d969b75a17a",
+    "transformation": "none"
+  },
+  {
+    "source_locator": "wiki-store/scripts/latent-reward-channels/reports/r18-dina-visual-20261010/figures/ablation.png",
+    "file": "results/figures/r18-visual/ablation.png",
+    "bytes": 60804,
+    "sha256": "d9b624e7671aad8a9dcc026452ae275d27254f71c1a3fd2589897ebe2c36524a",
+    "transformation": "none"
+  },
+  {
+    "source_locator": "wiki-store/scripts/latent-reward-channels/reports/r18-dina-visual-20261010/figures/quality-cost.png",
+    "file": "results/figures/r18-visual/quality-cost.png",
+    "bytes": 63404,
+    "sha256": "4b6044c675304be2cf3f569ed3aaeccc3cb02c085a03030b5fb12462eb3dddb4",
+    "transformation": "none"
+  },
+  {
+    "source_locator": "wiki-store/scripts/latent-reward-channels/reports/r18-dina-visual-20261010/figures/numerical-cases.png",
+    "file": "results/figures/r18-visual/numerical-cases.png",
+    "bytes": 87009,
+    "sha256": "f9c46dabb27801b9643d7dee3cd40291d97e9521eec9850b02c52dfa7d44b454",
+    "transformation": "none"
+  },
+  {
+    "source_locator": "wiki-store/scripts/latent-reward-channels/reports/r18-dina-visual-20261010/figures/photo-cases.png",
+    "file": "results/figures/r18-visual/photo-cases.png",
+    "bytes": 2070606,
+    "sha256": "8d6e7236f9a9211838f58282ed8fc8029eb09c0226243ebb8d8d37397e9cc5d7",
+    "transformation": "none"
+  }
+]

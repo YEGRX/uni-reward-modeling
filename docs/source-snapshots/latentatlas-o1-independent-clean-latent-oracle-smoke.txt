@@ -1,0 +1,127 @@
+# LatentAtlas O1 Independent Clean-Latent Reward Oracle Smoke
+
+## 1. Date
+
+2026-08-14
+
+## 2. Purpose
+
+独立检验 SD-VAE、FLUX-VAE、DC-AE 各自的 deterministic clean latent 中，是否存在可被 `channel mean/std/RMS + small MLP` 直接读取的真实 human pairwise preference signal。
+
+本实验只研究三个独立映射，不研究 cross-VAE transfer，不训练 Shared Reward Model，也不使用 Anchor relation、Shared U、G1/G2 model/checkpoint/result。相关输入契约来自 [[latentatlas-reward-data-preflight-g01]]。
+
+## 3. Code Version / Commit
+
+- Git commit: `8c9211fe9e2db0a483d45b7a3aaeb877392f91b0`
+- Branch: `codex/o1-independent-clean-latent-oracle-smoke`
+- Runner: `source-workspace/.worktrees/o1-independent-clean-latent-oracle-smoke/scripts/run_o1_independent_oracle.py`
+- Config: `source-workspace/.worktrees/o1-independent-clean-latent-oracle-smoke/configs/o1-independent-clean-latent-oracle-smoke.json`
+- Split SHA-256: `83a96bcdeb2805e1743b4555c5a1366558612dc5033598c777295b3016ab64ea`
+
+## 4. Dataset / Input
+
+- Dataset authority: Rapidata human coherence pairwise preference 的冻结 G0.1 artifacts。
+- Cache-covered subset: `999` usable pairs、`713` reward images。
+- Pair counts: train/validation/test = `605 / 168 / 226`。
+- Unique image counts: train/validation/test = `481 / 114 / 118`。
+- train/validation/test image intersections: 全部为 `0`。
+- SD latent shape: `[4,64,64]`；feature dimension `12`。
+- FLUX latent shape: `[16,64,64]`；feature dimension `48`。
+- DC-AE latent shape: `[32,16,16]`；feature dimension `96`。
+- Missing latents: `0`。
+- Test-label authority: 六次训练全部完成后 one-shot 打开，`open_count=1`。
+
+每个 latent 在 FP32 下计算 channel-wise mean、population std（`correction=0`）和 RMS，并按该顺序拼接。每个 VAE 的 normalization 只用 481 张 unique train images 独立拟合。
+
+## 5. Parameters
+
+```text
+reader = Linear(3C,128) -> GELU -> Dropout(0.1) -> Linear(128,1)
+loss = Bradley-Terry NLL
+epochs = 10
+batch_size = 32
+lr = 1e-3
+weight_decay = 1e-4
+seed = 20260814
+patience = 3
+optimizer = AdamW
+```
+
+三个 real-label readers 完全独立；每个 VAE 另运行一次 train-label permutation control。Validation BT-NLL 是唯一 early-stopping criterion；恢复 best state 后才计算 test metrics。
+
+## 6. Command
+
+```bash
+source-workspace/.worktrees/anchor-feasibility-pilot/.venv/bin/python \
+  scripts/run_o1_independent_oracle.py \
+  --config configs/o1-independent-clean-latent-oracle-smoke.json
+```
+
+实验为 CPU-only，实测主 run 约 2 秒；不需要 GPU server。
+
+## 7. Results
+
+| VAE | Test Acc | BT-NLL | Best Val NLL | Best Epoch | Shuffle Acc |
+|---|---:|---:|---:|---:|---:|
+| SD | 59.29% | 0.669041 | 0.682523 | 2 | 59.29% |
+| FLUX | 57.96% | 0.660897 | 0.678479 | 3 | 51.33% |
+| DC-AE | 62.83% | 0.642266 | 0.679457 | 2 | 49.56% |
+
+验证记录：
+
+- `[O1 AUDIT]` 与预期 counts/shapes 完全一致，`missing_latents=0`。
+- artifact schema/hash/CSV/report 检查通过。
+- `loss-curves.png` 为 `1500×1500`，六个 real/shuffle train/validation curves 已视觉检查，无裁切。
+- O1 focused suite: `23 passed`。
+- Repository full suite: `1626 passed in 496.74s`。
+
+## 8. Analysis
+
+### 问题 1：三个 VAE 是否分别显示明显 Reward signal？
+
+按本 smoke 的 descriptive rule（Test Acc `>55%`），三个 real-label readers 都显示候选直接可读 signal：SD `59.29%`、FLUX `57.96%`、DC-AE `62.83%`。其中 SD 的 shuffle control 同为 `59.29%`，所以 SD 不能被干净归因于真实 preference labels；这是单 seed、226 test pairs 的快速诊断，不是显著性或 reward sufficiency 证明。
+
+### 问题 2：哪个最强 / 最弱？
+
+按 Test Accuracy，DC-AE 最强（`62.83%`），FLUX 最弱（`57.96%`）。这一排序只适用于当前固定 representation、reader、split 和 seed。
+
+### 问题 3：shuffle control 是否接近随机？
+
+FLUX `51.33%` 与 DC-AE `49.56%` 落在预设 `[45%,55%]` 随机带内；SD `59.29%` 未通过该 control gate。SD 的 real 与 shuffle accuracy 恰好相同，因此不能把 SD real result 干净归因于真实 train preference labels。
+
+### 问题 4：是否足以进入 cross-VAE canonicalization？
+
+**当前不足。** 虽然三个 real readers 都超过 55%，但 SD shuffle control 不接近随机。O1 因此支持“clean latent 中存在值得继续诊断的直接可读 preference signal”这一有限观察，却不足以支持 Reward information 已可被可靠 canonicalize，更不证明跨 VAE shared alignment。
+
+## 9. Problems
+
+- SD shuffle accuracy 为 `59.29%`，control failure 是本次 decision gate 的主要阻塞证据。
+- shuffle 只打乱 train labels；validation labels 按冻结协议仍用于 early stopping。单 seed、小 test set 和 validation checkpoint selection 都可能放大 control 波动，当前实验不能区分这些可能性。
+- 当前 feature 只有 channel mean/std/RMS，不保留 spatial organization；结果弱不能推导 clean latent 没有 Reward information。
+- 三个 reader 的 input dimensions 不同，因此参数量也不同；本实验比较的是固定结构规则下的可读性，不是严格等参数容量 benchmark。
+
+## 10. Next Steps
+
+本次实验到此停止，不自动运行 O1-v1、额外 null seeds 或 cross-VAE canonicalization。若未来另行批准后继续，应先解释/复核 SD shuffle anomaly，再决定是否需要 lightweight spatial encoder；不应直接升级为 DiT、Shared U 或大型 cross-VAE 实验。
+
+## 11. Sources
+
+- Source: `source-workspace/.worktrees/o1-independent-clean-latent-oracle-smoke/runs/O1_INDEPENDENT_CLEAN_LATENT_ORACLE_SMOKE/audit.json`
+- Source: `source-workspace/.worktrees/o1-independent-clean-latent-oracle-smoke/runs/O1_INDEPENDENT_CLEAN_LATENT_ORACLE_SMOKE/config.json`
+- Source: `source-workspace/.worktrees/o1-independent-clean-latent-oracle-smoke/runs/O1_INDEPENDENT_CLEAN_LATENT_ORACLE_SMOKE/sd_results.json`
+- Source: `source-workspace/.worktrees/o1-independent-clean-latent-oracle-smoke/runs/O1_INDEPENDENT_CLEAN_LATENT_ORACLE_SMOKE/flux_results.json`
+- Source: `source-workspace/.worktrees/o1-independent-clean-latent-oracle-smoke/runs/O1_INDEPENDENT_CLEAN_LATENT_ORACLE_SMOKE/dcae_results.json`
+- Source: `source-workspace/.worktrees/o1-independent-clean-latent-oracle-smoke/runs/O1_INDEPENDENT_CLEAN_LATENT_ORACLE_SMOKE/summary.csv`
+- Source: `source-workspace/.worktrees/o1-independent-clean-latent-oracle-smoke/runs/O1_INDEPENDENT_CLEAN_LATENT_ORACLE_SMOKE/report.md`
+- Source: `LatentAtlas-runs/20260813T004136Z-40a2a17-f84d373a-reward-data-preflight/pair-manifest.jsonl`
+- Source: `LatentAtlas-runs/g1-true-smoke-output-f6b737a/caches/latent/`
+
+## Related Pages
+
+- [[latentatlas]]
+- [[latentatlas-reward-data-preflight-g01]]
+- [[latentatlas-reward-sufficiency-g1-minimal-sd-smoke]]
+- [[latentatlas-reward-sufficiency-g1-true-smoke]]
+- [[latentatlas-g2-minimal-reward-local-geometry]]
+- [[variational-autoencoder]]
+- [[representation-learning]]

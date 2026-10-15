@@ -1,0 +1,48 @@
+# DC-AE 解码—重编码注册缺口定位预实验
+
+实验身份：`DINA_DCAE_ROUNDTRIP_GAP_LOCALIZATION_PILOT_R1`。结果于 2026-09-26 封存。
+
+## 给老师的结论（600字以内）
+
+在同一批已消费的 HPDv3 开发样本上，保留原 DC-AE latent，绕过当前小 Projector，改走固定的“DC-AE decoder → RGB → SD3.5 encoder → 冻结 DiNa”路径后，四流准确率为 **72.54%**，与 Native 的排序一致率为 **97.47%**。旧 DC-AE Projector 分别为 **64.16%** 和 **77.28%**。准确率提高 **8.38 个百分点**，28 个完整关联组、20,000 次共同重采样的中央 90% 区间为 **[+5.58,+11.28] 个百分点**；排序一致率提高 **20.19 个百分点**，区间 **[+17.36,+23.22]**。两个预声明端点同时通过。相对 Native 的准确率差为 **−0.27 个百分点**，区间 **[−0.87,+0.32]**；排序一致率下界 **96.60%**，因此按事前的 2pp/90% 操作容忍度，接近 Native 的判据也通过。FLUX round-trip 准确率 **72.77%**，SD3.5 自身 round-trip **72.45%**；二者相对各自参照的区间均跨 0。结论是当前 DC-AE 接入映射仍有明显改善空间，旧 Projector 的 64.16% 不是所测 latent 在一切接入方法下的固定极限。此路径同时引入预训练 decoder、RGB 几何处理和 SD3.5 重编码；本轮不能判定瓶颈究竟是 Projector 容量、训练步数、上采样、源表示的信息量还是重建敏感性，也不能把此路径称为信息论上限。
+
+## 固定设计与结果
+
+零新增训练；固定 1,008 对、28 个完整关联组、4 流，同一原图 byte 身份。旧三臂使用只读封存评分；三条新 round-trip 路径共完成 **24,192** 次科学 Reward samplecondition。准确率为四流逐对 strict `margin>0`、tie=0 的 micro 均值。排序一致率排除 Native tie，arm tie 记 0.5。区间为相同 20,000 份关联组重采样抽样（seed `2026092502`）的中央 90% 区间；这是已消费开发集上的探索性比较，不是独立确认。
+
+| 路径 | 本轮新增训练 | 准确率 | 对 Native 准确率差 | Native 排序一致率 | 对本编码器旧 Projector 差 |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Native | 0；旧缓存 | 72.82% | 基线 | 100.00% | 不适用 |
+| FLUX Projector | 0；旧模型结果 | 72.79% | −0.02pp | 91.69% | 基线 |
+| DC-AE Projector | 0；旧模型结果 | 64.16% | −8.66pp | 77.28% | 基线 |
+| FLUX round-trip | 0 | 72.77% | −0.05pp；90%区间 [−0.42,+0.32]pp | 99.10% | −0.02pp；90%区间 [−1.44,+1.49]pp |
+| DC-AE round-trip | 0 | **72.54%** | **−0.27pp；90%区间 [−0.87,+0.32]pp** | **97.47%** | **+8.38pp；90%区间 [+5.58,+11.28]pp** |
+| SD3.5 self round-trip | 0 | 72.45% | −0.37pp；90%区间 [−0.79,+0.02]pp | 98.99% | 不适用 |
+
+DC-AE Native 排序一致率相对旧 Projector 提高 **20.19pp**（90%区间 **[+17.36,+23.22]pp**）；其绝对一致率的 90%区间为 **[96.60%,98.28%]**。预声明联合改善判据 `q05(D1)>0 ∧ q05(D2)>0` 通过；接近 Native 判据 `q05(D3)>−2pp ∧ q05(D4)>90%` 通过。`q95(D3)<−2pp` 未通过，故“损失超过 2pp”不成立为本轮分类；不能将此表述成零损失证明。DC-AE round-trip 与 FLUX round-trip 的准确率差为 −0.22pp，90%区间 [−0.87,+0.40]pp，仅描述。
+
+## 重建与几何诊断
+
+以下为远端从全部 252 张图的逐图回执汇总。像素 MAE/MSE 按元素加权，PSNR 由汇总 MSE 计算；latent MSE 按元素加权，余弦是逐图均值。它们是诊断，不代替 Reward 配对指标。
+
+| 路径 | 像素 MAE | 像素 MSE / PSNR | SD3.5 latent MSE / 余弦 | 预裁剪越界比例均值 | 恢复尺寸图数 | decoder tiled 图数 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| DC-AE round-trip | 0.03259 | 0.006569 / 21.83dB | 0.09027 / 0.96479 | 2.056% | 96/252 | 252/252 |
+| FLUX round-trip | 0.00974 | 0.000321 / 34.93dB | 0.004043 / 0.99845 | 0.996% | 0/252 | 0/252 |
+| SD3.5 self round-trip | 0.01389 | 0.000520 / 32.84dB | 0.004054 / 0.99856 | 0.111% | 0/252 | 0/252 |
+
+DC-AE 的 96 张尺寸恢复与固定 bilinear 几何、decoder、裁剪、SD3.5 重编码共同构成路径；不能把与旧 Projector 的差异归因于单一模块。FLUX 和 SD3.5 self-cycle 的任务准确率差区间跨零，但均有非零重建误差，也不证明重建操作恒等。
+
+## 核验、成本与解释边界
+
+本进程真实 legacy 与 `t=.4` parity、七模型状态前后一致、756 条图像路径与 24,192 个逐标量来源、旧三臂封存评分均在远端独立 CPU 回放中核验。两次独立远端进程的 portable input 和最终结果逐字节一致；授权的本地纯 CPU 回放数值容忍度 `1e−10`、分类完全一致。正式 science shell 与预算终止均 exit0，技术条件 **97/128**，新增科学条件 **24,192/24,192**，累计 GPU 持锁 **13,001.83 秒（约3.61小时，低于6小时上限）**。本轮没有新 Projector 训练；旧 Projector 的历史训练成本不能记作零成本。三个预训练 decoder/encoder 的额外计算也意味着这不是同算力、同容量的模型比较。
+
+这是同一开发集合、旧单次训练 Projector 的固定路径对比；关联组 bootstrap 不会变成多 seed 或新数据确认。没有对所有控制比较做家族多重校正。它支持“存在更好的可实现接入路径”，不说明 64 个 Anchor 必能学会该路径，不说明 DC-AE 潜变量的信息论上限，也不触发 FUNC、容量扫描或新的实验。本轮不涉及新的 target preference 标签训练、数据集迁移结论或新 Reward 的有效性结论。
+
+## 来源与封存
+
+- 冻结原文和规格：`USER_AUTHORITY.md`、`science-portable-evidence-r1/bundle/authority/ROUNDTRIP_EXPERIMENT_SPEC.json`（SHA `46e06b18aa6468fdb9ea428c5c97649521a87e2762f5265620b012f0c48118f1`）。
+- 远端双回放及信任根：`science-portable-remote-verification.json`、`science-portable-evidence-r1/bundle/bundle.json`；信任根 SHA `d81d72247d15a09018a23447c5b6fa9ea3fa70593e8b3cdb95bf1efed079767b`。
+- 本地授权 CPU 回放：`science-local-portable-replay.json`。重建/几何汇总：`science-report-diagnostics-r1.json`；最终文件清单：`RESULT_SEAL.json`。
+
+对相同的 DC-AE latent，这条固定 decoder→RGB→SD3.5 路径在已消费开发集上比当前小 Projector 保留更多所测 DiNa 行为，说明当前接入映射仍有改善空间；它无法区分源信息限制、Projector 结构/优化与 decoder、几何、重编码各环节的作用，更不是理论上限。

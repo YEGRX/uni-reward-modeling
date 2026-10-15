@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-dina-reg1-functional-registration",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "固定COCO val2017 bank2026080901的64 FIT和2026080902的64 VAL已于02:27通过CPU资产准入。官方caption ZIP252907541字节完整取得，按最小annotation ID选caption；128原图原SHA/尺寸通过，与完整HPDv3 4133来源路径的byte/RGB重叠均0。preflight SHA `daa0f44d27f09795437a2a763bcc0f4d870e4cf99d71f8cca506ab4e90d970fc`，敏感数据读取与GPU前向均0。03:30仅复用该回执物化训练清单，删除preference_labels:null；不重新下载或更换成员。\n\n已找到既有FLUX.1-schnell VAE文件与model-bundle，revision741f7c3ce8b383c54771c7003378a50191e9efe9；权重预期SHA f5b59a26851551b67ae1fe58d32e76486e1e812def4696a4bea97f16604d40a3，167666902字节。config已按预期SHA在远端核验；权重04:16完整167,666,902字节已在远端校验预期SHA，传输结束；不得复用历史latent。旧bundle的MPS环境只是来源记录，新实验继续远端CUDA环境。",
+  "parameters_excerpt": "当前小实验固定浅层conv adapter，REC correct、FUNC correct、FUNC perm1共3 fits，seed20260827，每组1000updates；原16×12000方案仅保留。AdamW lr3e-4、warmup500、原cosine日程前缀、有效batch32、grad clip1；在500/1000检查点按各自Anchor VAL loss选择，tie选早。FUNC t=.4、4固定噪声、sourcecaption不变。评估预先固定1008pairs/28完整关联组，训练及checkpoint选择不使用HPDv3偏好标签。",
+  "code_identity_excerpt": "独立分支 `codex/dina-reg1-hpdv3-flux-functional-registration` 从 verified7957059 建立，修改前保存1562个 tracked 文件SHA。新增配准基础模块87f1c6a、可微功能接口c82255c、合同f8229f0、缓存1d6bbfe、算力准入4801c17；没有修改 inherited SRC0/SHIFT0 Python。原完整16组方案仍不执行；当前pilot spec已冻结为09c64968…，本轮补充工程证据不改该spec。合成测试不替代真实GPU准入。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-dina-reg1-functional-registration.txt",
+  "primary_report": null
+}

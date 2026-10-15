@@ -1,0 +1,157 @@
+# LatentAtlas G1 正式 Reward-Sufficiency 实验
+
+> [!IMPORTANT]
+> 本次 formal run 已 terminal `complete / pass` 并完成 durable seal；正式机器判定是 `no / control_failure`。三个 VAE family 的 signal gates 通过，但三个 label-shuffle controls 全部失败。后验独立科学解释审计另有 `Critical=0, Important=1`：shuffle 训练只置乱 train labels，却用真实 source-validation labels 选择 checkpoint。故本结果不能称为 **Partial Reward-Sufficiency** 或 **Strong Reward-Sufficiency**。
+
+## 1. Date
+
+2026-08-15
+
+## 2. Purpose
+
+在冻结的 G0.1 数据 authority 上，检验 parameter-shared Reward Head 能否从两个 source VAE 的 Anchor-relative representations 学到人类视觉连贯性偏好，并在只做 calibration-only Anchor onboarding、不给 target labels 的第三个 VAE 上迁移。实验覆盖 SD-VAE、FLUX VAE、DC-AE 的 leave-one-VAE-out（LOO）方向、三个 Anchor seeds、三个 training seeds、global cosine / rank operators、linear / MLP heads、wrong-Anchor 与 label-shuffle controls，并以 component-clustered bootstrap 执行预注册 gate。
+
+该页是 [[latentatlas-reward-data-preflight-g01]] 与 [[latentatlas-reward-sufficiency-g1-true-smoke]] 之后的正式实验记录。它回答冻结协议下的 bounded reward-sufficiency 问题，不等价于已经得到通用 cross-VAE canonicalization。
+
+## 3. Code Version / Commit
+
+- Git commit: `f342b9cc83629b6466663b68c500e2e6e3e68020`
+- Config SHA-256: `a7d2a0b6661db471d3c147526acf1668fd0c2ebe3b5d20bc578277c56300ceb7`
+- Plan SHA-256: `4fc1c43f6cf99f8eabc80c08de1657d0c17c5f54aaeac64f889d06a43f65c7ce`
+- Authority projection SHA-256: `48823b11dfd20d83028c354a2cc5ecef92bc2496fdfca8e3b0675c4e56ef1b2e`
+- Full run: `LatentAtlas-runs/g1-formal-f342b9c-20260815T062800Z`
+- Formal seal: `3cb7ef82a80e960ca08d2fb2973f1bb96f53323030b48db4c53d1ddde8b9c31c`
+- Terminal status: `complete / formal / pass`
+- Machine gate: `decision=no`，`subtype=control_failure`
+
+## 4. Dataset / Input
+
+- Frozen G0.1 inventory: `1258096302a7da7147d159431b1eb53e8e141d39a1887b6847d7469c6775ef37`。
+- Dataset totals: `63,748` source rows、`56,074` usable pairs、`7,673` exact ties、`6,632` images、`282` image-connected components。
+- Usable train / validation / test pairs: `44,839 / 5,593 / 5,642`；上游已验证跨 split 的 image、prompt 与 source-row intersection 为空，且与冻结 Anchors overlap=`0`。
+- VAE families: `sd_vae_ft_mse`、`flux1_schnell_vae`、`dc_ae_f32c32`。
+- Anchor bank seeds: `2026080901 / 2026080902 / 2026080903`；每个 K=`64`，mapped source pool=`256` images。
+- GPU bundle 不含 target labels；target 与 source results 分别通过 sealed oracle capability 打开并进入 terminal evidence chain。
+
+## 5. Parameters
+
+- Operators: `global_cosine` 与 `rank`。
+- Reward heads: linear 与 MLP；primary gate 使用 global-cosine MLP。
+- Training seeds: 三个冻结 seeds；每个 condition 最多 `100` epochs。
+- Optimizer: AdamW，learning rate=`1e-3`，weight decay=`1e-4`，batch size=`256`。
+- Checkpoint rule: source-validation macro BT-NLL 严格下降；patience=`10`；选择取得最小 validation NLL 的最早 epoch。
+- Label-shuffle seed: `2026081303`；wrong-Anchor seed: `2026081302`。
+- Bootstrap seed: `2026081301`；`10,000` 次 component draws，cluster key=`component_id`，保留 pair multiplicity，correct / wrong control 共享 draws。
+- Exact matrices: `270` condition rows、`621` source-gap rows、`85` gate-summary rows、`5,875` training-history rows、`21` resource rows；primary gate cells=`108`。
+
+## 6. Command
+
+本次正式运行由已封存的 hash-bound plan 与 label-free GPU bundle 驱动。为避免复制可能含 capability token 的历史 shell 记录，本页不重写完整命令；可复现 authority、plan、events、result 与 seal 见第 11 节 Sources。正式 runner 为：
+
+```text
+source-workspace/.worktrees/anchor-feasibility-pilot/scripts/run_reward_sufficiency.py
+```
+
+## 7. Results
+
+### 7.1 Primary family gates
+
+| Target family | Oracle acc. (lower 95%) | LOO acc. (lower 95%) | Anchor effect (lower 95%) | Shuffle acc. (95% CI) |
+|---|---:|---:|---:|---:|
+| SD-VAE | `0.568297 (0.543846)` | `0.558844 (0.529513)` | `+0.076214 (+0.033614)` | `0.524144 [0.510030, 0.538565]` |
+| FLUX VAE | `0.571862 (0.540293)` | `0.544704 (0.520991)` | `+0.057170 (+0.032362)` | `0.519536 [0.506821, 0.533025]` |
+| DC-AE | `0.573024 (0.545077)` | `0.561798 (0.535422)` | `+0.064693 (+0.034376)` | `0.517764 [0.502231, 0.533342]` |
+
+- Macro LOO accuracy=`0.55511573253508739`，lower 95% bound=`0.53240109251302226`。
+- 三个 family 的 oracle success、LOO success 与 correct-minus-wrong Anchor effect 均通过对应 signal threshold。
+- Shuffle 的预注册必要条件为：point accuracy 位于 `[0.48, 0.52]` 且 95% CI 包含 `0.50`。三个 shuffle CI 下界都高于 `0.50`；SD point estimate 还超过 `0.52`。因此三个 shuffle controls 全部失败。
+- 最终 gate 是 `no / control_failure`。Signal-only 指标不能绕过失败的 necessary controls；不得把它写成 Partial 或 Strong。
+
+### 7.2 Secondary diagnostics
+
+- 下表均为 27 个 target-test cells 的 condition-equal accuracy mean，没有对应的 aggregate CI，只能作描述性比较：
+
+| Operator / head | Independent oracle | LOO |
+|---|---:|---:|
+| Global cosine / MLP | `0.571061` | `0.555116` |
+| Global cosine / linear | `0.563029` | `0.557551` |
+| Rank relation / MLP | `0.568580` | `0.561785` |
+| Rank relation / linear | `0.563006` | `0.558792` |
+
+- Rank-MLP LOO 比 primary global-MLP LOO 高约 `0.006670`，而 global 下 MLP 的 oracle mean 高于 linear、LOO mean 却略低于 linear；这说明 operator / head 有敏感性，但 secondary diagnostics 不能替代预注册 primary gate。
+- Primary global-cosine MLP LOO 的 27 个 condition-equal macros：source-test mean accuracy=`0.569801`，target-test mean accuracy=`0.555116`，target-minus-source gap=`-0.014685`。
+- 同组 transfer efficiency mean=`0.781831`，27/27 defined；它只作描述性诊断，不进入 gate。
+- Family transfer efficiency 为 SD=`0.867985`、FLUX=`0.626122`、DC-AE=`0.851386`；FLUX retention 最弱，是需要保留的 family asymmetry。
+- Cross-view consistency 的 pairwise Spearman range 约为 `0.6484–0.8697`，preference disagreement range 约为 `0.2246–0.2591`；这些诊断不改变正式 decision。
+- `243` 个 selected checkpoints 的 epoch 范围=`1–99`、median=`8`；没有 condition 选择 epoch `100`。
+- `resources.csv` 只记录 cache GPU component timings，不是完整端到端 wall time：3 个 latent-cache components 合计 `1132.484 s`，18 个 relation-cache components 合计 `6.240 s`，记录的 peak CUDA memory=`4,021,488,128` bytes（约 `3.745 GiB`）。
+
+### 7.3 Terminal evidence
+
+- Target result SHA-256: `78253cf56da32a5ed06cf7a5c6039041c4dcce11e22176c85e4f01d55ca39c46`。
+- Source result SHA-256: `820b6cfffaaeee268a2abd5cabff3cd92426a1c0c01e49db824c801dc6d6b0a8`。
+- Artifact count=`1,814`；artifact inventory SHA-256=`0bbe1a8c2da5e1e4a82b8e6373ec1b97e2c246e339724d14072234bc83d78653`。
+- Target / source oracle seal SHA-256=`2242549b9922b4395646e1a121ffb44aee6653614f6dd9f032e62e9c457d623d` / `e8c95366a5791152e3130068baa589ccbdff185a088e38428b57f888fc3ec20e`。
+- 独立 terminal / artifact integrity audit 重算 1,814/1,814 inventory entries，结论 `Critical=0, Important=0`。这说明 sealed bytes 与声明结构一致，不代表下面的科学解释没有 finding。
+- 2026-08-16 又从全新本地进程运行 COMPLETE-stage official audit；它未重新打开 label provider，并再次完成全部 semantic / statistical reopen。首次 finalize 输出、fresh-process audit 输出与 `seals/formal-run.json` 三者均为 `1,179` bytes，逐字节相同，文件 SHA-256 均为 `6acc199170d76c618cc8fdb9f0013eb6b3028903a543b02195baa4f6e5958765`。
+
+## 8. Analysis
+
+### 8.1 正式科学解释
+
+最保守、可复现的结论是：在当前冻结协议下，三种 target VAE family 都出现高于随机的 oracle / LOO signal，且 correct Anchor 相对 wrong Anchor 的 effect 为正；但 label-shuffle controls 并未回到预注册的随机带。因此实验不能把 observed signal 归因为通过了完整 controls 的 reward sufficiency，也不能据此启动或宣称 cross-VAE canonicalization 成功。
+
+这不是“没有任何 Reward information”的证明。`no / control_failure` 的含义是：signal 条件本可达到更高分级，但必要 control 失败，因而正式结论必须停在 No。
+
+### 8.2 后验独立科学审计：C=0 / I=1
+
+唯一 Important finding 是 shuffle validation 的真实标签选择通道（real-label model-selection channel）：
+
+1. `reward_capabilities.py` 的 label-shuffle assembly 只置乱 source-train sides；source-validation batches 仍使用真实 `preferred_source_side`。
+2. `reward_head.py` 每个 epoch 在真实 source-validation labels 上计算 macro BT-NLL，并依此 early-stop、选择 minimum-NLL 的最早 checkpoint。
+3. 冻结 design spec 同样明确规定 train labels shuffled，而 validation / test labels remain real。
+
+因此这个 shuffle condition 不是完全切断真实标签信息的 pure null：训练梯度不看真实 train labels，但 checkpoint selection 看到了真实 source-validation labels。独立科学解释审计据此记录 **Critical=0，Important=1**。
+
+该 finding 是 post-run independent code audit caveat；sealed `gate-summary.csv` 的 `invalid_reasons` 为空。它不能被写成 sealed run 原本自带的 invalid reason，也不能反向修改已经封存的 machine gate。
+
+这项 finding 不表示 target-label leakage，也不是 terminal seal failure；target/source oracle 的物理打开与封存边界仍由 terminal artifacts 单独证明。它不改写机器已经输出的 `no / control_failure`，但进一步禁止将 signal-only 结果称为 Partial 或 Strong。未来若修复，应预注册不使用真实 validation labels 的 null-selection rule，并作为新实验保留独立谱系，不能覆盖本 sealed run。
+
+## 9. Problems
+
+- 三个 label-shuffle controls 全部失败，因此 protocol 的必要对照条件不成立。
+- Shuffle condition 还存在真实 source-validation label 驱动的 checkpoint-selection channel；它削弱 pure-null 解释。
+- 该审计 finding 是 post hoc（结果后）发现，不能在本 run 上临时改变 gate 规则、重选 checkpoint 或重定义 control。
+- Cross-view consistency、transfer efficiency 与 signal-positive family metrics 都是支持性或诊断性结果，不能替代失败的 controls。
+- Compact mirror 为知识库证据子集，不包含 opened-label、cache、model 或 score 大树；需要逐对象复核时必须回到完整 run。
+
+## 10. Next Steps
+
+1. 保留 `no / control_failure` 作为本次 formal G1 的不可变结论，不进行 Partial / Strong 升级。
+2. 若另行批准新实验，先修订并预注册 shuffle null 的 checkpoint-selection rule，使 selection 不访问真实 validation labels。
+3. 在修订 control 前，不启动 cross-VAE canonicalization、learned `U`、Latent² 或更大规模 reward-transfer 扩展。
+4. 新实验必须生成新的 run identity、plan、oracle results 与 terminal seal；不得覆盖本次 durable run。
+5. 当前只剩 Wiki 归档和人工复核，不需要 GPU 或远程服务器；若租用 GPU 仍在运行，可以关闭。
+
+## 11. Sources
+
+- Source record: `raw/experiments/latentatlas-experiment-g1-formal-reward-sufficiency-2026-08-15.md`
+- Compact report: `raw/experiments/latentatlas/experiment-g1-formal/formal-run/report.md`
+- Condition metrics: `raw/experiments/latentatlas/experiment-g1-formal/formal-run/metrics/condition-metrics.csv`
+- Gate summary: `raw/experiments/latentatlas/experiment-g1-formal/formal-run/metrics/gate-summary.csv`
+- Source-test gap: `raw/experiments/latentatlas/experiment-g1-formal/formal-run/metrics/source-test-gap.csv`
+- Training history: `raw/experiments/latentatlas/experiment-g1-formal/formal-run/training-history.csv`
+- Resources: `raw/experiments/latentatlas/experiment-g1-formal/formal-run/resources.csv`
+- Terminal events: `raw/experiments/latentatlas/experiment-g1-formal/formal-run/events.jsonl`
+- Full inventory: `raw/experiments/latentatlas/experiment-g1-formal/formal-run/artifact-sha256.txt`
+- Formal seal: `raw/experiments/latentatlas/experiment-g1-formal/formal-run/seals/formal-run.json`
+- First finalize projection: `LatentAtlas-runs/g1-formal-f342b9c-20260815T062800Z-finalize.json`
+- Fresh-process COMPLETE audit projection: `LatentAtlas-runs/g1-formal-f342b9c-20260815T062800Z-fresh-audit.json`
+- Target result: `raw/experiments/latentatlas/experiment-g1-formal/formal-run/oracle/target-result.json`
+- Source result: `raw/experiments/latentatlas/experiment-g1-formal/formal-run/oracle/source-test-result.json`
+- Full authoritative run: `LatentAtlas-runs/g1-formal-f342b9c-20260815T062800Z`
+- Label assembly implementation: `source-workspace/.worktrees/anchor-feasibility-pilot/src/latentatlas/reward_capabilities.py`
+- Checkpoint-selection implementation: `source-workspace/.worktrees/anchor-feasibility-pilot/src/latentatlas/reward_head.py`
+- Locked executor behavior test: `source-workspace/.worktrees/anchor-feasibility-pilot/tests/test_reward_condition_executor.py`
+- Frozen design: `source-workspace/.worktrees/anchor-feasibility-pilot/docs/superpowers/specs/2026-08-13-experiment-g1-reward-sufficiency-design.md`
+- Related: [[latentatlas]]、[[latentatlas-reward-data-preflight-g01]]、[[latentatlas-reward-sufficiency-g1-true-smoke]]、[[representation-alignment]]。

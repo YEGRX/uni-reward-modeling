@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-dina0-r1-native-qualification",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "DIAG643行、EXTERNAL2619行，6524张准入 RGB，均为历史已消费 development authority。future12455行仍为 `RETIRED_UNVERIFIED_FOR_FUTURE_CONFIRMATION`，行/方向零读取；old TEST 零读取。本结果不是 fresh confirmation。",
+  "parameters_excerpt": "RGB 原尺寸，无 resize/crop/pad；official SD3.5 VAE posterior sample → `(z−0.0609)×1.5305` → frozen DiNa。每图固定 canonical latent；u=.1、K_noise=4、prompt length256，算术平均 raw scores。20,000 次共享 connected-group bootstrap，固定 seed20260829036。q05 是单侧95%下界；q05/q95 是中央90%区间。\n\nBaseline/controls：PAIR_RO、GLOBAL_SD、Wrong Prompt。主指标（metrics）：EXTERNAL Accuracy−chance下界>0、相对五个PAIR_RO均值的gain下界>0，以及方向、pair-swap和noncollapse；DIAG point Accuracy>.5与注册方向一致性。没有事后调参或构造概率型指标。",
+  "code_identity_excerpt": "固定 commit：`00219a6afa7837d2ce84629c659dc919c0544572`。\n官方 DiNa 源码：`5a5a025e3ed090c86e96af0d924153569e2cace8`；checkpoint：`31d99dc51bf4c6fd46eb6a5ba0d352e36320cad9`；SD3.5：`b940f670f0eda2d07fbb75229e779da1ad11eb80`。\nWindows RTX4090D + Ubuntu WSL，Python3.10.12、torch2.6.0+cu124。Mac 独立重放使用封存代码归档、Python3.10.20、numpy1.26.4。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-dina0-r1-native-qualification.txt",
+  "primary_report": null
+}

@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-anchor-feasibility-pilot",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- COCO val2017：固定 256 张真实 RGB 图像。\n- 16 anchors + 240 queries。\n- Seed: `20260808`。\n- Canonical input: RGB、512×512、中心裁剪、`[-1,1]`。\n- 三个 VAE 使用逐像素相同的 tensor。",
+  "parameters_excerpt": "- VAE: SD-VAE / FLUX.1-schnell VAE / DC-AE。\n- KL posterior: `mode()`。\n- Scale/shift: 记录但不应用。\n- Operators: global cosine / soft relation (`tau=0.07`) / normalized rank relation。\n- kNN: 10。\n- Anchor permutation null: 200 repeats per directed pair/operator/metric。",
+  "code_identity_excerpt": "- Branch: `codex/anchor-feasibility-pilot`\n- Evaluation commit: `434bc2e`\n- Experiment ID: `20260808T101624Z-434bc2e-47528917`",
+  "source_snapshot": "docs/source-snapshots/latentatlas-anchor-feasibility-pilot.txt",
+  "primary_report": null
+}

@@ -1,0 +1,146 @@
+{
+  "N_NATIVE": {
+    "Accuracy": 0.7395833333333334,
+    "Accuracy_CI95": [
+      0.6987847222222223,
+      0.7734375
+    ],
+    "G_agreement": 0.9712292938099389,
+    "G_agreement_CI95": [
+      0.9568062827225131,
+      0.9843208986453907
+    ],
+    "G_nontie_denominator": 1147,
+    "N_agreement": 1.0,
+    "N_agreement_CI95": [
+      1.0,
+      1.0
+    ],
+    "N_nontie_denominator": 1148,
+    "tie_rate": 0.003472222222222222,
+    "G_margin_MSE": 0.03806069493293762,
+    "G_margin_RMSE": 0.19509150399988623,
+    "G_margin_MAE": 0.1469641791449653,
+    "coordinate_MSE": null
+  },
+  "G_T1": {
+    "Accuracy": 0.7395833333333334,
+    "Accuracy_CI95": [
+      0.6944444444444444,
+      0.7769097222222222
+    ],
+    "G_agreement": 1.0,
+    "G_agreement_CI95": [
+      1.0,
+      1.0
+    ],
+    "G_nontie_denominator": 1147,
+    "N_agreement": 0.9708188153310104,
+    "N_agreement_CI95": [
+      0.9564838990426457,
+      0.9834929733504683
+    ],
+    "N_nontie_denominator": 1148,
+    "tie_rate": 0.004340277777777778,
+    "G_margin_MSE": 0.0,
+    "G_margin_RMSE": 0.0,
+    "G_margin_MAE": 0.0,
+    "coordinate_MSE": 0.0
+  },
+  "BASE_S256_2000": {
+    "Accuracy": 0.7048611111111112,
+    "Accuracy_CI95": [
+      0.6675347222222222,
+      0.7378472222222222
+    ],
+    "G_agreement": 0.9071490845684395,
+    "G_agreement_CI95": [
+      0.8799126637554585,
+      0.9352173913043478
+    ],
+    "G_nontie_denominator": 1147,
+    "N_agreement": 0.9081010452961672,
+    "N_agreement_CI95": [
+      0.8769608270507637,
+      0.938207136640557
+    ],
+    "N_nontie_denominator": 1148,
+    "tie_rate": 0.006076388888888889,
+    "G_margin_MSE": 0.6745227773984274,
+    "G_margin_RMSE": 0.8212933564801479,
+    "G_margin_MAE": 0.6487596299913194,
+    "coordinate_MSE": 0.20307780740161738
+  },
+  "C32": {
+    "Accuracy": 0.7057291666666666,
+    "Accuracy_CI95": [
+      0.6657986111111112,
+      0.7404513888888888
+    ],
+    "G_agreement": 0.9058413251961639,
+    "G_agreement_CI95": [
+      0.8780487804878049,
+      0.9337979094076655
+    ],
+    "G_nontie_denominator": 1147,
+    "N_agreement": 0.9050522648083623,
+    "N_agreement_CI95": [
+      0.8743455497382199,
+      0.9357638888888888
+    ],
+    "N_nontie_denominator": 1148,
+    "tie_rate": 0.006944444444444444,
+    "G_margin_MSE": 0.6823459267616272,
+    "G_margin_RMSE": 0.8260423274636882,
+    "G_margin_MAE": 0.6516147189670138,
+    "coordinate_MSE": 0.20279435192545256
+  },
+  "A32": {
+    "Accuracy": 0.6875,
+    "Accuracy_CI95": [
+      0.6102430555555556,
+      0.7543402777777777
+    ],
+    "G_agreement": 0.8827375762859634,
+    "G_agreement_CI95": [
+      0.8554585152838428,
+      0.912532637075718
+    ],
+    "G_nontie_denominator": 1147,
+    "N_agreement": 0.884581881533101,
+    "N_agreement_CI95": [
+      0.854893341307815,
+      0.9118158123370982
+    ],
+    "N_nontie_denominator": 1148,
+    "tie_rate": 0.006076388888888889,
+    "G_margin_MSE": 0.9459151228268942,
+    "G_margin_RMSE": 0.9725816792572715,
+    "G_margin_MAE": 0.7623257107204862,
+    "coordinate_MSE": 0.230457142719792
+  },
+  "Q32": {
+    "Accuracy": 0.6961805555555556,
+    "Accuracy_CI95": [
+      0.6614583333333334,
+      0.7309027777777778
+    ],
+    "G_agreement": 0.8801220575414124,
+    "G_agreement_CI95": [
+      0.8395815170008718,
+      0.9211672473867596
+    ],
+    "G_nontie_denominator": 1147,
+    "N_agreement": 0.8819686411149826,
+    "N_agreement_CI95": [
+      0.8388791593695272,
+      0.921372719374457
+    ],
+    "N_nontie_denominator": 1148,
+    "tie_rate": 0.009548611111111112,
+    "G_margin_MSE": 0.976451403564877,
+    "G_margin_RMSE": 0.9881555563598664,
+    "G_margin_MAE": 0.7741258409288194,
+    "coordinate_MSE": 0.23467283551063803
+  }
+}

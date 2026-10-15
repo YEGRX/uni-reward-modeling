@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-c1-mini-loo-shared-reader",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- 完全复用 [[latentatlas-reward-data-preflight-g01]] 与 C0 的冻结权威：train/validation/test=`44,839 / 5,593 / 5,642` pairs，unique images=`5,201 / 708 / 723`。\n- Image、pair、prompt、source-row 跨 split 交集均为 0；split SHA-256=`83a96bcdeb2805e1743b4555c5a1366558612dc5033598c777295b3016ab64ea`。\n- SD/FLUX/DC-AE latent shape=`[4,64,64] / [16,64,64] / [32,16,16]`；三份正式 cache 覆盖全部 6,632 reward images，额外 192 Anchor rows/VAE 不参与。\n- 统一输入仍为每 channel 无参数池化到 `4×4` 后的 16 维 token；reader architecture、optimizer、超参数、seed 与 C0 完全相同。\n- SD/FLUX/DC-AE 的 train-only scalar normalization mean/std=`0.372937/3.461009`、`-0.145613/2.136468`、`-0.417926/2.210025`。\n- C1 只导入 hash-bound C0 family-level baseline，不导入 C0 test labels 或 per-example scores。",
+  "parameters_excerpt": "```text\nper-channel token:\nLinear(16,64) -> GELU -> Linear(64,64) -> GELU\nchannel-token mean pooling\nLinear(64,64) -> GELU -> Dropout(0.1) -> Linear(64,1)\n\nparameter_count = 9,473\nloss = 0.5 * mean BT-NLL(source A) + 0.5 * mean BT-NLL(source B)\noptimizer = AdamW\nlr = 1e-3\nweight_decay = 1e-4\nbatch_size = 256\nmax_epochs = 30\npatience = 5\nseed = 20260817\n```\n\n每个 epoch 每个 source 精确消费 44,839 pairs，共 351 个 cycles；每域为 `262×128 + 89×127`，两域合计为 `173×256 + 178×255`。Checkpoint 只按两个 source 的 macro validation BT-NLL 选择，目标 VAE 没有 validation metric。\n\nBest epoch / source macro validation NLL / 实际训练 epochs：`loo_dcae=1 / 0.688377 / 6`，`loo_flux=3 / 0.687711 / 8`，`loo_sd=3 / 0.685303 / 8`。",
+  "code_identity_excerpt": "- Production code commit: `045784f0d85e02d12990ecba536f899ede494d83`\n- Result commit: `a6a734c`\n- Branch: `codex/c1-mini-loo-shared-reader`\n- Base C0 result commit: `1e5eabd4295c9c0e3527b635bfd66bc3a96c7f23`\n- Config: `source-workspace/.worktrees/o1-v1-lightweight-spatial-oracle/configs/c1-mini-loo-shared-reader.json`\n- Runner: `source-workspace/.worktrees/o1-v1-lightweight-spatial-oracle/scripts/run_c1_loo_shared_reader.py`\n- Production device: CPU；不需要 GPU 或远程服务器。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-c1-mini-loo-shared-reader.txt",
+  "primary_report": null
+}

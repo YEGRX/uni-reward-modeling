@@ -1,0 +1,20 @@
+{
+  "experiment_id": "latentatlas-dina-dcae-ab-budget-response-4k",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "STOP_AT_2K",
+  "scope": "开发集1,008对 / 28组 / 4流；固定2K门控",
+  "scientific_conclusion": "A2000 Accuracy65.179%，B2000 64.856%；原3%/1% VAL门控未通过。",
+  "limitations": "未训练2001–4000步；4K结果不存在。旧guard不确定性保留。",
+  "input_excerpt": "旧64 FIT/64 VAL Anchor，T0/T1与共同W0；旧A、B、Native、G逐行分数现已通过远端CPU对旧F1最终封存链和1008行来源身份核验，可作为新评分入口的参照；新A/B评分入口尚未运行。旧A/B各自1000步checkpoint由原不可变`verify_fit`在远端CPU独立通过；三份1K loss CSV逐字段与原封存状态一致。128对stream0探针按身份哈希冻结，但门控seal之前不得评分。",
+  "parameters_excerpt": "A自身目标用VAL_T0，B用VAL_T1。在1000、1250、1500、1750、2000步离线做FIT/VAL×T0/T1全Anchor诊断；若任一臂同时满足1000→2000相对下降≥3%与1500→2000相对下降≥1%，两臂都继续到4000。否则两臂都停止在2000。决策必须在读取任何新增Reward结果前封存。阈值不根据结果更改。",
+  "code_identity_excerpt": "正式 r2 不可变代码 `006343b`，完整 spec SHA `449fab1f4846f52f6d4e888ff9c027369dd09173161264e2e7bde3fd749d1bae`；旧A/B与四格封存代码只读。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-dina-dcae-ab-budget-response-4k.txt",
+  "primary_report": {
+    "source_locator": "LatentAtlas-runs/DINA_DCAE_AB_BUDGET_RESPONSE_4K-20260927-R1/FINAL_REPORT.md",
+    "original_sha256": "6b2fb695d10b1411bd86a64e3614a3bdb1ff3761bd4a0a92ae25f079a7709e14",
+    "file": "docs/reports/latentatlas-dina-dcae-ab-budget-response-4k-final.txt",
+    "sha256": "6b2fb695d10b1411bd86a64e3614a3bdb1ff3761bd4a0a92ae25f079a7709e14"
+  }
+}

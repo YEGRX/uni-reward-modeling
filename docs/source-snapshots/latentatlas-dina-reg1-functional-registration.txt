@@ -1,0 +1,152 @@
+# DINA-REG1 FLUX功能配准准备
+
+## 1. Date
+2026-09-22：DINA_REG1_PILOT-20260920-R1整轮完成。三组训练各1000步已独立核验；首次PostFit的OrderedDict容器准入故障保留，未重训。仅容器兼容修订通过38项远端CPU测试和三检查点逐张量等值证明后，固定评估完成1008/1008行、32256次Reward调用、2016次target encoder调用；两次独立远端CPU回放逐字节一致。授权的本地portable CPU replay通过，便携证据包SHA为`3269c4caaf0ab5c8951dc50249a0a56dcab4119a14388860ecae0d8629e0411b`，本地seal SHA为`dac946358b24212316a5f08d278f87c767036f4653f3b11cacbfbfd3fc1f2f1a`。本地NumPy与远端版本不同，统计语义一致，最大数值差4.44e-16。结论边界：source qualification继承SRC0；dataset shift未评估；本轮是一种单seed、1000步的source-matched探索性registration/target-reuse证据，不是完整REG1确认或因果结论。实验结束，不启动原16组或下一实验。
+
+## 2. Purpose
+在SRC0已qualified的source-matched任务上，比较64 FIT+64 VAL独立captioned anchors下REC与FUNC是否能复用Frozen DiNa；target preference labels=0。SHIFT0外部结果不构成阻塞条件。
+
+## 3. Code Version / Commit
+独立分支 `codex/dina-reg1-hpdv3-flux-functional-registration` 从 verified7957059 建立，修改前保存1562个 tracked 文件SHA。新增配准基础模块87f1c6a、可微功能接口c82255c、合同f8229f0、缓存1d6bbfe、算力准入4801c17；没有修改 inherited SRC0/SHIFT0 Python。原完整16组方案仍不执行；当前pilot spec已冻结为09c64968…，本轮补充工程证据不改该spec。合成测试不替代真实GPU准入。
+
+## 4. Dataset / Input
+固定COCO val2017 bank2026080901的64 FIT和2026080902的64 VAL已于02:27通过CPU资产准入。官方caption ZIP252907541字节完整取得，按最小annotation ID选caption；128原图原SHA/尺寸通过，与完整HPDv3 4133来源路径的byte/RGB重叠均0。preflight SHA `daa0f44d27f09795437a2a763bcc0f4d870e4cf99d71f8cca506ab4e90d970fc`，敏感数据读取与GPU前向均0。03:30仅复用该回执物化训练清单，删除preference_labels:null；不重新下载或更换成员。
+
+已找到既有FLUX.1-schnell VAE文件与model-bundle，revision741f7c3ce8b383c54771c7003378a50191e9efe9；权重预期SHA f5b59a26851551b67ae1fe58d32e76486e1e812def4696a4bea97f16604d40a3，167666902字节。config已按预期SHA在远端核验；权重04:16完整167,666,902字节已在远端校验预期SHA，传输结束；不得复用历史latent。旧bundle的MPS环境只是来源记录，新实验继续远端CUDA环境。
+
+## 5. Parameters
+当前小实验固定浅层conv adapter，REC correct、FUNC correct、FUNC perm1共3 fits，seed20260827，每组1000updates；原16×12000方案仅保留。AdamW lr3e-4、warmup500、原cosine日程前缀、有效batch32、grad clip1；在500/1000检查点按各自Anchor VAL loss选择，tie选早。FUNC t=.4、4固定噪声、sourcecaption不变。评估预先固定1008pairs/28完整关联组，训练及checkpoint选择不使用HPDv3偏好标签。
+
+## 6. Command
+远端准备根 `/opt/latentatlas/dina-reg1-preparation-20260918-r1`。原控制脚本已确认启动为CPU任务LatentAtlas-REG1-Assets-r1，15:22以curl56/OpenSSL连接重置退出，科学前向0。旧失败/日志已归档；transport-only r2已部署到同准备根，22:48重新查询确认r2任务不存在，随后成功创建LatentAtlas-REG1-Assets-r2；22:52及23:37现场确认同一assets-driver-r2.py进程运行，caption ZIP分片持续增长，02:27完成并exit0，03:15现场确认资格回执。该任务不再需要运行，不得重复启动或覆盖有效回执。
+
+## 7. Results
+2026-09-22 09:15：三组训练均完成1000步，恢复任务exit0；已远端独立核验所有检查点链/各自VAL选点、冻结authority、七模型状态与实际新config，确认仅跳过已完成REC一次且其全部文件未变。唯一PostFit-r1任务于09:14:27启动，09:16:41实际评估子进程已进入模型加载与新进程准入，评分0/1008，不能称评估完成。接下来沿用冻结评估器及两次远端CPU回放，最终仍需本地portable复核。
+
+补充资格新外层SHA `ad631da1…`，独立CPU回执 `d50bb54a…`；实际新parity `3aae86d1…`。缓存和原spec/正式科学代码未改；原失败保留。恢复前由冻结spec独立派生REC authority，原_resume验证500/1000与barrier；完整零步FUNC目录移入恢复attempt保留，原REC所有字节不变。
+
+最新训练设置下FUNC测速23.9649秒/有效更新，两组剩余更新部分约13.31小时，尚不包含初始化、VAL、checkpoint、评估和回放，不能当总剩余时间承诺。
+
+### 历史执行记录（下述运行中状态已过时）
+23:01最新覆盖：旧chain-r1退出1，运行4692.95秒；REC终点检查点SHA `10967713eef97ce1521c78822e947d9aec36046da32a58ae91a236f564a07d2d`，远端CPU检查点核验回执SHA `fb32a6501b2a4579aac7093445e35be5b119cd4c144ec82a1e2d0c64fb1bf1fa`。核验范围为已保存绑定、两份payload、receipt链、模型历史barrier和last-progress；恢复前还需和独立冻结authority对照。FUNC在第一training_loss内、反传和optimizer之前失败，没有FUNC checkpoint或成功更新，故不重训REC。
+
+补充后端资格任务 `LatentAtlas-REG1-Pilot-BackendQualification-r1` 于22:59:04启动，23:01模型加载中。外部启动器在Python前设置 `CUBLAS_WORKSPACE_CONFIG=:4096:8`，在runtime前设置冻结训练内核原有deterministic与TF32开关，调用未修改的v2资格入口，重新实际验证完整parity、8组缓存等价和固定短测速。配置SHA `1c255d417d9129ed9dbf898c3d955132f684e7cddd652dfc2c5f037827f169cd`。独立审查和远端CPU语法/绑定预检通过，实际GPU资格尚未完成；不修改已冻结科学参数、旧失败或旧资格绑定。
+
+20:53现场：同一chain与fits进程仍在运行、无退出标记；新进程legacy与t=.4调用计数已记录，当前parity回执SHA `e5f4847901492c4d5531b1aa9d8ff1932c9468cf603e12e7a5e0fc19d243e11c`，首组REC的fit-bindings已发布，尚无checkpoint和精确更新计数。不以单次GPU利用率推断持续吞吐。只读代码检查另外记录了训练内核与测速入口的deterministic/TF32显式设置差异；当前没有对应运行错误，保持现有进程，若后续实际失败再保存证据并做工程恢复。
+
+20:32执行状态：冻结spec SHA `09c649688ab2981949b3816d8901a5d44b5fb44e64d9afc5491f3ebaf65ce532`，不可变代码b24aef0，链配置SHA `0bbcc3a91f2f033e5c351ce7f64367caaf3c61df418dd9b4e29252af98db98eb`。唯一任务 `LatentAtlas-REG1-Pilot-Chain-r1` 已运行，phase fits、无退出；尚未看到实际更新，不能称训练完成。下文旧DRAFT或尚未启动描述只保留为历史状态。
+
+20:28最新覆盖：r2实际8组等价检查全部完成；REC/FUNC分别10 warmup+50 measured、有效batch32，当前进程真实legacy+t04 parity通过，七模型状态不变。独立远端CPU核验256 payload和435 nested producer bindings及输出链通过。summary SHA `16de3666a4df7611419b9ece22cbea693ab8fd5de84a025569df7384d5748ef5`，独立回执SHA `f589ddbaf3026b597bfceeb00463872a343b80c8b06b423201a3f61fa2b53902`。这是工程资格，不是配准或Reward复用结果；旧r1失败不改写。
+
+实际缓存路径REC每更新3.8349秒，FUNC19.5137秒；本次三组1000步仅更新部分估42862.28秒，即约11.91小时。结合尚未实测的正式VAL、评估和回放，用户沟通采用18–24小时的暂定安排，非保证完成时间；须按实际训练吞吐更新。不能拿不同时间的REC测速比较声称统一加速倍数。
+
+最新工程状态：r2部署版本2d8fe51与已批准HEAD b24aef0的生产代码字节相同；配置SHA `fbac9ee773ca7f5f492695c3ab072c5faeb9d5c9c77802005708ca3e40545138`。任务 `LatentAtlas-REG1-Pilot-CachedEngineering-r2` 独占运行，尚无实际成功回执或新测速。三组训练、固定样本评估、两次独立CPU回放的代码与控制流程已完成独立审查；完整pilot spec仍待实际r2成功后绑定冻结。以下组件和失败记录作为历史保留。
+
+小实验当前只完成组件验证：缓存目标14focused/156回归、训练内核16、入口18、七模型guard13、源行导出10、portable证据41项远端CPU测试。独立审查已关闭缓存入口的实际代码路径绑定缺口；三fit入口的工程凭证与嵌套缓存复核缺口已由d985291修复，38项CPU测试及独立复审通过。实际cached loss/gradient已尝试并在梯度逐位比较处失败；新测速及3fit尚未执行。独立工程入口d882dfd实际运行后在首例梯度逐位比较处停止（exit1），配置SHA3a5122a62334e195dd202a391eb8f4c0187922e82a5ef2f573f5a436b3341e67；没有正式训练。
+
+静态阅读官方代码定位U_FUNC候选：`runtime.model.reward_head.agg_visual`输出（reward_head.py:282），作为visual_out交给attn1（:320）。处于layer FiLM/projection/fusion之后、cross-attention及其RMSNorm之前；来源接口声明[B,N,width]，真实benchmark已验证[1,1200,1536] BF16、attn1实际消费该tensor、score exact invariance和projector非零有限梯度。无需凭记忆退回raw H4/H8/H12；fallback尚未选用。
+
+组件证据：合同独立原文数值与真实草案校验58 passed（8.61s）；缓存修正producer provenance与新进程parity分离、实际BF16/eval/frozen/device检查、禁止CPU测试通道进入CUDA后23 passed（5.56s）；算力准入修正临时计算图驻留与OOM/完整性失败优先级后17 passed（1.75s）。这些是远端合成/组件检查，不能替代真实模型准入。
+
+资产证据：原r1下载失败已保留；r2恢复任务已完成，Anchor资格回执已校验回传。FLUX config已验证，权重传输由远端offset与独占锁控制；较大数据块曾超时，缩为64KiB并在每次不确定写入后重新查询offset。所有新数据下载仍在远端；本机仅传既有合法VAE文件。
+
+## 8. Analysis
+源域qualification和SHIFT0诊断均已完成；representation/interface registration与target Reward reuse仍无结果。源码定位、资产存在、动态FUNC接口、GPU成本和科学结论必须分开。
+
+## 9. Problems
+已定位此次teacher失配的工程原因：训练确定性模式令F.interpolate使用decomposition，而缓存producer使用原生CUDA bilinear；同一wrong teacher对齐后数值发生变化。默认组全匹配且组内重复稳定，结合installed源码验证支持这一定位。该插值仅发生于现场teacher比较器，正式FUNC直接消费原缓存，故采用新的补充参考入口，不更改冻结训练或缓存。新显式补充资格已真实通过并独立复核；正式恢复入口已启动，训练完成仍待验证。
+
+已确认的最新工程故障：冻结训练内核开启确定性算法，但原启动环境没有CuBLAS必需的workspace配置，首次FUNC的CLIP text_projection触发明确RuntimeError。原测速入口没有相同的显式backend切换，因此不能以旧测速通过代替该运行条件的实际资格。新补充任务验证完整条件后，使用已有standalone runner显式续跑能力保留REC；旧fresh-only chain不能直接重启。当前没有通过放宽容差或改损失来消除错误。
+
+历史r1准备失败已留存：parity后发现full pipeline未共享尾部392参数未冻结，三个普通list text encoder未进入旧三根hash覆盖。REG1-only辅助冻结和七模块状态审计修复后，r2准备与新benchmark实际通过；不得修改旧失败记录或复用旧parity替代新进程。
+
+当前待解决的是缓存梯度一致性检查；此前未缓存路径的主要成本是速度，未出现显存准入失败。历史on-the-fly teacher路径REC每有效更新0.7542秒、FUNC26.4336秒，其中teacher12.9267秒、student11.2619秒、backward1.7738秒。原16fits（已不自动执行）仅更新部分估计约30.21天，未计VAL/checkpoints/最终14400四流评价及正式审计，不是整轮完成时间承诺。
+
+每次Reward/backbone调用前都做同步计数写入。远端CPU小文件试验测得atomic+fsync+rename均值71.0ms，append+fsync166.3ms，append+fdatasync56.0ms；只证明写盘成本存在，未证明简单append能解决。暂不改变durable-before-call计数。teacher缓存存储和真实producer已完成且独立核验；逐键原始tokens同值通过，但缓存训练loss同值通过后gradient逐位检查失败，优化后基准未执行，不能提前声称训练提速。
+
+15:16现场确认teacher producer已经退出，没有REG1科学进程，显存约869MiB。13:44构建进程快照已过时；该观察已由17:15缓存工程失败现场覆盖：该工程进程退出且GPU约866MiB，正在准备独立梯度诊断。WSL可用磁盘850GB、可用RAM约15.9GB。虚拟磁盘ROTA字段不能据此认定宿主硬盘类型。控制网络偶发超时不等于已封存实验失败。
+
+## 10. Next Steps
+检查唯一FUNCRecovery-r1的进程、调用计数、checkpoint和退出状态，不读取中间Accuracy、不重复启动。完成时独立验证三组terminal记录与各自VAL选择、skipped_completed_fits=1、原REC逐文件SHA保持及当前进程资格；不能仅凭exit0宣布完成。
+
+随后使用原standalone evaluator及固定1008对/28组，评价保留原backend，不自动继承训练开关；两次独立远端CPU回放后，核验portable信任根并完成最终授权本地回放，封存交付后删除自动检查。不重启旧fresh-only链，不扩为原16组。
+
+相关：[[latentatlas]]、[[latentatlas-dina-src0-source-domain-parity]]、[[latentatlas-dina-shift0-dataset-runtime-localization]]。
+
+## 11. Sources
+
+- `raw/experiments/latentatlas/dina-reg1-pilot-2026-09-20/func-correct-complete-20260921T185214Z/`：FUNC-correct1000终点及完整检查点链独立CPU核验、最后置换组已进入的现场；无中间Accuracy。
+
+- `raw/experiments/latentatlas/dina-reg1-pilot-2026-09-20/func500-verified-20260921T165228Z/`：同一进程增长计数及不可变FUNC500检查点对独立冻结authority的CPU核验，不含中间Accuracy。
+
+- `raw/experiments/latentatlas/dina-reg1-pilot-2026-09-20/healthy-func-training-20260921T145226Z/`：现场进程/增长计数及新进程parity、PID/nonce、全局锁核验；不含中间Accuracy。
+
+- `raw/experiments/latentatlas/dina-reg1-pilot-2026-09-20/func-recovery-started-20260921T130600Z/`：实际补充资格完整小型结果、独立CPU回执、REC冻结authority、零步FUNC锁下归档与恢复启动/审查。
+
+- `raw/experiments/latentatlas/dina-reg1-pilot-2026-09-20/teacher-reference-qualified-design-started-20260921T111714Z/`：两条件完整小型证据、独立CPU复核、实际installed源码分派、授权/实现审查、新参考部署和19:14现场。
+
+- `raw/experiments/latentatlas/dina-reg1-pilot-2026-09-20/backend-mismatch-diagnostic-started-20260921T084500Z/`：补充后端资格失败原报告、新诊断独立审查、预检、部署与实际启动现场。
+
+- `raw/experiments/latentatlas/dina-reg1-pilot-2026-09-20/backend-recovery-started-20260920T150113Z/`：旧失败stack、REC检查点核验、独立恢复设计审查、补充资格部署和实际启动状态。
+- `raw/experiments/latentatlas/dina-reg1-pilot-2026-09-20/heartbeat-20260920T125308Z/`：唯一进程、首组REC绑定、新parity回执和调用计数、尚无checkpoint的现场状态。
+- `raw/experiments/latentatlas/dina-reg1-pilot-2026-09-20/pilot-chain-started-20260920T123210Z/`：冻结spec、链部署、持久启动及初始进程状态回执。
+- `raw/experiments/latentatlas/dina-reg1-pilot-2026-09-20/cached-engineering-r2-qualified-20260920T122755Z/`：实际v2资格、REC/FUNC测速及独立远端CPU完整证据链核验。
+- `raw/experiments/latentatlas/dina-reg1-pilot-2026-09-20/cached-engineering-r2-started-20260920T104635Z/`：v2独立复审、代码批准、远端部署与实际启动回执。
+- `raw/experiments/latentatlas/dina-reg1-pilot-2026-09-20/gradient-boundary-complete-20260920T102516Z/`：边界诊断完成与独立远端CPU小型证据核验。
+- `raw/experiments/latentatlas/dina-reg1-pilot-2026-09-20/gradient-boundary-started-20260920T101158Z/`：边界诊断代码审查、不可变部署、任务启动和现场小型回执；此前四次诊断的独立CPU小证据核验也保存在此。
+- raw/experiments/latentatlas/dina-reg1-preparation-2026-09-18/remote-control-check-20260918-2333.json
+- raw/experiments/latentatlas/dina-reg1-preparation-2026-09-18/functional-interface-static-observation.json
+- raw/experiments/latentatlas/dina-reg1-preparation-2026-09-18/2026-09-18-dina-reg1-preparation.md
+- owner-home/.codex/attachments/ef382237-5100-4072-a78e-cca7b1f1a029/pasted-text.txt，§28–63。
+- owner-home/Documents/LatentAtlas-fresh-authority/20260825-u4b1-model-bundle/model-bundle.json
+
+- raw/experiments/latentatlas/dina-reg1-preparation-2026-09-18/preparation-check-20260919-0723.json
+- raw/experiments/latentatlas/dina-reg1-preparation-2026-09-18/verified-small-input-transfer-20260919-0718.json
+
+- raw/experiments/latentatlas/dina-reg1-execution-2026-09-19/continuation-20260920-0010/（组件测试、独立审查、任务恢复与传输现场回执）。
+
+- raw/experiments/latentatlas/dina-reg1-execution-2026-09-19/heartbeat-20260920-0115/：现场增长、训练内核初测及待审状态。
+
+Source: `raw/experiments/latentatlas/dina-reg1-execution-2026-09-19/heartbeat-20260920-0340/`：Anchor资格、七字段清单与置换SHA、训练内核修复回执及复审。
+
+Source: `raw/experiments/latentatlas/dina-reg1-execution-2026-09-19/heartbeat-20260920-0540/`：完整FLUX传输、组件审查、部署SHA、持久启动及模型加载现场；GPU科学fits仍0。
+
+Source: `raw/experiments/latentatlas/dina-reg1-execution-2026-09-19/heartbeat-20260920-0600/`：r1失败现场、实际parity、缓存0、只读诊断待完成及benchmark组件回执；工程失败不改变SRC0/SHIFT0结论。
+
+Source: `raw/experiments/latentatlas/dina-reg1-execution-2026-09-19/heartbeat-20260920-0617/`：工程修复独立审查、远端测试、r2不可变部署与真实进程、benchmark待修复事项。
+
+Source: `raw/experiments/latentatlas/dina-reg1-execution-2026-09-19/heartbeat-20260920-0622/`：r2实际计数推进、benchmark24项定向回归及独立复审；真实benchmark和正式fits均0。
+
+Source: `raw/experiments/latentatlas/dina-reg1-execution-2026-09-19/heartbeat-20260920-0718/`：r2完整成功与独立文件链核验、小型证据回传、benchmark部署和实际启动。
+
+Source: `raw/experiments/latentatlas/dina-reg1-execution-2026-09-19/heartbeat-20260920-0940/`：实际benchmark通过、独立核验、成本和资源现场、CPU I/O假设检验。
+
+Source: `raw/experiments/latentatlas/dina-reg1-execution-2026-09-19/metrics-qualified-20260920T021424Z/`：纯统计组件修复、远端测试及独立复审，非科学结果。
+
+Source: `raw/experiments/latentatlas/dina-reg1-execution-2026-09-19/teacher-cache-storage-qualified-20260920T040009Z/`：缓存存储组件、两轮修复与独立复审、远端RED/GREEN及控制连接恢复；无真实teacher生成或正式训练。
+
+Source: `raw/experiments/latentatlas/dina-reg1-execution-2026-09-19/teacher-producer-started-20260920T054618Z/`：真实producer代码/测试/独立审查、不可变部署与CPU输入核验、持久启动和13:44现场；尚无真实teacher完成结论。
+
+### 2026-09-20 13:49 控制链路复查
+
+13:47/13:48 两种 SSH 通路均超时；最后可验证状态仍为13:44:10的当前进程构建阶段。未把控制超时当成实验失败，未重启。后续缓存consumer需单独审查不可变代码路径与producer contract的兼容性，当前不修改缓存或科学规则。
+
+Source: raw/experiments/latentatlas/dina-reg1-execution-2026-09-19/teacher-producer-control-check-20260920T054811Z/observation.md
+
+Source: raw/experiments/latentatlas/dina-reg1-pilot-2026-09-20/initial-authority-and-teacher-verification/：用户小实验授权、数值设计、实现计划、teacher全量独立核验。
+
+Source: raw/experiments/latentatlas/dina-reg1-pilot-2026-09-20/reviewed-integration-20260920T090030Z：本次组件审查、明确未运行的边界及接线状态。
+
+Source: raw/experiments/latentatlas/dina-reg1-pilot-2026-09-20/cached-engineering-started-20260920T090341Z：缓存工程部署及真实进程现场，不含完成回执。
+
+Source: raw/experiments/latentatlas/dina-reg1-pilot-2026-09-20/cached-gradient-failure-20260920T091510Z：exit1、完整小型失败回执及梯度排查边界。
+
+Source: raw/experiments/latentatlas/dina-reg1-pilot-2026-09-20/gradient-diagnostic-started-20260920T094043Z/：诊断部署、启动和实际进程；评估审查修复中，正式训练0。
+
+Source: raw/experiments/latentatlas/dina-reg1-pilot-2026-09-20/gradient-diagnostic-complete-20260920T095349Z/：两条路径内部梯度不可逐位重现，前向及loss相等；不据此宣布缓存资格或方法结果。
+
+Source: `raw/experiments/latentatlas/dina-reg1-pilot-2026-09-20/healthy-final-func-20260921T205304Z/`（本轮只读运行状态；未读取中间准确率）。
+
+Source: `raw/experiments/latentatlas/dina-reg1-pilot-2026-09-20/func-perm500-verified-20260921T225435Z/`（置换组500步独立核验与运行现场；无中间Accuracy）。
+
+Source: `raw/experiments/latentatlas/dina-reg1-pilot-2026-09-20/three-fits-verified-postfit-started-20260922T011442Z/`（三组独立终点验证、外部控制审查及实际任务启动；尚非Reward结果）。

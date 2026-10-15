@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latent-reward-channels-core-v2-validation",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "theory_or_specified_model",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "有限U±1、Z(-.8,-.4,.4,.8)，原始pstar(u)p(z|u)Q联合表；四(u,s)条件clean residual单元。Proof n1全256序列；baseline四格各64数学重复。模型类/参考同权限，不给数值矩、true参数、target prior或target labels。真实缓存仅引用已有资格，不新增审计/分箱/反推posterior。",
+  "parameters_excerpt": "公开三参数盒±1/64、alpha.4/beta.6/T1；四合法输入。eta.1/.03/.01，theta/tau各±1/64/0轴导数；LR tau.002/1/64、n1/2。风险转移eta.1、theta=xi0、tau0/1/64、n1。Baseline theta=xi1/128、tau0/1/64、eta.1、n16/128，每格64、seed20261009；radius所有格固定.015。MLE零起点、L-BFGS-B、50步/ftol1e-14/gtol1e-9，gap≤1e-8，不重启。tau0受限MLE额外结构权限单列。",
+  "code_identity_excerpt": "原执行SHA `f8f9f99239f99c5174152925128dd5e23c042f236fc583a19ac5a4bb2e2e8686`，快照`executed-source.py`。review发现受限MLE资格默认传播缺口；384个实际gap全合格，本轮数值未受影响。仅资格标记修正版SHA `60583c929725a667bd1da2c0aeabef14ce124eb850ad8ca083751c1e194307c8`，未重跑拟合。无可用Git HEAD，不编造commit。",
+  "source_snapshot": "docs/source-snapshots/latent-reward-channels-core-v2-validation.txt",
+  "primary_report": null
+}

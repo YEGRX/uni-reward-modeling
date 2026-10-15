@@ -1,0 +1,15 @@
+{
+  "experiment_id": "latentatlas-reward-data-preflight-g0",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "WIKI_SNAPSHOT_NOT_REAUDITED",
+  "scope": "以原页面输入、统计口径与原冻结合同为准。",
+  "scientific_conclusion": "历史记录已导入；请结合该页结果与失败记录，不将实施或资格状态视为方法收益。",
+  "limitations": "仅文档归档，本次未重验原数据、模型或所有终点；原文的数学例/工程检查/科学结果需分别阅读。",
+  "input_excerpt": "- Dataset: `Rapidata/human-coherence-preferences-images`\n- Frozen revision: `72c0ebefc7ef3bebe22643fc709a6e94c22b5b02`\n- 53/53 Parquet shards\n- 17,836,409,651 compressed bytes\n- 63,748 pair rows\n- Official task: two-image human preference for visual coherence, naturalness, and fewer visible generation glitches\n- Prompt visibility in the annotation interface remains uncertain\n\n下载后逐分片验证了官方 LFS SHA-256。非正式 sample 覆盖 53/53 shards、每 shard 128 行，共 6,784 行，所有 sample schema/image/coverage checks 通过。",
+  "parameters_excerpt": "- Label rule frozen before full execution: aggregate `votes_image1/votes_image2` defines orientation; non-empty `detailed_results` must parse and its observed count must match the aggregate total.\n- Any malformed or inconsistent formal source row is fatal and cannot enter a passing split.\n- Exact ties are retained for audit but excluded from primary Bradley–Terry training.\n- Full mode requires clean Git state, exact dataset revision, decoded-content identity, prompt/content-disjoint split, and frozen Anchor overlap checks.",
+  "code_identity_excerpt": "- Branch: `codex/dino-local-patch-probe`\n- Formal commit: `9be99bbe3520302bc60a25893790b7b4fb5337a1`\n- Formal run: `20260812T092053Z-9be99bb-74689888-reward-data-preflight`\n- Formal status: **Fail**",
+  "source_snapshot": "docs/source-snapshots/latentatlas-reward-data-preflight-g0.txt",
+  "primary_report": null
+}

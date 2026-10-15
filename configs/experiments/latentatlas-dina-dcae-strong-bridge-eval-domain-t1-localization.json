@@ -1,0 +1,20 @@
+{
+  "experiment_id": "latentatlas-dina-dcae-strong-bridge-eval-domain-t1-localization",
+  "record_type": "historical_documentation_not_executable",
+  "snapshot_date": "2026-10-10",
+  "category": "latentatlas_visual_or_interface_history",
+  "reported_status": "EVAL_T1_CHANGE_INCONCLUSIVE",
+  "scope": "既有开发评价252图；零新Reward评分",
+  "scientific_conclusion": "B/S EVAL T1 NMSE0.309154/0.310404；相对下降−0.405%，95%约[−2.732%,1.994%]。",
+  "limitations": "FIT下降35.92%不外推EVAL坐标；没有新Accuracy或U必要性结果。",
+  "input_excerpt": "固定252唯一图像、1008物理对、28connected groups；与64FIT/64VAL不相交。只读复用原DC-AE latent、既有T1 sample/cache、B2000/S2000、FIT-only T0方差W0；payload/tensor/seed/route/hash已核。B40080、S889424参数，两个既定结构并非matched capacity。来源层确实解析已消费DEV中含人工标签的旧文件；分析manifest与模型margin表无人工偏好或correctness字段。历史R1访问范围unknown。",
+  "parameters_excerpt": "原CUDA BF16 autocast、FP32参数/source/REC、bilinear resize align_corners=False、clean pre-noise输出、T1不重复scale。loss为全有效元素 `mean_FP32((pred-T1)^2/clamp_min(W0.variance,1e-6))`；逐图等权、float64聚合。20k×28 paired group bootstrap，PCG64(2026100101)、组ID字典序、重复抽中组保留、linear95%主区间/90%辅助。10%仅描述。raw MSE/cosine/通道充分量均逐图保存，零范数分支显式。",
+  "code_identity_excerpt": "隔离目录 `LatentAtlas-runs/DINA_DCAE_STRONG_BRIDGE_EVAL_DOMAIN_T1_LOCALIZATION-20261001-R3`；完成工件 `final-completion-r2`、便携包 `verified-portable-completion-r2`。科学spec SHA `495a37ec56f747436b678bf914d8af13f0291aa5b7cf3bc110e0f19c75cc4180` 不变；2026-10-02用户取消资源与工程恢复次数上限，单独授权SHA `9169fe832f2a2ae4f185da559c73a953b6aa08683d1537d648b60da90da60fc6`。原封存不覆盖，没有push/merge。",
+  "source_snapshot": "docs/source-snapshots/latentatlas-dina-dcae-strong-bridge-eval-domain-t1-localization.txt",
+  "primary_report": {
+    "source_locator": "LatentAtlas-runs/DINA_DCAE_STRONG_BRIDGE_EVAL_DOMAIN_T1_LOCALIZATION-20261001-R3/final-completion-r2/FINAL_REPORT.md",
+    "original_sha256": "4ab466e6f1c99f5d66022f5412461a675bd858ee8152ec247e6e67f5a8c3bbd6",
+    "file": "docs/reports/latentatlas-dina-dcae-strong-bridge-eval-domain-t1-localization-final.txt",
+    "sha256": "87980397e0f2f234ed721a03a921db7c02bdc14021a59fd66ea3ac0817143a8e"
+  }
+}

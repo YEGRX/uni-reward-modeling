@@ -1,0 +1,1227 @@
+[
+  {
+    "path": "docs/reports/latentatlas-dcae-q32-lowcost-main8-final.txt",
+    "bytes": 6152,
+    "sha256": "a2141a15f628271eae88f696dbb58a9adf102238c5a9d5ea8138acab2256bc5e"
+  },
+  {
+    "path": "docs/reports/latentatlas-dina-dcae-ab-budget-response-4k-final.txt",
+    "bytes": 9982,
+    "sha256": "6b2fb695d10b1411bd86a64e3614a3bdb1ff3761bd4a0a92ae25f079a7709e14"
+  },
+  {
+    "path": "docs/reports/latentatlas-dina-dcae-fixed-strong-bridge-2k-final.txt",
+    "bytes": 12495,
+    "sha256": "dbd02ecfa7674255fdf0cdd0f1c0caf544c61078533dbf49fd0218e1d8d45d0f"
+  },
+  {
+    "path": "docs/reports/latentatlas-dina-dcae-roundtrip-gap-localization-final.txt",
+    "bytes": 6579,
+    "sha256": "b7e201944a1d267f50e6c425fd97abf06bac8032abdb6c556115ee25c1f0f540"
+  },
+  {
+    "path": "docs/reports/latentatlas-dina-dcae-strong-anchor64-vs256-fixed2k-newgroups-final.txt",
+    "bytes": 22899,
+    "sha256": "4df79dd115f2e3f881eab9d8bf96def693eebfdc171f4f399fb0e56bc734ebb3"
+  },
+  {
+    "path": "docs/reports/latentatlas-dina-dcae-strong-bridge-eval-domain-t1-localization-final.txt",
+    "bytes": 11716,
+    "sha256": "87980397e0f2f234ed721a03a921db7c02bdc14021a59fd66ea3ac0817143a8e"
+  },
+  {
+    "path": "docs/reports/latentatlas-dina-dcae-target-spatial-factorial-final.txt",
+    "bytes": 10364,
+    "sha256": "06312ce52db97f10ba921f15d0c69c3bf047333487ad796dedc88b1e4da13baf"
+  },
+  {
+    "path": "docs/reports/latentatlas-dina-shift0-dataset-runtime-localization-final.txt",
+    "bytes": 1992,
+    "sha256": "c0ad9660e3270138210127f7f92330d2ff9fb5f624ddb637609313d2b74be64f"
+  },
+  {
+    "path": "docs/reports/latentatlas-dina-src0-source-domain-parity-final.txt",
+    "bytes": 1840,
+    "sha256": "8ace389deff345a7de36945efb4d627f5fb2f0eeb23aad8572aa6a6ce8b3b428"
+  },
+  {
+    "path": "docs/reports/latentatlas-dina-unseen-encoder-fixed-recipe-portability-final.txt",
+    "bytes": 9997,
+    "sha256": "2d5d3b30f36885d7752e4cbd777d20f6f59e013090c7c2d273e543c2f6051080"
+  },
+  {
+    "path": "docs/reports/latentatlas-dina-vae2-dcae-recipe-portability-final.txt",
+    "bytes": 9039,
+    "sha256": "fd32a9b0a92b2aec1ec11f0ae1b6772a5ec7c351713f401556d395034a865caf"
+  },
+  {
+    "path": "docs/reports/latentatlas-frozen-candidate-forward-audit-final.txt",
+    "bytes": 7420,
+    "sha256": "9b973ad156cd98e9530b4b99eaebdffc3c0c1608c2e47a798ff624fe65be664d"
+  },
+  {
+    "path": "docs/reports/latentatlas-frozen-projector-mechanism-and-readout-final.txt",
+    "bytes": 9952,
+    "sha256": "8fcf3878702c3fbee97b0ebc1e4623f12697d6c54e6dc33bbcbfcc4e54f3b711"
+  },
+  {
+    "path": "docs/reports/latentatlas-hpsv3-frozen-interface-reuse-final.txt",
+    "bytes": 10203,
+    "sha256": "86d0b06f23d00c883ba194cdba88c6d10bce9cbd5f128fd11ee18cfa51731e07"
+  },
+  {
+    "path": "docs/reports/latentatlas-submission-evidence-20261009-final.txt",
+    "bytes": 11139,
+    "sha256": "e7649209d804a5901de78b6be37bacfe256372f7a791e0aa78060b5d5ba80c19"
+  },
+  {
+    "path": "docs/source-snapshots/latent-reward-channels-core-v2-validation.txt",
+    "bytes": 6074,
+    "sha256": "79bad26c1c87f01437299d751258789c8a07b217366311fde0855bcae2144482"
+  },
+  {
+    "path": "docs/source-snapshots/latent-reward-channels-final-core-proof-detail-audit.txt",
+    "bytes": 2589,
+    "sha256": "b74e84ba005dbb1153feacf2611555b3b136236b7fc3f29605682a5f93134404"
+  },
+  {
+    "path": "docs/source-snapshots/latent-reward-channels-framework-v5-task-observability.txt",
+    "bytes": 3676,
+    "sha256": "760c0da57d24ff1ad70c4803a8fed3e81be81d4dde63e624e4b58a5cc1e277e4"
+  },
+  {
+    "path": "docs/source-snapshots/latent-reward-channels-initial-audit.txt",
+    "bytes": 3778,
+    "sha256": "c348f5dc4d9b0eaea390b23d0e84e93891d6c8a033464f68efcaaae651d7edc1"
+  },
+  {
+    "path": "docs/source-snapshots/latent-reward-channels-paper-framework-v4-validation.txt",
+    "bytes": 6333,
+    "sha256": "8f9934c049d0c21147435495692dac05bfe37f1349408baa217b0ebcaa459936"
+  },
+  {
+    "path": "docs/source-snapshots/latent-reward-channels-r2-theory-refinement.txt",
+    "bytes": 8428,
+    "sha256": "39f0ab4c49eb7bcba05a283c00c622a17f98a27182c78fd88a12723cf50b30b1"
+  },
+  {
+    "path": "docs/source-snapshots/latent-reward-channels-r31-task-boundaries.txt",
+    "bytes": 4579,
+    "sha256": "bd14adea1d49562770a23644a9300d4216498fe6daaa22e004595154deb9b4ae"
+  },
+  {
+    "path": "docs/source-snapshots/latent-reward-channels-r32-fixed-validation.txt",
+    "bytes": 4752,
+    "sha256": "1b52e693850994889ddb6dfd12ee2ad0ba1f90a68639d07ed7d69a95dddd1859"
+  },
+  {
+    "path": "docs/source-snapshots/latent-reward-channels-r33-channel-structure.txt",
+    "bytes": 5330,
+    "sha256": "74507e9eaa1e557b4ead022d351959e5a299dc6828bc5c057e470bccea843084"
+  },
+  {
+    "path": "docs/source-snapshots/latent-reward-channels-r34-feedback-task-channel.txt",
+    "bytes": 5527,
+    "sha256": "41f59fef2a4cb46ed55e6aa0c2c2e482097adeee9699e1d603c43b3ba4e52041"
+  },
+  {
+    "path": "docs/source-snapshots/latent-reward-channels-r35-task-sensitive-validation.txt",
+    "bytes": 6208,
+    "sha256": "ef76a9e18b0ca9dcb641026ff4c6cfdd530059f85f71aad532818b8d63759950"
+  },
+  {
+    "path": "docs/source-snapshots/latent-reward-channels-r36-structural-statistical-repair.txt",
+    "bytes": 6605,
+    "sha256": "6b83c596e0ec05ebfac1d8a366c25330080360654abccec975b305ac18228147"
+  },
+  {
+    "path": "docs/source-snapshots/latent-reward-channels-system-v3-validation.txt",
+    "bytes": 5857,
+    "sha256": "f1f0465a640d38ae827de8234ef981b22c0f13ef415483507f557be67ed79f9a"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-anchor-budget-replication.txt",
+    "bytes": 5355,
+    "sha256": "2ab3adf7370551ad6ee0da3a529f37eb1e6fa3c0bbd212cdd8fb28a237a7c465"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-anchor-feasibility-pilot.txt",
+    "bytes": 4091,
+    "sha256": "b029a310b5ffbe9c0c4075568b5ef8ab5d653b15aed6603aeb9ed7def17c3457"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-c0-mini-v1-direct-shared-reader.txt",
+    "bytes": 8078,
+    "sha256": "098e4c2b8f99942cae1f1ad44107df3967c51e8cc75b0007a3c7837474fc52fa"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-c1-mini-loo-shared-reader.txt",
+    "bytes": 8739,
+    "sha256": "e08419819934d70b5d600d5eed478b28eec93c8a82441ee24f525a4ab39f7b57"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-c1r-fresh-authority-audit.txt",
+    "bytes": 5061,
+    "sha256": "a304e1fb542aab99cc5c743cb1e66838ff061b22d7e612522b0d89d6bcf920c2"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-c2-dev-generic-dg-baselines.txt",
+    "bytes": 7408,
+    "sha256": "5eae1df90cea6f9844ffb86747ec6eed8fd6e9688fdf1b3c0c41beb58f052feb"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-cvjdd0-cross-vae-joint-denoising-anomaly.txt",
+    "bytes": 10098,
+    "sha256": "fa6d4eec66f9d7a3a91bc893fe8427bfd5fb11a141c13c4bbae136baf960ecad"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-dcae-q32-lowcost-main8.txt",
+    "bytes": 6743,
+    "sha256": "0336367e2cc720907aeae5e11269b6acf71635760cab9790a9db0a2887c86a1b"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-dina-dataset-runtime-diagnostic.txt",
+    "bytes": 3237,
+    "sha256": "d45bd240b121f5e9c490b70d658f2c5d8ead0a3ebd46ed9bc3dd08f050b8948e"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-dina-dcae-ab-budget-response-4k.txt",
+    "bytes": 19189,
+    "sha256": "8f1d0be4de6f0e93aa7b06b55ed546d51f35bd3eff55ae994f5eacaaccb30754"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-dina-dcae-fixed-strong-bridge-2k.txt",
+    "bytes": 6424,
+    "sha256": "ee371fd2c70a192bbf55022af648c39b0839098dd2d0a31a092b4d278ba86008"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-dina-dcae-roundtrip-gap-localization.txt",
+    "bytes": 6571,
+    "sha256": "875cf1e90e43128b4ab0449079f1ffb66b4f06a46b4815060b36c3d16500a730"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-dina-dcae-strong-anchor64-vs256-fixed2k-newgroups.txt",
+    "bytes": 23722,
+    "sha256": "2fe769141a4f48b7046159430b6f8fc14c5fb4b0e4d09864ee7c27c4aa7de494"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-dina-dcae-strong-bridge-eval-domain-t1-localization.txt",
+    "bytes": 7177,
+    "sha256": "09ec8c7422f33753012d480773b65fca8e028bf358862b631e5dbd9794defd21"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-dina-dcae-target-spatial-factorial.txt",
+    "bytes": 4149,
+    "sha256": "bfeec26718a6bd02957458e737c6be30133f6a98b824c8944fa8b9b79fd06a04"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-dina-reg1-functional-registration.txt",
+    "bytes": 21727,
+    "sha256": "99fd3a2506a587a4c59c456dd2dd9bf06c27da63c1dfea54f5dc31a346445454"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-dina-shift0-dataset-runtime-localization.txt",
+    "bytes": 6561,
+    "sha256": "b3595322f8a5cbb87c5ed105a77c00cbd8e3b80fd63477c7cebe1718663301c4"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-dina-src0-source-domain-parity.txt",
+    "bytes": 9915,
+    "sha256": "0c0e17ae51652a6d6065637610074c850fdd751d2ee726f46f2bc2d251f70134"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-dina-unseen-encoder-fixed-recipe-portability.txt",
+    "bytes": 6711,
+    "sha256": "f1216e111b84741641f50cf379eaf8a26547743d02db508fe028a505119b88f6"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-dina-vae2-dcae-recipe-portability.txt",
+    "bytes": 5543,
+    "sha256": "4f6367e44c11ae6ea3d7a3ddf02d93aa670beb4a476bab85a94725ba0f34f786"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-dina0-r1-native-qualification.txt",
+    "bytes": 8279,
+    "sha256": "502459e7fb686f83de1bcb3953d546c9e2ec2c99e3eaaffeaa71a422b5370aad"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-dina1-external-frozen-reward-functional-registration.txt",
+    "bytes": 7697,
+    "sha256": "f044a5cd8879c4524a7545cf31e3a1ef2a83e275f0fd4f291087e1ec9a0705ce"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-dino-local-patch-probe.txt",
+    "bytes": 7537,
+    "sha256": "fb7906d50506c68451e346e8012a910690a59f8c848da58636df9de385699950"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-fra0-public-fresh-coherence-authority-audit.txt",
+    "bytes": 25313,
+    "sha256": "b61fe648054cbdee79307be847f3f575b05c22fe6e42c6c8d236613681081dba"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-fra0r-provenance-recovery.txt",
+    "bytes": 8858,
+    "sha256": "494f79d2208229ee4f3cdfb15d39218cf686d65995c841c46401811dbc527ac0"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-frozen-candidate-forward-audit.txt",
+    "bytes": 9163,
+    "sha256": "0f8cf5dfe5d9f6181b2d05e47b8dd95f4901e854974fc03677c23934ecc15523"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-frozen-projector-mechanism-and-readout.txt",
+    "bytes": 9666,
+    "sha256": "46a02db53ebdbc21c0e8b4d9122b322d73fa598778f413778a0c8df260738cf4"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-g2-minimal-reward-local-geometry.txt",
+    "bytes": 7637,
+    "sha256": "c41ce369fecbfcdc3d2a4f8eb94254dfaffd48dd8de176c132929d7a56b5cd2a"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-g2-reward-stratified-anchor.txt",
+    "bytes": 7797,
+    "sha256": "6b5663420189f7ae89ed16856a1470af5beff68e018738e8d83393fededf21e7"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-gfi1-group-frozen-interface-registration.txt",
+    "bytes": 5139,
+    "sha256": "00aa2a89a36a4a1e14b7a71994eaecf581f15e796978427f5a0f722dd35dc0ca"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-glc0-group-latent-critic-native-qualification.txt",
+    "bytes": 3920,
+    "sha256": "cdecd2ee33a1aa3f57dac62f629c9b79085eb347906e103d80b765f9fe9c2c47"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-hpsv3-frozen-interface-reuse.txt",
+    "bytes": 8330,
+    "sha256": "e56007bbcfa1fb4df3dcfabaffc14fc524d55c27a9e5b27ee40d77fefe36187b"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-o1-independent-clean-latent-oracle-smoke.txt",
+    "bytes": 7043,
+    "sha256": "553cbb957cc775d6042b2f27d57c4ee123d10d0965378c0e1ebb374b45604693"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-o1-sd-shuffle-control-repair.txt",
+    "bytes": 5687,
+    "sha256": "61489e9955641adcef02d2597b38fc9ca42c3d72b8ff62bd2f82a5fcb9846ca8"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-o1-v1-lightweight-spatial-oracle.txt",
+    "bytes": 8692,
+    "sha256": "7e1e71b51cfba5e5494b7666f74162d815dfb367378a0c8e97b1321846146df6"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-reward-data-preflight-g0.txt",
+    "bytes": 7416,
+    "sha256": "420fb96fe0fc1ccd6d856b03ac0ee4fee1ad83e368e611b215caed56fb1b41a6"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-reward-data-preflight-g01.txt",
+    "bytes": 7576,
+    "sha256": "16a746c55063d53102d41861685476f3863e637b3b810263e32c13218b470ecc"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-reward-sufficiency-g1-formal.txt",
+    "bytes": 13722,
+    "sha256": "8a1a3e0e9e3e3cc192a33ad82e67f71f0d44cb25156878ad22df31c671440336"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-reward-sufficiency-g1-minimal-sd-smoke.txt",
+    "bytes": 9773,
+    "sha256": "8fcf10289b1a9907f07ad30a2cdd050dcb128a88525f10f4650e19869a59e893"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-reward-sufficiency-g1-true-smoke.txt",
+    "bytes": 10697,
+    "sha256": "85d6c8f732c0f2a1ad3edcc545a112ec549e9df2d08ebd266a334c63619d32af"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-reward-v2-r0r1-oip-authority-oracle.txt",
+    "bytes": 11561,
+    "sha256": "55283eff9d8d0ca09565577cb1acc0bf68ba51633e0c85d34f786a51c8eb9718"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-reward-v2-r1v-frozen-clip-oracle.txt",
+    "bytes": 13559,
+    "sha256": "d81a3376fe5c66d452534972efee32793800332de721a0c420a30e82dac47b64"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-reward-v2-r2p0-projector-only-preflight.txt",
+    "bytes": 8217,
+    "sha256": "a7f6d2f5e0ff251977a05205391b853243bf4500df719292712e854c0ab6c2ec"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-rgen1-reward-external-generalization.txt",
+    "bytes": 10279,
+    "sha256": "3a62d2aa1a7274a89676e1edaef4454728a87a9c82653a9ee9bc1a934bc5eec0"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-rpj1-reward-projector-dev.txt",
+    "bytes": 5721,
+    "sha256": "67f265cf1951d5264776cf0312ac96b4b7da5a8626755d80a9b21452e9854aeb"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-rrv1-cache-preflight.txt",
+    "bytes": 3506,
+    "sha256": "f47a8d800fab12e0d4451c9a8d0599d23e9cbc75e79775c6b158d19fb900a2ba"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-rrv1-frozen-latent-reward-readout.txt",
+    "bytes": 5701,
+    "sha256": "298cfcdd0a5da0f8db33893dc1467befc1af57c421a557f58ba7ec9a1e3a5efd"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-semantic-appearance-intervention.txt",
+    "bytes": 7603,
+    "sha256": "270916a555a56ddab0f1193d52ff33b63a9ab37cbf8fd19c5086dbcb9bdfe6b0"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-shared-geometry-explanation.txt",
+    "bytes": 6598,
+    "sha256": "74ebfda9238a4c18097aa5a035397ed2674108c21b80255f713b3e364fe5498f"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-submission-evidence-20261009.txt",
+    "bytes": 6053,
+    "sha256": "bea476e74aaecd7fedf39cbe0446ac177f772947443c334b205b7358d1da9e61"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-u4-development-final-experiment-report.txt",
+    "bytes": 17813,
+    "sha256": "28c9be1615e7b3bd7e39a591f75c6f548004c129d5b5674ee25ffff567918f54"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-u4a2-reward-free-train-closure-localization.txt",
+    "bytes": 13230,
+    "sha256": "1fa340f2abaebdf7f7ccb4442a551b5a5f3a59d3f7e24b651f50213b4ee71dc4"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-u4a3-reward-free-k64-parameterization-factorization.txt",
+    "bytes": 12617,
+    "sha256": "0677635b43532208a4d5d400819feb5cc2be4942123f055d207bd903edd483a8"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-u4a4-reward-free-p4096-crossfit-correspondence-specificity.txt",
+    "bytes": 20997,
+    "sha256": "3af3d191d068a7d7f5e53588d1d1b47e46f747b10b962449ea9599bcf234c662"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-u4a5-reference-u-necessity.txt",
+    "bytes": 7006,
+    "sha256": "3dd5c32ce17d543a040c72f3f73921241c5211090bc1a8b62a51d70569b4b2e3"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-u4a6d-deterministic-consensus-u.txt",
+    "bytes": 6076,
+    "sha256": "c62ba7d175a565156537880cee9da4c98ebebd6bec4c9f9869bd7f4898456aa5"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-u4a6prob-distributional-consensus-u.txt",
+    "bytes": 5771,
+    "sha256": "f5e0aab0bfee2d52ad8ab5046f899fc78d80c90218b22910ede5464ede3f9256"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-u4b0-fresh-functional-authority-gate.txt",
+    "bytes": 7640,
+    "sha256": "42fdd53c8031be74db3aaa8fe8c318c8decd63974c2bbb10b6afe57576259465"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-u4b1-284-exploratory-fresh-functional-specificity.txt",
+    "bytes": 9750,
+    "sha256": "05e064a7d8f48c43006fbed095ac6d2810620a1fcda3c9041170ddea1d689b05"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-u4b1d0-source-head-reference-adequacy.txt",
+    "bytes": 7513,
+    "sha256": "d51c4778f168452cf5478679f94be3a3db1e815ab732cee89deabbcb5e4872c8"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-u4b1d1-oip-source-reader-restoration.txt",
+    "bytes": 10121,
+    "sha256": "32fa480645f5adbe99d3e57a2ac505ac234a8425f3f71774a057b294e0ce4de7"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-u4b1d1p-oip-prompt-observability.txt",
+    "bytes": 7484,
+    "sha256": "e55698c29f1fe086c9fcfac1581e0294eb50c3b47677b1f0afcb89c6ff65ca41"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-u4bd1-frozen-head-function-preservation.txt",
+    "bytes": 12040,
+    "sha256": "abd18918d4248b013a8ae30d4e708fe102e2089f2edd5e3a9122b0460576d5c4"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-u5-proj0-frozen-b3-structural-projector.txt",
+    "bytes": 11834,
+    "sha256": "d754c7c41a6a3128aa3ddd0fbdbafa8fe11e9387473b9e5f5f7d4c51e9699afe"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-u5pb0-target-free-predictive-bottleneck.txt",
+    "bytes": 10234,
+    "sha256": "7ae550a3b6b2b9d8a76835a2c45e1bbf47b0bfcfeafece4d4ed158dec3335588"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-u5pb1-predictive-u-capacity-spatial-topology.txt",
+    "bytes": 10033,
+    "sha256": "3354251aed67b4e0ce3e53db6f117c39f23fd2e9ff98df126d83f6cfc88c46ab"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-u5pb1r1-residual-information-localization.txt",
+    "bytes": 8831,
+    "sha256": "5fd611f92f88fd30dcc2e16dd2b7edd334a6879e0cf1e60b464c75c0ee35e86b"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-u6-rcu0-reward-compatible-u-feasibility.txt",
+    "bytes": 7337,
+    "sha256": "034628ee41ac3351956c0acfd8bed791a367079a8ba95a7a1ef7824130aed70a"
+  },
+  {
+    "path": "docs/source-snapshots/latentatlas-u7-reconstructed-anchor-onboarding.txt",
+    "bytes": 9193,
+    "sha256": "3e9c3f08f6190c9e60abf70935cf143baf5288aa5d7b186086c27db4cdd3d0b6"
+  },
+  {
+    "path": "docs/source-snapshots/rpj2-projector-noncollapse-anchor-mechanism.txt",
+    "bytes": 7731,
+    "sha256": "b032f926114a982a1bd14059435c80626bb03262bd544109c3f514368b7dbe56"
+  },
+  {
+    "path": "docs/source-snapshots/rpj3-anchor-reward-instance-specificity-localization.txt",
+    "bytes": 6856,
+    "sha256": "152bfbae30c076044a73ac2d6bb8ada56412f96e818a764cb0fbeda6220dcc10"
+  },
+  {
+    "path": "docs/source-snapshots/rpj4-true-unseen-sd35-anchor-confirmation.txt",
+    "bytes": 9958,
+    "sha256": "9dc23faab385eb4b42422a23f1a046e1a6898b79bbdb7b393b25ea7f1390c27d"
+  },
+  {
+    "path": "results/evidence/q32-forward/DELIVERY_MANIFEST.json",
+    "bytes": 1656399,
+    "sha256": "ed65c7f819ec61f896b02e25f200fac6d83622cb57f9c7c1f74587e5dc01d027"
+  },
+  {
+    "path": "results/evidence/q32-forward/LOCAL_PORTABLE_CPU_REPLAY.json",
+    "bytes": 454,
+    "sha256": "b124c9ef563f9155f907446382e620711c6bda23c5b1c5fea979294c5a197d61"
+  },
+  {
+    "path": "results/evidence/q32-forward/MAIN8_INDEPENDENT_CPU_ACCEPTANCE.json",
+    "bytes": 1555539,
+    "sha256": "643e24fd62b6fd9198a0adbdfb0b54025a1e808b84518ee2ed9768ffe2120415"
+  },
+  {
+    "path": "results/evidence/q32-forward/MAIN8_RESULTS.json",
+    "bytes": 15570,
+    "sha256": "d45d5f74ff0e14de02d0205f9d9355aad6cd08501e4ccc5d9eedeb4db159ed69"
+  },
+  {
+    "path": "results/evidence/q32-forward/OVERALL_DECISION.json",
+    "bytes": 17598,
+    "sha256": "48a08ff1308f6fa3141cc955735e0bd859a878f6e308f3605fcf4a8e41ad2b85"
+  },
+  {
+    "path": "results/evidence/q32-forward/REMOTE_SEAL.json",
+    "bytes": 506,
+    "sha256": "a46988790a75d5a360ce1f4b9268c6e5930849a6cd96b7aa070a5175f724a7e9"
+  },
+  {
+    "path": "results/evidence/q32-forward/VAL_RESULTS.json",
+    "bytes": 36077,
+    "sha256": "de4d0113146209ae055fc8305da13d7f3c78faea8ee55575f9ab7614a4422fd9"
+  },
+  {
+    "path": "results/evidence/q32-stop/FD_CHECK.json",
+    "bytes": 2750,
+    "sha256": "9f43b6bbfda651a20c14ae21e6aff2970723dd19ba852377ee25494cab4082e8"
+  },
+  {
+    "path": "results/evidence/q32-stop/FIT_LINEARIZATION.json",
+    "bytes": 1178,
+    "sha256": "61d9d1d4c816c2875ee0f92f5f51c82a03e0ce4dee9cbd4e5dfb22567f19e553"
+  },
+  {
+    "path": "results/figures/.gitkeep",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "results/figures/q32-forward/FIT_historical_prediction_boundary.json",
+    "bytes": 326,
+    "sha256": "cb4e052f21af838106f6317f8faa26b1ba30929474ff035e46a4c9fdf671d4b7"
+  },
+  {
+    "path": "results/figures/q32-forward/FIT_historical_prediction_boundary.png",
+    "bytes": 67907,
+    "sha256": "72cb218993ae9d6ce75bd7fa3ad5b8951da83624262b14206ba67ff1e365deeb"
+  },
+  {
+    "path": "results/figures/q32-forward/MAIN8_Accuracy.json",
+    "bytes": 3714,
+    "sha256": "ca8eca8de512c6dc2858308c733f07d5fc1557bd1277b9905d1e7d114bd1c7b0"
+  },
+  {
+    "path": "results/figures/q32-forward/MAIN8_Accuracy.png",
+    "bytes": 67218,
+    "sha256": "50c74a1e1f07a14080a3c59e5a47904312796d033f377944f7e6f427069bd160"
+  },
+  {
+    "path": "results/figures/q32-forward/MAIN8_C32_comparison.json",
+    "bytes": 474,
+    "sha256": "7005328156c5b261475a2f1e8711044deda5ba83af34ff496b67b28309acdc00"
+  },
+  {
+    "path": "results/figures/q32-forward/MAIN8_C32_comparison.png",
+    "bytes": 93495,
+    "sha256": "b4741e4e9f5f15aa3542f191c07828dd1b9e4e03a2f400832bc3b0f7510efff9"
+  },
+  {
+    "path": "results/figures/q32-forward/MAIN8_G_margin_RMSE.json",
+    "bytes": 3714,
+    "sha256": "ca8eca8de512c6dc2858308c733f07d5fc1557bd1277b9905d1e7d114bd1c7b0"
+  },
+  {
+    "path": "results/figures/q32-forward/MAIN8_G_margin_RMSE.png",
+    "bytes": 63446,
+    "sha256": "e75befb63b861a984514a8b234dcc0209fbe79662fc94d3bdab004c065b4ad86"
+  },
+  {
+    "path": "results/figures/q32-forward/MAIN8_effect_dAcc.json",
+    "bytes": 1251,
+    "sha256": "bbd51eba1bef20bfaa9ae0cb68ad8810a1acd805ec2f4973d16e1796df17f19f"
+  },
+  {
+    "path": "results/figures/q32-forward/MAIN8_effect_dAcc.png",
+    "bytes": 34282,
+    "sha256": "6cd31586ab744643cefb61242d258c0155e46f0c0244a23caa2dfe684456dfce"
+  },
+  {
+    "path": "results/figures/q32-forward/MAIN8_effect_dAgree_G.json",
+    "bytes": 1251,
+    "sha256": "bbd51eba1bef20bfaa9ae0cb68ad8810a1acd805ec2f4973d16e1796df17f19f"
+  },
+  {
+    "path": "results/figures/q32-forward/MAIN8_effect_dAgree_G.png",
+    "bytes": 43951,
+    "sha256": "2de255daac1d4ec4247eebbf7669e19e468dbca6aeed0d905646ca2550457736"
+  },
+  {
+    "path": "results/figures/q32-forward/MAIN8_effect_r_G.json",
+    "bytes": 1251,
+    "sha256": "bbd51eba1bef20bfaa9ae0cb68ad8810a1acd805ec2f4973d16e1796df17f19f"
+  },
+  {
+    "path": "results/figures/q32-forward/MAIN8_effect_r_G.png",
+    "bytes": 32014,
+    "sha256": "a88adf42a084f57cee1cd6b0de507fdb63b72e5d0d14958cc1fdbe4e9a4abee2"
+  },
+  {
+    "path": "results/figures/q32-forward/MAIN8_effect_r_QA.json",
+    "bytes": 1251,
+    "sha256": "bbd51eba1bef20bfaa9ae0cb68ad8810a1acd805ec2f4973d16e1796df17f19f"
+  },
+  {
+    "path": "results/figures/q32-forward/MAIN8_effect_r_QA.png",
+    "bytes": 26488,
+    "sha256": "49b716259cf50cb05aafcae374eaa04040d7f5fc06455d79cc6365fb9318b6c9"
+  },
+  {
+    "path": "results/figures/q32-forward/MAIN8_group_risk_changes.json",
+    "bytes": 6909,
+    "sha256": "fa80b8a56dd2405b13c84d28b6b9c882db28255e346904a70082358d79721739"
+  },
+  {
+    "path": "results/figures/q32-forward/MAIN8_group_risk_changes.png",
+    "bytes": 190130,
+    "sha256": "aad50fd87f6252ae4975b330e4dc4926ea5f7afdb24e4cfb0023ce0890800c6e"
+  },
+  {
+    "path": "results/figures/q32-forward/VAL_Q_vs_A_C_P.json",
+    "bytes": 525,
+    "sha256": "a5d1f676994b0162d9b90711e765d59b4701be16e42ba62cd85bfc764433edb2"
+  },
+  {
+    "path": "results/figures/q32-forward/VAL_Q_vs_A_C_P.png",
+    "bytes": 60856,
+    "sha256": "6d6889485004422449c251c5cb5becfc8e358ef7d0adbec2351aaab2c30df71c"
+  },
+  {
+    "path": "results/figures/q32-forward/VAL_actual_response_ledger.json",
+    "bytes": 15480,
+    "sha256": "f791b380724b963c716002c9a37e336f75d3c528bdaeac671a5c719176b94a6d"
+  },
+  {
+    "path": "results/figures/q32-forward/VAL_actual_response_ledger.png",
+    "bytes": 58414,
+    "sha256": "4295ce292be57ed7b4fc832b2d9eb1c6d56f8213ac429d71c3537a5d639f40cb"
+  },
+  {
+    "path": "results/figures/q32-forward/VAL_centered_risk.json",
+    "bytes": 2431,
+    "sha256": "13fc204a2d045d08fe6b55d2d7f3a4869f89d004a849250d9e7f3b9a32df576e"
+  },
+  {
+    "path": "results/figures/q32-forward/VAL_centered_risk.png",
+    "bytes": 54286,
+    "sha256": "2a66aa43da3fb9a344825cfb5be2a988ff57927a19d40938eede43afdd2d6eb2"
+  },
+  {
+    "path": "results/figures/q32-forward/VAL_coordinate_and_cost.json",
+    "bytes": 2799,
+    "sha256": "76c74a89ca8e79a2e2a30c34509cce237f9d6d358dc69a2d2432d6ea15aa4045"
+  },
+  {
+    "path": "results/figures/q32-forward/VAL_coordinate_and_cost.png",
+    "bytes": 89992,
+    "sha256": "b92088eca923ba1d97fa482369dbf8849816c672063447c6bed2f292877e4684"
+  },
+  {
+    "path": "results/figures/q32-forward/VAL_paired_gain_vs_BASE.json",
+    "bytes": 15428,
+    "sha256": "530affaf663d10c41d26813901bbad9f902301f61901edfe8ee1d8463bb5aed5"
+  },
+  {
+    "path": "results/figures/q32-forward/VAL_paired_gain_vs_BASE.png",
+    "bytes": 68264,
+    "sha256": "90ad5b236e4fbcbe7ddfb80a2bbf7549e670070cc4e9868d43be0df61be02f77"
+  },
+  {
+    "path": "results/figures/q32-stop/05_real_fd_vs_autodiff.png",
+    "bytes": 77139,
+    "sha256": "259509a206c66a2de63d09e6b8eea030bb94dc2f403a4ae11fdc4dd7a8f891a3"
+  },
+  {
+    "path": "configs/experiments/latent-reward-channels-core-v2-validation.json",
+    "bytes": 1930,
+    "sha256": "8f04327149440331050369e5cff403a5eaf8bc642b79b05ff1fc360fed5b0bca"
+  },
+  {
+    "path": "configs/experiments/latent-reward-channels-final-core-proof-detail-audit.json",
+    "bytes": 1342,
+    "sha256": "0e202235525213c4a1af6ab2bfba1c39c61fa0819ed044e25594850d83293961"
+  },
+  {
+    "path": "configs/experiments/latent-reward-channels-framework-v5-task-observability.json",
+    "bytes": 1420,
+    "sha256": "06b67000dfa4faa393c91dd86cbc3ae10e2e85abea34d6edd9a55c8686cf6361"
+  },
+  {
+    "path": "configs/experiments/latent-reward-channels-initial-audit.json",
+    "bytes": 1656,
+    "sha256": "92d5080f46d1330481f8e7a6d5fe0adae63d1f004248351b7cebe2394735a071"
+  },
+  {
+    "path": "configs/experiments/latent-reward-channels-paper-framework-v4-validation.json",
+    "bytes": 1813,
+    "sha256": "513cd347941d88d4feb20a81a2f2bdc6d98e425d17add34e5968fa9574f602bf"
+  },
+  {
+    "path": "configs/experiments/latent-reward-channels-r2-theory-refinement.json",
+    "bytes": 2400,
+    "sha256": "733bc655393636668f85035ec04b10e924e4ab64f92ce82e0009722e37c491ca"
+  },
+  {
+    "path": "configs/experiments/latent-reward-channels-r31-task-boundaries.json",
+    "bytes": 1616,
+    "sha256": "c3a6268eb2b7010c9f626d5b6e5f42467d8405ecb9f00278d9bcdd64d2782b6f"
+  },
+  {
+    "path": "configs/experiments/latent-reward-channels-r32-fixed-validation.json",
+    "bytes": 1577,
+    "sha256": "d8ad9ee490df64b54884d6bbd7684ea500c86df41bb776d47a97c6157c47363c"
+  },
+  {
+    "path": "configs/experiments/latent-reward-channels-r33-channel-structure.json",
+    "bytes": 1699,
+    "sha256": "707480cb7cc4af6d118848573dc1d8781e14ed13498b943d8afb55d1f1c0d0c2"
+  },
+  {
+    "path": "configs/experiments/latent-reward-channels-r34-feedback-task-channel.json",
+    "bytes": 1559,
+    "sha256": "946c5b1f9c40cf951ad0fac925eba05b9468081a4288c32c5996fc893b9f9eaa"
+  },
+  {
+    "path": "configs/experiments/latent-reward-channels-r35-task-sensitive-validation.json",
+    "bytes": 1733,
+    "sha256": "1d7fc1e2cadca6742def43b5a0dca4f2791a045041b005a2e637fd376a7b4895"
+  },
+  {
+    "path": "configs/experiments/latent-reward-channels-r36-structural-statistical-repair.json",
+    "bytes": 1807,
+    "sha256": "43d9419bbb06cb89a10c1cc0a7feffd2d1c55c4ea4b3f2935367c4ab6f2a7755"
+  },
+  {
+    "path": "configs/experiments/latent-reward-channels-system-v3-validation.json",
+    "bytes": 1774,
+    "sha256": "7681d8e2e57d7398b64980c00698a35d9ba923c46c247e2ae4722f1ed75f4322"
+  },
+  {
+    "path": "configs/experiments/latentatlas-anchor-budget-replication.json",
+    "bytes": 1760,
+    "sha256": "357dbd11e525919f6c0db6489b92f2ed6a08627cf0bdae973e5ea7a7469ac420"
+  },
+  {
+    "path": "configs/experiments/latentatlas-anchor-feasibility-pilot.json",
+    "bytes": 1464,
+    "sha256": "80c1237dc3110f5e66e010e9eaef8ef925822993be1fa17df75cac94389a7491"
+  },
+  {
+    "path": "configs/experiments/latentatlas-c0-mini-v1-direct-shared-reader.json",
+    "bytes": 2912,
+    "sha256": "89119d49ab7fcee2c0befe5b7ac0848be563292bc97d44dcf6d65508422371fb"
+  },
+  {
+    "path": "configs/experiments/latentatlas-c1-mini-loo-shared-reader.json",
+    "bytes": 2993,
+    "sha256": "c02fd40f9e51f920984f5b0831ae63fd8ad5284bf3372d9b0d1e054225c92500"
+  },
+  {
+    "path": "configs/experiments/latentatlas-c1r-fresh-authority-audit.json",
+    "bytes": 1777,
+    "sha256": "6f03c392c803379c1411e178bbde78fd3be0dfd1a6091d5761f7fce13576aefc"
+  },
+  {
+    "path": "configs/experiments/latentatlas-c2-dev-generic-dg-baselines.json",
+    "bytes": 2321,
+    "sha256": "a38e01357201ed2a3ba30d3ddc6eea5e66a41fc6962a0dd9ddb97d134161a712"
+  },
+  {
+    "path": "configs/experiments/latentatlas-cvjdd0-cross-vae-joint-denoising-anomaly.json",
+    "bytes": 2561,
+    "sha256": "d73758d9f87a3c4f78c25e6725f096d455ea07874dbc0296ee11717c725fb759"
+  },
+  {
+    "path": "configs/experiments/latentatlas-dcae-q32-lowcost-main8.json",
+    "bytes": 2165,
+    "sha256": "cf35c2b580066295dd5cbcfb1e9c8e1657482098198ac24d460ba0d2a9dc8d35"
+  },
+  {
+    "path": "configs/experiments/latentatlas-dina-dataset-runtime-diagnostic.json",
+    "bytes": 1392,
+    "sha256": "c7c08259d72f9411267a6d385755b5e4d414453f86c603d783fe46c811694d44"
+  },
+  {
+    "path": "configs/experiments/latentatlas-dina-dcae-ab-budget-response-4k.json",
+    "bytes": 2014,
+    "sha256": "349c438a2a6853ded1de7158f64b27d37046f14c37a1041f35669f8320a7f653"
+  },
+  {
+    "path": "configs/experiments/latentatlas-dina-dcae-fixed-strong-bridge-2k.json",
+    "bytes": 2543,
+    "sha256": "2ccb5d0deb230ac9213f96d4ee404f7f64950ea9207f785f1bad9d43bdee0e28"
+  },
+  {
+    "path": "configs/experiments/latentatlas-dina-dcae-roundtrip-gap-localization.json",
+    "bytes": 2169,
+    "sha256": "350ecdef4e41e1fa800e79734bc84e5fedfac8917447605b112fa0aa727f7c76"
+  },
+  {
+    "path": "configs/experiments/latentatlas-dina-dcae-strong-anchor64-vs256-fixed2k-newgroups.json",
+    "bytes": 2932,
+    "sha256": "22d1a2bbee6c7b21eb2391366b839da8781c60f81219162b64d2752b2fc48df5"
+  },
+  {
+    "path": "configs/experiments/latentatlas-dina-dcae-strong-bridge-eval-domain-t1-localization.json",
+    "bytes": 2560,
+    "sha256": "ca0aed49772c1509b1fa84f49112c2a1a4d6e2fe47a84b0acd176634deff52e7"
+  },
+  {
+    "path": "configs/experiments/latentatlas-dina-dcae-target-spatial-factorial.json",
+    "bytes": 2508,
+    "sha256": "f65b0a57c48f922fe747c4e1dd54332da8cd089f31ce8c6969d6d9babada506d"
+  },
+  {
+    "path": "configs/experiments/latentatlas-dina-reg1-functional-registration.json",
+    "bytes": 2684,
+    "sha256": "dfa45279a399bce213adccbf01406daca7622dd60df0c5f80bc1190b01fc61d7"
+  },
+  {
+    "path": "configs/experiments/latentatlas-dina-shift0-dataset-runtime-localization.json",
+    "bytes": 2355,
+    "sha256": "84c687a5db6a282454752f9f0f473dfb984a03e7bbfde10e4de88dbcb39e5205"
+  },
+  {
+    "path": "configs/experiments/latentatlas-dina-src0-source-domain-parity.json",
+    "bytes": 2857,
+    "sha256": "53d257f9656d3e960edc19067b65fbe9a8417e381a35874ef71b0e7dad616c38"
+  },
+  {
+    "path": "configs/experiments/latentatlas-dina-unseen-encoder-fixed-recipe-portability.json",
+    "bytes": 2662,
+    "sha256": "a7ac489d45f64fb8cb0c06d1d2b72151d824752fcfd76eee07c78843692d1fa1"
+  },
+  {
+    "path": "configs/experiments/latentatlas-dina-vae2-dcae-recipe-portability.json",
+    "bytes": 1847,
+    "sha256": "9542facd004edc12cf236c5572e201d41c74f4f5d4596e93e145496dc091edd3"
+  },
+  {
+    "path": "configs/experiments/latentatlas-dina0-r1-native-qualification.json",
+    "bytes": 2105,
+    "sha256": "c0fa2e59de14632704a6488d94d0358f91bface5ce52ae7d902113c38324d4b0"
+  },
+  {
+    "path": "configs/experiments/latentatlas-dina1-external-frozen-reward-functional-registration.json",
+    "bytes": 3486,
+    "sha256": "c29563058acbf8b863bc711acddc15105730b6070316480228c91e0fa3aee531"
+  },
+  {
+    "path": "configs/experiments/latentatlas-dino-local-patch-probe.json",
+    "bytes": 1957,
+    "sha256": "14aed19f52d08c4a916a979d00c56a14ccc8b499b8c04191d513ba54c5229b8e"
+  },
+  {
+    "path": "configs/experiments/latentatlas-fra0-public-fresh-coherence-authority-audit.json",
+    "bytes": 6619,
+    "sha256": "d82b0b03b13d1d9d9e33aee23ed7112f5bce9186c8f9c3fb18f9f5107c897181"
+  },
+  {
+    "path": "configs/experiments/latentatlas-fra0r-provenance-recovery.json",
+    "bytes": 2367,
+    "sha256": "f971138e83242928ee222fe87f8a3d7a7adc92b8c1287d008ff34a1245e25254"
+  },
+  {
+    "path": "configs/experiments/latentatlas-frozen-candidate-forward-audit.json",
+    "bytes": 2203,
+    "sha256": "1fa320ce330e553e4cb4b2e4e9ca5127a246ce0d3ec9ed342f09fb7476dd1003"
+  },
+  {
+    "path": "configs/experiments/latentatlas-frozen-projector-mechanism-and-readout.json",
+    "bytes": 2720,
+    "sha256": "140a78f79eeb9c99c467ca088dd7f00a27dc226eaa9b7eb440f1f47b03bc5df4"
+  },
+  {
+    "path": "configs/experiments/latentatlas-g2-minimal-reward-local-geometry.json",
+    "bytes": 3042,
+    "sha256": "e75bf13e5e50474122721ee185db54e888b3a724e0c42da797c1b23736e7f9d1"
+  },
+  {
+    "path": "configs/experiments/latentatlas-g2-reward-stratified-anchor.json",
+    "bytes": 2897,
+    "sha256": "b6f087216a7c6728996fcf96cfa30d9ac092d79bb59da348d6a223e686df7fb2"
+  },
+  {
+    "path": "configs/experiments/latentatlas-gfi1-group-frozen-interface-registration.json",
+    "bytes": 2399,
+    "sha256": "f04ece0279b97ccd1ebb45bbbfe45a355a4928347dede0eefd8a315e9be13885"
+  },
+  {
+    "path": "configs/experiments/latentatlas-glc0-group-latent-critic-native-qualification.json",
+    "bytes": 1546,
+    "sha256": "0a91beaba1318ba36fe34b0607f32d5cf12fc4dee4f479fe359d8befc68d1b52"
+  },
+  {
+    "path": "configs/experiments/latentatlas-hpsv3-frozen-interface-reuse.json",
+    "bytes": 2263,
+    "sha256": "831f7aa5ba9afe51a8a2deaa89d86b154911e24213ebbf3f9a135efa0ca5e200"
+  },
+  {
+    "path": "configs/experiments/latentatlas-o1-independent-clean-latent-oracle-smoke.json",
+    "bytes": 2601,
+    "sha256": "d310f7c444701a4deb3b4ab90f3c2ae33a7e8423eeecb0e968dabaf1d14ed105"
+  },
+  {
+    "path": "configs/experiments/latentatlas-o1-sd-shuffle-control-repair.json",
+    "bytes": 2270,
+    "sha256": "5688616080ad9f40d0d13873d0846c0680460b2a648e5ae47d9c24a2dde0f367"
+  },
+  {
+    "path": "configs/experiments/latentatlas-o1-v1-lightweight-spatial-oracle.json",
+    "bytes": 3042,
+    "sha256": "0750cda52c46ac1c341bf7de0eed858b40294fdddb8581d5ac9ba82566362100"
+  },
+  {
+    "path": "configs/experiments/latentatlas-reward-data-preflight-g0.json",
+    "bytes": 2124,
+    "sha256": "a3b3d951826cb5b4d8fb87708dea6f24ac1362cb2b12fc792743fb8470652535"
+  },
+  {
+    "path": "configs/experiments/latentatlas-reward-data-preflight-g01.json",
+    "bytes": 2129,
+    "sha256": "60f18edfff313d2617a3170fce272899297285e1eb23c94a140cfae5e73f013b"
+  },
+  {
+    "path": "configs/experiments/latentatlas-reward-sufficiency-g1-formal.json",
+    "bytes": 2997,
+    "sha256": "4c4325ab239038fb150fef419ab8916660aa88b453f6a4f4a4bdfcfa011fd558"
+  },
+  {
+    "path": "configs/experiments/latentatlas-reward-sufficiency-g1-minimal-sd-smoke.json",
+    "bytes": 2382,
+    "sha256": "4cc8388765cecb97c352975a6f93508e0d34ee38c9d2181783283c632d1618f9"
+  },
+  {
+    "path": "configs/experiments/latentatlas-reward-sufficiency-g1-true-smoke.json",
+    "bytes": 2684,
+    "sha256": "af4bbcf8af1d90708e24c07698d58768d999e93a342ecc15e9b27626c5b47125"
+  },
+  {
+    "path": "configs/experiments/latentatlas-reward-v2-r0r1-oip-authority-oracle.json",
+    "bytes": 3148,
+    "sha256": "4a9af74071ea4fd713e07d00c3c2abeb2f589969274166607857f41da46326f9"
+  },
+  {
+    "path": "configs/experiments/latentatlas-reward-v2-r1v-frozen-clip-oracle.json",
+    "bytes": 3516,
+    "sha256": "144b1b49710a3543241e04273338c9dd2f7bbe242bd291e642dca25daa2e111a"
+  },
+  {
+    "path": "configs/experiments/latentatlas-reward-v2-r2p0-projector-only-preflight.json",
+    "bytes": 3868,
+    "sha256": "3133ad4d37c7f26782a3c6545dfcaffba726840fdea485918d1f6aec0606fa07"
+  },
+  {
+    "path": "configs/experiments/latentatlas-rgen1-reward-external-generalization.json",
+    "bytes": 3593,
+    "sha256": "72f7c051d80c2f5df2c4e5e9f516432d71d7aecef6fae6b1a4c850d030d7a893"
+  },
+  {
+    "path": "configs/experiments/latentatlas-rpj1-reward-projector-dev.json",
+    "bytes": 2023,
+    "sha256": "df48fd2813e4523ff3226a127cbe428bf1fc853fd0cc7f4888a1807d2b2e6323"
+  },
+  {
+    "path": "configs/experiments/latentatlas-rrv1-cache-preflight.json",
+    "bytes": 1626,
+    "sha256": "dce8138d547b6c18cf949f2474ad11a91b3fd6f92119e014267ef8a0aa8efa83"
+  },
+  {
+    "path": "configs/experiments/latentatlas-rrv1-frozen-latent-reward-readout.json",
+    "bytes": 1905,
+    "sha256": "fdf6105a3310178fcebad787bb06b427f4cb6405d2a9954cbd7101a06af1ac8e"
+  },
+  {
+    "path": "configs/experiments/latentatlas-semantic-appearance-intervention.json",
+    "bytes": 2073,
+    "sha256": "4e227e0e8fbd67bb3cb9639d25b229ca12b5849e0dca3f7e63146e4923e44693"
+  },
+  {
+    "path": "configs/experiments/latentatlas-shared-geometry-explanation.json",
+    "bytes": 2160,
+    "sha256": "f2b82fb415994293256808587fe969bbaa5d75326bc8c24b007468e8f61d4ff7"
+  },
+  {
+    "path": "configs/experiments/latentatlas-submission-evidence-20261009.json",
+    "bytes": 2488,
+    "sha256": "0f355d2c181af8b91f57f845a805ec51a5bec4a230c53b768d4c4055e8dd01f4"
+  },
+  {
+    "path": "configs/experiments/latentatlas-u4-development-final-experiment-report.json",
+    "bytes": 4521,
+    "sha256": "72d4a03563989e238d068c27fcf9314726d180b062ecadb61a99c81cc22c0625"
+  },
+  {
+    "path": "configs/experiments/latentatlas-u4a2-reward-free-train-closure-localization.json",
+    "bytes": 3435,
+    "sha256": "6651ebb4c42b84a7ec95adb2954a5f8eced05d8fe60139bb1e9ae96b7f9a7f71"
+  },
+  {
+    "path": "configs/experiments/latentatlas-u4a3-reward-free-k64-parameterization-factorization.json",
+    "bytes": 3527,
+    "sha256": "7ade7f03ef3c9723be0b9c3e8c1bb3c498dfe930d447367d6e8a563dc79def40"
+  },
+  {
+    "path": "configs/experiments/latentatlas-u4a4-reward-free-p4096-crossfit-correspondence-specificity.json",
+    "bytes": 4809,
+    "sha256": "24c795430aca055a6ecfa2d5c3055384b87e806134d63092a102fe91d0beb1b2"
+  },
+  {
+    "path": "configs/experiments/latentatlas-u4a5-reference-u-necessity.json",
+    "bytes": 2160,
+    "sha256": "fa42029393057e5ed49b36b4128852178de4bb338361dc53d5ebde88a77f9eda"
+  },
+  {
+    "path": "configs/experiments/latentatlas-u4a6d-deterministic-consensus-u.json",
+    "bytes": 1938,
+    "sha256": "d694ce0683ae860a457f59286109415e7fc5947db5945324423c981de99e5ad6"
+  },
+  {
+    "path": "configs/experiments/latentatlas-u4a6prob-distributional-consensus-u.json",
+    "bytes": 1957,
+    "sha256": "60ffc92e0682ef68da7fff3c78774df7b8a500c99cca1fe9d342ebf38c9579e7"
+  },
+  {
+    "path": "configs/experiments/latentatlas-u4b0-fresh-functional-authority-gate.json",
+    "bytes": 2296,
+    "sha256": "c2ce0009091583c2766bfc37d7cb9c6ee46e0771db189b51adb47ffdbbf5db2b"
+  },
+  {
+    "path": "configs/experiments/latentatlas-u4b1-284-exploratory-fresh-functional-specificity.json",
+    "bytes": 2592,
+    "sha256": "effe8de5cc90ee4e6a1fe99af3502ff57c552d2a58b4a0191702c06e5ff9ed52"
+  },
+  {
+    "path": "configs/experiments/latentatlas-u4b1d0-source-head-reference-adequacy.json",
+    "bytes": 2392,
+    "sha256": "21e9f0e3117834ee67230304b4e61e0a19405e454b45c8de125bb5c48130b608"
+  },
+  {
+    "path": "configs/experiments/latentatlas-u4b1d1-oip-source-reader-restoration.json",
+    "bytes": 3582,
+    "sha256": "372567cc13c110b54b3b2055bb439be9e2b50208d5d592d0d4ee2e3de615b195"
+  },
+  {
+    "path": "configs/experiments/latentatlas-u4b1d1p-oip-prompt-observability.json",
+    "bytes": 2033,
+    "sha256": "a1bc2fb7602bdac458be1e9f9338e09478e06ea08409b8247b36c9f1c63ee8fb"
+  },
+  {
+    "path": "configs/experiments/latentatlas-u4bd1-frozen-head-function-preservation.json",
+    "bytes": 3220,
+    "sha256": "0914af961b88f083b5e24500a5a6294bac9ab5595896ca3334eaa52aa3f184bd"
+  },
+  {
+    "path": "configs/experiments/latentatlas-u5-proj0-frozen-b3-structural-projector.json",
+    "bytes": 3099,
+    "sha256": "2bdbc76d9d1d6267b3df5fb537eacb749bc3f2b371e82f2a7733420921b91c00"
+  },
+  {
+    "path": "configs/experiments/latentatlas-u5pb0-target-free-predictive-bottleneck.json",
+    "bytes": 2904,
+    "sha256": "f81e7c4b328396f5c412599f346129f1d4d765cb9887b11f74608dfc065bf4d4"
+  },
+  {
+    "path": "configs/experiments/latentatlas-u5pb1-predictive-u-capacity-spatial-topology.json",
+    "bytes": 2657,
+    "sha256": "4c47df3ccd41216db243a147d8f2e1329319ba625f60a8613b9f3fcd172ff941"
+  },
+  {
+    "path": "configs/experiments/latentatlas-u5pb1r1-residual-information-localization.json",
+    "bytes": 2545,
+    "sha256": "13e4c94e901ae6aab80d4fb4a4fc439339ffa98fb3fbd3a4b98adbc9d6049c22"
+  },
+  {
+    "path": "configs/experiments/latentatlas-u6-rcu0-reward-compatible-u-feasibility.json",
+    "bytes": 2188,
+    "sha256": "1f7b707bada7a663f3d8d3c3ed884e06ede1f4648c32289db441903e12dd6fc0"
+  },
+  {
+    "path": "configs/experiments/latentatlas-u7-reconstructed-anchor-onboarding.json",
+    "bytes": 2405,
+    "sha256": "b5ef7441ffebf7fef179a3a595fa1eef16eda904ad98b2e628693983224ee7e6"
+  },
+  {
+    "path": "configs/experiments/rpj2-projector-noncollapse-anchor-mechanism.json",
+    "bytes": 2468,
+    "sha256": "fc9aa3fba1689b45bbbb5438028739d527453dfb9454abcd58b96a3b04449887"
+  },
+  {
+    "path": "configs/experiments/rpj3-anchor-reward-instance-specificity-localization.json",
+    "bytes": 2252,
+    "sha256": "52847ea0c54a115711c366f2fbc1cfc87fca083d0e958e3d3b19333699190514"
+  },
+  {
+    "path": "configs/experiments/rpj4-true-unseen-sd35-anchor-confirmation.json",
+    "bytes": 2561,
+    "sha256": "d8cf8ccf83e85e090f7924467aa3edf1bf65555d4ad84635eece001974c3c76d"
+  },
+  {
+    "path": "configs/q32-forward-original-execution-config.json",
+    "bytes": 7443,
+    "sha256": "682f930c2a083fa241c4b4448d9febda13fa44ae57daacb837f5d55561e5bfe6"
+  },
+  {
+    "path": "docs/source-snapshots/r18-method-mvp-20261010.txt",
+    "bytes": 4825,
+    "sha256": "e28766915d6da5df29bb3f96d3f323eb94de41104296869466919bec2d6a9713"
+  },
+  {
+    "path": "docs/reports/r18-method-mvp-20261010-final.txt",
+    "bytes": 11643,
+    "sha256": "c646e9451c0275f857185c6d7f97f9394a62476ce818851a5b19712e63a79de0"
+  },
+  {
+    "path": "configs/experiments/r18-method-mvp-20261010.json",
+    "bytes": 2337,
+    "sha256": "a9dd09029c586847170cf63e294e007075c7b0e826c0ee32d242bd14e75656c8"
+  },
+  {
+    "path": "docs/source-snapshots/r18-dina-real-visual-pilot-20261010.txt",
+    "bytes": 5890,
+    "sha256": "1b0250a300833b35f6531a84e5032ff7d29ee8b130e5c0f254c6cb9df4a01793"
+  },
+  {
+    "path": "docs/reports/r18-dina-real-visual-pilot-20261010-final.txt",
+    "bytes": 13496,
+    "sha256": "1151b15ba14eae4487e5a01683d60a56848a7f8a402379d3e2c44d3e5e83724d"
+  },
+  {
+    "path": "configs/experiments/r18-dina-real-visual-pilot-20261010.json",
+    "bytes": 2711,
+    "sha256": "e35b4fa62e7884d1000e77f285c0c80253066d08baa14a08ab2634f47a06ffe8"
+  },
+  {
+    "path": "results/evidence/r18-visual/summary.json",
+    "bytes": 2086,
+    "sha256": "d37631cfc32a06606ff95a60b940115fe0e23b426c422f4b22ce2d2fdd0c7b50"
+  },
+  {
+    "path": "results/evidence/r18-visual/effects.json",
+    "bytes": 57539,
+    "sha256": "423d87c1650d14e9c338212a902ebe6e5cbc9d040531439518ecfbe39025a092"
+  },
+  {
+    "path": "results/evidence/r18-visual/costs.json",
+    "bytes": 2167,
+    "sha256": "155aba3fe21e537d805c05987bd2e6ba04f79b885b71eaa34bcecc1e7aebd2dd"
+  },
+  {
+    "path": "results/evidence/r18-visual/group-metrics.csv",
+    "bytes": 211582,
+    "sha256": "62f6748e89723b3ab2b0d315090af43c134c78ed1a647328ba94dbad378c1816"
+  },
+  {
+    "path": "results/evidence/r18-visual/probability-metrics.csv",
+    "bytes": 1841,
+    "sha256": "1fa2bcef9bd873fe8f0d1ce5d56c57474e7bde9b652f764bc52aab1bd173ca11"
+  },
+  {
+    "path": "results/evidence/r18-visual/PHOTO_VERIFICATION.json",
+    "bytes": 357,
+    "sha256": "af767a153bbd93e28956faf4b9c176b1666590b65f069482d1b3b1274c807211"
+  },
+  {
+    "path": "docs/reports/r18-visual-image-recovery.txt",
+    "bytes": 3513,
+    "sha256": "67ee340d9a28450d75492f75d1406f587bc4aa4b64d22925ec98fbbfcc57fa1f"
+  },
+  {
+    "path": "results/evidence/r18-mvp/final-result-summary.json",
+    "bytes": 844,
+    "sha256": "a2820ed83570be846e8c6f50b0c2a6c3724160a629d9bb9bfa545c8945767126"
+  },
+  {
+    "path": "results/figures/r18-visual/paired-selection.png",
+    "bytes": 43900,
+    "sha256": "a541b862530188b2f91e1852de12ffabad8f8dd111e5cc6bdaf56d969b75a17a"
+  },
+  {
+    "path": "results/figures/r18-visual/ablation.png",
+    "bytes": 60804,
+    "sha256": "d9b624e7671aad8a9dcc026452ae275d27254f71c1a3fd2589897ebe2c36524a"
+  },
+  {
+    "path": "results/figures/r18-visual/quality-cost.png",
+    "bytes": 63404,
+    "sha256": "4b6044c675304be2cf3f569ed3aaeccc3cb02c085a03030b5fb12462eb3dddb4"
+  },
+  {
+    "path": "results/figures/r18-visual/numerical-cases.png",
+    "bytes": 87009,
+    "sha256": "f9c46dabb27801b9643d7dee3cd40291d97e9521eec9850b02c52dfa7d44b454"
+  },
+  {
+    "path": "results/figures/r18-visual/photo-cases.png",
+    "bytes": 2070606,
+    "sha256": "8d6e7236f9a9211838f58282ed8fc8029eb09c0226243ebb8d8d37397e9cc5d7"
+  },
+  {
+    "path": "results/r18_source_manifest.json",
+    "bytes": 3869,
+    "sha256": "0b9734a124c7089cdcdfbeda9b38e7ec67f5d152d54d20aaa273abcc587fde52"
+  }
+]
