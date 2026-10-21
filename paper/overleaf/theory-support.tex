@@ -1,0 +1,108 @@
+\section{Signal--Estimation Threshold for Frozen Selection}
+\label{sec:signalproof}
+This supporting model connects coordinate-only Anchor learning to a strict improvement in frozen selection. The complete target is $T(X)=BW+dH+GK\in\R^D$, with source $X=(W,U_0,V_0,\ldots,U_r,V_r)$. Here $W\sim N(0,I_k)$, each $U_\ell$ is uniform on $\{-1,+1\}$, and each $V_\ell\sim N(0,1)$. All these variables are independent; $H=U_0V_0$ and $K_\ell=U_\ell V_\ell$. Consequently $(W,H,K)$ is standard Gaussian, while $H$ and $K$ are nonlinear functions of the original source. Under the simultaneous inversion $X\mapsto-X$, $W$ changes sign and $H,K$ remain unchanged.
+
+\subsection{Learning and Evaluation Objects}
+The matrices $B\in\R^{D\times k}$, $G\in\R^{D\times r}$ and vector $d\in\R^D$ are fixed and unknown. For $n$ iid images, the learner observes $(X_i,T(X_i))$ and fits
+\begin{equation}
+ \widehat C=\arg\min_C\sum_{i=1}^n\|T(X_i)-C\phi(X_i)\|^2,
+ \qquad \phi=(W,H),
+\end{equation}
+with $p=k+1$ features and population coefficient $C_*=[B\ d]$. The zero mean is part of the model, so no intercept is estimated. The comparison class contains all affine maps $A(X)=MX+t$ on the full source. Pairwise score differences eliminate their intercepts.
+
+Fix finitely many functions $F_j(z)=a_j^\top z+b_j$ before fitting. They read the complete $D$-dimensional output and are excluded from feature construction, fitting, and selection. On a fresh iid pair, independent of the Anchor bank, define $S_{j,i}=F_j(T(X_i))-b_j$ and
+\begin{equation}
+ R_j(P)=\E[\max(S_{j,1},S_{j,2})-S_{j,\operatorname{sel}(P)}].
+\end{equation}
+A predicted tie selects uniformly. Different functions share one fitted interface and the same candidate pair. Risks below condition on the fitted bank.
+
+Write $\beta_j=B^\top a_j$, $\tau_j=a_j^\top d$, $\nu_j=G^\top a_j$, and
+\begin{align}
+ v_j&=\|\beta_j\|^2,&c_j&=\tau_j^2,&q_j&=\|\nu_j\|^2,\\
+ \theta_j&=(\beta_j,\tau_j),&\widehat\theta_j&=\widehat C^\top a_j.
+\end{align}
+Here $c_j$ is captured functional signal, $q_j$ is omitted signal, and $e_j^2=\|\widehat\theta_j-\theta_j\|^2$ is estimation error. Omitted signal is a deterministic part of the true source-to-target relation, not added label noise. It is independent of the chosen features and therefore acts as regression noise for this learner.
+
+\subsection{Affine Functional Floor}
+Fix a function and omit its index. Native score $S=\beta^\top W+\tau H+\nu^\top K$ is Gaussian with variance $\sigma^2=v+c+q$. For any predicted score difference $D$, with $\operatorname{sgn}(0)=0$,
+\begin{equation}
+ \E S_{\operatorname{sel}}=\tfrac12\E[\Delta S\operatorname{sgn}(D)],
+ \qquad \E\max(S_1,S_2)=\frac{\sigma}{\sqrt\pi}.
+ \label{eq:supportselected}
+\end{equation}
+For an affine interface, $D$ is linear in $X_1-X_2$. Inverting both sources preserves their joint distribution and changes $D$ to $-D$, while leaving $\Delta H,\Delta K$ unchanged. Thus
+\begin{equation}
+ \E[(\tau\Delta H+\nu^\top\Delta K)\operatorname{sgn}(D)]=0.
+\end{equation}
+It follows that
+\begin{equation}
+ \E S_{\operatorname{sel}(A)}
+ \le\tfrac12\E|\beta^\top\Delta W|=\frac{\sqrt v}{\sqrt\pi}.
+\end{equation}
+The same full-output interface $A_0(X)=BW$ attains equality for every function, including $v=0$. Hence
+\begin{equation}
+ R_j(A)\ge R_j(A_0)
+ =\frac{\sqrt{v_j+c_j+q_j}-\sqrt{v_j}}{\sqrt\pi}.
+ \label{eq:affinefloor}
+\end{equation}
+This establishes functional optimality directly, allowing the affine comparator to read every original source coordinate.
+
+\subsection{Exact Gain and Sharp Radius}
+Conditional on the bank, $\widehat\theta$ is fixed. For $\widehat\theta\ne0$, the joint Gaussian law of the true and predicted differences gives
+\begin{equation}
+ \E[\Delta S\mid\Delta\widehat S]
+ =\frac{\theta^\top\widehat\theta}{\|\widehat\theta\|^2}\Delta\widehat S.
+\end{equation}
+Using $\E|\Delta\widehat S|=2\|\widehat\theta\|/\sqrt\pi$ in Eq.~\eqref{eq:supportselected} yields
+\begin{equation}
+ R(A_0)-R(\widehat P)
+ =\frac{\theta^\top\widehat\theta/\|\widehat\theta\|-\sqrt v}{\sqrt\pi}.
+ \label{eq:exactsupportgain}
+\end{equation}
+For $\widehat\theta=0$, its selected Native score has expectation zero, which defines the corresponding extension of this expression.
+
+Let $s=\|\theta\|=\sqrt{v+c}$ and $e=\|\widehat\theta-\theta\|<s$. For $u=\widehat\theta/\|\widehat\theta\|$, the identity
+$2\theta^\top\widehat\theta=s^2+\|\widehat\theta\|^2-e^2>0$
+fixes the sign. Orthogonal projection gives
+\begin{equation}
+ s^2-(\theta^\top u)^2
+ =\|\theta-(\theta^\top u)u\|^2\le e^2.
+\end{equation}
+Therefore $\theta^\top u\ge\sqrt{v+c-e^2}$. Combining this with Eqs.~\eqref{eq:affinefloor}--\eqref{eq:exactsupportgain} proves the main-paper proposition whenever $e^2<c$.
+
+For sharpness, set $\widehat\theta=(\beta,0)$. Its squared error is exactly $c$ and its prediction equals the optimal affine score, giving zero gain. When $\beta=0$, both predictions are ties. Thus a strict guarantee based only on this error radius cannot extend to $e^2=c$. Individual estimates with larger error can still benefit if their direction is favorable. For $p\ge2$, the lower envelope is attained by a tangent ray to the error ball; for $p=1$, the interior envelope need not be attained, while the threshold argument remains valid.
+
+\subsection{Finite-Image Guarantee for One Shared Interface}
+Let $Z\in\R^{n\times p}$ contain the iid Gaussian feature rows. Projecting the coordinate OLS solution onto any fixed $a_j$ gives
+\begin{equation}
+ \widehat\theta_j-\theta_j=(Z^\top Z)^{-1}Z^\top\varepsilon_j,
+ \qquad \varepsilon_j\mid Z\sim N(0,q_j I_n).
+\end{equation}
+The errors for different functions may be correlated. Conditional on $Z$,
+$\E[e_j^2\mid Z]=q_j\operatorname{tr}((Z^\top Z)^{-1})$.
+To compute its expectation, partition $Z=(z_1,Z_{-1})$. The Schur complement gives
+\begin{equation}
+ [(Z^\top Z)^{-1}]_{11}
+ =[z_1^\top(I-P_{Z_{-1}})z_1]^{-1}.
+\end{equation}
+The denominator is conditionally $\chi^2_{n-p+1}$. Integrating its density gives $\E[1/\chi^2_m]=1/(m-2)$ for $m>2$. Column symmetry then yields, for $n>p+1$,
+\begin{equation}
+ \E e_j^2=\frac{p q_j}{n-p-1}.
+\end{equation}
+For $c_j>0$, $0<\alpha<1$, Markov's inequality and a union bound imply
+\begin{equation}
+ \Pr\{\exists j:e_j^2>\alpha c_j\}
+ \le\frac{p}{\alpha(n-p-1)}\sum_{j=1}^J\frac{q_j}{c_j}.
+ \label{eq:sharedprob}
+\end{equation}
+If this bound is at most $\delta$, one coordinate-trained interface satisfies, with Anchor-bank probability at least $1-\delta$,
+\begin{equation}
+ R_j(A)-R_j(\widehat P)\ge
+ \frac{\sqrt{v_j+(1-\alpha)c_j}-\sqrt{v_j}}{\sqrt\pi}>0
+\end{equation}
+for every affine $A$ and every fixed function $j$. The independent sample count is the number of images. The guarantee concerns simultaneous expected risks; it does not require all functions to improve on the same individual pair.
+
+For a nonempty example, take $B=I_2$, $d=(1,1)^\top$, $G=0.1I_2$, and the two coordinate readouts. Then $p=3$, $v_j=c_j=1$, $q_j=.01$. With $n=64$ and $\alpha=1/2$, Eq.~\eqref{eq:sharedprob} is $.002$, and each risk improvement is at least $(\sqrt{1.5}-1)/\sqrt\pi\approx.1268$. These values describe the analytic model.
+
+\subsection{Scope of the Supporting Model}
+The result isolates a precise tradeoff: useful nonlinear signal can exceed the cost of estimating its complete-output coefficients. The prespecified feature $H$ makes the learning problem explicit; jointly learning such a feature and its readout requires additional analysis. The finite-sample bound uses iid images and fresh iid pairs, whereas the empirical protocol retains its actual prompt groups and repeated noise streams. Linear frozen readouts are a model condition. Applying the gain formula to nonlinear, quantized DiNa would require controlling the score approximation on all relevant deployed outputs. The present paper uses direct frozen-model evaluation for those outcomes. These distinctions specify how the support result informs the experiments without substituting its model parameters for measured VAE quantities.
