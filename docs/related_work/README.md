@@ -1,6 +1,6 @@
 # Related Work / 相关文献与科研分析
 
-核查日期：2026-10-15。沿用本仓既有入口；本轮重点整理六篇文献，保留原有 DC-AE 组件条目，共七篇、每篇一个规范入口。[BibTeX](references.bib) · [原文核查、版本差异与内部证据定位](source_audit.md)。本页是文献分析，不执行或改写实验，也不证明研究问题已无相关前作。
+六篇重点文献核查于2026-10-15；2026-10-21补充PRISM应用动机。连同保留的DC-AE，共八篇、每篇一个规范入口。[BibTeX](references.bib) · [原文核查、版本差异与内部证据定位](source_audit.md) · [最新真实Noisy-State实验](../experiments/recent/README.md#n1)。
 
 ## 阅读导航
 
@@ -12,6 +12,7 @@
 | B Noisy latent Reward | [P4 StitchVM](#p4) | 2026，arXiv v1 | noisy-latent stitching 已有直接前作；含不同 VAE 接入对照 |
 | C Noisy-to-clean 理论 | [P5 RKHS measurement-error diffusion](#p5) | v1 2024-12-31；核读 v2 2026-07-10 | 分布恢复与条件均值不等于逐样本或 Reward 恢复 |
 | D 下游技术基础 | [P6 DiNa-LRM](#p6) | ICML 2026，PMLR 306 | 原生 noisy Reward 与 clean 评分封装须区分 |
+| 应用动机补充 | [PRISM](#prism) | 2026，本文引用v1 §4.5 | 异构VAE接入是公开讨论的实际限制与未来方向 |
 | 已有组件（保留） | [DC-AE](#dc-ae) | ICLR 2025 | 高压缩重建不保证冻结 Reward 兼容 |
 
 ## A. 跨潜空间映射与 Model Stitching
@@ -105,6 +106,13 @@ $$\mathbb E[X\mid Y=y]=y+\Sigma\nabla_y\log p_Y(y),\qquad Y=X+\epsilon.$$
 
 **结论与限制。**论文以多偏好 benchmark 和生成对齐验证 Reward；附录C.3明确，“多骨干可实例化该方法”不表示单个已训练 Reward 可任意跨不兼容 VAE，SD3.5-M→L迁移也是共享 latent 空间。我们因此研究在保持**同一个完整 DiNa**不变时的异构接口，但需要匹配 scaling/shift、packing、文本与 reference noise，并单独核验坐标、功能和混池评分。[既有来源资格记录](../experiments/latentatlas-dina-src0-source-domain-parity.md)不是精确论文复现。
 
+<a id="prism"></a>
+### Through the PRISM: Preference Representation in Intermediate States of Video Diffusion Models
+
+Haoxuan Wu, Lai Man Po, Mengyang Liu, Kun Li, Hongzheng Yang, Wei Liu；arXiv:2606.20310，2026。此处核读用户引用的v1；登记页另有2026-10-12的v2。引用键：`wu2026prism`。[v1全文](https://arxiv.org/html/2606.20310v1) · [版本登记](https://arxiv.org/abs/2606.20310)。
+
+PRISM以冻结视频扩散骨干和可训练聚合头读取noisy latent偏好。v1 §4.5明确其Reward依赖特定VAE latent domain，换VAE需要解码再编码，并将latent-space alignment/cross-model adapters列为未来方向。这支持异构潜空间Reward复用的应用动机；它是视频工作，不能据此断言本项目图像接口已有质量或成本收益，也不能把作者未来方向当作我们的原创性证明。
+
 ## 已有组件与交叉引用（保留）
 
 <a id="dc-ae"></a>
@@ -115,6 +123,8 @@ Junyu Chen, Han Cai, Junsong Chen, Enze Xie, Shang Yang, Haotian Tang, Muyang Li
 DC-AE通过 residual autoencoding、解耦高分辨率适配提高空间压缩效率；高质量重建不自动证明其 latent 可由另一个冻结 Reward 正确读取。保留其原有目标编码器角色，不将本轮文献核对写成新模型运行。[论文](https://arxiv.org/abs/2410.10733) · [官方 DC-AE 文档](https://github.com/mit-han-lab/efficientvit/blob/master/applications/dc_ae/README.md) · [既有 Anchor 比较](../experiments/latentatlas-dina-dcae-strong-anchor64-vs256-fixed2k-newgroups.md)。
 
 FLUX、Cosmos、PickScore、HPSv3 的 checkpoint 与预处理仍以原报告为准：[FLUX机制与独立RGB读出](../experiments/latentatlas-frozen-projector-mechanism-and-readout.md)、[Cosmos固定配方](../experiments/latentatlas-dina-unseen-encoder-fixed-recipe-portability.md)、[HPSv3六臂](../experiments/latentatlas-hpsv3-frozen-interface-reuse.md)。不额外扩展未核查的文献清单。
+
+**直接实现参照：**[SD-Latent-Interposer](https://github.com/city96/SD-Latent-Interposer)是开源项目而非论文，以小型神经网络转换不同Stable Diffusion模型的latent。本项目[D73](../experiments/recent/README.md#d73)已在同Anchor合同下适配MSE及官方双向cycle两种对照，原作/适配配方和成本分开报告。
 
 ## Implications for LatentAtlas
 
@@ -155,3 +165,7 @@ Source Noisy State
 这是**尚在探索的假设**。“先去噪再映射”是自然的已有技术组合，不直接构成新算法。P4已覆盖 noisy latent stitching，P5提供有条件的去噪工具，P6本身就是 noisy Reward；目前没有证明更窄的 clean-only Anchor 复用问题不存在前作。可能值得检验的是其明确预算下的适用与失败边界，而不是提前宣布研究空白。
 
 后续问题应逐层区分：源 clean prediction 误差、Projector 响应、冻结 Reward 分数/排序保持、真实生成域与终态重编码差异，以及不同噪声阶段和异构路径间的共同标尺。**人工前向加噪不是原生生成轨迹；坐标对齐不意味着 Reward 保真；单路径准确不意味着混合路径排序可靠。**在真正未消费内容、非最后步轨迹与匹配简单基线上确认这些差别之前，不宣称统一无偏 value、新算法、生成加速或论文级独立确认。
+
+### 4. 2026-10-21的新增实测
+
+[D73与LRM-R1/R2/N1](../experiments/recent/README.md)补充了强Affine/Interposer竞争和真实输入检验。N1在2个历史Prompt、4轨迹、8状态上观察到clean-estimate bridge保序、raw-noisy直接接入后期反序；R1强Affine覆盖终态选择，R2确认原生DiNa与PickScore有3/4分歧且缺同图人类标签。这使当前问题更具体：接口保真、噪声合同、Reward目标有效性和实际部署成本需要分别回答。上表10月15日Pilot保留其原身份，不与N1合并为新独立样本。

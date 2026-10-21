@@ -1,5 +1,22 @@
 # 证据、文件与复现边界
 
+## 2026-10-21近期增量
+
+[近期实验目录](experiments/recent/README.md)新增16份记录、11份主要报告和4份原结果CSV；[近期来源清单](experiments/recent/source_manifest.json)单独固定原件与导出SHA，包含历史首页，共32份导出资产。下表及既有表格重建入口继续对应原87条归档，不将两套清单混称为同一次科学复现。
+
+下方入口同时检查所有Markdown文件链接；近期32份资产可在仓库根目录用标准库核对：
+
+```python
+import hashlib, json
+from pathlib import Path
+manifest = json.loads(Path('docs/experiments/recent/source_manifest.json').read_text())
+for item in manifest['files']:
+    data = Path(item['path']).read_bytes()
+    assert len(data) == item['bytes']
+    assert hashlib.sha256(data).hexdigest() == item['export_sha256']
+print('PASS: 32 recent document/table exports')
+```
+
 ## 仓内内容
 
 | 位置 | 内容 | 证据边界 |

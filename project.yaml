@@ -1,7 +1,7 @@
 name: LatentAtlas
 owner: YEGRX
 start_date: 2026-08-08  # 当前归档中最早实验记录日期
-stage: writing
+stage: improving
 
 topic:
   - cross-encoder functional recovery
@@ -9,8 +9,8 @@ topic:
   - limited paired examples
 
 goal: >
-  研究少量配对样本学习的接口能否恢复冻结奖励读出的跨编码器功能，
-  区分坐标恢复、实际偏好效用与独立确认。
+  用少量同图Anchor学习轻量Projector，让异构VAE复用同一个完整冻结的
+  DiNa Reward Model；以Clean接入为基础，检验真实Noisy State的功能与成本。
 
 baseline:
   name: DiNa native/source-domain operational qualification; N/G/BASE matched-panel references
@@ -26,6 +26,8 @@ dataset:
   - DEV28 interface panel (1008 pairs; 28 groups)
   - NEW_EVAL56 (2016 pairs; 56 groups; source pool previously consumed)
   - Frozen MAIN8 (288 pairs; 8 groups; 4 pair-specific noise streams)
+  - LRM-R1/R2 historical FLUX terminal pilot (4 prompts; 8 generated images)
+  - LRM-N1 historical real FLUX trajectories (2 prompts; 4 trajectories; 8 noisy states)
 
 metric:
   - human preference Accuracy
@@ -35,13 +37,15 @@ metric:
   - paired group bootstrap intervals
 
 best_result:
-  method: Cosmos REC fixed recipe
-  panel: DEV28; target-specific 1000-step registration
-  Accuracy: 0.726190
-  Native_Accuracy: 0.728175
-  interpretation: 原注册容忍标准下近原生复用，不是跨面板最佳模型或独立总体确认
+  method: REC D73 clean functional comparison
+  panel: DEV28; each source uses 64 FIT and 64 VAL, coordinate-only selection
+  FLUX_Native_agreement: 0.947237
+  Cosmos_Native_agreement: 0.946362
+  interpretation: 两来源分别评价的开发域功能保真，不是人类收益或真实Noisy-State泛化结果
 
 risk:
+  - N1真实Noisy-State只有2个历史Prompt；clean-estimate桥保序，raw-noisy直接接入跨时点不稳定
+  - R1强Affine已覆盖本轮终态选择；R2同八图DiNa和PickScore仅1/4同选，缺人类真值
   - Q32原导数资格失败，后续新协议MAIN8教师误差退化；不恢复停止研究线
   - 多数视觉面板已用于开发，不能当作独立测试
   - HPSv3与PickScore经过decoder，不等同于潜空间直接读取
@@ -51,10 +55,10 @@ risk:
   - 完整模型数据包与生产执行代码未全部入仓
 
 next_milestone: >
-  补齐外部工件共享位置与复现许可；为后续机制和方法主张建立
-  预算匹配baseline及独立验证合同。本次仅整理已有实验。
+  先确认目标生成分布上Reward的任务有效性，再以强Affine和当前估计桥为对照
+  进行独立真实Noisy-State确认及端到端成本评价；后续实验需单独授权。
 
 paper_target:
-  - ICML (目标定位，年份与投稿状态未在本次确认)
+  - 待定（先明确Noisy-State接入的功能、任务效用与成本）
 
-last_update: 2026-10-10
+last_update: 2026-10-21

@@ -69,3 +69,11 @@ DEV中`d`表示Native-tie排除后的失配率，`Delta=(dFC+dCF-dFF-dCC)/2`，�
 - 不重复创建顶层`related_work/`或`papers/`，统一使用既有`docs/related_work/`文件夹：`README.md`为综述入口，`references.bib`为文献引用，本文件记录来源审计；外层不再保留重复入口文件。
 - 变更允许集合：仓库`README.md`与`docs/related_work/`下的综述、引用及本文件。未修改实验代码、配置、权重、结果或历史记录。
 - 检查对象是引用元数据、BibTeX语法/唯一性、Markdown文件与锚点、官方URL访问及既有CPU文档完整性；不构成新的模型评分、论文实验复现或科研独立确认。
+
+## 6. 2026-10-21应用动机补充
+
+[PRISM v1](https://arxiv.org/html/2606.20310v1)的§3、§4及特别是§4.5已读取。六位作者、题名、2026-06-18首发与v2日期由[arXiv登记](https://arxiv.org/abs/2606.20310)核对。综述只用v1关于latent-domain耦合、解码—重编码及未来cross-model adapters的明确说明，不把v2摘要中的速度数字移植到LatentAtlas。
+
+[SD-Latent-Interposer官方项目](https://github.com/city96/SD-Latent-Interposer)身份已核；本项目D73保存的官方源码commit为`9344ddf53c3f4164a753f1ab30885ad99941a437`。这是实现参照，不添加伪造论文BibTeX。
+
+截至本次增量，BibTeX共八篇论文。最新研究记录和导出源SHA统一见[近期实验](../experiments/recent/README.md)及[来源清单](../experiments/recent/source_manifest.json)，旧实验原件身份和原文核查日期保留。

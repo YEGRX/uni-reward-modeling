@@ -1,0 +1,266 @@
+{
+  "captured": "2026-10-21",
+  "scope": "Existing records and saved result exports only; no new science or model calls",
+  "note_count": 16,
+  "primary_report_count": 11,
+  "result_csv_count": 4,
+  "files": [
+    {
+      "source": "wiki/experiments/latentatlas-r17-published-stitching-competition.md",
+      "path": "docs/experiments/recent/notes/latentatlas-r17-published-stitching-competition.md",
+      "source_sha256": "4ec32f2b74e483af2ca8836799e80383305a3c4a6de3c9d08f9e5a3992875e14",
+      "export_sha256": "b3a6caceacbf244fbc9ed2232ea7dba51de10d70b1454d51153b7a89d596f3c7",
+      "bytes": 3851,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "wiki/experiments/latentatlas-r17-a2-convergence-and-dina.md",
+      "path": "docs/experiments/recent/notes/latentatlas-r17-a2-convergence-and-dina.md",
+      "source_sha256": "a5ee832dfe6a8cb71542a40744b7bbd517510cef0f8ff58202fbb3317dbdc1cd",
+      "export_sha256": "9200c0b9fefcee505afffe781a494ebfcb70087ef7c242e98f8fe3ae89043fc2",
+      "bytes": 5200,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "wiki/experiments/latentatlas-cross-encoder-reward-consistency-dev28.md",
+      "path": "docs/experiments/recent/notes/latentatlas-cross-encoder-reward-consistency-dev28.md",
+      "source_sha256": "432561c8357b505cc59a9b2d9e3519af133b70c98fa91f5999c2f0603e42e1c2",
+      "export_sha256": "46cdbd7dddf31f28fd638c9fa13076bd923f1dcb89ce1ef65b90a75bb65f85b2",
+      "bytes": 3829,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "wiki/experiments/latentatlas-noisy-anchor-reuse-minimal-pilot.md",
+      "path": "docs/experiments/recent/notes/latentatlas-noisy-anchor-reuse-minimal-pilot.md",
+      "source_sha256": "10bf04e5a7e0f647474a2d0e4ac989f8cc63c02faabfa57c1f24f21496ea4685",
+      "export_sha256": "b322ee72edb0d87d9941f9c32854afc1e25c064b716d86ca0902a92d164157d8",
+      "bytes": 5716,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "wiki/experiments/latentatlas-real-mid-trajectory-anchor-reuse-pilot.md",
+      "path": "docs/experiments/recent/notes/latentatlas-real-mid-trajectory-anchor-reuse-pilot.md",
+      "source_sha256": "0dfa42c0e18c3b2ecefdd0161c110f9ecb5935d7d269581295ce2d7fac7b2ce9",
+      "export_sha256": "03333b9de10feb19205718e004d2ea3ffe18b75bedcc321255f3c791610ad218",
+      "bytes": 7808,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "wiki/experiments/latentatlas-r17-real-decision-audit-20261016.md",
+      "path": "docs/experiments/recent/notes/latentatlas-r17-real-decision-audit-20261016.md",
+      "source_sha256": "925716ab262b5a1919ea8a66beb8c23bf514cc2a11b46b838119ad364aba8437",
+      "export_sha256": "02ecfd0ba747a404c7b575f92d67fc48941fd41ae41ede6dd68feccba19baeed",
+      "bytes": 5728,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "wiki/experiments/latentatlas-multisource-noisy-v0-20261016.md",
+      "path": "docs/experiments/recent/notes/latentatlas-multisource-noisy-v0-20261016.md",
+      "source_sha256": "59ba3a57bf34b23812668ba85cadce3a97ff90cfa09a8cbcf48605bd68a3dc19",
+      "export_sha256": "cd816e8d121e2d7e8e93d86932773552f67b092f73258ae09563e4ccefd5f42b",
+      "bytes": 14461,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "wiki/experiments/latentatlas-affine-gate-d44-20261018.md",
+      "path": "docs/experiments/recent/notes/latentatlas-affine-gate-d44-20261018.md",
+      "source_sha256": "50b1ec730e2714aee603ec8e4e3953d3d7a646f771f5a7a4a1cb945b1f8b78b2",
+      "export_sha256": "e88fd75c3d22112ceba855d2b44f9e1c2ce14c3dea4b8ea49935089c2cf7f523",
+      "bytes": 7950,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "wiki/experiments/latentatlas-affine-carrier-d53-20261018.md",
+      "path": "docs/experiments/recent/notes/latentatlas-affine-carrier-d53-20261018.md",
+      "source_sha256": "73954df3f9f440213e7622c2c6e2ad4dba4e540fdfb3e725cc4863b63c9d41f0",
+      "export_sha256": "b5e66b0658e2f9f6032a7917cd37e13fcee947d06ac4b0663e99b32f8f867b5c",
+      "bytes": 3718,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "wiki/experiments/latentatlas-feature-readout-d56-20261018.md",
+      "path": "docs/experiments/recent/notes/latentatlas-feature-readout-d56-20261018.md",
+      "source_sha256": "e019ac20d556fb7a7a0e5023d5c82a0346ea9e0cc49826679e7d6285a6a7207b",
+      "export_sha256": "38544c82a63704541945f194cc3e149cc9f583b2e54ec63363bd9917db0cd5f1",
+      "bytes": 6330,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "wiki/experiments/latentatlas-spatial-swap-d59-20261018.md",
+      "path": "docs/experiments/recent/notes/latentatlas-spatial-swap-d59-20261018.md",
+      "source_sha256": "17f202a5c277c7ad3025fbabb5eeb316c5515c7abda0d85ca07fd84322a9a0d8",
+      "export_sha256": "6b5a81747bdcc95bfd247a31e689b0eca0740ee77a31d247e1601d4950d378f1",
+      "bytes": 4316,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "wiki/experiments/latentatlas-c-baseline-d73-20261019.md",
+      "path": "docs/experiments/recent/notes/latentatlas-c-baseline-d73-20261019.md",
+      "source_sha256": "1019031901cabeae3e4c70eb72e64ee10a51405be401483209dce86c79be9b23",
+      "export_sha256": "577e2d8a7e856db0b6e0680e0fd4d42cd5d236762699c605410fad561e632a86",
+      "bytes": 33622,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "wiki/experiments/latentatlas-d74-few-anchor-functional-prediction-20261020.md",
+      "path": "docs/experiments/recent/notes/latentatlas-d74-few-anchor-functional-prediction-20261020.md",
+      "source_sha256": "542864569ff3516fc8687299f68c5faa8fd222e8476e50a34f0cd88ad04d93da",
+      "export_sha256": "802bfe1763ae1722fa290f83a6553bf5ae584e2a7fcf7d652ed4305f45309f4f",
+      "bytes": 6687,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "wiki/experiments/latentatlas-lrm-r1-real-interface-qualification-20261021.md",
+      "path": "docs/experiments/recent/notes/latentatlas-lrm-r1-real-interface-qualification-20261021.md",
+      "source_sha256": "fb6a057cc648a014089beca2e7c8655d0871f870dcbfcb7381c4647e6f6162a0",
+      "export_sha256": "d8c640842db7b4f7e2f6658df932adcea8f2ae4a5fca2fe8ef05ed748039afa2",
+      "bytes": 6432,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "wiki/experiments/latentatlas-lrm-r2-reward-validity-audit-20261021.md",
+      "path": "docs/experiments/recent/notes/latentatlas-lrm-r2-reward-validity-audit-20261021.md",
+      "source_sha256": "2e3436a2d12a0661b216e09218aa9bff25ee82447275ec3cf6dfdc9a9291b1dc",
+      "export_sha256": "1397a4fa26364d2f05f0fe7c51c3fcc87541c23eacec2d6dbc514dcf76a962f3",
+      "bytes": 6490,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "wiki/experiments/latentatlas-lrm-n1-real-noisy-transfer-20261021.md",
+      "path": "docs/experiments/recent/notes/latentatlas-lrm-n1-real-noisy-transfer-20261021.md",
+      "source_sha256": "869044afee319a18c749492574e1d70135e64220e01c8f38d6837f6e7002f35d",
+      "export_sha256": "20e058ca3f312cd35a8815032ff4d058f33b4edd31f92c9547aecec41ead7707",
+      "bytes": 4287,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "docs/latentatlas-anchor-theory-2026-10-17/c-cosmos-comparison-d73.md",
+      "path": "docs/experiments/recent/reports/d73-cosmos.md",
+      "source_sha256": "43870a1748daba552adb815f35acdc17eb12729358987d54f4670f343f927ced",
+      "export_sha256": "e4d687f1832d7f37e469cbb13de58ddb1bf2ab3b699f2f0db49ce5a9d5e809b1",
+      "bytes": 8842,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "docs/latentatlas-anchor-theory-2026-10-17/c-flux-comparison-d73.md",
+      "path": "docs/experiments/recent/reports/d73-flux.md",
+      "source_sha256": "ca280f260584c33ca0247d637df18dce49818fa8301b16c411bcdf128899526a",
+      "export_sha256": "cc33a91c7a88ae5d456bde8dfe9bb941632139ae429f6e0f1be68742cacaead5",
+      "bytes": 8873,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "docs/latentatlas-anchor-theory-2026-10-17/d74-execution/D74_PILOT_RESULTS.md",
+      "path": "docs/experiments/recent/reports/d74-results.md",
+      "source_sha256": "da9ee674a100eadf6c5540b58a1ebeaf416eb19e11b2c30c35220cde22bf88c9",
+      "export_sha256": "ce7aeb0bf4aacf46f8a446232dc677d918b5e2fa74b350abeb2c9bdfe6c3de49",
+      "bytes": 11464,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "docs/latentatlas-anchor-theory-2026-10-17/d74-execution/D74_SCIENTIFIC_DECISION.md",
+      "path": "docs/experiments/recent/reports/d74-decision.md",
+      "source_sha256": "ec1f289c88b2951634307dfbb2355f98b55768cbb9eafbabc0f4b297cc2c02ec",
+      "export_sha256": "6d6126675c5d06e80396acfc56b0a7234c8d9dec2d5dae776a39aa3621d67f86",
+      "bytes": 9625,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "docs/latentatlas-anchor-theory-2026-10-17/LATENTATLAS_LRM_R1_REAL_INTERFACE_QUALIFICATION/SMALL_REAL_MODEL_EXPERIMENT.md",
+      "path": "docs/experiments/recent/reports/lrm-r1-results.md",
+      "source_sha256": "a7f344ded444e34a390811b25de8a3f98116945ae74397f10920c3696218d370",
+      "export_sha256": "0cd66b73126bc3e0c501cc123fb89922ce5e7f15cc50dc88d5e64a59ff31cebd",
+      "bytes": 12167,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "docs/latentatlas-anchor-theory-2026-10-17/LATENTATLAS_LRM_R1_REAL_INTERFACE_QUALIFICATION/LRM_R1_FINAL_DECISION.md",
+      "path": "docs/experiments/recent/reports/lrm-r1-decision.md",
+      "source_sha256": "5b2ec352f3e29d945768a272b9ca0e764967e08e13a2224e9085a50534a21f29",
+      "export_sha256": "fd7604a1c890d8e150cc3ac46533635eaa8e4396299cb326b6b6e635e1ef8663",
+      "bytes": 5935,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "docs/latentatlas-anchor-theory-2026-10-17/LATENTATLAS_LRM_R2_REWARD_VALIDITY_AUDIT/R2_SCIENTIFIC_DECISION.md",
+      "path": "docs/experiments/recent/reports/lrm-r2-decision.md",
+      "source_sha256": "1d653f229b897342211330719150a885084d0fd3d606c1a2c2467b402195a0d2",
+      "export_sha256": "800d5bcc2600d6084191a74e4a2c0e64b0a7f381c44c643713ca463927cda919",
+      "bytes": 6863,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "docs/latentatlas-anchor-theory-2026-10-17/LATENTATLAS_LRM_R2_REWARD_VALIDITY_AUDIT/R2_REWARD_VALIDITY_ANALYSIS.md",
+      "path": "docs/experiments/recent/reports/lrm-r2-validity.md",
+      "source_sha256": "724727c2a3eb6bd3a7c75b55a2702f777634c0b2aa180607583282e234ae2230",
+      "export_sha256": "a3166ad17770304a4a9036318fabeb596fe31d25541452ac608a5494978617e5",
+      "bytes": 6376,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "docs/latentatlas-anchor-theory-2026-10-17/LATENTATLAS_LRM_N1_REAL_NOISY_TRANSFER/NOISY_LATENT_CONTRACT.md",
+      "path": "docs/experiments/recent/reports/lrm-n1-contract.md",
+      "source_sha256": "c3cb464860f08bf66e03c36c8553f55771aa7f671df5fb0d5943727018011b4e",
+      "export_sha256": "39dd7135e6bbe2191b8fc9d53fb71f82ff50735b0e5e5715e97b8ef9b8167272",
+      "bytes": 6084,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "docs/latentatlas-anchor-theory-2026-10-17/LATENTATLAS_LRM_N1_REAL_NOISY_TRANSFER/NOISY_TRANSFER_RESULTS.md",
+      "path": "docs/experiments/recent/reports/lrm-n1-results.md",
+      "source_sha256": "9366595c8c179ecec26d66bbd47d4df01c27a44eb6b5e08ecb689b8be0dd87fb",
+      "export_sha256": "02df23633cd930651a2eb03ce8c1ae97fb6a1695c6f384eede12fcfbb5463b6d",
+      "bytes": 9023,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "docs/latentatlas-anchor-theory-2026-10-17/LATENTATLAS_LRM_N1_REAL_NOISY_TRANSFER/SCIENTIFIC_DECISION.md",
+      "path": "docs/experiments/recent/reports/lrm-n1-decision.md",
+      "source_sha256": "3c47a080662fbaf46f0b084cab69331a270122ac8b4578cdfbb74d8e5d4c0638",
+      "export_sha256": "efd28a0bcd60d424b032112d9022b0ef844890e20fb7e3e49d6eb41651485323",
+      "bytes": 3388,
+      "mode": "NORMALIZED_DOCUMENT_EXPORT"
+    },
+    {
+      "source": "docs/latentatlas-anchor-theory-2026-10-17/LATENTATLAS_LRM_R1_REAL_INTERFACE_QUALIFICATION/FOUR_PATH_RESULTS.csv",
+      "path": "docs/experiments/recent/tables/lrm-r1-four-path-results.csv",
+      "source_sha256": "b0ced9c7fa2e805a22a45fb8e26bda677323d8cf7c8f2e39cbc2bb5370466679",
+      "export_sha256": "b0ced9c7fa2e805a22a45fb8e26bda677323d8cf7c8f2e39cbc2bb5370466679",
+      "bytes": 40938,
+      "mode": "BYTE_EXACT_EXISTING_RESULT"
+    },
+    {
+      "source": "docs/latentatlas-anchor-theory-2026-10-17/LATENTATLAS_LRM_R2_REWARD_VALIDITY_AUDIT/R2_REWARD_COMPARISON.csv",
+      "path": "docs/experiments/recent/tables/lrm-r2-reward-comparison.csv",
+      "source_sha256": "4c23e847f0f5cbba37f6131d36a77eace82eb05eca73d5c4a0b5353a41ef139d",
+      "export_sha256": "4c23e847f0f5cbba37f6131d36a77eace82eb05eca73d5c4a0b5353a41ef139d",
+      "bytes": 9976,
+      "mode": "BYTE_EXACT_EXISTING_RESULT"
+    },
+    {
+      "source": "docs/latentatlas-anchor-theory-2026-10-17/LATENTATLAS_LRM_N1_REAL_NOISY_TRANSFER/NOISY_FOUR_PATH_SCORES.csv",
+      "path": "docs/experiments/recent/tables/lrm-n1-four-path-scores.csv",
+      "source_sha256": "8c7e5ff77c787da5c9c7a5b47902c054778a5b5ae4f93f5dd0cfec5545f00ccd",
+      "export_sha256": "8c7e5ff77c787da5c9c7a5b47902c054778a5b5ae4f93f5dd0cfec5545f00ccd",
+      "bytes": 26269,
+      "mode": "BYTE_EXACT_EXISTING_RESULT"
+    },
+    {
+      "source": "docs/latentatlas-anchor-theory-2026-10-17/LATENTATLAS_LRM_N1_REAL_NOISY_TRANSFER/PER_STATE_COMPARISON.csv",
+      "path": "docs/experiments/recent/tables/lrm-n1-per-state-comparison.csv",
+      "source_sha256": "e5a69cee03c47a042547e82d64bf19e22522a40be091f5e0d43cae8392e51407",
+      "export_sha256": "e5a69cee03c47a042547e82d64bf19e22522a40be091f5e0d43cae8392e51407",
+      "bytes": 1008,
+      "mode": "BYTE_EXACT_EXISTING_RESULT"
+    },
+    {
+      "source": "git:origin/main:README.md",
+      "source_commit": "58c32b8a4fd4a52fd7612d151de0d8e45e696d3a",
+      "path": "docs/history/project-overview-through-20261010.md",
+      "source_sha256": "6eb5fce1c2ce26c91c7b5da843fab093ad5d1b92c337c065c559408381246ed5",
+      "export_sha256": "3dc5d7fff512f23e6304b2318bdb1715e44240ed36755d0c9de299808cdf13eb",
+      "bytes": 8440,
+      "mode": "DATED_HISTORY_WITH_RELOCATED_LINKS"
+    }
+  ]
+}

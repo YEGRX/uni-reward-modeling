@@ -5,3 +5,5 @@ docs/source-snapshots/*.txt whitespace=-blank-at-eol,-blank-at-eof
 # Original CSV exports retain CRLF for byte-exact provenance.
 results/evidence/r18-visual/group-metrics.csv whitespace=cr-at-eol
 results/evidence/r18-visual/probability-metrics.csv whitespace=cr-at-eol
+# Keep original CRLF result exports byte-identical to their source receipts.
+docs/experiments/recent/tables/*.csv whitespace=cr-at-eol
