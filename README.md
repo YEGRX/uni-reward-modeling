@@ -1,105 +1,70 @@
-# LatentAtlas：有限配对样本下的跨编码器功能恢复
+# LatentAtlas：让异构 VAE 低成本复用冻结的 Latent Reward Model
 
-LatentAtlas 研究能否用少量配对样本学习轻量接口（Projector），让冻结的潜空间奖励模型读取其他编码器的表示，并恢复下游偏好行为。本仓按实验室模板整理已有实验、配置摘要、数值结果和审计证据；本次整理不产生新训练或科学评分。
+**目标：让使用不同 VAE 的生成模型接入同一个下游 Reward Model，同时保持 Reward Model 的权重不变。** 当前使用 DiNa，研究重点是少量同图 Anchor 学得的接口能否用于真实生成过程的 Noisy State。
 
-快速入口：[Related Work：六篇重点论文与科研分析](docs/related_work/README.md) · [完整实验索引](docs/experiments/index.md) · [逐次实验日志](docs/experiment_log.md) · [主要结果总表](results/tables/experiment_summary.csv) · [证据与复现说明](docs/evidence-and-reproduction.md) · [当前任务](TODO.md)。
+[最近实验](docs/experiments/recent/README.md) · [Related Work](docs/related_work/README.md) · [历史实验索引](docs/experiments/index.md) · [详细历史概览](docs/history/project-overview-through-20261010.md)
 
-# 1. Problem
+## 1. 我们为什么做这件事
 
-冻结的奖励读出依赖原编码器的潜空间坐标。换用 FLUX、Cosmos 或 DC-AE 表示后，形状兼容不等于偏好行为兼容。需要区分：编码器保留了哪些任务信息、接口能恢复多少，以及坐标误差改善是否真的转化为奖励与排序改善。
+潜空间 Reward Model 通常依赖特定 VAE 的表示。换一个 VAE 后，原 Reward Model 能否继续使用，是模型复用中的实际问题。[PRISM §4.5](https://arxiv.org/html/2606.20310v1#S4.SS5)也指出这种 latent-domain 耦合及解码—重编码开销，并将 latent-space alignment / cross-model adapters 列为未来方向。
 
-研究问题是有限配对信息下的跨编码器功能恢复（cross-encoder functional recovery），不是证明所有编码器均可无损互换。
+早期设想是构建统一的“latent 的 latent”。同图配对接口在已有实验中表现出可行性后，研究转向了更具体的问题：**用轻量接口翻译上游表示，保留下游已经学到的评分能力。** 低成本是目标，实际端到端收益需要结合接口、去噪和编解码开销评价。
 
-# 2. Core Idea
+## 2. 用什么方法：同图 Anchor + Projector
 
-冻结编码器和奖励读出，用少量配对 Anchor 训练接口；同时报告坐标恢复、奖励误差、偏好准确率及对照条件，从实际任务行为判断接口效果。
+不同 VAE 虽然坐标不同，但可以编码同一批图片。这些对应样本提供跨空间监督；相似内容在不同表示中可能保留可学习的关系，这是方法的出发假设。
 
-# 3. Why It Matters
+1. **Anchor：**把同一张图分别输入源 VAE 和 DiNa 对应的参考 VAE，得到配对 latent。
+2. **Projector：**用这些配对坐标学习源空间到参考空间的映射；典型设置为64张 FIT，另64张 VAL用于坐标选模。
+3. **Frozen Reward：**将映射结果交给原 DiNa，接口训练使用 latent 坐标监督，DiNa 权重保持不变。
 
-- 奖励模型复用可减少重复训练，但需要明确来源、目标和读出合同。
-- 坐标重建好、FIT 线性近似好，并不保证真实前向或人类偏好指标更好。
-- 注册对照、相同信息量 baseline 和独立核验使正面结果与失败都可追溯；目前仍缺少完整的预算匹配和独立确认。
-
-# 4. Method Overview
-
-```mermaid
-flowchart LR
-  X[固定图像与配对身份] --> E[冻结目标编码器]
-  E --> P[少量配对 Anchor 学习的接口]
-  P --> D[冻结 DiNa 奖励读出]
-  P --> V[共同 decoder → RGB → PickScore 或 HPSv3]
-  D --> M[坐标 / 奖励 / 排序 / 人类 Accuracy]
-  V --> M
-  M --> A[固定门槛、对照与独立 CPU 核验]
+```text
+同一张图 x ── 源 VAE Encoder ── Projector ──┐
+                                          ├─ 同一冻结 DiNa 评分路径
+同一张图 x ── 参考 VAE Encoder ────────────┘
 ```
 
-DiNa 潜空间读出和经 decoder 的 RGB 读出是不同评估路径，不能拼成一个主终点。数学例和规定模型验证单独归档，不能当作真实视觉增益。
+这里的参考是 **SD3.5 的 VAE 潜空间**；SD3.5 本身是扩散模型。打乱同图配对、替换映射结构和改变 Anchor 数量，分别用于检验对应关系、接口能力和监督规模的作用。
 
-# 5. Current Status
+**Native Agreement 怎么算？** 对同一对候选图，比较原生路径与映射路径的 DiNa 排序是否一致。常用报告排除 Native 精确平局、映射路径平局计半分。它衡量原评分行为保留多少；人类偏好准确率和实际选择收益另外评价。
 
-- [x] Idea
-- [x] Running baseline
-- [x] Improving method
-- [ ] Writing paper
-- [ ] Finished
+## 3. 为什么现在关注 Noisy State
 
-截至 2026-10-10，归档 **87 条实验/审计记录**：73 条视觉或接口历史记录、14 条理论或规定模型记录；17 项主要实验对照最终报告整理。其余 70 条标记 `WIKI_SNAPSHOT_NOT_REAUDITED`，保留原记录但不声称本次重验全部原始工件。
+前期主要训练和检查的是 **Clean latent 接口**，它建立了跨 VAE 接入的基础。DiNa 的底层网络则接收 noisy latent、时间步和文本条件；clean 输入评分封装还会构造参考噪声，二者需要区分。
 
-原 Q32 MICRO 保持 `LOCAL_METHOD_NUMERICALLY_UNQUALIFIED`。后来独立的新协议前向审计实际完成 VAL 和 MAIN8，结论为 **`MAIN8_TRADEOFF_OR_DETERIORATION`**；该候选修复线已停止，不能用新协议抹去原 FD 失败。R18规定模型MVP为 `MIXED`；随后真实DiNa缓存选图pilot为 **`NO_GAIN`**。这些是今日已有结果的补充归档，不是本次提交新执行的实验。
+LRM 的应用目标是在生成尚未结束时进行评价和选择。因此当前比较两条路线：
 
-# 6. Key Results
+```text
+直接路线：真实 Source Noisy State ── 原 Clean Projector ── DiNa
+估计桥：  真实 Source Noisy State ── 当步 Clean Prediction ── 原 Projector ── DiNa
+```
 
-以下各行采用各自固定面板与原统计口径，**不构成跨数据集排行榜**。完整范围、配置、区间和限制见对应记录。
+两条路线都固定输入尺度、时间和文本合同。人工前向加噪与真实采样轨迹分别验证；最终关心的是能否保持有用的选择，以及能否减少实际生成成本。
 
-| 实验 / 面板 | 主要实际结果 | 结论与边界 |
+## 4. 最近做到了什么（更新至 2026-10-21）
+
+| 实验 | 已有结果 | 目前说明什么 |
 | --- | --- | --- |
-| [DiNa SRC0](docs/experiments/latentatlas-dina-src0-source-domain-parity.md)，14,400 对 / 400 组 | Accuracy 74.4451%，中央90%区间 [73.5972%,75.2715%] | 来源域操作性资格；不是精确论文复现 |
-| [外部 SHIFT0](docs/experiments/latentatlas-dina-shift0-dataset-runtime-localization.md)，2,619 对 | Accuracy 51.3860% | 来源到外部的偏好迁移失败证据保留 |
-| [Cosmos 固定配方](docs/experiments/latentatlas-dina-unseen-encoder-fixed-recipe-portability.md)，开发集1,008 对 / 28 组 | REC 72.6190%，Native 72.8175%；NOREG 44.6181%，PERM 49.0823% | 原注册容忍标准下近原生复用通过；是目标接口训练和已使用开发面板，不是零样本或新总体确认 |
-| [DC-AE Anchor64→256](docs/experiments/latentatlas-dina-dcae-strong-anchor64-vs256-fixed2k-newgroups.md)，2,016 对 / 56 组 | NMSE .296255→.210021；Accuracy 68.5392%→69.9529%；G一致率85.8771%→88.6930% | 单次嵌套 Anchor 扩展的联合增益；未近原生、未独立总体确认 |
-| [HPSv3 六臂](docs/experiments/latentatlas-hpsv3-frozen-interface-reuse.md)，1,008 对 / 28 组 | O/N/F_REC/C_REC Accuracy 76.091%/75.298%/73.413%/74.702% | 两个 REC 保留结论均未确立；F_NOREG 协议不兼容缺席，不能称七臂完整 |
-| [R18真实缓存选图](docs/experiments/r18-dina-real-visual-pilot-20261010.md)，旧28组 / 252图 | V2对原生四流人类胜率37.86%，对同标签Logistic38.13%；两项97.5%区间上界均45.98% | NO_GAIN；旧数据回顾性交叉拟合，独立确认B未运行 |
-| [Q32 原 MICRO](docs/experiments/latentatlas-dcae-q32-lowcost-main8.md) | FD 比值1.0865105 > .20；FIT线性误差 .1201572 < .25 | 原 E1 失败；原协议 E2/MAIN8 未运行 |
-| [固定候选新协议审计](docs/experiments/latentatlas-frozen-candidate-forward-audit.md)，固定MAIN8的288 对 / 8 组 / 四流 | Q32 相对 BASE 的 G-margin MSE **增加44.7618%**；调整后的相对改善区间 [-79.6952%,-20.6238%] | 退化得到支持；Q32 优于同信息 A32 未确立，C32 的教师误差更好（二级未调整比较） |
+| [D73：Clean 接入与强基线](docs/experiments/recent/README.md#d73)，64 FIT + 64 VAL，DEV28 | REC 的 Native agreement：FLUX **94.7237%**、Cosmos **94.6362%**；对比空间 Affine、Interposer-MSE/cycle、A2 | Clean 功能复用有开发域证据；两个来源仍使用同一已消费28组 |
+| [DEV28：跨路径混合评分](docs/experiments/recent/README.md#mixed) | 混合路径额外失配 **3.5696pp**；两折 offset 校准后为 **0.8252pp** | 同路径保序与跨路径共同标尺是不同问题；新组校准确认未做 |
+| [LRM-R1：真实终态](docs/experiments/recent/README.md#r1)，4 Prompt、8图 | REC 与强 Affine 均分后都保持 **4/4** Native 选择；逐流为7/8与8/8 | 这批终态上普通 Affine 已能解释选择能力 |
+| [LRM-R2：Reward 有效性](docs/experiments/recent/README.md#r2)，同8图 | 原生 DiNa 与 PickScore 只在 **1/4** Prompt 同选 | 需要目标生成分布上的人类偏好依据；两模型分歧尚不能决定谁正确 |
+| [LRM-N1：真实 Noisy State](docs/experiments/recent/README.md#n1)，2 Prompt、4轨迹、8状态 | clean-estimate→REC 两时点各 **2/2** 同选；raw-noisy→REC 后期降至 **1/2** | 当前支持估计桥的这次小样本观察，直接 noisy 接入跨时点仍不稳定 |
 
+**当前判断：Clean 接入已形成实测基础；真实 Noisy State 的零训练直接迁移尚未稳定。** 最近小实验主要核对冻结 DiNa 的功能保持，人类质量收益、独立新组泛化和端到端加速仍待验证。约95%的 Clean Agreement不能直接替代这些问题。
 
-MAIN8 同面板对比（Accuracy 越高越好，G-margin MSE 越低越好）：
+## 5. 接下来要回答的问题
 
-| 方法 | Accuracy | G 一致率 | G-margin MSE | 坐标 MSE |
-| --- | ---: | ---: | ---: | ---: |
-| N_NATIVE | 73.9583% | 97.1229% | .038061 | 不适用 |
-| G_T1 | 73.9583% | 100% | 0（自比较） | 0（自比较） |
-| BASE S2562000 | 70.4861% | 90.7149% | .674523 | .203078 |
-| C32 | 70.5729% | 90.5841% | .682346 | .202794 |
-| A32 | 68.7500% | 88.2738% | .945915 | .230457 |
-| Q32 | 69.6181% | 88.0122% | .976451 | .234673 |
+- 在新的真实生成内容上，冻结 DiNa 的选择是否符合任务所需的人类偏好？
+- 以当前 clean-estimate bridge 和强 Affine 为对照，少量 Clean Anchor 能否支持不同噪声阶段的功能复用？
+- 接口和去噪预测带来的成本，能否换来真实的早期选择收益？
 
-数值来自 [MAIN8 原结果 JSON](results/evidence/q32-forward/MAIN8_RESULTS.json)，完整精度与区间保存在 [CSV](results/tables/q32_main8.csv) 和 [主效应 CSV](results/tables/q32_main8_effects.csv)。Accuracy 的变化区间跨0，不能因点估计下降就写成已支持的人类 Accuracy 退化。
+跨空间映射、Model Stitching 和 noisy-latent stitching 都有相关前作；研究差别、监督权限及比较要求集中在 [Related Work](docs/related_work/README.md)。
 
-![MAIN8 G-margin RMSE](results/figures/q32-forward/MAIN8_G_margin_RMSE.png)
+## 仓库怎么读
 
-VAL 曾出现9.3826%的 Q32 中心化风险点改善，但普通双侧95%区间跨0；固定单侧行动门槛通过仅允许进入 MAIN8，不证明泛化增益。VAL 没有人类 Accuracy，也不是独立测试集。见 [VAL 数值](results/tables/q32_val.csv) 与 [实际效用图](results/figures/q32-forward/VAL_centered_risk.png)。
+- [近期实验总览](docs/experiments/recent/README.md)：16份研究记录、11份主要报告、4份原结果CSV及来源指纹。
+- [历史索引](docs/experiments/index.md)与[逐次日志](docs/experiment_log.md)：原87条归档记录；Q32、HPS等历史结论保留。
+- [文档核对入口](docs/evidence-and-reproduction.md)：仓库根目录运行 `bash scripts/reproduce.sh --check`，检查既有归档文件和表格，不调用模型。
 
-R18数值与照片见[真实pilot记录](docs/experiments/r18-dina-real-visual-pilot-20261010.md)、[原汇报](docs/reports/r18-dina-real-visual-pilot-20261010-final.txt)与[固定照片面板](results/figures/r18-visual/photo-cases.png)。原运行summary中的图片缺失是补图前历史时点；最新8/8核验见[照片回执](results/evidence/r18-visual/PHOTO_VERIFICATION.json)，不将其他244图写成已下载。R18模拟主格53.8% KL改善仅限[规定模型MVP](docs/experiments/r18-method-mvp-20261010.md)，不抵消真实NO_GAIN。
-
-# 7. Next Step
-
-- 补齐可共享的原始工件存储位置与模型/数据许可说明。
-- 以相同配对信息与预算的简单 baseline、独立面板和机制干预核对后续主张；当前不宣称论文级独立确认。
-- 后续执行需要单独的实验协议；此 PR 不恢复停止的 Q32 线、不启动新研究或 GPU 任务。
-
-# 8. How to Reproduce
-
-Python 3.9+，仅标准库，无需 GPU 或模型下载：
-
-```bash
-bash scripts/reproduce.sh
-```
-
-这会校验仓内工件 SHA、来源与记录索引，并从已归档结果 JSON **重建并核对发表结果表**。它不重跑训练、奖励模型或原始 bootstrap。完整原始 CPU 回放和 GPU 重现所需外部工件及限制见 [复现说明](docs/evidence-and-reproduction.md)。原独立 CPU 验收回执已归档，但不冒充本次新执行的科学核验。
-
-# 9. Maintainer
-
-Name: YEGRX
-Last update: 2026-10-10
-Source inventory: [source_manifest.json](results/source_manifest.json)
+Maintainer: YEGRX · Last update: 2026-10-21

@@ -1,5 +1,7 @@
 # LatentAtlas 实验索引
 
+**近期入口（10月14–21日）：[Clean → 真实 Noisy State 实验总览](recent/README.md)。** 包含D73强基线、D74及LRM-R1/R2/N1。下表保留原87条历史归档身份，与近期增量分别记录。
+
 归档LatentAtlas、RPJ2–4、latent-reward-channels及其R18视觉/规定模型后续记录。不是每次attempt一项独立实验。
 
 [逐次日志](../experiment_log.md) · [主要证据导航](../evidence-and-reproduction.md)
