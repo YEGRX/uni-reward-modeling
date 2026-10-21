@@ -1,6 +1,6 @@
 # Related Work 来源与核查记录
 
-核查日期：2026-10-15。规范综述入口只有 [docs/related_work/README.md](README.md)，文献键见 [references.bib](references.bib)。本文件记录出处与证据边界，不创建重复论文页。
+原六篇核查日期：2026-10-15；新增动机与空间翻译核查：2026-10-21。规范综述入口只有 [docs/related_work/README.md](README.md)，文献键见 [references.bib](references.bib)。[项目首页](../../README.md#references)提供面向导师的通俗摘要。本文件记录出处与证据边界，不创建重复论文页。
 
 ## 1. 原文实际阅读范围
 
@@ -77,3 +77,26 @@ DEV中`d`表示Native-tie排除后的失配率，`Delta=(dFC+dCF-dFF-dCC)/2`，�
 [SD-Latent-Interposer官方项目](https://github.com/city96/SD-Latent-Interposer)身份已核；本项目D73保存的官方源码commit为`9344ddf53c3f4164a753f1ab30885ad99941a437`。这是实现参照，不添加伪造论文BibTeX。
 
 截至本次增量，BibTeX共八篇论文。最新研究记录和导出源SHA统一见[近期实验](../experiments/recent/README.md)及[来源清单](../experiments/recent/source_manifest.json)，旧实验原件身份和原文核查日期保留。
+
+## 2026-10-21：首页重排的新增原文核查
+
+此次按用户确认的阅读顺序整理：真实需求 → 同图Anchor和翻译接口 → 一个实验模块 → 主要参考文献。保留既有八篇论文规范条目，新增以下三篇；Interposer单列为代码项目。没有安装或运行公开模型代码。
+
+| 新增论文 / 书目 | 实际阅读位置 | 核实与表述边界 |
+| --- | --- | --- |
+| LRM/LPO，arXiv:2502.01051v5，10位作者顺序取登记页 | [§4.1、§4.3、Table 4及heterogeneous optimization讨论](https://arxiv.org/html/2502.01051v5)；[v5作者/日期](https://arxiv.org/abs/2502.01051v5) | VAE固定而文本编码器/U-Net可训练；同VAE要求；SD2.1与SDXL异构优化。SDXL GenEval49.40→40.85、PickScore21.65→20.82，部分其他指标未下降；同时改变生成器，不作为单VAE因果证据。登记注明NeurIPS 2025，本仓未新增未经核对的会议页码。官方代码入口取原文链接：[Kwai-Kolors/LPO](https://github.com/Kwai-Kolors/LPO)，本轮不审计其完整实现 |
+| Semantic Alignment，arXiv:2311.00664v2，6位作者 | [§3预处理/变换与§4.3自编码实验](https://arxiv.org/html/2311.00664v2)；[NeurIPS 2023正式元数据](https://papers.neurips.cc/paper_files/paper/2023/hash/ad5fa03c906ca15905144ca3fbf2a768-Abstract-Conference.html) | 并非全部变换都无迭代：linear可最小二乘，affine段使用梯度优化。§4.3为同结构不同训练种子的CNN自编码器，1000Anchor/500维，并非本项目少Anchor/DiNa协议。正式DOI、作者、卷36及年份按会议页；所读v2为2024-02-11，不把版本日期混成会议年 |
+| Inverse Relative Projection，arXiv:2406.15057v1，5位作者 | [§3.1–3.4及§5相对空间中转实验](https://arxiv.org/html/2406.15057v1) | 相对角度表示、目标Anchor逆/伪逆、剪枝/子空间平均和尺度条件；§5测试固定视觉/文本编码器与预训练分类头。分类可用不等于DiNa原分数保持；仅引用已读2024首版，不推断后续出处 |
+
+首页需求还重新核读了[DiNa v2附录C.3](https://arxiv.org/html/2602.11146v2)：多骨干分别实例化与SD3.5-M→L兼容空间复用分开；以及[PRISM v1 §4.5](https://arxiv.org/html/2606.20310v1#S4.SS5)：跨VAE像素转换及adapter未来方向。StitchVM的方法/权限沿用已核v1与上述固定代码证据，首页不填未经确认的NeurIPS出处；Revisiting复核v3 §3的LFM/FFM/TLT与功能误差关系。
+
+### 首页实验数值的保存来源
+
+| 首页问题 | 采用的既有记录 | 解释方式 |
+| --- | --- | --- |
+| 正确同图配对是否有效 | [Cosmos固定配方最终报告](../reports/latentatlas-dina-unseen-encoder-fixed-recipe-portability-final.txt) | 正确/未训练/打乱原生一致率93.411/59.677/59.427%，人类准确率72.619/44.618/49.082%；打乱对象为图片对应，NoReg仍经过未训练接口 |
+| 更多配对是否有帮助 | [DC-AE64→256最终报告](../reports/latentatlas-dina-dcae-strong-anchor64-vs256-fixed2k-newgroups-final.txt) | 同接口、固定2000更新、另64VAL；G是完整T1评分路径，区别于同原图参考T0；56组来源池已消费 |
+| REC和其他转换方法 | [D73 FLUX](../experiments/recent/reports/d73-flux.md)、[D73 Cosmos](../experiments/recent/reports/d73-cosmos.md) | 同Anchor适配比较，28开发组、3999有效判断；REC/A2未决，Cosmos相对Interposer排序未决，评分差改善分开 |
+| 实际终态、Reward有效性和真实Noisy | [R1](../experiments/recent/reports/lrm-r1-results.md)、[R2](../experiments/recent/reports/lrm-r2-validity.md)、[N1](../experiments/recent/reports/lrm-n1-results.md) | 4提示词/8终态、无同图人类标签；N1为2历史提示词/4轨迹/8状态，时点接近末段，且桥接路径并非所有误差更低 |
+
+本轮仅核对原文与保存报告，未重算科学统计、调用模型或读取新的评价标签。文献动机、功能保持、目标Reward有效性、梯度和端到端成本分别陈述；不继承前作加速数字，也不把完整冻结当可靠性保证。

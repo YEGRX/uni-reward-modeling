@@ -1,6 +1,6 @@
 # Related Work / 相关文献与科研分析
 
-六篇重点文献核查于2026-10-15；2026-10-21补充PRISM应用动机。连同保留的DC-AE，共八篇、每篇一个规范入口。[BibTeX](references.bib) · [原文核查、版本差异与内部证据定位](source_audit.md) · [最新真实Noisy-State实验](../experiments/recent/README.md#n1)。
+六篇重点文献核查于2026-10-15；2026-10-21补充PRISM、LRM/LPO及两篇空间翻译文献。连同保留的DC-AE，共十一篇论文、每篇一个规范入口，另列Interposer开源实现。[首页的通俗主线与主要文献](../../README.md#references) · [BibTeX](references.bib) · [原文核查、版本差异与内部证据定位](source_audit.md) · [最新真实Noisy-State实验](../experiments/recent/README.md#n1)。
 
 ## 阅读导航
 
@@ -13,6 +13,9 @@
 | C Noisy-to-clean 理论 | [P5 RKHS measurement-error diffusion](#p5) | v1 2024-12-31；核读 v2 2026-07-10 | 分布恢复与条件均值不等于逐样本或 Reward 恢复 |
 | D 下游技术基础 | [P6 DiNa-LRM](#p6) | ICML 2026，PMLR 306 | 原生 noisy Reward 与 clean 评分封装须区分 |
 | 应用动机补充 | [PRISM](#prism) | 2026，本文引用v1 §4.5 | 异构VAE接入是公开讨论的实际限制与未来方向 |
+| 应用动机与失败实验 | [LRM/LPO](#lrm-lpo) | 2025，核读arXiv v5 | 同VAE要求及异构优化中的跨VAE失败 |
+| 配对空间翻译 | [Semantic Alignment](#semantic-alignment) | NeurIPS 2023；核读v2 | 对应Anchor、简单变换和冻结模块复用已有先例 |
+| 相对空间中转 | [Inverse Relative Projection](#inverse-relative) | 2024，核读v1 | Anchor相对描述与逆变换，接近早期统一空间设想 |
 | 已有组件（保留） | [DC-AE](#dc-ae) | ICLR 2025 | 高压缩重建不保证冻结 Reward 兼容 |
 
 ## A. 跨潜空间映射与 Model Stitching
@@ -125,6 +128,35 @@ DC-AE通过 residual autoencoding、解耦高分辨率适配提高空间压缩�
 FLUX、Cosmos、PickScore、HPSv3 的 checkpoint 与预处理仍以原报告为准：[FLUX机制与独立RGB读出](../experiments/latentatlas-frozen-projector-mechanism-and-readout.md)、[Cosmos固定配方](../experiments/latentatlas-dina-unseen-encoder-fixed-recipe-portability.md)、[HPSv3六臂](../experiments/latentatlas-hpsv3-frozen-interface-reuse.md)。不额外扩展未核查的文献清单。
 
 **直接实现参照：**[SD-Latent-Interposer](https://github.com/city96/SD-Latent-Interposer)是开源项目而非论文，以小型神经网络转换不同Stable Diffusion模型的latent。本项目[D73](../experiments/recent/README.md#d73)已在同Anchor合同下适配MSE及官方双向cycle两种对照，原作/适配配方和成本分开报告。
+
+## E. 首页主线补充：真实需求与两类空间翻译
+
+<a id="lrm-lpo"></a>
+### Diffusion Model as a Noise-Aware Latent Reward Model for Step-Level Preference Optimization（LRM/LPO）
+
+**Tao Zhang, Cheng Da, Kun Ding, Huan Yang, Kun Jin, Yan Li, Tingting Gao, Di Zhang, Shiming Xiang, Chunhong Pan.** 2025；本页核读arXiv:2502.01051v5（作者登记NeurIPS 2025）。引用键：`zhang2025diffusion`。[原文v5](https://arxiv.org/html/2502.01051v5) · [元数据](https://arxiv.org/abs/2502.01051v5) · [官方代码](https://github.com/Kwai-Kolors/LPO)。
+
+**做了什么：**§4.1用偏好数据训练读取带噪latent的LRM，VAE固定，文本编码器与U-Net可训练；§4.3用它在生成步骤中选出较优/较差候选以优化生成器。作者要求LRM与生成器使用相同VAE。Table 4中，LRM-SD1.5优化SD2.1时GenEval由48.59升至56.01，优化不同VAE的SDXL时由49.40降至40.85，PickScore亦下降。不是所有指标都下降，且同时更换了生成器。
+
+**联系与相同点：**它提供跨VAE障碍的直接使用实验，支持研究latent内部奖励的可移植性。**不同点：**它训练奖励并优化生成器；我们固定已有完整DiNa，接口只用配对坐标。该失败不能当作我们的Clean接口已解决生成优化问题的证据；论文计时也不属于本项目收益。
+
+<a id="semantic-alignment"></a>
+### Latent Space Translation via Semantic Alignment
+
+**Valentino Maiorca, Luca Moschella, Antonio Norelli, Marco Fumero, Francesco Locatello, Emanuele Rodolà.** NeurIPS 2023；arXiv:2311.00664，本页核读v2。引用键：`maiorca2023semantic`。[正式页](https://papers.neurips.cc/paper_files/paper/2023/hash/ad5fa03c906ca15905144ca3fbf2a768-Abstract-Conference.html) · [方法全文](https://arxiv.org/html/2311.00664v2) · [官方代码](https://github.com/Flegyas/latent-translation)。
+
+**做了什么：**§3用对应Anchor预处理两个表示空间，估计线性、正交、仿射等变换；部分闭式求解，仿射版本用梯度优化。转换后接入原有模块，检查分类、跨模态与重建。§4.3在四个小图像数据集的同结构、不同训练种子的自编码器之间，使用1000个Anchor进行转换，比较表示和重建误差。
+
+**联系与相同点：**对应图片、简单转换、冻结模块复用都与本项目接近。**不同点：**它研究更一般的分类和重建，我们评价固定奖励模型的分数、排序及使用成本。因此同图配对翻译已有明确先例；我们的具体LRM用途仍需独立效果与代价证据。
+
+<a id="inverse-relative"></a>
+### Latent Space Translation via Inverse Relative Projection
+
+**Valentino Maiorca, Luca Moschella, Marco Fumero, Francesco Locatello, Emanuele Rodolà.** arXiv:2406.15057v1，2024。引用键：`maiorca2024inverse`。[原文v1](https://arxiv.org/html/2406.15057v1)。
+
+**做了什么：**§3先用与Anchor的相对角度表示样本，再用目标Anchor的逆/伪逆恢复目标坐标，并用Anchor筛选和子空间平均改善稳定性。§5把该相对空间作为中转，测试固定视觉/文本编码器与预先训练分类头的组合；角度关系与尺度处理是适用条件。
+
+**联系与相同点：**都使用语义对应的Anchor寻找空间联系，与早期“latent的latent”设想接近。**不同点：**当前REC直接学习指定源到参考空间的转换，没有经过共享相对空间。分类头的尺度性质也不能自动推广为DiNa原始分数或跨候选分差保持；本项目尚未实测这条路线。
 
 ## Implications for LatentAtlas
 

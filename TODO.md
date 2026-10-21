@@ -2,7 +2,7 @@
 
 ## High Priority
 
-- [x] 按研究目的→Anchor/Projector→Clean基础→真实Noisy State的顺序精简首页。
+- [x] 按用户确认的结构展开首页：真实需求→通俗Idea→一个实验模块（Anchor/REC评分/baseline/真实用途与Noisy）→主要参考文献；首次出现的指标就地解释。
 - [x] 补齐10月14–21日16份阶段记录、D73/D74及LRM-R1/R2/N1主要报告和原结果表。
 - [ ] 确认目标FLUX生成分布上冻结DiNa的人类偏好有效性；R2提出的盲评尚未执行。
 - [ ] 以当前clean-estimate bridge和强Affine为对照，在未消费内容上验证Noisy-State功能及实际成本。
